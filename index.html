@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spartak.dev — фронтенд-разработка и сайты под ключ</title>
+<meta name="description" content="Быстрые, современные и удобные сайты, которые работают на результат. Лендинги, корпоративные сайты, веб-интерфейсы и Telegram-боты.">
+<meta name="theme-color" content="#0a0b0f">
+<meta property="og:title" content="Spartak.dev — фронтенд-разработка">
+<meta property="og:description" content="Быстрые, современные и удобные сайты, которые работают на результат.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a0b0f'/%3E%3Cpath d='M20 22l-10 10 10 10M44 22l10 10-10 10M36 16l-8 32' stroke='%237c5cff' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0b0f;--bg-2:#101218;--card:#13151c;--card-2:#171a23;
+  --line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.13);
+  --text:#eceef4;--muted:#9aa0b2;--dim:#6b7183;
+  --accent:#7c5cff;--accent-2:#22d3ee;--ok:#34d399;
+  --grad:linear-gradient(120deg,#7c5cff 0%,#22d3ee 100%);
+  --radius:20px;--max:1180px;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--bg);color:var(--text);font:400 16px/1.65 Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button,input,textarea{font:inherit;color:inherit}
+::selection{background:rgba(124,92,255,.35)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* background */
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.bg-glow::before,.bg-glow::after{content:"";position:absolute;width:640px;height:640px;border-radius:50%;filter:blur(120px);opacity:.22}
+.bg-glow::before{background:#7c5cff;top:-240px;left:-160px}
+.bg-glow::after{background:#22d3ee;top:30%;right:-300px;opacity:.12}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 30%,transparent 75%);opacity:.6}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:50px;padding:0 24px;border-radius:14px;font-weight:700;font-size:15px;border:1px solid transparent;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,border-color .25s;white-space:nowrap}
+.btn svg{width:18px;height:18px;flex:none;transition:transform .25s}
+.btn-primary{background:var(--grad);color:#0a0b0f;box-shadow:0 8px 30px -8px rgba(124,92,255,.6)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -8px rgba(124,92,255,.75)}
+.btn-primary:hover svg{transform:translateX(3px)}
+.btn-ghost{background:rgba(255,255,255,.03);border-color:var(--line-2)}
+.btn-ghost:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.25);transform:translateY(-2px)}
+.btn-sm{height:42px;padding:0 18px;font-size:14px;border-radius:12px}
+.btn:focus-visible,.nav a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+
+/* header */
+.header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,border-color .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
+.header.scrolled{background:rgba(10,11,15,.72);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border-color:var(--line)}
+.header .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em}
+.logo-mark{width:36px;height:36px;border-radius:11px;background:var(--grad);display:grid;place-items:center;color:#0a0b0f;font-family:var(--mono);font-size:14px;font-weight:700}
+.logo span{color:var(--dim);font-weight:600}
+.nav{display:flex;gap:6px}
+.nav a{padding:8px 14px;border-radius:10px;color:var(--muted);font-weight:600;font-size:15px;transition:color .2s,background .2s}
+.nav a:hover,.nav a.active{color:var(--text);background:rgba(255,255,255,.05)}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);cursor:pointer;position:relative}
+.burger span{position:absolute;left:12px;right:12px;height:2px;background:var(--text);border-radius:2px;transition:transform .3s,opacity .3s}
+.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:21px}.burger span:nth-child(3){top:27px}
+.menu-open .burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-open .burger span:nth-child(2){opacity:0}
+.menu-open .burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* hero */
+.hero{position:relative;padding:168px 0 110px}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 10px;border:1px solid var(--line-2);border-radius:999px;background:rgba(255,255,255,.03);font-size:14px;color:var(--muted);font-weight:600}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+.hero h1{font-size:clamp(40px,6.6vw,84px);line-height:1.02;letter-spacing:-.045em;font-weight:800;margin:26px 0 26px;max-width:15ch}
+.hero .lead{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:640px;line-height:1.7}
+.hero .lead b{color:var(--text);font-weight:600}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:80px}
+.stat{background:var(--bg-2);padding:26px 24px}
+.stat b{display:block;font-size:clamp(28px,3.2vw,38px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.stat span{color:var(--muted);font-size:14px}
+.code-float{position:absolute;right:24px;top:180px;width:340px;background:rgba(19,21,28,.8);border:1px solid var(--line-2);border-radius:16px;padding:18px 20px;font-family:var(--mono);font-size:13px;line-height:1.8;color:var(--muted);backdrop-filter:blur(10px);transform:rotate(2deg);box-shadow:0 30px 80px -20px rgba(0,0,0,.7)}
+.code-float .dots{display:flex;gap:6px;margin-bottom:12px}
+.code-float .dots i{width:10px;height:10px;border-radius:50%;background:#2a2e3a}
+.c-k{color:#c4b5fd}.c-s{color:#67e8f9}.c-n{color:#fcd34d}.c-c{color:var(--dim)}
+
+/* sections */
+section{position:relative}
+.section{padding:110px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:56px;flex-wrap:wrap}
+.eyebrow{font-family:var(--mono);font-size:13px;color:var(--accent-2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;display:block}
+.sec-head h2,.contact h2{font-size:clamp(32px,4.4vw,54px);line-height:1.08;letter-spacing:-.035em;font-weight:800;max-width:18ch}
+.sec-head p{color:var(--muted);max-width:420px}
+
+/* features */
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,background .35s,box-shadow .35s;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(124,92,255,.14),transparent 45%);opacity:0;transition:opacity .35s;pointer-events:none}
+.card:hover{transform:translateY(-6px);border-color:var(--line-2);background:var(--card-2);box-shadow:0 24px 60px -24px rgba(0,0,0,.8)}
+.card:hover::before{opacity:1}
+.feature{padding:30px 26px 32px}
+.f-icon{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.25);margin-bottom:26px;transition:transform .35s}
+.card:hover .f-icon{transform:scale(1.08) rotate(-4deg)}
+.f-icon svg{width:24px;height:24px;stroke:#a78bfa}
+.feature h3{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+.feature p{color:var(--muted);font-size:15px}
+.f-num{position:absolute;top:26px;right:24px;font-family:var(--mono);font-size:13px;color:var(--dim)}
+
+/* process */
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:18px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2)}
+.step{padding:26px 24px;border-right:1px solid var(--line)}
+.step:last-child{border-right:0}
+.step b{font-family:var(--mono);font-size:12px;color:var(--accent-2);display:block;margin-bottom:8px}
+.step h4{font-size:16px;margin-bottom:4px}
+.step p{font-size:14px;color:var(--muted)}
+
+/* projects */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--muted);font-weight:600;font-size:14px;cursor:pointer;transition:all .2s}
+.chip:hover{color:var(--text);border-color:rgba(255,255,255,.3)}
+.chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.project{display:flex;flex-direction:column}
+.project.hide{display:none}
+.preview{position:relative;aspect-ratio:16/10;margin:10px 10px 0;border-radius:14px;overflow:hidden;background:#0d0f14;border:1px solid var(--line)}
+.preview .bar{position:absolute;top:0;left:0;right:0;height:30px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 12px;z-index:2}
+.preview .bar i{width:8px;height:8px;border-radius:50%;background:#2a2e3a}
+.preview .bar em{margin-left:10px;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--dim);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.shot{position:absolute;inset:30px 0 0;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.project:hover .shot{transform:scale(1.045)}
+.status{position:absolute;right:12px;bottom:12px;z-index:3;font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:999px;background:rgba(10,11,15,.8);border:1px solid var(--line-2);color:var(--muted);backdrop-filter:blur(6px)}
+.status.live{color:var(--ok);border-color:rgba(52,211,153,.35)}
+/* mock: fitness */
+.m-fit{background:radial-gradient(circle at 80% 30%,rgba(255,77,77,.35),transparent 45%),linear-gradient(135deg,#17090b,#0d0f14 70%);padding:7% 8%}
+.m-fit .t{font-weight:800;font-size:clamp(18px,3vw,30px);line-height:1;letter-spacing:-.03em;color:#fff;max-width:9ch}
+.m-fit .t span{color:#ff4d4d}
+.m-fit .l{height:6px;border-radius:4px;background:rgba(255,255,255,.12);margin-top:8%;width:46%}
+.m-fit .l+.l{width:34%;margin-top:3%}
+.m-fit .b{margin-top:7%;width:28%;height:10%;min-height:16px;border-radius:8px;background:#ff4d4d}
+.m-fit .ring{position:absolute;right:9%;top:16%;width:34%;aspect-ratio:1;border-radius:50%;border:clamp(6px,1.2vw,12px) solid rgba(255,77,77,.85);border-right-color:rgba(255,255,255,.08)}
+.m-fit .cards{position:absolute;left:8%;right:8%;bottom:8%;display:grid;grid-template-columns:repeat(3,1fr);gap:4%}
+.m-fit .cards i{height:clamp(22px,4vw,40px);border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06)}
+/* mock: bot */
+.m-bot{background:linear-gradient(160deg,#0b1a24,#0d0f14 70%);display:flex;flex-direction:column;justify-content:center;gap:4%;padding:6% 18%}
+.msg{max-width:70%;padding:2.2% 4%;border-radius:12px;font-size:clamp(10px,1.4vw,13px);line-height:1.4}
+.msg.in{background:#1d2733;color:#cfe3f1;border-bottom-left-radius:4px}
+.msg.out{align-self:flex-end;background:#2b5278;color:#fff;border-bottom-right-radius:4px}
+.kb{display:grid;grid-template-columns:repeat(3,1fr);gap:3%;max-width:80%}
+.kb i{font-style:normal;text-align:center;padding:2% 0;border-radius:8px;background:rgba(34,211,238,.12);color:#67e8f9;font-size:clamp(9px,1.2vw,12px)}
+/* mock: dashboard */
+.m-dash{background:#0d0f14;display:grid;grid-template-columns:18% 1fr;gap:3%;padding:4%}
+.m-dash .side{border-radius:10px;background:rgba(255,255,255,.04);display:flex;flex-direction:column;gap:10%;padding:14% 16%}
+.m-dash .side i{height:6px;border-radius:3px;background:rgba(255,255,255,.12)}
+.m-dash .side i:first-child{background:var(--accent)}
+.m-dash .main{display:grid;grid-template-rows:auto 1fr;gap:6%}
+.m-dash .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:4%}
+.m-dash .kpis i{height:clamp(26px,5vw,48px);border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.m-dash .chart{border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--line);display:flex;align-items:flex-end;gap:4%;padding:5%}
+.m-dash .chart i{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(to top,rgba(124,92,255,.3),#7c5cff)}
+/* mock: shop */
+.m-shop{background:linear-gradient(135deg,#14110a,#0d0f14 70%);display:grid;grid-template-columns:repeat(4,1fr);gap:3%;padding:6%;align-content:center}
+.m-shop .p{border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);padding:8%;display:flex;flex-direction:column;gap:8%}
+.m-shop .p i{aspect-ratio:1;border-radius:8px;background:linear-gradient(135deg,rgba(251,191,36,.35),rgba(251,191,36,.05))}
+.m-shop .p b{height:5px;border-radius:3px;background:rgba(255,255,255,.15)}
+.m-shop .p u{height:5px;width:50%;border-radius:3px;background:#fbbf24}
+.m-shop .h{grid-column:1/-1;height:10px;width:40%;border-radius:4px;background:rgba(255,255,255,.15);margin-bottom:2%}
+
+.p-body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
+.p-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.p-type{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.p-body h3{font-size:24px;font-weight:800;letter-spacing:-.025em;margin-bottom:14px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+.tag{font-family:var(--mono);font-size:12px;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:#c5cad8}
+.trr{display:grid;gap:14px;margin-bottom:26px;flex:1}
+.trr div{display:grid;grid-template-columns:92px 1fr;gap:14px;font-size:15px}
+.trr dt{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-2);padding-top:3px}
+.trr dd{color:var(--muted)}
+.trr dd b{color:var(--text);font-weight:600}
+.p-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
+
+.project.slot .preview{display:grid;place-items:center;background:repeating-linear-gradient(135deg,rgba(255,255,255,.02) 0 12px,transparent 12px 24px)}
+.slot-plus{width:64px;height:64px;border-radius:18px;border:1px dashed var(--line-2);display:grid;place-items:center;color:var(--dim);transition:all .3s}
+.project.slot:hover .slot-plus{border-color:var(--accent);color:var(--accent);transform:rotate(90deg)}
+
+/* stack strip */
+.stack{display:flex;gap:10px;flex-wrap:wrap;margin-top:56px;justify-content:center}
+.stack span{font-family:var(--mono);font-size:13px;padding:9px 16px;border-radius:999px;border:1px solid var(--line);color:var(--muted);transition:all .25s}
+.stack span:hover{color:var(--text);border-color:var(--accent);background:rgba(124,92,255,.08)}
+
+/* contact */
+.contact-box{display:grid;grid-template-columns:1fr 1.05fr;gap:0;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--card)}
+.contact-info{padding:56px 48px;background:radial-gradient(circle at 0% 0%,rgba(124,92,255,.2),transparent 55%),var(--bg-2);display:flex;flex-direction:column}
+.contact-info p{color:var(--muted);margin:20px 0 34px;max-width:440px}
+.links{display:grid;gap:12px}
+.link{display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.02);transition:all .3s}
+.link:hover{border-color:var(--line-2);background:rgba(255,255,255,.05);transform:translateX(4px)}
+.link .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none}
+.link .ic svg{width:22px;height:22px}
+.ic.tg{background:rgba(34,158,217,.15);color:#38bdf8}
+.ic.ml{background:rgba(124,92,255,.15);color:#a78bfa}
+.ic.gh{background:rgba(255,255,255,.07);color:#e5e7eb}
+.link small{display:block;color:var(--dim);font-size:13px}
+.link strong{font-weight:700;font-size:16px;word-break:break-all}
+.link .arr{margin-left:auto;color:var(--dim);transition:transform .3s,color .3s}
+.link:hover .arr{transform:translate(3px,-3px);color:var(--text)}
+.note{margin-top:auto;padding-top:34px;color:var(--dim);font-size:14px;display:flex;align-items:center;gap:10px}
+form{padding:56px 48px;display:grid;gap:18px;align-content:start}
+.field{display:grid;gap:8px}
+.field label{font-size:14px;font-weight:600;color:var(--muted)}
+.field input,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line-2);border-radius:14px;padding:15px 16px;font-size:16px;transition:border-color .2s,box-shadow .2s;resize:vertical}
+.field textarea{min-height:140px}
+.field input::placeholder,.field textarea::placeholder{color:var(--dim)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
+.field.err input,.field.err textarea{border-color:#f87171}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.budget{display:flex;flex-wrap:wrap;gap:8px}
+.budget input{position:absolute;opacity:0;pointer-events:none}
+.budget label{height:40px;padding:0 16px;display:inline-flex;align-items:center;border-radius:12px;border:1px solid var(--line-2);font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
+.budget input:checked+label{background:rgba(124,92,255,.15);border-color:var(--accent);color:var(--text)}
+.budget input:focus-visible+label{outline:2px solid var(--accent-2);outline-offset:2px}
+form .btn{width:100%;margin-top:6px}
+.form-hint{font-size:13px;color:var(--dim);text-align:center}
+.success{display:none;text-align:center;padding:40px 10px}
+.success .ok{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;display:grid;place-items:center;background:rgba(52,211,153,.12);color:var(--ok)}
+.success h3{font-size:24px;margin-bottom:8px}
+.success p{color:var(--muted)}
+form.sent>*:not(.success){display:none}
+form.sent .success{display:block}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:34px 0;margin-top:110px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--dim);font-size:14px}
+footer a:hover{color:var(--text)}
+.to-top{display:inline-flex;align-items:center;gap:8px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+
+/* responsive */
+@media (max-width:1100px){
+  .code-float{display:none}
+  .features{grid-template-columns:repeat(2,1fr)}
+  .process{grid-template-columns:repeat(2,1fr)}
+  .step:nth-child(2){border-right:0}
+  .step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:900px){
+  .nav,.header .btn{display:none}
+  .burger{display:block}
+  .mobile-menu{position:fixed;inset:72px 0 auto 0;background:rgba(10,11,15,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:16px 24px 28px;display:grid;gap:4px;transform:translateY(-12px);opacity:0;visibility:hidden;transition:all .3s}
+  .menu-open .mobile-menu{transform:none;opacity:1;visibility:visible}
+  .mobile-menu a:not(.btn){padding:14px 4px;font-size:18px;font-weight:700;border-bottom:1px solid var(--line)}
+  .mobile-menu .btn{margin-top:16px}
+  .menu-open .header{background:rgba(10,11,15,.97)}
+  .projects{grid-template-columns:1fr}
+  .contact-box{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (min-width:901px){.mobile-menu{display:none}}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  .hero{padding:128px 0 72px}
+  .hero-cta .btn{flex:1 1 100%}
+  .stats{margin-top:56px}
+  .stat{padding:20px 18px}
+  .section{padding:76px 0}
+  .sec-head{margin-bottom:36px}
+  .features,.process{grid-template-columns:1fr}
+  .step{border-right:0;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:0}
+  .p-body{padding:22px 18px 22px}
+  .trr div{grid-template-columns:1fr;gap:2px}
+  .p-actions .btn{flex:1}
+  .contact-info,form{padding:34px 20px}
+  .row2{grid-template-columns:1fr}
+  footer{margin-top:76px}
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"><div class="grid-bg"></div></div>
+
+<header class="header" id="header">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="На главную">
+      <span class="logo-mark">&lt;/&gt;</span>Spartak<span>.dev</span>
+    </a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#about">Обо мне</a>
+      <a href="#approach">Подход</a>
+      <a href="#projects">Проекты</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a href="#contact" class="btn btn-primary btn-sm">Связаться
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">Обо мне</a>
+    <a href="#approach">Подход</a>
+    <a href="#projects">Проекты</a>
+    <a href="#contact">Контакты</a>
+    <a href="#contact" class="btn btn-primary">Обсудить проект</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="about">
+    <div class="wrap">
+      <div class="code-float" aria-hidden="true">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div><span class="c-k">const</span> site = {</div>
+        <div>&nbsp;&nbsp;speed: <span class="c-s">'&lt; 1s'</span>,</div>
+        <div>&nbsp;&nbsp;lighthouse: <span class="c-n">95</span>,</div>
+        <div>&nbsp;&nbsp;adaptive: <span class="c-k">true</span>,</div>
+        <div>&nbsp;&nbsp;goal: <span class="c-s">'заявки'</span></div>
+        <div>};</div>
+        <div class="c-c">// deploy → ✓ ready</div>
+      </div>
+
+      <div class="badge rv"><span class="pulse"></span>Открыт для новых проектов</div>
+      <h1 class="rv">Делаю сайты, которые <span class="grad-text">быстро грузятся и&nbsp;продают</span></h1>
+      <p class="lead rv">Я фронтенд-разработчик. Создаю лендинги, корпоративные сайты и веб-интерфейсы <b>под ключ</b> — от структуры и вёрстки до запуска. Каждое решение на странице подчинено одной цели: чтобы посетитель понял ваше предложение за секунды и <b>оставил заявку</b>, а не закрыл вкладку.</p>
+      <div class="hero-cta rv">
+        <a href="#contact" class="btn btn-primary">Обсудить проект
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#projects" class="btn btn-ghost">Смотреть работы</a>
+      </div>
+
+      <div class="stats rv">
+        <div class="stat"><b class="grad-text">&lt;&nbsp;1&nbsp;с</b><span>загрузка первого экрана</span></div>
+        <div class="stat"><b>95+</b><span>баллов Lighthouse</span></div>
+        <div class="stat"><b>320–2560</b><span>px — без поломок вёрстки</span></div>
+        <div class="stat"><b>24/7</b><span>сайт онлайн после запуска</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section class="section" id="approach">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow rv">// Почему со мной</span>
+          <h2 class="rv">Подход, за который не&nbsp;придётся переплачивать дважды</h2>
+        </div>
+        <p class="rv">Сайт — это не картинка, а инструмент. Поэтому я отвечаю не только за внешний вид, но и за то, как он работает: скорость, удобство, стабильность.</p>
+      </div>
+
+      <div class="features">
+        <article class="card feature rv">
+          <span class="f-num">01</span>
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div>
+          <h3>Чистый код</h3>
+          <p>Семантичная вёрстка, никаких тяжёлых конструкторов и лишних библиотек. Сайт быстро открывается, хорошо индексируется и легко дорабатывается любым разработчиком.</p>
+        </article>
+        <article class="card feature rv">
+          <span class="f-num">02</span>
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="14" height="10" rx="2"/><rect x="17" y="8" width="5" height="12" rx="1.5"/><path d="M6 18h6"/></svg></div>
+          <h3>Идеальная адаптивность</h3>
+          <p>Больше 70% трафика — со смартфонов. Проверяю каждый экран от 320&nbsp;px до широких мониторов, чтобы ничего не «съезжало» и кнопки было удобно нажимать пальцем.</p>
+        </article>
+        <article class="card feature rv">
+          <span class="f-num">03</span>
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg></div>
+          <h3>Внимание к деталям</h3>
+          <p>Отступы, состояния кнопок, анимации, сообщения об ошибках в формах — именно мелочи отличают профессиональный продукт от шаблона и вызывают доверие.</p>
+        </article>
+        <article class="card feature rv">
+          <span class="f-num">04</span>
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+          <h3>Интерфейсы для людей</h3>
+          <p>Проектирую путь пользователя: что он увидит первым, где у него возникнет вопрос и куда нажать дальше. Понятный интерфейс напрямую влияет на конверсию.</p>
+        </article>
+      </div>
+
+      <div class="process rv" aria-label="Этапы работы">
+        <div class="step"><b>ШАГ 01</b><h4>Бриф и цели</h4><p>Разбираю задачу, аудиторию и конкурентов.</p></div>
+        <div class="step"><b>ШАГ 02</b><h4>Структура и дизайн</h4><p>Прототип и визуал, согласованные с вами.</p></div>
+        <div class="step"><b>ШАГ 03</b><h4>Разработка</h4><p>Вёрстка, анимации, формы, тесты на устройствах.</p></div>
+        <div class="step"><b>ШАГ 04</b><h4>Запуск и поддержка</h4><p>Домен, хостинг, аналитика и правки после старта.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow rv">// Портфолио</span>
+          <h2 class="rv">Избранные работы</h2>
+        </div>
+        <div class="filters rv" role="group" aria-label="Фильтр проектов">
+          <button class="chip on" data-filter="all">Все</button>
+          <button class="chip" data-filter="web">Сайты</button>
+          <button class="chip" data-filter="app">Веб-приложения</button>
+          <button class="chip" data-filter="bot">Боты</button>
+        </div>
+      </div>
+
+      <div class="projects">
+        <!-- 1 -->
+        <article class="card project rv" data-cat="web">
+          <div class="preview">
+            <div class="bar"><i></i><i></i><i></i><em>spartak17mc-blip.github.io/pulsefit</em></div>
+            <div class="shot m-fit">
+              <div class="t">ТВОЯ <span>ЛУЧШАЯ</span> ФОРМА</div>
+              <div class="l"></div><div class="l"></div>
+              <div class="b"></div>
+              <div class="ring"></div>
+              <div class="cards"><i></i><i></i><i></i></div>
+            </div>
+            <span class="status live">● Live</span>
+          </div>
+          <div class="p-body">
+            <div class="p-top"><span class="p-type">Лендинг · Фитнес</span></div>
+            <h3>PULSE FIT</h3>
+            <div class="tags"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span><span class="tag">Adaptive</span></div>
+            <dl class="trr">
+              <div><dt>Задача</dt><dd>Лендинг фитнес-клуба, который превращает посетителя в записавшегося на пробную тренировку.</dd></div>
+              <div><dt>Решение</dt><dd>Энергичный визуал, понятная структура «программы → тренеры → цены» и форма записи на каждом ключевом экране.</dd></div>
+              <div><dt>Результат</dt><dd><b>Быстрый адаптивный сайт</b> без фреймворков, опубликован и работает онлайн.</dd></div>
+            </dl>
+            <div class="p-actions">
+              <a class="btn btn-primary btn-sm" href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener">Посмотреть проект
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>
+              </a>
+              <a class="btn btn-ghost btn-sm" href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener">Код</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="card project rv" data-cat="bot">
+          <div class="preview">
+            <div class="bar"><i></i><i></i><i></i><em>Telegram · Expense Tracker</em></div>
+            <div class="shot m-bot">
+              <div class="msg out">кофе 300</div>
+              <div class="msg in">Выберите категорию для 300 ₽:</div>
+              <div class="kb"><i>🍔 Еда</i><i>🚕 Такси</i><i>☕ Кафе</i></div>
+              <div class="msg in">✓ Записано. За неделю: 4 820 ₽</div>
+            </div>
+            <span class="status">Приватный</span>
+          </div>
+          <div class="p-body">
+            <div class="p-top"><span class="p-type">Telegram-бот · Финансы</span></div>
+            <h3>Expense Tracker Bot</h3>
+            <div class="tags"><span class="tag">Python</span><span class="tag">Telegram Bot API</span><span class="tag">SQLite</span></div>
+            <dl class="trr">
+              <div><dt>Задача</dt><dd>Учёт личных расходов без приложений и таблиц — в мессенджере, который всегда под рукой.</dd></div>
+              <div><dt>Решение</dt><dd>Пишешь «кофе 300» → выбираешь категорию кнопкой. Статистика за день, неделю, месяц, управление категориями.</dd></div>
+              <div><dt>Результат</dt><dd><b>Запись расхода за 2 секунды</b>, данные в локальной базе, бэкап одним файлом.</dd></div>
+            </dl>
+            <div class="p-actions">
+              <a class="btn btn-primary btn-sm" href="#contact">Демо по запросу
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="card project rv" data-cat="app">
+          <div class="preview">
+            <div class="bar"><i></i><i></i><i></i><em>app.your-project.com/dashboard</em></div>
+            <div class="shot m-dash">
+              <div class="side"><i></i><i></i><i></i><i></i></div>
+              <div class="main">
+                <div class="kpis"><i></i><i></i><i></i></div>
+                <div class="chart"><i style="height:40%"></i><i style="height:65%"></i><i style="height:50%"></i><i style="height:80%"></i><i style="height:60%"></i><i style="height:92%"></i><i style="height:74%"></i></div>
+              </div>
+            </div>
+            <span class="status">В разработке</span>
+          </div>
+          <div class="p-body">
+            <div class="p-top"><span class="p-type">Веб-приложение · SaaS</span></div>
+            <h3>Analytics Dashboard</h3>
+            <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Chart.js</span><span class="tag">REST API</span></div>
+            <dl class="trr">
+              <div><dt>Задача</dt><dd>Собрать ключевые метрики бизнеса на одном экране, чтобы решения принимались за минуты, а не за вечер в Excel.</dd></div>
+              <div><dt>Решение</dt><dd>Компонентный интерфейс на React: KPI-карточки, интерактивные графики, фильтры по периодам, тёмная тема.</dd></div>
+              <div><dt>Результат</dt><dd><b>Кейс скоро появится</b> — проект на финальном этапе.</dd></div>
+            </dl>
+            <div class="p-actions">
+              <a class="btn btn-primary btn-sm" href="#" aria-disabled="true" tabindex="-1">Посмотреть проект</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="card project rv" data-cat="web">
+          <div class="preview">
+            <div class="bar"><i></i><i></i><i></i><em>shop.your-brand.com</em></div>
+            <div class="shot m-shop">
+              <div class="h"></div>
+              <div class="p"><i></i><b></b><u></u></div>
+              <div class="p"><i></i><b></b><u></u></div>
+              <div class="p"><i></i><b></b><u></u></div>
+              <div class="p"><i></i><b></b><u></u></div>
+            </div>
+            <span class="status">Скоро</span>
+          </div>
+          <div class="p-body">
+            <div class="p-top"><span class="p-type">Интернет-магазин · E-commerce</span></div>
+            <h3>Online Store</h3>
+            <div class="tags"><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">LocalStorage</span><span class="tag">SEO</span></div>
+            <dl class="trr">
+              <div><dt>Задача</dt><dd>Витрина, в которой покупатель находит нужный товар за 3 клика и оформляет заказ без регистрации.</dd></div>
+              <div><dt>Решение</dt><dd>Каталог с фильтрами, быстрая корзина, мобильный checkout в один экран, микроразметка для поисковиков.</dd></div>
+              <div><dt>Результат</dt><dd><b>Кейс скоро появится</b> — здесь будут цифры конверсии.</dd></div>
+            </dl>
+            <div class="p-actions">
+              <a class="btn btn-primary btn-sm" href="#" aria-disabled="true" tabindex="-1">Посмотреть проект</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- slot -->
+        <a href="#contact" class="card project slot rv" data-cat="all">
+          <div class="preview"><div class="slot-plus"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div></div>
+          <div class="p-body">
+            <div class="p-top"><span class="p-type">Следующий кейс</span></div>
+            <h3>Здесь может быть ваш проект</h3>
+            <p style="color:var(--muted);margin-bottom:24px;flex:1">Расскажите о задаче — предложу решение, сроки и стоимость в течение дня.</p>
+            <div class="p-actions"><span class="btn btn-ghost btn-sm">Обсудить проект</span></div>
+          </div>
+        </a>
+
+        <article class="card project slot rv" data-cat="all">
+          <div class="preview"><div class="slot-plus"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div></div>
+          <div class="p-body">
+            <div class="p-top"><span class="p-type">Все репозитории</span></div>
+            <h3>Больше кода на GitHub</h3>
+            <p style="color:var(--muted);margin-bottom:24px;flex:1">Учебные и пет-проекты, эксперименты с интерфейсами и автоматизацией.</p>
+            <div class="p-actions"><a class="btn btn-ghost btn-sm" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener">Открыть GitHub</a></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="stack rv" aria-label="Технологии">
+        <span>HTML5</span><span>CSS3 / SCSS</span><span>JavaScript ES2024</span><span>TypeScript</span><span>React</span><span>Vite</span><span>Figma</span><span>Git</span><span>Python</span><span>Telegram Bot API</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact">
+    <div class="wrap">
+      <div class="contact-box rv">
+        <div class="contact-info">
+          <span class="eyebrow">// Контакты</span>
+          <h2>Есть задача? <span class="grad-text">Давайте обсудим</span></h2>
+          <p>Опишите проект в двух словах — отвечу в течение нескольких часов, задам уточняющие вопросы и предложу решение со сроками и стоимостью. Без обязательств.</p>
+          <div class="links">
+            <a class="link" id="tgLink" href="#" target="_blank" rel="noopener">
+              <span class="ic tg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1.1-1 .2-1.5L20.6 2.7c.9-.3 1.6.2 1.3 1.6z"/></svg></span>
+              <span><small>Telegram — быстрее всего</small><strong id="tgText">@username</strong></span>
+              <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>
+            </a>
+            <a class="link" id="mailLink" href="#">
+              <span class="ic ml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 6 10-6"/></svg></span>
+              <span><small>Email</small><strong id="mailText">hello@example.com</strong></span>
+              <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>
+            </a>
+            <a class="link" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener">
+              <span class="ic gh"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 00-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 015.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0012 .5z"/></svg></span>
+              <span><small>GitHub</small><strong>spartak17mc-blip</strong></span>
+              <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>
+            </a>
+          </div>
+          <div class="note"><span class="pulse"></span>Сейчас беру 1–2 новых проекта</div>
+        </div>
+
+        <form id="form" novalidate>
+          <div class="row2">
+            <div class="field"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name" required></div>
+            <div class="field"><label for="f-contact">Telegram или email</label><input id="f-contact" name="contact" type="text" placeholder="@nickname или почта" required></div>
+          </div>
+          <div class="field">
+            <label>Бюджет</label>
+            <div class="budget">
+              <input type="radio" name="budget" id="b1" value="до 30 000 ₽"><label for="b1">до 30k ₽</label>
+              <input type="radio" name="budget" id="b2" value="30–80 000 ₽" checked><label for="b2">30–80k ₽</label>
+              <input type="radio" name="budget" id="b3" value="от 80 000 ₽"><label for="b3">от 80k ₽</label>
+              <input type="radio" name="budget" id="b4" value="Обсудим"><label for="b4">Обсудим</label>
+            </div>
+          </div>
+          <div class="field"><label for="f-msg">О проекте</label><textarea id="f-msg" name="message" placeholder="Что нужно сделать, есть ли примеры и желаемые сроки" required></textarea></div>
+          <button class="btn btn-primary" type="submit">Отправить заявку
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+          <p class="form-hint">Нажимая кнопку, вы откроете письмо с готовым текстом заявки.</p>
+          <div class="success" role="status">
+            <div class="ok"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <h3>Спасибо! Заявка готова</h3>
+            <p>Отправьте открывшееся письмо — и я свяжусь с вами в ближайшее время.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year">2026</span> Spartak.dev — фронтенд-разработка</span>
+    <a href="#top" class="to-top">Наверх
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+/* ===== Контакты: поменяйте здесь ===== */
+const CONTACTS = {
+  telegram: "username",          // без @
+  email: "hello@example.com"
+};
+
+(() => {
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+  // contacts
+  $("#tgLink").href = "https://t.me/" + CONTACTS.telegram;
+  $("#tgText").textContent = "@" + CONTACTS.telegram;
+  $("#mailLink").href = "mailto:" + CONTACTS.email;
+  $("#mailText").textContent = CONTACTS.email;
+  $("#year").textContent = new Date().getFullYear();
+
+  // header
+  const header = $("#header");
+  const onScroll = () => header.classList.toggle("scrolled", scrollY > 10);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  // mobile menu
+  const burger = $("#burger");
+  const toggle = (open) => {
+    document.body.classList.toggle("menu-open", open);
+    burger.setAttribute("aria-expanded", open);
+  };
+  burger.addEventListener("click", () => toggle(!document.body.classList.contains("menu-open")));
+  $$("#mobileMenu a").forEach(a => a.addEventListener("click", () => toggle(false)));
+  addEventListener("keydown", e => e.key === "Escape" && toggle(false));
+
+  // active nav
+  const links = $$(".nav a");
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + en.target.id));
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  $$("main section[id]").forEach(s => spy.observe(s));
+
+  // reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold: .12 });
+  $$(".rv").forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + "ms"; io.observe(el); });
+
+  // card spotlight
+  $$(".card").forEach(c => c.addEventListener("pointermove", e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty("--mx", e.clientX - r.left + "px");
+    c.style.setProperty("--my", e.clientY - r.top + "px");
+  }));
+
+  // filters
+  $$(".chip").forEach(chip => chip.addEventListener("click", () => {
+    $$(".chip").forEach(c => c.classList.toggle("on", c === chip));
+    const f = chip.dataset.filter;
+    $$(".project").forEach(p => p.classList.toggle("hide", f !== "all" && p.dataset.cat !== f && p.dataset.cat !== "all"));
+  }));
+
+  // form
+  const form = $("#form");
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    let ok = true;
+    ["name", "contact", "message"].forEach(n => {
+      const el = form.elements[n];
+      const bad = !el.value.trim();
+      el.closest(".field").classList.toggle("err", bad);
+      if (bad && ok) { el.focus(); ok = false; }
+    });
+    if (!ok) return;
+    const d = Object.fromEntries(new FormData(form));
+    const body = `Имя: ${d.name}\nКонтакт: ${d.contact}\nБюджет: ${d.budget}\n\n${d.message}`;
+    location.href = `mailto:${CONTACTS.email}?subject=${encodeURIComponent("Заявка с сайта — " + d.name)}&body=${encodeURIComponent(body)}`;
+    form.classList.add("sent");
+  });
+  $$("#form input, #form textarea").forEach(el => el.addEventListener("input", () => el.closest(".field").classList.remove("err")));
+})();
+</script>
+</body>
+</html>
