@@ -24,7 +24,7 @@
   --mono:"JetBrains Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:84px}
+html{overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:84px}
 body{background:var(--bg);color:var(--text);font:400 16px/1.65 Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
@@ -217,8 +217,8 @@ form{padding:56px 48px;display:grid;gap:18px;align-content:start}
 .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
 .field.err input,.field.err textarea{border-color:#f87171}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.budget{display:flex;flex-wrap:wrap;gap:8px}
-.budget input{position:absolute;opacity:0;pointer-events:none}
+.budget{display:flex;flex-wrap:wrap;gap:8px;position:relative}
+.budget input{position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
 .budget label{height:40px;padding:0 16px;display:inline-flex;align-items:center;border-radius:12px;border:1px solid var(--line-2);font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
 .budget input:checked+label{background:rgba(124,92,255,.15);border-color:var(--accent);color:var(--text)}
 .budget input:focus-visible+label{outline:2px solid var(--accent-2);outline-offset:2px}
