@@ -18,7 +18,7 @@
 <style>
 /* ================= TOKENS ================= */
 :root{
-  --bg:#070b14;--bg-2:#0a0f1d;
+  --bg:#07090e;--bg-2:#0a0f1d;
   --text:#eef1f7;--muted:#97a0b5;--dim:#626b80;
   --glass:rgba(255,255,255,.045);--glass-2:rgba(255,255,255,.07);--glass-3:rgba(255,255,255,.1);
   --stroke:rgba(255,255,255,.09);--stroke-2:rgba(255,255,255,.14);--stroke-3:rgba(255,255,255,.22);
@@ -36,7 +36,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:100px;-webkit-text-size-adjust:100%}
-body{min-height:100vh;background:radial-gradient(120% 80% at 50% -10%,#121a33 0%,var(--bg) 55%) fixed,var(--bg);color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:clip}
+body{min-height:100vh;background:#07090e;color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:clip}
 a{color:inherit;text-decoration:none}
 button,input,textarea{font:inherit;color:inherit;background:none;border:0}
 button{cursor:pointer}
@@ -48,39 +48,29 @@ svg{display:block}
 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* ================= BACKDROP ================= */
-.scene{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;background:
-  radial-gradient(60% 50% at 15% 10%,rgba(67,56,202,.35),transparent 70%),
-  radial-gradient(50% 45% at 90% 35%,rgba(8,145,178,.22),transparent 70%),
-  radial-gradient(55% 50% at 30% 95%,rgba(126,34,206,.25),transparent 70%),
-  linear-gradient(180deg,#070a16 0%,#0a0e1f 50%,#070a16 100%)}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform;mix-blend-mode:screen}
-.orb.o1{width:46vmax;height:46vmax;left:-12vmax;top:-14vmax;background:radial-gradient(circle,rgba(99,102,241,.75),transparent 62%);animation:float1 40s ease-in-out infinite alternate}
-.orb.o2{width:40vmax;height:40vmax;right:-12vmax;top:14vh;background:radial-gradient(circle,rgba(6,182,212,.55),transparent 62%);animation:float2 48s ease-in-out infinite alternate}
-.orb.o3{width:38vmax;height:38vmax;left:18vw;bottom:-18vmax;background:radial-gradient(circle,rgba(168,85,247,.55),transparent 62%);animation:float3 54s ease-in-out infinite alternate}
-.orb.o4{width:26vmax;height:26vmax;left:44vw;top:28vh;background:radial-gradient(circle,rgba(236,72,153,.28),transparent 62%);animation:float4 60s ease-in-out infinite alternate}
-.orb.o5{width:30vmax;height:30vmax;right:6vw;bottom:-8vmax;background:radial-gradient(circle,rgba(59,130,246,.45),transparent 62%);animation:float1 66s ease-in-out infinite alternate-reverse}
-@keyframes float1{to{transform:translate(10vmax,8vmax) scale(1.08)}}
-@keyframes float2{to{transform:translate(-9vmax,12vmax) scale(.92)}}
-@keyframes float3{to{transform:translate(8vmax,-10vmax) scale(1.1)}}
-@keyframes float4{to{transform:translate(-12vmax,-6vmax) scale(1.15)}}
-.noise{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.gridlines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:80px 80px;-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 0%,#000 20%,transparent 70%);mask-image:radial-gradient(ellipse 60% 50% at 50% 0%,#000 20%,transparent 70%)}
+/* body stays a deep base colour; the coloured light comes from fixed blurred spheres behind everything */
+.scene{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);will-change:transform}
+.orb.o1{width:44vmax;height:44vmax;left:-10vmax;top:-12vmax;background:rgba(37,99,235,.55);animation:float1 38s ease-in-out infinite alternate}
+.orb.o2{width:40vmax;height:40vmax;right:-10vmax;top:22vh;background:rgba(124,58,237,.5);animation:float2 46s ease-in-out infinite alternate}
+.orb.o3{width:30vmax;height:30vmax;left:30vw;bottom:-10vmax;background:rgba(245,158,11,.26);animation:float3 52s ease-in-out infinite alternate}
+.orb.o4{width:28vmax;height:28vmax;left:6vw;top:48vh;background:rgba(56,189,248,.34);animation:float4 58s ease-in-out infinite alternate}
+@keyframes float1{to{transform:translate(14vmax,12vmax) scale(1.1)}}
+@keyframes float2{to{transform:translate(-14vmax,10vmax) scale(.9)}}
+@keyframes float3{to{transform:translate(12vmax,-14vmax) scale(1.15)}}
+@keyframes float4{to{transform:translate(16vmax,-10vmax) scale(1.1)}}
+.gridlines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:80px 80px;-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 0%,#000 20%,transparent 70%);mask-image:radial-gradient(ellipse 60% 50% at 50% 0%,#000 20%,transparent 70%)}
 
 /* ================= GLASS ================= */
-/* frosted panel: translucent fill, blurred backdrop, light-catching edge, soft depth */
 .glass{position:relative;isolation:isolate;
-  background:linear-gradient(150deg,rgba(255,255,255,.11) 0%,rgba(255,255,255,.045) 45%,rgba(255,255,255,.025) 100%);
-  border:1px solid rgba(255,255,255,.06);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(0,0,0,.25),inset 0 0 40px rgba(255,255,255,.025),0 30px 70px -35px rgba(2,4,12,.85),0 10px 30px -18px rgba(2,4,12,.5);
-  backdrop-filter:blur(24px) saturate(175%);-webkit-backdrop-filter:blur(24px) saturate(175%)}
-.glass::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
-  background:linear-gradient(145deg,rgba(255,255,255,.42),rgba(255,255,255,.1) 30%,rgba(255,255,255,.03) 55%,rgba(255,255,255,.2) 100%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.7;transition:opacity .8s var(--ease)}
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 8px 32px 0 rgba(0,0,0,0.37)}
 .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
-  background:radial-gradient(520px circle at var(--mx,50%) var(--my,-30%),rgba(255,255,255,.09),transparent 45%);opacity:0;transition:opacity .8s var(--ease)}
-.glass-hover{transition:transform 1s var(--ease-out),background .8s var(--ease),box-shadow 1s var(--ease)}
-.glass-hover:hover{transform:translateY(-6px);background:linear-gradient(150deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.06) 45%,rgba(255,255,255,.035) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(0,0,0,.25),inset 0 0 40px rgba(255,255,255,.035),0 40px 90px -35px rgba(2,4,12,.95),0 0 60px -30px rgba(129,140,248,.45)}
-.glass-hover:hover::before{opacity:1}
+  background:radial-gradient(480px circle at var(--mx,50%) var(--my,-30%),rgba(255,255,255,.07),transparent 45%);opacity:0;transition:opacity .8s var(--ease)}
+.glass-hover{transition:transform 1s var(--ease-out),background .8s var(--ease),border-color .8s var(--ease),box-shadow 1s var(--ease)}
+.glass-hover:hover{transform:translateY(-6px);background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.25);box-shadow:0 16px 48px 0 rgba(0,0,0,0.45)}
 .glass-hover:hover::after{opacity:1}
 
 /* ================= BUTTONS ================= */
@@ -97,7 +87,7 @@ svg{display:block}
 /* ================= HEADER ================= */
 .header{position:fixed;top:16px;left:0;right:0;z-index:60}
 .header-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px;padding:0 10px 0 20px;border-radius:999px;transition:background .6s var(--ease),border-color .6s var(--ease)}
-.header.scrolled .header-in{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.04));border-color:var(--stroke-2)}
+.header.scrolled .header-in{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.2)}
 .logo{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17.5px;letter-spacing:-.025em}
 .logo-mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.04));border:1px solid var(--stroke-2);box-shadow:var(--hi)}
 .logo-mark svg{width:16px;height:16px}
@@ -332,7 +322,7 @@ svg{display:block}
 .avail{margin-top:auto;padding-top:36px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14.5px}
 .avail .live{width:8px;height:8px;border-radius:50%;background:#5eead4;box-shadow:0 0 0 4px rgba(94,234,212,.15)}
 
-form.lead-form{padding:clamp(28px,5vw,60px);display:grid;gap:22px;align-content:start;background:rgba(255,255,255,.02)}
+form.lead-form{padding:clamp(28px,5vw,60px);display:grid;gap:22px;align-content:start}
 .f-title{font-size:22px;font-weight:500;letter-spacing:-.03em}
 .f-title small{display:block;font-size:14px;font-weight:400;color:var(--dim);letter-spacing:0;margin-top:4px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -369,10 +359,10 @@ footer{padding:110px 0 40px}
 .foot a:hover{color:var(--text)}
 
 /* ================= MODAL ================= */
-dialog.case-modal{margin:auto;width:min(1080px,calc(100% - 32px));max-height:calc(100dvh - 48px);border-radius:30px;color:var(--text);padding:0;overflow:hidden;background:rgba(14,19,34,.72);border:1px solid var(--stroke-2);box-shadow:var(--hi),0 40px 120px -20px rgba(0,0,0,.8);backdrop-filter:blur(30px) saturate(150%);-webkit-backdrop-filter:blur(30px) saturate(150%);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease-out),overlay .6s allow-discrete,display .6s allow-discrete}
+dialog.case-modal{margin:auto;width:min(1080px,calc(100% - 32px));max-height:calc(100dvh - 48px);border-radius:30px;color:var(--text);padding:0;overflow:hidden;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);box-shadow:0 8px 32px 0 rgba(0,0,0,0.37);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease-out),overlay .6s allow-discrete,display .6s allow-discrete}
 dialog.case-modal[open]{opacity:1;transform:none}
 @starting-style{dialog.case-modal[open]{opacity:0;transform:translateY(16px)}}
-dialog.case-modal::backdrop{background:rgba(4,6,12,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+dialog.case-modal::backdrop{background:rgba(4,6,12,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .modal-scroll{max-height:calc(100dvh - 50px);overflow-y:auto;overscroll-behavior:contain}
 .modal-close{position:absolute;top:16px;right:16px;z-index:5;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid var(--stroke-2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:background .5s var(--ease)}
 .modal-close:hover{background:rgba(255,255,255,.16)}
@@ -469,8 +459,7 @@ body.modal-open{overflow:hidden}
 </style>
 </head>
 <body>
-<div class="scene" aria-hidden="true"><div class="gridlines"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div><div class="orb o5"></div></div>
-<div class="noise" aria-hidden="true"></div>
+<div class="scene" aria-hidden="true"><div class="gridlines"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c7d2fe"/><stop offset="1" stop-color="#7dd3fc"/></linearGradient></defs></svg>
 
 <!-- ================= HEADER ================= -->
