@@ -1064,9 +1064,9 @@ const CASES = {
       [...node.childNodes].forEach(n => {
         if (n.nodeType === 3) {
           const frag = document.createDocumentFragment();
-          n.textContent.split(/(\s+)/).forEach(part => {
+          n.textContent.split(/([ \t\n\r]+)/).forEach(part => {
             if (!part) return;
-            if (/^\s+$/.test(part)) { frag.append(" "); return; }
+            if (/^[ \t\n\r]+$/.test(part)) { frag.append(" "); return; }
             const w = document.createElement("span"); w.className = "w";
             const s = document.createElement("span"); s.textContent = part; s.style.setProperty("--i", i++);
             w.append(s); frag.append(w);
