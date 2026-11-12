@@ -48,30 +48,32 @@ svg{display:block}
 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* ================= BACKDROP ================= */
-/* layer 0: deep base + glowing lights + glass-like texture, all softened by one strong blur */
-.scene{position:fixed;inset:-12%;z-index:-2;pointer-events:none;overflow:hidden;filter:blur(40px);will-change:transform;animation:drift 70s ease-in-out infinite alternate;
-  background:radial-gradient(120% 90% at 50% 40%,#0c1018 0%,#05060a 70%)}
-@keyframes drift{to{transform:translate3d(-3%,2%,0) scale(1.05)}}
-.light{position:absolute;border-radius:50%}
-.l1{width:34vmax;height:34vmax;left:4%;top:6%;background:radial-gradient(circle,rgba(255,184,108,.95) 0%,rgba(255,120,60,.45) 30%,transparent 68%)}
-.l2{width:40vmax;height:40vmax;right:2%;top:20%;background:radial-gradient(circle,rgba(94,234,212,.85) 0%,rgba(14,165,233,.4) 32%,transparent 68%)}
-.l3{width:32vmax;height:32vmax;left:28%;bottom:2%;background:radial-gradient(circle,rgba(244,114,182,.75) 0%,rgba(190,24,93,.35) 32%,transparent 68%)}
-.l4{width:56vmax;height:56vmax;left:30%;top:-10%;background:radial-gradient(circle,rgba(37,99,235,.55) 0%,rgba(30,58,138,.25) 40%,transparent 70%)}
-.l5{width:26vmax;height:26vmax;right:16%;bottom:6%;background:radial-gradient(circle,rgba(253,224,71,.6) 0%,rgba(234,88,12,.25) 35%,transparent 70%)}
-/* small bright "city lights" that turn into soft bokeh after the blur */
-.bokeh{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(255,255,255,0) 70%)}
-.b1{width:7vmax;height:7vmax;left:18%;top:42%;opacity:.55}
-.b2{width:5vmax;height:5vmax;left:62%;top:12%;opacity:.5}
-.b3{width:9vmax;height:9vmax;left:78%;top:58%;opacity:.4;background:radial-gradient(circle,rgba(186,230,253,.95),transparent 70%)}
-.b4{width:6vmax;height:6vmax;left:44%;top:70%;opacity:.45;background:radial-gradient(circle,rgba(254,215,170,.95),transparent 70%)}
-.b5{width:4vmax;height:4vmax;left:8%;top:78%;opacity:.5}
-/* fluted-glass texture: vertical ribs + diagonal streaks, blurred into a soft shimmer */
-.texture{position:absolute;inset:0;opacity:.55;mix-blend-mode:overlay;
-  background:repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 14px,rgba(0,0,0,.25) 14px 70px,transparent 70px 130px),
-             repeating-linear-gradient(115deg,transparent 0 180px,rgba(255,255,255,.18) 180px 210px,transparent 210px 420px)}
-/* layer 1: one thin pane of glass over the whole screen */
-.veil{position:fixed;inset:0;z-index:-1;pointer-events:none;background:rgba(15,18,25,0.35);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px)}
-.veil::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 30%,transparent 75%,rgba(0,0,0,.35)),radial-gradient(120% 80% at 50% 120%,rgba(0,0,0,.45),transparent 60%)}
+/* layer 0: dark night with a few lanterns; only lightly blurred so each light keeps a visible core */
+.scene{position:fixed;inset:-6%;z-index:-2;pointer-events:none;overflow:hidden;filter:blur(12px);will-change:transform;animation:drift 80s ease-in-out infinite alternate;
+  background:radial-gradient(120% 90% at 50% 45%,#0b0e15 0%,#040508 75%)}
+@keyframes drift{to{transform:translate3d(-2%,1.5%,0) scale(1.03)}}
+/* lantern = hot core + coloured glow + wide haze, like a lamp seen through misted glass */
+.lamp{position:absolute;border-radius:50%;animation:flicker 7s ease-in-out infinite alternate}
+.lamp.warm{background:radial-gradient(circle,#fff6e0 0 2.2%,rgba(255,214,150,.95) 4%,rgba(255,170,80,.55) 10%,rgba(255,130,50,.2) 26%,rgba(255,110,40,.06) 45%,transparent 66%)}
+.lamp.amber{background:radial-gradient(circle,#fff1d6 0 2%,rgba(255,196,110,.9) 4%,rgba(245,140,40,.5) 11%,rgba(220,90,20,.18) 27%,transparent 62%)}
+.lamp.cool{background:radial-gradient(circle,#effbff 0 2%,rgba(186,230,253,.9) 4%,rgba(103,190,240,.45) 11%,rgba(56,130,220,.16) 28%,transparent 64%)}
+.lamp.rose{background:radial-gradient(circle,#fff0f4 0 2%,rgba(253,186,206,.85) 4%,rgba(236,100,150,.4) 11%,rgba(190,40,100,.14) 28%,transparent 62%)}
+.lp1{width:46vmax;height:46vmax;left:-8vmax;top:-10vmax}
+.lp2{width:34vmax;height:34vmax;left:58%;top:4%;animation-duration:9s;animation-delay:-3s}
+.lp3{width:40vmax;height:40vmax;right:-12vmax;top:40%;animation-duration:8s;animation-delay:-5s}
+.lp4{width:30vmax;height:30vmax;left:16%;top:56%;animation-duration:11s;animation-delay:-2s}
+.lp5{width:24vmax;height:24vmax;left:46%;top:72%;animation-duration:10s;animation-delay:-7s}
+.lp6{width:18vmax;height:18vmax;left:34%;top:22%;animation-duration:6s;animation-delay:-1s}
+@keyframes flicker{0%{opacity:.86}35%{opacity:1}60%{opacity:.92}100%{opacity:.98}}
+/* layer 1: the misted pane over the whole screen */
+.veil{position:fixed;inset:0;z-index:-1;pointer-events:none;background:rgba(15,18,25,0.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+/* fog: soft uneven patches of condensation */
+.veil::before{content:"";position:absolute;inset:0;opacity:.16;background-size:900px 900px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0045' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")}
+/* droplets + fine mist grain */
+.veil::after{content:"";position:absolute;inset:0;opacity:.5;background-size:460px 460px,220px 220px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='460'%3E%3Cg fill='%23fff' fill-opacity='.05' stroke='%23fff' stroke-opacity='.14' stroke-width='.8'%3E%3Ccircle cx='32' cy='48' r='3'/%3E%3Ccircle cx='118' cy='22' r='1.6'/%3E%3Ccircle cx='204' cy='96' r='4.2'/%3E%3Ccircle cx='296' cy='40' r='2.2'/%3E%3Ccircle cx='402' cy='78' r='3.4'/%3E%3Ccircle cx='70' cy='170' r='2'/%3E%3Ccircle cx='160' cy='214' r='5'/%3E%3Ccircle cx='258' cy='176' r='1.8'/%3E%3Ccircle cx='350' cy='226' r='2.8'/%3E%3Ccircle cx='436' cy='190' r='1.5'/%3E%3Ccircle cx='24' cy='300' r='4'/%3E%3Ccircle cx='112' cy='336' r='2.4'/%3E%3Ccircle cx='220' cy='300' r='1.6'/%3E%3Ccircle cx='310' cy='350' r='3.8'/%3E%3Ccircle cx='408' cy='318' r='2'/%3E%3Ccircle cx='60' cy='420' r='1.8'/%3E%3Ccircle cx='170' cy='440' r='3.2'/%3E%3Ccircle cx='270' cy='424' r='2.2'/%3E%3Ccircle cx='372' cy='446' r='4.4'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 -.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
 
 /* ================= GLASS ================= */
 /* layer 2: cards, header and widgets float above the full-screen pane */
@@ -476,7 +478,7 @@ body.modal-open{overflow:hidden}
 </style>
 </head>
 <body>
-<div class="scene" aria-hidden="true"><div class="light l4"></div><div class="light l1"></div><div class="light l2"></div><div class="light l3"></div><div class="light l5"></div><div class="bokeh b1"></div><div class="bokeh b2"></div><div class="bokeh b3"></div><div class="bokeh b4"></div><div class="bokeh b5"></div><div class="texture"></div></div>
+<div class="scene" aria-hidden="true"><div class="lamp warm lp1"></div><div class="lamp cool lp2"></div><div class="lamp amber lp3"></div><div class="lamp rose lp4"></div><div class="lamp warm lp5"></div><div class="lamp cool lp6"></div></div>
 <div class="veil" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c7d2fe"/><stop offset="1" stop-color="#7dd3fc"/></linearGradient></defs></svg>
 
