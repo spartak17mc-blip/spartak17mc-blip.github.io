@@ -21,8 +21,8 @@
   --bg:#000;--bg-2:#0a0f1d;
   --text:#ffffff;--muted:#b4bbcb;--dim:#7a8296;
   --glass:rgba(255,255,255,.045);--glass-2:rgba(255,255,255,.07);--glass-3:rgba(255,255,255,.1);
-  --stroke:rgba(255,255,255,.09);--stroke-2:rgba(255,255,255,.14);--stroke-3:rgba(255,255,255,.22);
-  --hi:inset 0 1px 0 rgba(255,255,255,.08);
+  --stroke:rgba(255,255,255,.08);--stroke-2:rgba(255,255,255,.12);--stroke-3:rgba(255,255,255,.2);
+  --hi:inset 0 1px 0 0 rgba(255,255,255,.1);
   --sky:#8ec5ff;--indigo:#a5b4fc;
   --grad:linear-gradient(110deg,#dfe6ff 0%,#a5b4fc 45%,#8ec5ff 100%);
   --blur:blur(22px) saturate(150%);
@@ -68,57 +68,74 @@ svg{display:block}
 @media (max-width:640px){.beams i:nth-child(2n){display:none}}
 
 /* ================= GLASS ================= */
+/* one glass recipe for every panel: deep tint, strong blur, hairline edge, lit top face */
+@property --beam{syntax:"<angle>";inherits:false;initial-value:0deg}
 .glass{position:relative;isolation:isolate;
-  background:rgba(18,18,24,0.55);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,0.12);
-  box-shadow:0 10px 30px rgba(0,0,0,0.5)}
-/* thin rim light that fades in on hover */
+  background:rgba(8,8,12,0.5);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 20px 40px rgba(0,0,0,0.6)}
+/* border beam: a short streak of light travelling around the edge */
 .glass::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
-  background:linear-gradient(135deg,rgba(255,255,255,.45),rgba(165,180,252,.12) 35%,rgba(255,255,255,0) 60%,rgba(103,232,249,.3) 100%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .9s var(--ease)}
+  background:conic-gradient(from var(--beam),transparent 0deg,transparent 250deg,rgba(165,180,252,.15) 290deg,rgba(199,210,254,.85) 335deg,#fff 350deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity .8s var(--ease)}
+@keyframes beam{to{--beam:360deg}}
+.beam-on::before{opacity:.75;animation:beam 7s linear infinite}
+/* soft light under the pointer */
 .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
-  background:radial-gradient(460px circle at var(--mx,50%) var(--my,-30%),rgba(165,180,252,.07),transparent 45%);opacity:0;transition:opacity .9s var(--ease)}
-.glass-hover{transition:transform 1s var(--ease-out),background .8s var(--ease),box-shadow 1s var(--ease)}
-.glass-hover:hover{transform:translateY(-4px);background:rgba(22,22,30,0.62);box-shadow:0 16px 40px rgba(0,0,0,0.6),0 0 40px -18px rgba(129,140,248,.45)}
-.glass-hover:hover::before,.glass-hover:hover::after{opacity:1}
+  background:radial-gradient(440px circle at var(--mx,50%) var(--my,-30%),rgba(165,180,252,.07),transparent 45%);opacity:0;transition:opacity .8s var(--ease)}
+.glass-hover{transform-style:preserve-3d;transition:transform 1s var(--ease-out),background .8s var(--ease),box-shadow .9s var(--ease)}
+.glass-hover.tilting{transition:transform .25s ease-out,background .8s var(--ease),box-shadow .9s var(--ease)}
+.glass-hover:hover{background:rgba(14,14,20,0.58);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.14),0 26px 50px rgba(0,0,0,0.7),0 0 50px -24px rgba(165,180,252,.35)}
+.glass-hover:hover::before{opacity:1;animation:beam 3.2s linear infinite}
+.glass-hover:hover::after{opacity:1}
 
 /* ================= BUTTONS ================= */
-.btn{--h:54px;position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:12px;height:var(--h);padding:0 26px;border-radius:999px;font-weight:500;font-size:15.5px;letter-spacing:-.005em;white-space:nowrap;color:#fff;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%);transition:transform .8s var(--ease-out),background .7s var(--ease),border-color .7s var(--ease),box-shadow .8s var(--ease)}
-.btn::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;border-radius:999px 999px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0));pointer-events:none;z-index:-1}
-.btn svg{width:16px;height:16px;transition:transform .8s var(--ease-out)}
+.btn{--h:52px;position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:12px;height:var(--h);padding:0 26px;border-radius:999px;font-weight:500;font-size:15.5px;letter-spacing:-.005em;white-space:nowrap;color:#fff;
+  background:rgba(8,8,12,0.5);border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 10px 24px rgba(0,0,0,0.45);
+  transition:transform .7s var(--ease-out),background .6s var(--ease),border-color .6s var(--ease),box-shadow .7s var(--ease)}
+.btn svg{width:16px;height:16px;transition:transform .7s var(--ease-out)}
+.btn:hover{transform:translateY(-1px);background:rgba(18,18,26,0.6);border-color:rgba(255,255,255,0.22);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.16),0 14px 30px rgba(0,0,0,0.5),0 0 28px -6px rgba(165,180,252,.35)}
 .btn:hover svg{transform:translateX(3px)}
-.btn-primary{background:linear-gradient(135deg,rgba(129,140,248,.55),rgba(56,189,248,.35));border-color:rgba(199,210,254,.45);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -1px 0 rgba(0,0,0,.15),0 12px 36px -12px rgba(99,102,241,.75)}
-.btn-primary:hover{background:linear-gradient(135deg,rgba(129,140,248,.7),rgba(56,189,248,.5));border-color:rgba(224,231,255,.65);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.15),0 18px 50px -14px rgba(99,102,241,.9)}
-.btn-glass{background:linear-gradient(150deg,rgba(255,255,255,.12),rgba(255,255,255,.04));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 10px 30px -18px rgba(0,0,0,.6)}
-.btn-glass:hover{background:linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.07));border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
-.btn-sm{--h:44px;padding:0 20px;font-size:14.5px}
+.btn-primary{background:linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.02)),rgba(10,10,16,0.6);border-color:rgba(255,255,255,0.2);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.18),0 10px 24px rgba(0,0,0,0.45),0 0 24px -10px rgba(165,180,252,.45)}
+.btn-primary:hover{background:linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.03)),rgba(14,14,22,0.65);border-color:rgba(255,255,255,0.3);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.22),0 14px 30px rgba(0,0,0,0.5),0 0 36px -6px rgba(165,180,252,.55)}
+.btn-sm{--h:40px;padding:0 18px;font-size:14px}
 
 /* ================= HEADER ================= */
-.header{position:fixed;top:16px;left:0;right:0;z-index:60}
-.header-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px;padding:0 10px 0 20px;border-radius:999px;transition:background .6s var(--ease),border-color .6s var(--ease)}
-.header.scrolled .header-in{background:rgba(18,18,24,0.7)}
-.logo{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17.5px;letter-spacing:-.025em}
-.logo-mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.04));border:1px solid var(--stroke-2);box-shadow:var(--hi)}
-.logo-mark svg{width:16px;height:16px}
+/* floating dock-style bar, centred */
+.header{position:fixed;top:14px;left:0;right:0;z-index:60;pointer-events:none}
+.header-in{pointer-events:auto;max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;padding:0 8px 0 14px;border-radius:999px;transition:background .6s var(--ease)}
+.header.scrolled .header-in{background:rgba(8,8,12,0.62)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16.5px;letter-spacing:-.025em}
+.logo-mark{width:32px;height:32px;border-radius:10px;display:grid;place-items:center}
+.logo-mark svg{width:15px;height:15px}
 .logo small{font-size:inherit;color:var(--dim);font-weight:400}
-.nav{display:flex;gap:4px}
-.nav a{padding:9px 16px;border-radius:999px;font-size:14.5px;color:var(--muted);transition:color .4s,background .4s}
+.nav{display:flex;gap:2px}
+.nav a{padding:8px 14px;border-radius:999px;font-size:14px;color:var(--muted);border:1px solid transparent;transition:color .4s,background .4s,border-color .4s}
 .nav a:hover{color:var(--text)}
-.nav a.active{color:var(--text);background:rgba(255,255,255,.07)}
-.burger{display:none;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:linear-gradient(150deg,rgba(255,255,255,.14),rgba(255,255,255,.04));box-shadow:inset 0 1px 0 rgba(255,255,255,.2);position:relative}
-.burger i{position:absolute;left:15px;right:15px;height:1.5px;background:var(--text);border-radius:2px;transition:transform .5s var(--ease-out),top .5s var(--ease-out)}
-.burger i:nth-child(1){top:19px}.burger i:nth-child(2){top:25px}
-.menu-open .burger i:nth-child(1){top:22px;transform:rotate(45deg)}
-.menu-open .burger i:nth-child(2){top:22px;transform:rotate(-45deg)}
-.mmenu{position:fixed;inset:0;z-index:55;background:rgba(7,11,20,.72);backdrop-filter:blur(28px) saturate(140%);-webkit-backdrop-filter:blur(28px) saturate(140%);display:flex;flex-direction:column;padding:120px var(--gut) 40px;opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility .5s}
-.menu-open .mmenu{opacity:1;visibility:visible}
-.mmenu a.ml{display:flex;align-items:baseline;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--stroke);font-size:32px;font-weight:500;letter-spacing:-.035em;opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.nav a.active{color:var(--text);background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08)}
+.burger{display:none;width:42px;height:42px;border-radius:50%;position:relative}
+.burger i{position:absolute;left:13px;right:13px;height:1.5px;background:var(--text);border-radius:2px;transition:transform .5s var(--ease-out),top .5s var(--ease-out)}
+.burger i:nth-child(1){top:17px}.burger i:nth-child(2){top:23px}
+.menu-open .burger i:nth-child(1){top:20px;transform:rotate(45deg)}
+.menu-open .burger i:nth-child(2){top:20px;transform:rotate(-45deg)}
+/* mobile menu: a glass panel that drops from the bar */
+.mmenu{position:fixed;top:80px;left:var(--gut);right:var(--gut);z-index:55;border-radius:24px;padding:8px 20px 20px;display:flex;flex-direction:column;
+  background:rgba(8,8,12,0.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 20px 40px rgba(0,0,0,0.6);
+  opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:50% 0;transition:opacity .45s var(--ease),transform .55s var(--ease-out),visibility .45s}
+.menu-open .mmenu{opacity:1;visibility:visible;transform:none}
+.mmenu a.ml{display:flex;align-items:baseline;justify-content:space-between;padding:16px 4px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:22px;font-weight:500;letter-spacing:-.025em}
 .mmenu a.ml span{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:0}
-.menu-open .mmenu a.ml{opacity:1;transform:none}
-.menu-open .mmenu a.ml:nth-child(2){transition-delay:.05s}.menu-open .mmenu a.ml:nth-child(3){transition-delay:.1s}.menu-open .mmenu a.ml:nth-child(4){transition-delay:.15s}
-.mmenu .btn{margin-top:36px}
-.mmenu p{margin-top:auto;color:var(--dim);font-size:14px}
+.mmenu .btn{margin-top:20px}
+.mmenu p{margin-top:14px;color:var(--dim);font-size:13.5px;text-align:center}
+
+/* foreground dust: tiny particles above the content for depth */
+#dust{position:fixed;inset:0;width:100%;height:100%;z-index:45;pointer-events:none}
 
 /* ================= HERO ================= */
 .hero{position:relative;padding:176px 0 0}
@@ -369,7 +386,7 @@ footer{padding:110px 0 40px}
 .foot a:hover{color:var(--text)}
 
 /* ================= MODAL ================= */
-dialog.case-modal{margin:auto;width:min(1080px,calc(100% - 32px));max-height:calc(100dvh - 48px);border-radius:30px;color:var(--text);padding:0;overflow:hidden;background:rgba(18,18,24,0.86);border:1px solid rgba(255,255,255,0.12);box-shadow:0 10px 30px rgba(0,0,0,0.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease-out),overlay .6s allow-discrete,display .6s allow-discrete}
+dialog.case-modal{margin:auto;width:min(1080px,calc(100% - 32px));max-height:calc(100dvh - 48px);border-radius:30px;color:var(--text);padding:0;overflow:hidden;background:rgba(8,8,12,0.86);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 20px 40px rgba(0,0,0,0.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease-out),overlay .6s allow-discrete,display .6s allow-discrete}
 dialog.case-modal[open]{opacity:1;transform:none}
 @starting-style{dialog.case-modal[open]{opacity:0;transform:translateY(16px)}}
 dialog.case-modal::backdrop{background:rgba(4,6,12,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
@@ -396,6 +413,23 @@ dialog.case-modal::backdrop{background:rgba(4,6,12,.6);backdrop-filter:blur(6px)
 .m-note{font-size:13px;color:var(--dim)}
 body.modal-open{overflow:hidden}
 
+/* ================= SURFACES ================= */
+/* small interactive pieces share one lighter glass so nothing looks pasted on */
+.logo-mark,.burger,.pill,.chip,.ico,.qi,.qlink,.opts label,.step .t,.more .arr,.modal-close,.fld input,.fld textarea,.m-box,.m-list li,.trust-line{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.07)}
+.trust-line{height:1px;border:0;box-shadow:none;background:rgba(255,255,255,0.2)}
+.qlink:hover,.opts label:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.16)}
+.qi{color:#e2e6f3}
+.qi.tg,.qi.ml,.qi.gh{color:#e2e6f3}
+.glass-hover:hover .ico{border-color:rgba(199,210,254,.3);color:#c7d2fe;box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.12),0 0 20px -6px rgba(165,180,252,.5)}
+.opts input:checked+label{background:rgba(255,255,255,0.09);color:#fff;border-color:rgba(255,255,255,0.28);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.18),0 0 20px -8px rgba(165,180,252,.6)}
+.case:hover .more .arr{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.25);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.15),0 0 22px -6px rgba(165,180,252,.55)}
+.fld input:focus,.fld textarea:focus{background:rgba(255,255,255,0.05);border-color:rgba(199,210,254,.4);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08),0 0 0 4px rgba(165,180,252,.1)}
+.modal-close:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2)}
+.shot,.m-frame{border-color:rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08)}
+.toast .ti{background:rgba(94,234,212,.08);border-color:rgba(94,234,212,.2)}
+
+.fld.err input,.fld.err textarea{border-color:rgba(248,113,113,.7)}
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -431,7 +465,7 @@ body.modal-open{overflow:hidden}
 @media (max-width:640px){
   body{font-size:15.5px}
   .header{top:10px}
-  .header-in{height:60px;padding:0 7px 0 14px}
+  .header-in{height:56px;padding:0 7px 0 12px}
   .hero{padding-top:124px}
   .hero-cta .btn{flex:1 1 100%}
   .trust{margin-top:30px}
@@ -470,6 +504,7 @@ body.modal-open{overflow:hidden}
 </head>
 <body>
 <canvas id="cosmos" aria-hidden="true"></canvas>
+<canvas id="dust" aria-hidden="true"></canvas>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c7d2fe"/><stop offset="1" stop-color="#7dd3fc"/></linearGradient></defs></svg>
 
 <!-- ================= HEADER ================= -->
@@ -519,7 +554,7 @@ body.modal-open{overflow:hidden}
       </div>
 
       <div class="hv rv" style="--d:.2s" aria-label="Показатели качества сайта">
-        <div class="hv-card glass report">
+        <div class="hv-card glass report beam-on">
           <div class="report-h"><b>Отчёт о качестве</b><span>PageSpeed · mobile</span></div>
           <div class="rings">
             <div class="ring"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="--off:4.3"/></svg><b>98</b><small>Скорость</small></div>
@@ -786,7 +821,7 @@ body.modal-open{overflow:hidden}
 <!-- ================= CONTACT ================= -->
 <section class="section" id="contact">
   <div class="wrap">
-    <div class="contact-box glass rv">
+    <div class="contact-box glass beam-on rv">
       <div class="contact-l">
         <div class="eyebrow">Контакты</div>
         <h2 class="h2">Обсудим ваш <span class="serif">проект?</span></h2>
@@ -976,13 +1011,21 @@ const CASES = {
   }), { threshold: .6 });
   $$("[data-count]").forEach(el => cio.observe(el));
 
-  /* soft light following the pointer on glass cards (desktop only) */
+  /* 3D tilt + soft light under the pointer on glass cards (desktop only) */
   if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduce) {
-    $$(".glass-hover").forEach(c => c.addEventListener("pointermove", e => {
-      const r = c.getBoundingClientRect();
-      c.style.setProperty("--mx", e.clientX - r.left + "px");
-      c.style.setProperty("--my", e.clientY - r.top + "px");
-    }, { passive: true }));
+    const MAX = 5;   // degrees
+    $$(".glass-hover").forEach(c => {
+      c.addEventListener("pointerenter", () => c.classList.add("tilting"));
+      c.addEventListener("pointermove", e => {
+        const r = c.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        c.style.setProperty("--mx", x + "px");
+        c.style.setProperty("--my", y + "px");
+        const rx = (0.5 - y / r.height) * MAX, ry = (x / r.width - 0.5) * MAX;
+        c.style.transform = `perspective(1000px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-4px)`;
+      }, { passive: true });
+      c.addEventListener("pointerleave", () => { c.classList.remove("tilting"); c.style.transform = ""; });
+    });
   }
 
   /* active nav */
@@ -1144,6 +1187,47 @@ const CASES = {
   resize();
   if (reduce) { frame(performance.now()); addEventListener("resize", () => frame(performance.now())); }
   else requestAnimationFrame(frame);
+})();
+</script>
+<script>
+/* ===== Foreground dust: a few tiny particles drifting over the content ===== */
+(() => {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const canvas = document.getElementById("dust");
+  const ctx = canvas.getContext("2d");
+  const N = matchMedia("(max-width: 640px)").matches ? 32 : 70;
+  let W, H, DPR, running = true, last = performance.now();
+  const resize = () => {
+    DPR = Math.min(devicePixelRatio || 1, 1.5); W = innerWidth; H = innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  };
+  resize(); addEventListener("resize", resize);
+  // z = depth: nearer particles are larger, brighter and move more with scroll
+  const D = Array.from({ length: N }, () => ({
+    x: Math.random(), y: Math.random(), z: Math.random(),
+    vx: (Math.random() - 0.5) * 0.00006, vy: -0.00004 - Math.random() * 0.00008,
+    tw: Math.random() * Math.PI * 2
+  }));
+  document.addEventListener("visibilitychange", () => {
+    running = !document.hidden;
+    if (running) { last = performance.now(); requestAnimationFrame(frame); }
+  });
+  function frame(now) {
+    if (!running) return;
+    const dt = Math.min(now - last, 50); last = now;
+    ctx.clearRect(0, 0, W, H);
+    const sy = scrollY;
+    for (const d of D) {
+      d.x = (d.x + d.vx * dt + 1) % 1; d.y = (d.y + d.vy * dt + 1) % 1; d.tw += dt * 0.0015;
+      const r = 0.4 + d.z * 1.4;
+      const a = (0.12 + d.z * 0.38) * (0.65 + 0.35 * Math.sin(d.tw));
+      const px = d.x * W, py = (((d.y * H - sy * (0.04 + d.z * 0.16)) % H) + H) % H;
+      ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220,226,255,${a.toFixed(3)})`; ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
