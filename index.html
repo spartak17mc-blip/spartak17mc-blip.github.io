@@ -1155,11 +1155,11 @@ const CASES = {
       p.r -= pull * (0.4 + p.r);
       if (p.r < 0.03) { spawn(p, true); continue; }
       const rr = p.r * spread;
-      const depth = S * 0.2 * Math.pow(Math.max(0, 1 - p.r), 5);   // throat of the funnel
+      const depth = S * 0.13 * Math.pow(Math.max(0, 1 - p.r), 3);   // throat of the funnel
       const x = cx + Math.cos(p.a) * rr * S;
       const y = cy + Math.sin(p.a) * rr * S * tilt + depth;
       if (reduce) paths[p.c].push(x - 0.8, y, x + 0.8, y, p.lw);   // static stars, no motion
-      else if (p.px !== null && p.r > 0.07 && Math.abs(x - p.px) + Math.abs(y - p.py) < 28) paths[p.c].push(p.px, p.py, x, y, p.lw);
+      else if (p.px !== null && p.r > 0.1 && Math.abs(x - p.px) + Math.abs(y - p.py) < 28) paths[p.c].push(p.px, p.py, x, y, p.lw);
       p.px = x; p.py = y;
     }
     for (let c = 0; c < paths.length; c++) {
@@ -1177,7 +1177,7 @@ const CASES = {
       }
     }
     // soft core glow in the throat
-    const gy = cy + S * 0.2, g = ctx.createRadialGradient(cx, gy, 0, cx, gy, S * 0.16);
+    const gy = cy + S * 0.12, g = ctx.createRadialGradient(cx, gy, 0, cx, gy, S * 0.16);
     g.addColorStop(0, "rgba(255,236,214,.08)"); g.addColorStop(0.4, "rgba(129,140,248,.03)"); g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g; ctx.fillRect(cx - S * 0.2, gy - S * 0.2, S * 0.4, S * 0.4);
 
