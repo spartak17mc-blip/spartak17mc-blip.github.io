@@ -5,15 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Spartak.dev — сайты и лендинги под ключ</title>
 <meta name="description" content="Профессиональная разработка современных сайтов и лендингов под ключ: стратегия, дизайн, разработка и запуск. Быстрая загрузка, безупречная адаптивность, продуманный путь клиента к заявке.">
-<meta name="theme-color" content="#070b14">
+<meta name="theme-color" content="#000000">
 <meta property="og:title" content="Spartak.dev — сайты и лендинги под ключ">
 <meta property="og:description" content="Сайты, которые работают на ваш бизнес.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://spartak17mc-blip.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23c7d2fe'/%3E%3Cstop offset='1' stop-color='%237dd3fc'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='%230b1020'/%3E%3Cpath d='M41 22c-2-3-5-4-9-4-6 0-10 3-10 8 0 11 20 6 20 16 0 5-4 8-11 8-4 0-8-2-10-5' stroke='url(%23g)' stroke-width='5.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://images.unsplash.com">
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1643287146701-93c795880dda?auto=format&fit=crop&w=2400&q=80" media="(min-width: 901px)">
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1643287146701-93c795880dda?auto=format&fit=crop&w=1200&q=75" media="(max-width: 900px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,8 +18,8 @@
 <style>
 /* ================= TOKENS ================= */
 :root{
-  --bg:#07090e;--bg-2:#0a0f1d;
-  --text:#f3f5f9;--muted:#aab2c4;--dim:#737c90;
+  --bg:#000;--bg-2:#0a0f1d;
+  --text:#ffffff;--muted:#b4bbcb;--dim:#7a8296;
   --glass:rgba(255,255,255,.045);--glass-2:rgba(255,255,255,.07);--glass-3:rgba(255,255,255,.1);
   --stroke:rgba(255,255,255,.09);--stroke-2:rgba(255,255,255,.14);--stroke-3:rgba(255,255,255,.22);
   --hi:inset 0 1px 0 rgba(255,255,255,.08);
@@ -39,7 +36,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:100px;-webkit-text-size-adjust:100%}
-body{min-height:100vh;background:#07090e;color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:clip}
+body{min-height:100vh;background:#000;color:var(--text);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:clip}
 a{color:inherit;text-decoration:none}
 button,input,textarea{font:inherit;color:inherit;background:none;border:0}
 button{cursor:pointer}
@@ -51,29 +48,39 @@ svg{display:block}
 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* ================= BACKDROP ================= */
-/* rain on a night window: real photo, darkened so text stays crisp, with a slow barely-there drift */
-.bg-photo{position:fixed;inset:-4%;z-index:-2;pointer-events:none;background:#07090e url("https://images.unsplash.com/photo-1643287146701-93c795880dda?auto=format&fit=crop&w=2400&q=80") center/cover no-repeat;filter:saturate(1.08) contrast(1.05);will-change:transform;animation:breathe 60s ease-in-out infinite alternate}
-@keyframes breathe{from{transform:scale(1)}to{transform:scale(1.06) translate3d(-1%,-.5%,0)}}
-/* deep shade + vignette: no haze, just darker edges and a calm middle for content */
-.bg-shade{position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(120% 90% at 50% 40%,rgba(5,7,10,.35) 0%,rgba(5,7,10,.7) 70%,rgba(5,7,10,.88) 100%),
-             linear-gradient(180deg,rgba(5,7,10,.55) 0%,rgba(5,7,10,.4) 35%,rgba(5,7,10,.65) 100%)}
-@media (max-width:900px){.bg-photo{background-image:url("https://images.unsplash.com/photo-1643287146701-93c795880dda?auto=format&fit=crop&w=1200&q=75")}}
+/* pure black space; the particle vortex is drawn on a fixed canvas behind everything */
+#cosmos{position:fixed;inset:0;width:100%;height:100%;z-index:-2;display:block;pointer-events:none;background:#000;transition:opacity .6s linear}
+/* hero: vertical shimmering light beams */
+.beams{position:absolute;inset:0 0 -10% 0;z-index:-1;pointer-events:none;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 45%,transparent 95%);mask-image:linear-gradient(180deg,#000 0%,#000 45%,transparent 95%)}
+.beams i{position:absolute;top:-10%;bottom:0;left:var(--x);width:var(--w);border-radius:50%;
+  background:linear-gradient(180deg,transparent 0%,var(--c) 22%,var(--c2) 55%,transparent 92%);
+  filter:blur(var(--b));mix-blend-mode:screen;opacity:.2;will-change:opacity,transform;
+  animation:beam var(--t) ease-in-out var(--d) infinite}
+@keyframes beam{0%,100%{opacity:.14;transform:translateX(0) scaleX(1)}50%{opacity:var(--o,.6);transform:translateX(var(--dx)) scaleX(1.35)}}
+.beams i:nth-child(1){--x:8%;--w:70px;--b:22px;--c:rgba(103,232,249,.9);--c2:rgba(59,130,246,.5);--t:9s;--d:-2s;--dx:24px}
+.beams i:nth-child(2){--x:21%;--w:16px;--b:6px;--c:rgba(255,255,255,.9);--c2:rgba(165,180,252,.4);--t:7s;--d:-5s;--dx:-14px;--o:.75}
+.beams i:nth-child(3){--x:33%;--w:110px;--b:34px;--c:rgba(167,139,250,.75);--c2:rgba(124,58,237,.35);--t:12s;--d:-1s;--dx:30px}
+.beams i:nth-child(4){--x:49%;--w:26px;--b:9px;--c:rgba(186,230,253,.95);--c2:rgba(56,189,248,.45);--t:8s;--d:-6s;--dx:-18px;--o:.7}
+.beams i:nth-child(5){--x:61%;--w:90px;--b:30px;--c:rgba(244,114,182,.55);--c2:rgba(139,92,246,.35);--t:11s;--d:-3s;--dx:22px;--o:.5}
+.beams i:nth-child(6){--x:74%;--w:14px;--b:5px;--c:rgba(255,255,255,.85);--c2:rgba(103,232,249,.4);--t:6.5s;--d:-4s;--dx:12px;--o:.7}
+.beams i:nth-child(7){--x:86%;--w:80px;--b:26px;--c:rgba(56,189,248,.8);--c2:rgba(99,102,241,.4);--t:10s;--d:-7s;--dx:-26px}
+@media (max-width:640px){.beams i:nth-child(2n){display:none}}
 
 /* ================= GLASS ================= */
 .glass{position:relative;isolation:isolate;
-  background:rgba(15,18,24,0.5);
+  background:rgba(18,18,24,0.55);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border:1px solid rgba(255,255,255,0.12);
-  box-shadow:0 8px 32px rgba(0,0,0,0.35)}
+  box-shadow:0 10px 30px rgba(0,0,0,0.5)}
 /* thin rim light that fades in on hover */
 .glass::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
-  background:linear-gradient(135deg,rgba(255,255,255,.4),rgba(255,255,255,.06) 35%,rgba(255,255,255,0) 60%,rgba(255,214,160,.22) 100%);
+  background:linear-gradient(135deg,rgba(255,255,255,.45),rgba(165,180,252,.12) 35%,rgba(255,255,255,0) 60%,rgba(103,232,249,.3) 100%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .9s var(--ease)}
 .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
-  background:radial-gradient(460px circle at var(--mx,50%) var(--my,-30%),rgba(255,255,255,.05),transparent 45%);opacity:0;transition:opacity .9s var(--ease)}
+  background:radial-gradient(460px circle at var(--mx,50%) var(--my,-30%),rgba(165,180,252,.07),transparent 45%);opacity:0;transition:opacity .9s var(--ease)}
 .glass-hover{transition:transform 1s var(--ease-out),background .8s var(--ease),box-shadow 1s var(--ease)}
-.glass-hover:hover{transform:translateY(-4px);background:rgba(18,22,30,0.58);box-shadow:0 14px 40px rgba(0,0,0,0.45)}
+.glass-hover:hover{transform:translateY(-4px);background:rgba(22,22,30,0.62);box-shadow:0 16px 40px rgba(0,0,0,0.6),0 0 40px -18px rgba(129,140,248,.45)}
 .glass-hover:hover::before,.glass-hover:hover::after{opacity:1}
 
 /* ================= BUTTONS ================= */
@@ -90,7 +97,7 @@ svg{display:block}
 /* ================= HEADER ================= */
 .header{position:fixed;top:16px;left:0;right:0;z-index:60}
 .header-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px;padding:0 10px 0 20px;border-radius:999px;transition:background .6s var(--ease),border-color .6s var(--ease)}
-.header.scrolled .header-in{background:rgba(15,18,24,0.62)}
+.header.scrolled .header-in{background:rgba(18,18,24,0.7)}
 .logo{display:flex;align-items:center;gap:11px;font-weight:600;font-size:17.5px;letter-spacing:-.025em}
 .logo-mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.04));border:1px solid var(--stroke-2);box-shadow:var(--hi)}
 .logo-mark svg{width:16px;height:16px}
@@ -362,7 +369,7 @@ footer{padding:110px 0 40px}
 .foot a:hover{color:var(--text)}
 
 /* ================= MODAL ================= */
-dialog.case-modal{margin:auto;width:min(1080px,calc(100% - 32px));max-height:calc(100dvh - 48px);border-radius:30px;color:var(--text);padding:0;overflow:hidden;background:rgba(15,18,24,0.82);border:1px solid rgba(255,255,255,0.12);box-shadow:0 8px 32px rgba(0,0,0,0.35);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease-out),overlay .6s allow-discrete,display .6s allow-discrete}
+dialog.case-modal{margin:auto;width:min(1080px,calc(100% - 32px));max-height:calc(100dvh - 48px);border-radius:30px;color:var(--text);padding:0;overflow:hidden;background:rgba(18,18,24,0.86);border:1px solid rgba(255,255,255,0.12);box-shadow:0 10px 30px rgba(0,0,0,0.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease-out),overlay .6s allow-discrete,display .6s allow-discrete}
 dialog.case-modal[open]{opacity:1;transform:none}
 @starting-style{dialog.case-modal[open]{opacity:0;transform:translateY(16px)}}
 dialog.case-modal::backdrop{background:rgba(4,6,12,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
@@ -462,8 +469,7 @@ body.modal-open{overflow:hidden}
 </style>
 </head>
 <body>
-<div class="bg-photo" aria-hidden="true"></div>
-<div class="bg-shade" aria-hidden="true"></div>
+<canvas id="cosmos" aria-hidden="true"></canvas>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c7d2fe"/><stop offset="1" stop-color="#7dd3fc"/></linearGradient></defs></svg>
 
 <!-- ================= HEADER ================= -->
@@ -498,6 +504,7 @@ body.modal-open{overflow:hidden}
 <main id="top">
 <!-- ================= HERO ================= -->
 <section class="hero">
+  <div class="beams" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
     <div class="hero-grid">
       <div>
@@ -847,7 +854,7 @@ body.modal-open{overflow:hidden}
 <footer>
   <div class="wrap">
     <div class="foot glass">
-      <span>© <span id="year">2026</span> Spartak.dev — разработка сайтов под ключ · <a href="https://unsplash.com/photos/a-window-with-rain-drops-on-it-at-night-1e60bqR1Ar0" target="_blank" rel="noopener">Фото: Max van den Oetelaar / Unsplash</a></span>
+      <span>© <span id="year">2026</span> Spartak.dev — разработка сайтов под ключ</span>
       <nav aria-label="Ссылки в подвале"><a href="#expertise">Экспертиза</a><a href="#work">Проекты</a><a href="#approach">Подход</a><a href="#contact">Контакты</a><a href="#top">Наверх ↑</a></nav>
     </div>
   </div>
@@ -1031,6 +1038,112 @@ const CASES = {
     form.classList.add("sent");
   });
   $$("#form input, #form textarea").forEach(el => el.addEventListener("input", () => el.closest(".fld")?.classList.remove("err")));
+})();
+</script>
+<script>
+/* ===== Cosmic vortex: particles spiral into a funnel on pure black ===== */
+(() => {
+  const canvas = document.getElementById("cosmos");
+  const ctx = canvas.getContext("2d", { alpha: false });
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const small = matchMedia("(max-width: 640px)").matches;
+  const N = small ? 700 : 1700;
+  const ARMS = 3;
+  // colour buckets: drawing each bucket as one path keeps it fast
+  const COLORS = ["rgba(255,244,230,.85)", "rgba(196,181,253,.6)", "rgba(125,211,252,.55)", "rgba(99,102,241,.5)", "rgba(244,114,182,.4)"];
+  let W = 0, H = 0, DPR = 1, S = 0;
+
+  const resize = () => {
+    DPR = Math.min(devicePixelRatio || 1, 1.5);
+    W = innerWidth; H = innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
+  };
+
+  const spawn = (p, outer) => {
+    p.r = outer ? 0.85 + Math.random() * 0.25 : 0.04 + Math.pow(Math.random(), 1.5) * 1.05;
+    const arm = Math.floor(Math.random() * ARMS);
+    p.a = arm * (Math.PI * 2 / ARMS) + p.r * 5.5 + (Math.random() - 0.5) * 0.9;
+    p.w = 0.6 + Math.random() * 0.5;           // individual speed jitter
+    p.lw = Math.random() < 0.08 ? 1.8 : 0.5 + Math.random() * 0.9;
+    p.c = p.r < 0.16 ? 0 : (Math.random() < 0.08 ? 4 : 1 + Math.floor(Math.random() * 3));
+    p.px = null;
+  };
+  const P = Array.from({ length: N }, () => { const p = {}; spawn(p, false); return p; });
+  const paths = COLORS.map(() => []);
+
+  let mx = 0, my = 0, ox = 0, oy = 0, scrollP = 0, t0 = performance.now(), last = t0, running = true;
+  addEventListener("pointermove", e => { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; }, { passive: true });
+  addEventListener("scroll", () => {
+    scrollP = Math.min(scrollY / H, 1.6);
+    canvas.style.opacity = String(1 - Math.min(scrollP, 1) * 0.35);
+  }, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    running = !document.hidden;
+    if (running) { last = performance.now(); requestAnimationFrame(frame); }
+  });
+  addEventListener("resize", resize);
+
+  function frame(now) {
+    if (!running) return;
+    const dt = Math.min((now - last) / 16.67, 3); last = now;
+    // intro: particles start scattered wide and collapse into the funnel
+    const intro = reduce ? 1 : Math.min((now - t0) / 2600, 1);
+    const ease = 1 - Math.pow(1 - intro, 3);
+    const spread = 1 + (1 - ease) * 2.2;
+
+    ox += (mx * 60 - ox) * 0.04; oy += (my * 40 - oy) * 0.04;
+    const cx = W * 0.5 + ox, cy = H * (small ? 0.42 : 0.5) + oy;
+    S = Math.min(W, H) * (small ? 0.72 : 0.62) * (1 + scrollP * 0.55);
+    const tilt = 0.36 + my * 0.08 + scrollP * 0.1;
+    const spin = (0.0042 + scrollP * 0.004) * dt;
+    const pull = (0.0009 + scrollP * 0.0007) * dt;
+
+    // trails: paint translucent black over the last frame
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = reduce ? "#000" : "rgba(0,0,0,0.2)";
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter";
+
+    for (const arr of paths) arr.length = 0;
+    for (const p of P) {
+      p.a += spin * p.w / Math.pow(p.r + 0.05, 0.85);
+      p.r -= pull * (0.4 + p.r);
+      if (p.r < 0.03) { spawn(p, true); continue; }
+      const rr = p.r * spread;
+      const depth = S * 0.26 * Math.pow(Math.max(0, 1 - p.r), 4);   // throat of the funnel
+      const x = cx + Math.cos(p.a) * rr * S;
+      const y = cy + Math.sin(p.a) * rr * S * tilt + depth;
+      if (reduce) paths[p.c].push(x - 0.8, y, x + 0.8, y, p.lw);   // static stars, no motion
+      else if (p.px !== null) paths[p.c].push(p.px, p.py, x, y, p.lw);
+      p.px = x; p.py = y;
+    }
+    for (let c = 0; c < paths.length; c++) {
+      const arr = paths[c]; if (!arr.length) continue;
+      ctx.strokeStyle = COLORS[c];
+      // two widths per colour: thin dust and a few brighter stars
+      for (const thick of [false, true]) {
+        ctx.lineWidth = thick ? 1.8 : 0.9;
+        ctx.beginPath();
+        for (let i = 0; i < arr.length; i += 5) {
+          if ((arr[i + 4] > 1.5) !== thick) continue;
+          ctx.moveTo(arr[i], arr[i + 1]); ctx.lineTo(arr[i + 2], arr[i + 3]);
+        }
+        ctx.stroke();
+      }
+    }
+    // soft core glow in the throat
+    const gy = cy + S * 0.26, g = ctx.createRadialGradient(cx, gy, 0, cx, gy, S * 0.16);
+    g.addColorStop(0, "rgba(255,236,214,.08)"); g.addColorStop(0.4, "rgba(129,140,248,.03)"); g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g; ctx.fillRect(cx - S * 0.2, gy - S * 0.2, S * 0.4, S * 0.4);
+
+    if (!reduce) requestAnimationFrame(frame);
+  }
+
+  resize();
+  if (reduce) { frame(performance.now()); addEventListener("resize", () => frame(performance.now())); }
+  else requestAnimationFrame(frame);
 })();
 </script>
 </body>
