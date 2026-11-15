@@ -565,6 +565,46 @@ html.intro-on #dust{opacity:0}
 /* step 2 waits for the preloader: story panel and HUD stay hidden until html.loaded */
 html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
 
+/* ================= PIXEL PET ================= */
+/* a tiny pixel monster living next to the logo */
+.header-in .nav{margin-left:auto;margin-right:auto}
+.pet{position:relative;width:34px;height:34px;margin-left:2px;border-radius:11px;display:grid;place-items:center;flex:none;cursor:pointer;
+  background:transparent;border:1px solid transparent;transition:background .4s var(--ease),border-color .4s var(--ease)}
+.pet:hover{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08)}
+.pet svg{width:24px;height:22px;shape-rendering:crispEdges;overflow:visible;transform-origin:50% 100%}
+.pet.idle svg{animation:pet-bob 1.4s steps(2) infinite}
+.pet.dance svg{animation:pet-dance .56s steps(2) infinite}
+.pet.jump svg{animation:pet-jump .62s cubic-bezier(.3,1.6,.5,1)}
+.pet.spin svg{animation:pet-spin .7s var(--ease-out)}
+.pet.dizzy svg{animation:pet-dizzy .9s ease-in-out}
+@keyframes pet-bob{50%{transform:translateY(1px)}}
+@keyframes pet-dance{0%{transform:translateX(-1.5px) rotate(-7deg)}50%{transform:translateX(1.5px) rotate(7deg)}}
+@keyframes pet-jump{40%{transform:translateY(-8px) scaleY(1.06)}70%{transform:translateY(0) scaleY(.9)}}
+@keyframes pet-spin{to{transform:rotate(360deg)}}
+@keyframes pet-dizzy{20%,60%{transform:rotate(-10deg)}40%,80%{transform:rotate(10deg)}}
+.pet .zz{position:absolute;right:-2px;top:-4px;font:500 9px/1 var(--mono);color:#c7d2fe;opacity:0;pointer-events:none}
+.pet.sleep .zz{animation:pet-zz 2.4s ease-out infinite}
+@keyframes pet-zz{0%{opacity:0;transform:translate(0,4px) scale(.7)}30%{opacity:.9}100%{opacity:0;transform:translate(7px,-9px) scale(1.15)}}
+.pet-bubble{position:absolute;top:calc(100% + 10px);left:50%;padding:4px 9px;border-radius:9px;font:500 11px/1.2 var(--mono);color:#fff;white-space:nowrap;pointer-events:none;
+  background:rgba(8,8,12,0.85);border:1px solid rgba(255,255,255,0.12);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 8px 20px rgba(0,0,0,.5);
+  opacity:0;transform:translate(-50%,-4px);transition:opacity .3s var(--ease),transform .4s var(--ease-out)}
+.pet-bubble.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.pet svg,.pet .zz{animation:none!important}}
+
+/* ================= GHOST CURSOR ================= */
+/* behind the content: now and then a translucent cursor drags a small code card across an empty band */
+.ghost{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.ghost-card,.ghost-cursor{position:absolute;left:0;top:0;opacity:0;will-change:transform,opacity}
+.ghost-card{width:214px;padding:12px 14px;border-radius:12px;font:400 11px/1.75 var(--mono);color:#aab2c4;white-space:pre;
+  background:rgba(8,8,12,0.55);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08),0 14px 30px rgba(0,0,0,.5)}
+.ghost-card .k{color:#c4b5fd}.ghost-card .s{color:#7dd3fc}.ghost-card .c{color:#5b6274}.ghost-card .ok{color:#86efac}
+.ghost-card::before{content:"";display:block;width:28px;height:4px;margin-bottom:8px;border-radius:2px;background:rgba(255,255,255,.12)}
+.ghost-cursor{width:22px;height:22px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+.ghost-cursor .press{transform-origin:3px 3px}
+@media (max-width:640px),(prefers-reduced-motion:reduce){.ghost{display:none}}
+
+@media (max-width:960px){.pet{margin-right:auto}}
+
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -640,6 +680,10 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
 <body>
 <canvas id="cosmos" aria-hidden="true"></canvas>
 <canvas id="dust" aria-hidden="true"></canvas>
+<div class="ghost" id="ghost" aria-hidden="true">
+  <div class="ghost-card"></div>
+  <svg class="ghost-cursor" viewBox="0 0 22 22"><g class="press"><path d="M3 2 L3 17 L7 13.3 L9.8 19.5 L12.4 18.3 L9.7 12.3 L15 12.3 Z" fill="#ffffff" fill-opacity=".92" stroke="#0b0b14" stroke-width="1.2" stroke-linejoin="round"/></g></svg>
+</div>
 <!-- ================= PRELOADER ================= -->
 <div class="preloader" id="preloader" role="status" aria-label="Загрузка сайта">
   <div class="pl-core glass">
@@ -661,13 +705,13 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
   <div class="flash" aria-hidden="true"></div>
   <div class="shock" aria-hidden="true"></div>
   <div class="intro-panel glass beam-on">
-    <span class="intro-kicker"><i></i>Spartak.dev // веб-разработчик</span>
-    <h2 id="introTitle">Создаю сайты, в&nbsp;которых <span class="serif grad">каждая деталь</span> работает на&nbsp;результат</h2>
-    <p class="intro-lead">Проектирую и&nbsp;разрабатываю лендинги и&nbsp;сайты для бизнеса под&nbsp;ключ — от&nbsp;стратегии и&nbsp;дизайна до&nbsp;запуска и&nbsp;поддержки.</p>
+    <span class="intro-kicker"><i></i>Spartak.dev // Web Design &amp; Development</span>
+    <h2 id="introTitle">Превращаю внимание посетителей в&nbsp;<span class="serif grad">заявки</span></h2>
+    <p class="intro-lead">Я&nbsp;— веб-разработчик и&nbsp;дизайнер интерфейсов. Создаю лендинги и&nbsp;корпоративные сайты под&nbsp;ключ: от&nbsp;позиционирования и&nbsp;прототипа до&nbsp;чистого кода, запуска и&nbsp;развития.</p>
     <ul class="intro-tags" aria-label="Специализация">
-      <li>Лендинги</li><li>Корпоративные сайты</li><li>UI-дизайн</li><li>Frontend</li>
+      <li>Лендинги</li><li>Корпоративные сайты</li><li>UI/UX-дизайн</li><li>Frontend-разработка</li>
     </ul>
-    <p class="intro-motto"><span>Философия</span>Ни строчки лишнего кода, ни слова лишнего текста — только то, что ведёт клиента к&nbsp;заявке.</p>
+    <p class="intro-motto"><span>Подход</span>Меньше шума — больше смысла. Каждый экран, каждая строка кода и&nbsp;каждое слово ведут посетителя к&nbsp;одному решению.</p>
     <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span><span class="ib-text">Запустить интерфейс <span class="ib-en">/ Initialize Portfolio</span></span><span class="br">]</span></button>
     <small class="intro-hint">Enter ↵ — запуск</small>
   </div>
@@ -683,6 +727,11 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
         <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="url(#ringGrad)" stroke-width="2.6" stroke-linecap="round"><path d="M17 6.5C16 5 14.2 4 12 4 8.7 4 7 5.8 7 8c0 5.5 10 3 10 8.5 0 2.2-2 3.5-5 3.5-2.3 0-4.2-1-5.2-2.5"/></svg></span>
         Spartak<small>.dev</small>
       </a>
+      <button class="pet idle" id="pet" type="button" aria-label="Пиксельный питомец — нажмите, чтобы поиграть" title="Погладить">
+        <svg id="petSvg" viewBox="0 0 12 11" aria-hidden="true"></svg>
+        <span class="zz" aria-hidden="true">z</span>
+        <span class="pet-bubble" id="petBubble" aria-live="polite"></span>
+      </button>
       <nav class="nav" aria-label="Навигация">
         <a href="#expertise">Экспертиза</a>
         <a href="#work">Проекты</a>
@@ -1557,6 +1606,145 @@ const CASES = {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+</script>
+<script>
+/* ===== Pixel pet: idles, dances and naps on its own; reacts to clicks ===== */
+(() => {
+  const pet = document.getElementById("pet"), svg = document.getElementById("petSvg"), bubble = document.getElementById("petBubble");
+  if (!pet) return;
+  // 12×11 pixel maps. b body · h highlight · s shade · e eye · m mouth · c cheek · a antenna · t antenna tip · w arm
+  const MAPS = {
+    idle: ["...t....t...", "...a....a...", "..bbbbbbbb..", ".bhbbbbbbbb.", ".bbbbbbbbbb.", ".bbebbbbebb.", ".bbebbbbebb.", ".bcbbmmbbcb.", ".bbbbbbbbbb.", "..ssssssss..", "..ss....ss.."],
+    blink: ["...t....t...", "...a....a...", "..bbbbbbbb..", ".bhbbbbbbbb.", ".bbbbbbbbbb.", ".bbbbbbbbbb.", ".bbebbbbebb.", ".bcbbmmbbcb.", ".bbbbbbbbbb.", "..ssssssss..", "..ss....ss.."],
+    danceA: ["..t......t..", "...a....a...", "..bbbbbbbb..", "wbhbbbbbbbb.", ".bbbbbbbbbbw", ".bbebbbbebb.", ".bbebbbbebb.", ".bcbmmmmbcb.", ".bbbbbbbbbb.", "..ssssssss..", ".ss......ss."],
+    danceB: ["....t..t....", "...a....a...", "..bbbbbbbb..", ".bhbbbbbbbbw", "wbbbbbbbbbb.", ".bbebbbbebb.", ".bbebbbbebb.", ".bcbmmmmbcb.", ".bbbbbbbbbb.", "..ssssssss..", "..ss....ss.."],
+    sleep: ["............", "............", "............", "............", ".t........t.", "..abbbbbba..", ".bhbbbbbbbb.", ".bbeebbeebb.", ".bcbbbbbbcb.", ".bbbbmmbbbb.", "..ssssssss.."],
+    happy: ["..t......t..", "...a....a...", "..bbbbbbbb..", ".bhbbbbbbbb.", ".bbbbbbbbbb.", ".bebebbebeb.", ".bbbbbbbbbb.", ".bcbmmmmbcb.", ".bbbbmmbbbb.", "..ssssssss..", "..ss....ss.."],
+    surprise: [".t........t.", "..a......a..", "..bbbbbbbb..", ".bhbbbbbbbb.", ".beebbbbeeb.", ".beebbbbeeb.", ".bbbbbbbbbb.", ".bcbbmmbbcb.", ".bbbbmmbbbb.", "..ssssssss..", "..ss....ss.."]
+  };
+  const COL = { b: "#a5b4fc", h: "#e0e7ff", s: "#6366f1", e: "#0b0b14", m: "#1e1b4b", c: "#f9a8d4", a: "#818cf8", t: "#5eead4", w: "#a5b4fc" };
+  const SVG = {};
+  for (const [k, rows] of Object.entries(MAPS)) {
+    let out = "";
+    rows.forEach((r, y) => [...r].forEach((ch, x) => { if (COL[ch]) out += `<rect x="${x}" y="${y}" width="1" height="1" fill="${COL[ch]}"/>`; }));
+    SVG[k] = out;
+  }
+  const draw = k => { svg.innerHTML = SVG[k]; };
+
+  let state = "idle", frame = 0, until = 0, lock = 0, clicks = [], bubbleTimer;
+  const setState = (s, ms) => {
+    state = s; until = performance.now() + ms; frame = 0;
+    pet.classList.remove("idle", "dance", "sleep");
+    pet.classList.add(s === "dance" ? "dance" : s === "sleep" ? "sleep" : "idle");
+  };
+  const say = text => {
+    bubble.textContent = text; bubble.classList.add("show");
+    clearTimeout(bubbleTimer); bubbleTimer = setTimeout(() => bubble.classList.remove("show"), 1400);
+  };
+  const once = (cls, face, ms) => {      // short reaction: CSS move + face for a moment
+    pet.classList.remove("jump", "spin", "dizzy"); void pet.offsetWidth; pet.classList.add(cls);
+    lock = performance.now() + ms; draw(face);
+    setTimeout(() => pet.classList.remove(cls), ms);
+  };
+
+  setState("idle", 7000); draw("idle");
+  setInterval(() => {
+    if (document.hidden) return;
+    const now = performance.now();
+    if (now < lock) return;
+    if (now > until) {
+      if (state === "idle") {
+        const r = Math.random();
+        r < 0.3 ? setState("dance", 3500 + Math.random() * 2500) : r < 0.55 ? setState("sleep", 9000 + Math.random() * 6000) : setState("idle", 6000 + Math.random() * 6000);
+      } else { if (state === "sleep") say("…"); setState("idle", 6000 + Math.random() * 5000); }
+    }
+    frame++;
+    if (state === "dance") draw(frame % 2 ? "danceA" : "danceB");
+    else if (state === "sleep") draw("sleep");
+    else draw(Math.random() < 0.06 ? "blink" : "idle");
+  }, 280);
+
+  pet.addEventListener("click", () => {
+    const now = performance.now();
+    clicks = clicks.filter(t => now - t < 1500); clicks.push(now);
+    if (clicks.length >= 5) { clicks = []; setState("idle", 5000); once("dizzy", "surprise", 900); say("ой-ой…"); return; }
+    if (state === "sleep") { setState("idle", 6000); once("jump", "surprise", 700); say("?!"); return; }
+    const r = Math.random();
+    if (r < 0.35) { once("jump", "happy", 650); say(["♥", "привет!", "ура!"][Math.floor(Math.random() * 3)]); }
+    else if (r < 0.6) { setState("dance", 3500); say("♪ ♫"); }
+    else if (r < 0.8) { once("spin", "happy", 720); say("вжух!"); }
+    else { setState("sleep", 7000); say("zzz…"); }
+  });
+})();
+
+/* ===== Ghost cursor: rarely drags a small code card across an empty band, never over the vortex ===== */
+(() => {
+  const layer = document.getElementById("ghost");
+  if (!layer || matchMedia("(max-width: 640px), (prefers-reduced-motion: reduce)").matches || !layer.animate) return;
+  const card = layer.querySelector(".ghost-card"), cursor = layer.querySelector(".ghost-cursor"), press = cursor.querySelector(".press");
+  const SNIPPETS = [
+    `<span class="k">const</span> site = build({\n  speed: <span class="s">'0.8s'</span>,\n  adaptive: <span class="k">true</span>\n});`,
+    `<span class="k">await</span> deploy(site);\n<span class="ok">✓</span> <span class="c">live in 7 days</span>`,
+    `.card {\n  backdrop-filter: <span class="s">blur(20px)</span>;\n}`,
+    `<span class="c">// идея → прототип → код</span>\nlaunch(<span class="s">'portfolio'</span>);`,
+    `<span class="k">if</span> (visitor.isCurious)\n  showCase(<span class="s">'next'</span>);`
+  ];
+  const DUR = 7600, rand = (a, b) => a + Math.random() * (b - a);
+  let pick = 0;
+
+  function run() {
+    if (document.hidden) return schedule();
+    const W = innerWidth, H = innerHeight;
+    card.innerHTML = SNIPPETS[pick++ % SNIPPETS.length];
+    const cw = card.offsetWidth, ch = card.offsetHeight;
+    // stay in the top or bottom band; the vortex lives in the middle of the screen
+    const top = Math.random() < 0.5;
+    const y1 = top ? rand(H * 0.13, H * 0.2) : rand(H * 0.74, H * 0.82) - ch * 0.3;
+    const y2 = y1 + rand(-H * 0.03, H * 0.03);
+    const fromLeft = Math.random() < 0.5;
+    const x1 = fromLeft ? rand(W * 0.04, W * 0.16) : rand(W * 0.66, W * 0.8);
+    const x2 = Math.min(Math.max(x1 + (fromLeft ? 1 : -1) * rand(W * 0.16, W * 0.26), 20), W - cw - 20);
+    const gx = 36, gy = 10;                       // where the cursor "holds" the card
+    const midX = (x1 + x2) / 2, midY = Math.min(y1, y2) - 26;
+    const T = (x, y, s = 1) => `translate(${x}px,${y}px) scale(${s})`;
+
+    card.animate([
+      { offset: 0, opacity: 0, transform: T(x1, y1, 0.96) },
+      { offset: 0.1, opacity: 0.5, transform: T(x1, y1) },
+      { offset: 0.29, opacity: 0.5, transform: T(x1, y1) },
+      { offset: 0.33, opacity: 0.66, transform: T(x1, y1 - 4, 1.04) },
+      { offset: 0.47, opacity: 0.66, transform: T(midX, midY, 1.04) },
+      { offset: 0.62, opacity: 0.66, transform: T(x2, y2 - 4, 1.04) },
+      { offset: 0.68, opacity: 0.5, transform: T(x2, y2) },
+      { offset: 0.86, opacity: 0.5, transform: T(x2, y2) },
+      { offset: 1, opacity: 0, transform: T(x2, y2) }
+    ], { duration: DUR, easing: "ease-in-out", fill: "both" });
+
+    const cx0 = x1 - 140, cy0 = y1 + 90;
+    cursor.animate([
+      { offset: 0, opacity: 0, transform: T(cx0, cy0) },
+      { offset: 0.08, opacity: 0.75, transform: T(cx0, cy0) },
+      { offset: 0.27, opacity: 0.75, transform: T(x1 + gx, y1 + gy) },
+      { offset: 0.33, opacity: 0.75, transform: T(x1 + gx, y1 + gy - 4) },
+      { offset: 0.47, opacity: 0.75, transform: T(midX + gx, midY + gy) },
+      { offset: 0.62, opacity: 0.75, transform: T(x2 + gx, y2 + gy - 4) },
+      { offset: 0.68, opacity: 0.75, transform: T(x2 + gx, y2 + gy) },
+      { offset: 0.84, opacity: 0.45, transform: T(x2 + gx + 110, y2 + gy + 60) },
+      { offset: 0.92, opacity: 0, transform: T(x2 + gx + 130, y2 + gy + 70) },
+      { offset: 1, opacity: 0, transform: T(x2 + gx + 130, y2 + gy + 70) }
+    ], { duration: DUR, easing: "ease-in-out", fill: "both" });
+
+    // grab: the cursor "presses" while it holds the card
+    press.animate([
+      { offset: 0, transform: "scale(1)" }, { offset: 0.29, transform: "scale(1)" }, { offset: 0.31, transform: "scale(.82)" },
+      { offset: 0.66, transform: "scale(.82)" }, { offset: 0.68, transform: "scale(1)" }, { offset: 1, transform: "scale(1)" }
+    ], { duration: DUR, fill: "both" });
+
+    schedule(DUR);
+  }
+  function schedule(extra = 0) { setTimeout(run, extra + rand(9000, 17000)); }
+  setTimeout(run, 2500);
 })();
 </script>
 </body>
