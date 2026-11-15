@@ -56,7 +56,7 @@ svg{display:block}
 .beams i{position:absolute;top:-10%;bottom:0;left:var(--x);width:var(--w);border-radius:50%;
   background:linear-gradient(180deg,transparent 0%,var(--c) 22%,var(--c2) 55%,transparent 92%);
   filter:blur(var(--b));mix-blend-mode:screen;opacity:.2;will-change:opacity,transform;
-  animation:beam var(--t) ease-in-out var(--d) infinite}
+  animation:beam calc(var(--t) * 1.7) ease-in-out var(--d) infinite}   /* slowed for a calmer background */
 @keyframes beam{0%,100%{opacity:.14;transform:translateX(0) scaleX(1)}50%{opacity:var(--o,.6);transform:translateX(var(--dx)) scaleX(1.35)}}
 .beams i:nth-child(1){--x:8%;--w:70px;--b:22px;--c:rgba(103,232,249,.9);--c2:rgba(59,130,246,.5);--t:9s;--d:-2s;--dx:24px}
 .beams i:nth-child(2){--x:21%;--w:16px;--b:6px;--c:rgba(255,255,255,.9);--c2:rgb(from var(--vibe-a) r g b / .4);--t:7s;--d:-5s;--dx:-14px;--o:.75}
@@ -81,16 +81,16 @@ svg{display:block}
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
   opacity:0;transition:opacity .8s var(--ease)}
 @keyframes beam{to{--beam:360deg}}
-.beam-on::before{opacity:.75;animation:beam 7s linear infinite}
+.beam-on::before{opacity:.75;animation:beam 11s linear infinite}
 /* cards: beam runs continuously while the card is on screen (class toggled by an observer) */
-.beam-live::before{opacity:.5;animation:beam 6.5s linear var(--bd,0s) infinite}
+.beam-live::before{opacity:.5;animation:beam 10s linear var(--bd,0s) infinite}
 /* soft light under the pointer */
 .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
   background:radial-gradient(440px circle at var(--mx,50%) var(--my,-30%),rgb(from var(--vibe-a) r g b / .07),transparent 45%);opacity:0;transition:opacity .8s var(--ease)}
 .glass-hover{transform-style:preserve-3d;transition:transform 1s var(--ease-out),background .8s var(--ease),box-shadow .9s var(--ease)}
 .glass-hover.tilting{transition:transform .25s ease-out,background .8s var(--ease),box-shadow .9s var(--ease)}
 .glass-hover:hover{background:rgba(14,14,20,0.58);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.14),0 26px 50px rgba(0,0,0,0.7),0 0 50px -24px rgb(from var(--vibe-a) r g b / .35)}
-.glass-hover:hover::before{opacity:1;animation:beam 6.5s linear var(--bd,0s) infinite}
+.glass-hover:hover::before{opacity:1;animation:beam 10s linear var(--bd,0s) infinite}
 .glass-hover:hover::after{opacity:1}
 
 /* ================= BUTTONS ================= */
@@ -102,10 +102,19 @@ svg{display:block}
 .btn svg{width:16px;height:16px;transition:transform .7s var(--ease-out)}
 .btn:hover{transform:translateY(-1px);background:rgba(18,18,26,0.6);border-color:rgba(255,255,255,0.22);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.16),0 14px 30px rgba(0,0,0,0.5),0 0 28px -6px rgb(from var(--vibe-a) r g b / .35)}
 .btn:hover svg{transform:translateX(3px)}
-.btn-primary{background:linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.02)),rgba(10,10,16,0.6);border-color:rgba(255,255,255,0.2);
-  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.18),0 10px 24px rgba(0,0,0,0.45),0 0 24px -10px rgb(from var(--vibe-a) r g b / .45)}
-.btn-primary:hover{background:linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.03)),rgba(14,14,22,0.65);border-color:rgba(255,255,255,0.3);
-  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.22),0 14px 30px rgba(0,0,0,0.5),0 0 36px -6px rgb(from var(--vibe-a) r g b / .55)}
+/* primary CTA: the one bright, filled element on the page — light fill in the vibe colour, breathing glow, rare sheen */
+.btn-primary{overflow:hidden;color:#0a0b10;font-weight:600;border-color:rgba(255,255,255,0.65);
+  background:linear-gradient(135deg,#ffffff 0%,rgb(from var(--vibe-a) r g b / .95) 60%,rgb(from var(--vibe-b) r g b / .9) 100%);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,.9),0 10px 28px -8px rgb(from var(--vibe-a) r g b / .7),0 0 0 1px rgb(from var(--vibe-a) r g b / .25);
+  animation:cta-glow 3.6s ease-in-out infinite}
+.btn-primary::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-18deg);animation:cta-sheen 6s ease-in-out 1.5s infinite}
+.btn-primary:hover{color:#0a0b10;border-color:#fff;transform:translateY(-2px);
+  background:linear-gradient(135deg,#ffffff 0%,rgb(from var(--vibe-a) r g b) 55%,rgb(from var(--vibe-b) r g b) 100%);
+  box-shadow:inset 0 1px 0 0 #fff,0 16px 40px -8px rgb(from var(--vibe-a) r g b / .85),0 0 0 4px rgb(from var(--vibe-a) r g b / .18)}
+@keyframes cta-glow{50%{box-shadow:inset 0 1px 0 0 rgba(255,255,255,.9),0 12px 38px -6px rgb(from var(--vibe-a) r g b / .9),0 0 0 6px rgb(from var(--vibe-a) r g b / .08)}}
+@keyframes cta-sheen{0%,70%{left:-60%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){.btn-primary,.btn-primary::after{animation:none}}
 .btn-sm{--h:40px;padding:0 18px;font-size:14px}
 
 /* ================= HEADER ================= */
@@ -136,11 +145,8 @@ svg{display:block}
 .mmenu .btn{margin-top:20px}
 .mmenu p{margin-top:14px;color:var(--dim);font-size:13.5px;text-align:center}
 
-/* header right side: live status, sound toggle, CTA */
+/* header right side: sound toggle with volume, CTA */
 .h-right{display:flex;align-items:center;gap:8px}
-.status{position:relative;display:inline-flex;align-items:center;gap:9px;height:32px;padding:0 13px 0 11px;border-radius:999px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#bbf7d0;
-  background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.18);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.06)}
-.status .live{position:relative;width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,.9)}
 /* sound toggle: four tiny equaliser bars, moving while sound is on */
 .snd{width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;gap:2.5px;flex:none;
   transition:border-color .5s var(--ease),box-shadow .5s var(--ease),background .5s var(--ease)}
@@ -152,7 +158,6 @@ svg{display:block}
 .snd.on i:nth-child(3){animation-duration:1.3s;animation-delay:-.6s}
 .snd.on i:nth-child(4){animation-duration:.9s;animation-delay:-.2s}
 @keyframes eq{0%{height:4px}100%{height:15px}}
-@media (max-width:1140px){.status{display:none}}
 @media (prefers-reduced-motion:reduce){.snd.on i{animation:none;height:10px}}
 
 /* foreground dust: tiny particles above the content for depth */
@@ -163,7 +168,7 @@ svg{display:block}
 .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
 .pill{display:inline-flex;align-items:center;gap:10px;height:38px;padding:0 16px 0 12px;border-radius:999px;font-size:14px;color:var(--muted)}
 .pill .live{position:relative;width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,.8)}
-.pill .live::after,.status .live::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(74,222,128,.7);animation:live-ping 2.2s var(--ease-out) infinite}
+.pill .live::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(74,222,128,.7);animation:live-ping 2.2s var(--ease-out) infinite}
 @keyframes live-ping{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.9);opacity:0}}
 .pill .pill-en{color:var(--dim);font-family:var(--mono);font-size:12px;letter-spacing:.06em}
 .hero h1{font-size:clamp(44px,6.8vw,96px);line-height:.98;letter-spacing:-.05em;font-weight:500;margin-top:28px}
@@ -897,7 +902,6 @@ html.inertia{scroll-behavior:auto}
         <a href="#contact">Контакты</a>
       </nav>
       <div class="h-right">
-        <span class="status" title="Доступен для новых проектов"><span class="live"></span>Available</span>
         <div class="snd-wrap"><button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Включить звук" hidden><i></i><i></i><i></i><i></i></button><input class="vol" id="vol" type="range" min="0" max="100" step="1" value="50" aria-label="Громкость фонового звука" hidden></div>
         <a href="#contact" class="btn btn-primary btn-sm">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="mmenu"><i></i><i></i></button>
@@ -1590,7 +1594,7 @@ const CASES = {
 
   /* border beam: run it only on cards that are on screen, each with its own phase */
   const beamIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("beam-live", e.isIntersecting)), { rootMargin: "60px" });
-  $$(".glass-hover").forEach((c, i) => { c.style.setProperty("--bd", `${-(i * 1.7) % 6.5}s`); beamIO.observe(c); });
+  $$(".glass-hover").forEach((c, i) => { c.style.setProperty("--bd", `${-(i * 2.3) % 10}s`); beamIO.observe(c); });
 
 
   /* vibe switcher: changes accent colours, vortex palette, ambient scene and the examples shown */
@@ -1911,7 +1915,7 @@ const CASES = {
   let nextInfall = performance.now() + 5000, glowKick = 0;
   window.cosmos = {
     launch() { introMode = false; pulse = 1; tLaunch = performance.now(); if (reduce) frame(tLaunch); },
-    setVibe(key) { target = PALETTES[key] || PALETTES.web; pulse = Math.max(pulse, 0.25); if (reduce) { easePalette(1); frame(performance.now()); } }
+    setVibe(key) { target = PALETTES[key] || PALETTES.web; pulse = Math.max(pulse, 0.12); if (reduce) { easePalette(1); frame(performance.now()); } }
   };
   addEventListener("pointermove", e => { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; }, { passive: true });
   addEventListener("scroll", () => {
@@ -1941,8 +1945,8 @@ const CASES = {
     const cx = W * fx + ox, cy = H * fy + oy;
     S = Math.min(W, H) * (small ? 0.72 : 0.62) * (1 + scrollP * 0.55) * (introMode ? 0.85 : 1) * (1 + pulse * 0.45);
     const tilt = 0.36 + my * 0.08 + scrollP * 0.1;
-    const spin = (0.0042 + scrollP * 0.004) * dt * (1 + pulse * 7) * (introMode ? 0.05 : 1);
-    const pull = (0.0009 + scrollP * 0.0007) * dt * (introMode ? 0 : 1);
+    const spin = (0.0026 + scrollP * 0.0022) * dt * (1 + pulse * 5) * (introMode ? 0.05 : 1);
+    const pull = (0.0006 + scrollP * 0.0004) * dt * (introMode ? 0 : 1);
 
     // trails: paint translucent black over the last frame
     ctx.globalCompositeOperation = "source-over";
@@ -1985,12 +1989,12 @@ const CASES = {
           r: 1.05 + Math.random() * 0.2, a: Math.random() * Math.PI * 2, px: null, py: null,
           text: Math.random() < 0.55 ? TOKENS[Math.floor(Math.random() * TOKENS.length)] : null
         });
-        nextInfall = now + 6000 + Math.random() * 9000;
+        nextInfall = now + 11000 + Math.random() * 13000;
       }
       for (let i = infall.length - 1; i >= 0; i--) {
         const f = infall[i];
-        f.a += (0.006 + 0.012 / (f.r + 0.12)) * dt;
-        f.r -= (0.0014 + 0.0035 * (1 - f.r)) * dt;
+        f.a += (0.0035 + 0.007 / (f.r + 0.12)) * dt;
+        f.r -= (0.0008 + 0.002 * (1 - f.r)) * dt;
         if (f.r < 0.06) { infall.splice(i, 1); glowKick = Math.min(glowKick + 0.12, 0.3); continue; }
         const depth = S * 0.13 * Math.pow(1 - f.r, 3);
         const x = cx + Math.cos(f.a) * f.r * S, y = cy + Math.sin(f.a) * f.r * S * tilt + depth;
@@ -2241,7 +2245,7 @@ const CASES = {
     return {
       x: Math.random(), y: Math.random(), z, near,
       r: near ? 5 + Math.random() * 9 : 1.2 + z * 2.4,
-      vx: (Math.random() - 0.5) * 0.00006, vy: -0.00003 - Math.random() * 0.00008,
+      vx: (Math.random() - 0.5) * 0.00004, vy: -0.00002 - Math.random() * 0.00005,
       tw: Math.random() * Math.PI * 2
     };
   });
@@ -2255,7 +2259,7 @@ const CASES = {
     ctx.clearRect(0, 0, W, H);
     const sy = scrollY;
     for (const d of D) {
-      d.x = (d.x + d.vx * dt + 1) % 1; d.y = (d.y + d.vy * dt + 1) % 1; d.tw += dt * 0.0012;
+      d.x = (d.x + d.vx * dt + 1) % 1; d.y = (d.y + d.vy * dt + 1) % 1; d.tw += dt * 0.0008;
       const flick = 0.65 + 0.35 * Math.sin(d.tw);
       ctx.globalAlpha = (d.near ? 0.07 + (d.z - 0.75) * 0.4 : 0.18 + d.z * 0.45) * flick;
       const px = d.x * W, py = (((d.y * H - sy * (0.04 + d.z * 0.18)) % H) + H) % H;
@@ -2349,7 +2353,7 @@ const CASES = {
     `<span class="c">// идея → прототип → код</span>\nlaunch(<span class="s">'portfolio'</span>);`,
     `<span class="k">if</span> (visitor.isCurious)\n  showCase(<span class="s">'next'</span>);`
   ];
-  const DUR = 7600, rand = (a, b) => a + Math.random() * (b - a);
+  const DUR = 11500, rand = (a, b) => a + Math.random() * (b - a);
   let pick = 0;
 
   function run() {
@@ -2403,7 +2407,7 @@ const CASES = {
 
     schedule(DUR);
   }
-  function schedule(extra = 0) { setTimeout(run, extra + rand(9000, 17000)); }
+  function schedule(extra = 0) { setTimeout(run, extra + rand(16000, 28000)); }
   setTimeout(run, 2500);
 })();
 </script>
