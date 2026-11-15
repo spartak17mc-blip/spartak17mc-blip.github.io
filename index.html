@@ -253,7 +253,7 @@ svg{display:block}
 .cases{display:grid;grid-template-columns:1.6fr 1fr;gap:22px}
 .case{display:flex;flex-direction:column;border-radius:var(--r-lg);padding:12px}
 .shot{position:relative;display:block;border-radius:20px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--stroke);background:#0b0c10}
-.shot img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block;transition:transform 1.4s var(--ease-out)}
+.shot img{width:102%;max-width:none;height:100%;object-fit:cover;object-position:top left;display:block;transition:transform 1.4s var(--ease-out)}   /* 102%: hides the browser scrollbar captured in the screenshot */
 .case:hover .shot img{transform:scale(1.025)}
 .shot-live{position:absolute;right:14px;bottom:14px;height:28px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;font-family:var(--mono);font-size:11.5px;color:#86efac;
   background:rgba(8,8,12,.7);border:1px solid rgba(134,239,172,.3)}
@@ -274,7 +274,7 @@ svg{display:block}
 .more .arr{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;transition:background .6s var(--ease),border-color .6s,color .6s}
 .more .arr svg{width:15px;height:15px;transition:transform .7s var(--ease-out)}
 .case-next:hover .more .arr svg{transform:translateX(3px)}
-.m-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left}
+.m-frame img{position:absolute;top:0;left:0;width:102%;max-width:none;height:100%;object-fit:cover;object-position:top left}
 @media (max-width:900px){.cases{grid-template-columns:1fr}}
 @media (max-width:640px){.case-actions .btn{flex:1 1 100%}}
 
