@@ -2077,7 +2077,7 @@ const CASES = {
   const KEY = "spartak-sound";
   const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
                   set(v) { try { localStorage.setItem(KEY, v); } catch {} } };
-  let ctx = null, master = null, on = false, vibe = "web";
+  let ctx = null, master = null, soft = null, on = false, vibe = "web";
   // user volume 0…1, remembered between visits
   let level = 0.5;
   try { const saved = parseFloat(localStorage.getItem("spartak-volume")); if (saved >= 0 && saved <= 1) level = saved; } catch {}
@@ -2140,36 +2140,77 @@ const CASES = {
              stop() { clearInterval(timer); timer = null; } };
   }
 
-  /* ---------- scene: workshop (room tone, warm drone, soft irregular taps) ---------- */
+  /* ---------- scene: construction & architecture ----------
+     distant machinery that throbs, slow foundation thumps, wind/paper-like texture
+     and rare far-off tool knocks with a hall echo. Every layer is low-passed. */
+  const pink = d => {                                   // pink noise (Paul Kellet's filter)
+    let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+    for (let i = 0; i < d.length; i++) {
+      const w = Math.random() * 2 - 1;
+      b0 = 0.99886 * b0 + w * 0.0555179; b1 = 0.99332 * b1 + w * 0.0750759; b2 = 0.969 * b2 + w * 0.153852;
+      b3 = 0.8665 * b3 + w * 0.3104856; b4 = 0.55 * b4 + w * 0.5329522; b5 = -0.7616 * b5 - w * 0.016898;
+      d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362) * 0.11; b6 = w * 0.115926;
+    }
+  };
   function workshop(out) {
-    const room = ctx.createGain(); room.gain.value = 0.2;
-    const tapLp = filter("lowpass", 1100); tapLp.connect(out);   // keeps every tap muffled
-    noise(4, brown).connect(filter("lowpass", 600)).connect(room).connect(out);
-    const drone = ctx.createGain(); drone.gain.value = 0.35; drone.connect(filter("lowpass", 400)).connect(out);
-    osc("sine", 98, 0.12, drone); osc("sine", 147, 0.06, drone); lfo(0.09, 0.08, drone.gain);
-    const clickBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.08), ctx.sampleRate);
-    clickBuf.getChannelData(0).forEach((_, i, d) => { d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.012)); });
-    const tap = (t, f, gain) => {
-      const s = ctx.createBufferSource(), bp = filter("bandpass", f, 3.5), g = ctx.createGain();
-      s.buffer = clickBuf; g.gain.value = gain; s.connect(bp).connect(g).connect(tapLp); s.start(t);
+    const bus = filter("lowpass", 1400, 0.5); bus.connect(out);          // last safety net against sharp highs
+
+    // 1) distant machinery: a gritty low hum (saw, heavily filtered) that throbs ~1.4 times a second
+    const hum = ctx.createGain(); hum.gain.value = 0.15;
+    hum.connect(filter("lowpass", 150, 1.1)).connect(bus);
+    osc("sawtooth", 41.2, 0.5, hum); osc("sine", 82.4, 0.22, hum);
+    lfo(1.4, 0.09, hum.gain);                                             // the pulse
+    lfo(0.05, 0.03, hum.gain);                                            // slow drift, so it never feels looped
+
+    // 2) texture: pink noise through a drifting band-pass — wind at height / rustling drawings, in gusts
+    const air = ctx.createGain(); air.gain.value = 0.06;
+    const airBp = filter("bandpass", 900, 0.9);
+    noise(6, pink).connect(airBp).connect(filter("lowpass", 1300)).connect(air).connect(bus);
+    lfo(0.06, 350, airBp.frequency); lfo(0.08, 0.035, air.gain);
+
+    // 3) far-off tool knocks: muffled noise bursts + a short wooden/metal body, sent into a dark echo
+    const knockLp = filter("lowpass", 800, 0.6);
+    const echo = ctx.createDelay(1); echo.delayTime.value = 0.32;
+    const fb = ctx.createGain(); fb.gain.value = 0.28;
+    const echoLp = filter("lowpass", 600);
+    knockLp.connect(bus); knockLp.connect(echo); echo.connect(echoLp).connect(fb).connect(echo); echoLp.connect(bus);
+    const burst = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.12), ctx.sampleRate);
+    burst.getChannelData(0).forEach((_, i, d) => { d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.025)); });
+    const knock = (t, gain) => {
+      const s = ctx.createBufferSource(), g = ctx.createGain();
+      s.buffer = burst; g.gain.value = gain;
+      s.connect(filter("bandpass", 380 + Math.random() * 270, 2)).connect(g).connect(knockLp); s.start(t);
+      const o = ctx.createOscillator(), og = ctx.createGain();             // the body of the knock
+      o.frequency.value = Math.random() < 0.5 ? 210 : 320;
+      og.gain.setValueAtTime(0.0001, t); og.gain.exponentialRampToValueAtTime(gain * 0.25, t + 0.005); og.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+      o.connect(og).connect(knockLp); o.start(t); o.stop(t + 0.16);
     };
-    const thunk = t => {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(70, t + 0.14);
-      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.09, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
-      o.connect(g).connect(out); o.start(t); o.stop(t + 0.25);
+    // foundation thump: a deep pitch-dropping sine, felt more than heard
+    const thump = (t, gain) => {
+      const o = ctx.createOscillator(), g = ctx.createGain(), lp = filter("lowpass", 150);
+      o.frequency.setValueAtTime(58, t); o.frequency.exponentialRampToValueAtTime(36, t + 0.35);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(gain, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+      o.connect(g).connect(lp).connect(bus); o.start(t); o.stop(t + 0.75);
     };
-    let next = 0, timer = null;
+
+    let nextThump = 0, nextKnock = 0, timer = null;
     const tick = () => {
-      while (next < ctx.currentTime + 0.6) {
-        const r = Math.random();
-        if (r < 0.08) thunk(next);
-        else if (r < 0.75) { tap(next, 650 + Math.random() * 550, 0.2); if (Math.random() < 0.3) tap(next + 0.09, 900 + Math.random() * 350, 0.12); }
-        next += 0.22 + Math.random() * (Math.random() < 0.15 ? 1.6 : 0.5);   // bursts of work, then pauses
+      const ahead = ctx.currentTime + 1;
+      while (nextThump < ahead) {                                         // steady ~2.4 s rhythm, sometimes a double hit
+        thump(nextThump, 0.38);
+        if (Math.random() < 0.25) thump(nextThump + 0.3, 0.22);
+        nextThump += 2.4;
+      }
+      while (nextKnock < ahead) {                                         // rare: every 3–8 s, sometimes a short series
+        const n = Math.random() < 0.3 ? 2 + Math.floor(Math.random() * 2) : 1;
+        for (let i = 0; i < n; i++) knock(nextKnock + i * 0.38, 0.22 - i * 0.05);
+        nextKnock += 3 + Math.random() * 5;
       }
     };
-    return { start() { next = Math.max(next, ctx.currentTime + 0.1); timer = setInterval(tick, 150); },
-             stop() { clearInterval(timer); timer = null; } };
+    return {
+      start() { const t = ctx.currentTime + 0.15; nextThump = Math.max(nextThump, t); nextKnock = Math.max(nextKnock, t + 1.5); tick(); timer = setInterval(tick, 200); },
+      stop() { clearInterval(timer); timer = null; }
+    };
   }
 
   const BUILDERS = { web: space, horeca: lounge, build: workshop };
@@ -2181,12 +2222,15 @@ const CASES = {
     scenes[name] = Object.assign({ gain: g, active: false }, BUILDERS[name](g));
     return scenes[name];
   }
+  // each scene gets its own warmth on the master low-pass (all stay well below harsh frequencies)
+  const TONE = { web: 850, horeca: 1000, build: 1300 };
   function apply() {
     const t = ctx.currentTime;
+    if (soft) soft.frequency.setTargetAtTime(TONE[vibe] || 850, t, 0.8);
     for (const [name, s] of Object.entries(scenes)) {
       const want = on && name === vibe;
       s.gain.gain.cancelScheduledValues(t);
-      s.gain.gain.setTargetAtTime(want ? 1 : 0, t, FADE);
+      s.gain.gain.setTargetAtTime(want ? 1 : 0, t, want ? FADE : 0.3);   // outgoing scene fades fast, so scenes never pile up
       if (want && !s.active) { s.active = true; s.start?.(); }
       if (!want && s.active) { s.active = false; s.stop?.(); }
     }
@@ -2203,7 +2247,7 @@ const CASES = {
           ctx = new AC();
           master = ctx.createGain(); master.gain.value = 0;
           // one soft low-pass on the whole mix: nothing sharp reaches the ears
-          const soft = ctx.createBiquadFilter(); soft.type = "lowpass"; soft.frequency.value = 850; soft.Q.value = 0.5;
+          soft = ctx.createBiquadFilter(); soft.type = "lowpass"; soft.frequency.value = TONE[vibe] || 850; soft.Q.value = 0.5;
           master.connect(soft).connect(ctx.createDynamicsCompressor()).connect(ctx.destination);
         }
         ctx.resume();
