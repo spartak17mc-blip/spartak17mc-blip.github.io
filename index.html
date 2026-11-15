@@ -6,6 +6,9 @@
 <title>Spartak.dev — сайты и лендинги под ключ</title>
 <meta name="description" content="Профессиональная разработка современных сайтов и лендингов под ключ: стратегия, дизайн, разработка и запуск. Быстрая загрузка, безупречная адаптивность, продуманный путь клиента к заявке.">
 <meta name="theme-color" content="#000000">
+<!-- Security: only our own code, Google Fonts and HTTPS requests (lead endpoint / Telegram API) are allowed; no plugins, no foreign frames, no eval -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https:; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta property="og:title" content="Spartak.dev — сайты и лендинги под ключ">
 <meta property="og:description" content="Сайты, которые работают на ваш бизнес.">
 <meta property="og:type" content="website">
@@ -102,19 +105,21 @@ svg{display:block}
 .btn svg{width:16px;height:16px;transition:transform .7s var(--ease-out)}
 .btn:hover{transform:translateY(-1px);background:rgba(18,18,26,0.6);border-color:rgba(255,255,255,0.22);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.16),0 14px 30px rgba(0,0,0,0.5),0 0 28px -6px rgb(from var(--vibe-a) r g b / .35)}
 .btn:hover svg{transform:translateX(3px)}
-/* primary CTA: the one bright, filled element on the page — light fill in the vibe colour, breathing glow, rare sheen */
+/* primary CTA: the one bright, filled element on the page — light fill in the vibe colour, breathing inner light, rare sheen.
+   Only opacity/transform animate, so the GPU composites it without repainting every frame. */
 .btn-primary{overflow:hidden;color:#0a0b10;font-weight:600;border-color:rgba(255,255,255,0.65);
   background:linear-gradient(135deg,#ffffff 0%,rgb(from var(--vibe-a) r g b / .95) 60%,rgb(from var(--vibe-b) r g b / .9) 100%);
-  box-shadow:inset 0 1px 0 0 rgba(255,255,255,.9),0 10px 28px -8px rgb(from var(--vibe-a) r g b / .7),0 0 0 1px rgb(from var(--vibe-a) r g b / .25);
-  animation:cta-glow 3.6s ease-in-out infinite}
-.btn-primary::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-18deg);animation:cta-sheen 6s ease-in-out 1.5s infinite}
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,.9),0 12px 34px -8px rgb(from var(--vibe-a) r g b / .8),0 0 0 1px rgb(from var(--vibe-a) r g b / .25)}
+.btn-primary::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:radial-gradient(120% 140% at 50% 120%,rgba(255,255,255,.6),transparent 60%);opacity:.2;animation:cta-breathe 3.6s ease-in-out infinite}
+.btn-primary::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:translateX(-160%) skewX(-18deg);animation:cta-sheen 6s ease-in-out 1.5s infinite}
 .btn-primary:hover{color:#0a0b10;border-color:#fff;transform:translateY(-2px);
   background:linear-gradient(135deg,#ffffff 0%,rgb(from var(--vibe-a) r g b) 55%,rgb(from var(--vibe-b) r g b) 100%);
   box-shadow:inset 0 1px 0 0 #fff,0 16px 40px -8px rgb(from var(--vibe-a) r g b / .85),0 0 0 4px rgb(from var(--vibe-a) r g b / .18)}
-@keyframes cta-glow{50%{box-shadow:inset 0 1px 0 0 rgba(255,255,255,.9),0 12px 38px -6px rgb(from var(--vibe-a) r g b / .9),0 0 0 6px rgb(from var(--vibe-a) r g b / .08)}}
-@keyframes cta-sheen{0%,70%{left:-60%}100%{left:130%}}
-@media (prefers-reduced-motion:reduce){.btn-primary,.btn-primary::after{animation:none}}
+@keyframes cta-breathe{50%{opacity:.75}}
+@keyframes cta-sheen{0%,70%{transform:translateX(-160%) skewX(-18deg)}100%{transform:translateX(360%) skewX(-18deg)}}
+@media (prefers-reduced-motion:reduce){.btn-primary::before,.btn-primary::after{animation:none}}
 .btn-sm{--h:40px;padding:0 18px;font-size:14px}
 
 /* ================= HEADER ================= */
@@ -764,6 +769,12 @@ body.about-open .quiz-fab{opacity:0;transform:translateY(12px);pointer-events:no
   .glass,.btn{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 }
 
+/* ================= HEALTH ================= */
+/* long unbroken input can never stretch the layout */
+.fld input,.fld textarea,.quiz-input,.quiz-sum,.done p,.f-error,.quiz-err{overflow-wrap:anywhere}
+/* hero beams sleep while the first screen is off-screen */
+html.hero-off .beams i{animation-play-state:paused}
+
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -1260,8 +1271,8 @@ body.about-open .quiz-fab{opacity:0;transform:translateY(12px);pointer-events:no
       <form class="lead-form" id="form" novalidate>
         <div class="f-title">Заявка на проект<small>Займёт меньше минуты</small></div>
         <div class="row2">
-          <div class="fld"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name" required><span class="msg">Укажите имя</span></div>
-          <div class="fld"><label for="f-contact">Telegram или телефон</label><input id="f-contact" name="contact" type="text" placeholder="@username или +7…" required><span class="msg">Укажите, куда ответить</span></div>
+          <div class="fld"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" minlength="2" maxlength="60" spellcheck="false" placeholder="Как к вам обращаться" autocomplete="name" required><span class="msg">Укажите имя</span></div>
+          <div class="fld"><label for="f-contact">Telegram или телефон</label><input id="f-contact" name="contact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="@username или +7…" required><span class="msg">Укажите, куда ответить</span></div>
         </div>
         <fieldset class="group">
           <legend>Что нужно сделать</legend>
@@ -1281,7 +1292,7 @@ body.about-open .quiz-fab{opacity:0;transform:translateY(12px);pointer-events:no
             <input type="radio" name="budget" id="b4" value="Нужна консультация"><label for="b4">Пока не знаю</label>
           </div>
         </fieldset>
-        <div class="fld"><label for="f-msg">О проекте</label><textarea id="f-msg" name="message" placeholder="Чем занимается компания, что нужно сделать и к какому сроку" required></textarea><span class="msg">Опишите задачу хотя бы в одном предложении</span></div>
+        <div class="fld"><label for="f-msg">О проекте</label><textarea id="f-msg" name="message" maxlength="2000" placeholder="Чем занимается компания, что нужно сделать и к какому сроку" required></textarea><span class="msg">Опишите задачу хотя бы в одном предложении</span></div>
         <!-- honeypot: real visitors never see or fill this field -->
         <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="f-submit">
@@ -1439,26 +1450,69 @@ const CASES = {
   $("#tgText").textContent = "@" + CONTACTS.telegram;
   $("#year").textContent = new Date().getFullYear();
 
-  /* lead delivery: one function for the form and the quiz */
-  const esc = s => String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
-  const sendLead = async (title, rows) => {
-    const text = `<b>${esc(title)}</b>\n\n` + rows.filter(r => r[1]).map(([k, v]) => `<b>${esc(k)}:</b> ${esc(v)}`).join("\n")
-      + `\n\n<i>${esc(location.host || "сайт")} · ${new Date().toLocaleString("ru-RU")}</i>`;
+  /* ---------- lead delivery: validation, anti-spam and sending (shared by the form and the quiz) ---------- */
+  // escape for Telegram HTML and for any attribute we build ourselves
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  // strip control/invisible characters, collapse whitespace runs, trim and cap the length
+  const clean = (s, max, multiline = false) => {
+    let v = String(s ?? "").normalize("NFC").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F​-‏‪-‮⁦-⁩]/g, "");
+    v = multiline ? v.replace(/[ \t]{2,}/g, " ").replace(/\n{3,}/g, "\n\n") : v.replace(/\s+/g, " ");
+    return v.trim().slice(0, max);
+  };
+  const LIMITS = { name: 60, contact: 100, message: 2000 };
+  // Telegram @username, t.me link, phone or e-mail
+  const CONTACT_RE = /^(@?[A-Za-z][A-Za-z0-9_]{3,31}|(https?:\/\/)?t\.me\/[A-Za-z][A-Za-z0-9_]{3,31}|\+?[\d\s()\-]{7,20}|[^\s@]{1,64}@[^\s@]{1,190}\.[A-Za-z]{2,24})$/;
+  const validContact = v => CONTACT_RE.test(v) && (v.replace(/\D/g, "").length >= 7 || /[A-Za-z]/.test(v));
+  // client-side throttle (the server repeats every check): ≥45 s between leads, ≤5 per hour
+  const THROTTLE_KEY = "spartak-leads";
+  const throttled = () => {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem(THROTTLE_KEY) || "[]").filter(t => Date.now() - t < 3600e3); } catch {}
+    return list.length >= 5 || (list.length && Date.now() - list[list.length - 1] < 45e3);
+  };
+  const remember = () => {
+    try {
+      const list = JSON.parse(localStorage.getItem(THROTTLE_KEY) || "[]").filter(t => Date.now() - t < 3600e3);
+      list.push(Date.now()); localStorage.setItem(THROTTLE_KEY, JSON.stringify(list.slice(-5)));
+    } catch {}
+  };
+  const bornAt = Date.now();          // bots submit instantly; people need a few seconds
+  let sending = false;
+  const sendLead = async (kind, title, fields, hp = "") => {
+    if (sending) throw new Error("busy");
+    if (hp) return;                                                  // honeypot filled → silently drop
+    if (Date.now() - bornAt < 3000) throw new Error("too-fast");
+    if (throttled()) throw new Error("throttled");
+    const rows = Object.entries(fields).filter(([, v]) => v);
     let url, body;
-    if (LEADS.endpoint) { url = LEADS.endpoint; body = { text }; }
-    else if (LEADS.botToken && LEADS.chatId) {
-      url = `https://api.telegram.org/bot${LEADS.botToken}/sendMessage`;
+    if (LEADS.endpoint) {
+      // proxy mode: only raw, length-limited fields leave the browser; the server escapes and formats them
+      url = LEADS.endpoint;
+      body = { kind, fields: Object.fromEntries(rows), hp, elapsed: Date.now() - bornAt };
+    } else if (LEADS.botToken && LEADS.chatId) {
+      console.warn("LEADS: прямой режим — токен бота виден в коде страницы. Рекомендуется прокси (telegram-worker.js).");
+      const text = `<b>${esc(title)}</b>\n\n` + rows.map(([k, v]) => `<b>${esc(k)}:</b> ${esc(v)}`).join("\n")
+        + `\n\n<i>${esc(location.host || "сайт")} · ${esc(new Date().toLocaleString("ru-RU"))}</i>`;
+      url = `https://api.telegram.org/bot${encodeURIComponent(LEADS.botToken)}/sendMessage`;
       body = { chat_id: LEADS.chatId, text, parse_mode: "HTML", disable_web_page_preview: true };
     } else throw new Error("not-configured");
+    sending = true;
     const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), 12000);
     try {
-      const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body.text.length > 3800 ? { ...body, text: body.text.slice(0, 3800) } : body), signal: ctrl.signal });
+      const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+        signal: ctrl.signal, credentials: "omit", referrerPolicy: "strict-origin", mode: "cors", cache: "no-store" });
+      if (res.status === 429) throw new Error("throttled");
       if (!res.ok) throw new Error("http-" + res.status);
-    } finally { clearTimeout(timer); }
+      remember();
+    } finally { clearTimeout(timer); sending = false; }
   };
-  const leadError = err => err.message === "not-configured"
-    ? `Отправка заявок ещё не подключена. Напишите мне напрямую в <a href="https://t.me/${esc(CONTACTS.telegram)}" target="_blank" rel="noopener">Telegram</a>.`
-    : `Не удалось отправить — проверьте интернет и попробуйте ещё раз или напишите в <a href="https://t.me/${esc(CONTACTS.telegram)}" target="_blank" rel="noopener">Telegram</a>.`;
+  const tgLink = () => `<a href="https://t.me/${encodeURIComponent(CONTACTS.telegram)}" target="_blank" rel="noopener noreferrer">Telegram</a>`;
+  const leadError = err => ({
+    "not-configured": `Отправка заявок ещё не подключена. Напишите мне напрямую в ${tgLink()}.`,
+    "throttled": `Заявка уже отправлена недавно. Подождите минуту или напишите в ${tgLink()}.`,
+    "too-fast": "Секунду… попробуйте отправить ещё раз.",
+    "busy": "Отправляю предыдущую заявку…"
+  })[err.message] || `Не удалось отправить — проверьте интернет и попробуйте ещё раз или напишите в ${tgLink()}.`;
 
   /* header */
   const header = $("#header");
@@ -1618,6 +1672,7 @@ const CASES = {
         return el;
       }));
     };
+    let swapTimer = 0;
     const setVibe = (key, focus) => {
       vibeTabs.forEach(t => {
         const on = t.dataset.vibe === key;
@@ -1630,7 +1685,8 @@ const CASES = {
       window.cosmos?.setVibe(key);
       window.ambient?.setVibe(key);
       vibePanel.classList.add("swap");
-      setTimeout(() => { fill(key); vibePanel.classList.remove("swap"); }, reduce ? 0 : 320);
+      clearTimeout(swapTimer);                    // fast clicking: only the last choice is rendered
+      swapTimer = setTimeout(() => { fill(key); vibePanel.classList.remove("swap"); }, reduce ? 0 : 320);
     };
     fill("web"); casesGrid?.setAttribute("data-vibe", "web");
     window.siteVibe = key => { if (VIBES[key] && document.documentElement.dataset.vibe !== key) setVibe(key); };
@@ -1697,7 +1753,7 @@ const CASES = {
         qBody.innerHTML = `<div class="quiz-step"><h4>Подходящее решение</h4>
           <div class="quiz-res"><div><small>Бюджет</small><b>${p1}–${p2} тыс. ₽</b></div><div><small>Срок</small><b>${d1}–${d2} дней</b></div></div>
           <p class="quiz-sum"></p>
-          <input class="quiz-input" id="quizContact" type="text" placeholder="Ваш Telegram или телефон" autocomplete="tel" aria-label="Куда ответить">
+          <input class="quiz-input" id="quizContact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="Ваш Telegram или телефон" autocomplete="tel" aria-label="Куда ответить">
           <button class="btn btn-primary" type="button" id="quizSend">Отправить в Telegram<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           <p class="quiz-err" id="quizErr" role="alert" hidden></p>
           <div class="quiz-foot"><button class="quiz-back" type="button">↺ Заново</button><button class="quiz-back" type="button" id="quizForm">Полная форма →</button></div></div>`;
@@ -1707,9 +1763,15 @@ const CASES = {
         // option A: send straight to Telegram from the quiz
         $("#quizSend").addEventListener("click", () => {
           const contact = $("#quizContact"), err = $("#quizErr"), btn = $("#quizSend");
-          if (!contact.value.trim()) { contact.classList.add("err"); contact.focus(); return; }
+          if (btn.disabled) return;
+          const c = clean(contact.value, LIMITS.contact);
+          if (!validContact(c)) {
+            contact.classList.add("err"); contact.focus();
+            err.textContent = "Укажите @username, ссылку t.me, телефон или e-mail"; err.hidden = false; return;
+          }
           btn.disabled = true; err.hidden = true;
-          sendLead("🧭 Заявка из опросника", [["Контакт", contact.value.trim()], ["Задача", type], ["Сфера", ans.sphere[0]], ["Готово", ans.ready[0]], ["Сроки", ans.when[0]], ["Ориентир", `${p1}–${p2} тыс. ₽, ${d1}–${d2} дней`]])
+          // answers come from our own option lists, so only the contact is free text
+          sendLead("quiz", "🧭 Заявка из опросника", { "Контакт": c, "Задача": type, "Сфера": ans.sphere[0], "Готово": ans.ready[0], "Сроки": ans.when[0], "Ориентир": `${p1}–${p2} тыс. ₽, ${d1}–${d2} дней` })
             .then(() => {
               qBody.innerHTML = `<div class="quiz-step"><h4>Заявка отправлена ✓</h4><p class="quiz-sum">Спасибо! Я получил её в Telegram и отвечу в течение пары часов.</p></div>`;
               dots.forEach(d => d.classList.add("on")); step = QUIZ.length + 1;
@@ -1787,7 +1849,8 @@ const CASES = {
       if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey) return;
       const id = a.getAttribute("href");
       if (id.length < 2) return;
-      const el = document.querySelector(id);
+      let el = null;
+      try { el = document.getElementById(decodeURIComponent(id.slice(1))); } catch {}   // no selector parsing → no throw on odd hashes
       if (!el) return;
       e.preventDefault();
       const top = id === "#top" ? 0 : el.getBoundingClientRect().top + scrollY - 96;
@@ -1800,22 +1863,29 @@ const CASES = {
   /* "Обо мне": throw the page aside, slide the profile in; "Назад" (or Esc) reverses it */
   const about = $("#about");
   if (about) {
-    let opener = null;
+    let opener = null, focusTimer = 0;
+    const behind = [$("#header"), $("main"), $("footer"), $("#quizFab")].filter(Boolean);
     const openAbout = trigger => {
+      if (about.classList.contains("open")) return;                      // repeated clicks do nothing
       opener = trigger || null;
       if (document.body.classList.contains("menu-open")) $("#burger")?.click();
+      if ($("#quiz")?.classList.contains("open")) $("#quizX")?.click();
       document.body.classList.add("about-anim");
       void document.body.offsetWidth;            // commit the transition setup before the page moves
       document.body.classList.add("about-open");
       about.classList.add("open"); about.setAttribute("aria-hidden", "false");
+      behind.forEach(el => { el.inert = true; });                        // Tab / clicks can't reach the page behind
       document.body.style.overflow = "hidden";
       about.querySelector(".about-scroll").scrollTop = 0;
-      setTimeout(() => $("#aboutBack").focus({ preventScroll: true }), reduce ? 0 : 500);
+      clearTimeout(focusTimer);
+      focusTimer = setTimeout(() => { if (about.classList.contains("open")) $("#aboutBack").focus({ preventScroll: true }); }, reduce ? 0 : 500);
     };
     const closeAbout = () => {
       if (!about.classList.contains("open")) return;
+      clearTimeout(focusTimer);
       document.body.classList.remove("about-open");
       about.classList.remove("open"); about.setAttribute("aria-hidden", "true");
+      behind.forEach(el => { el.inert = false; });
       document.body.style.overflow = "";
       opener?.focus({ preventScroll: true });
     };
@@ -1824,10 +1894,14 @@ const CASES = {
     // links inside the panel wait for the page to fly back before scrolling to their section
     $$("[data-about-close]").forEach(a => a.addEventListener("click", e => {
       e.preventDefault(); closeAbout(); opener = null;
-      setTimeout(() => document.querySelector(a.hash)?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }), reduce ? 0 : 800);
+      setTimeout(() => document.getElementById(a.hash.slice(1))?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }), reduce ? 0 : 800);
     }));
     addEventListener("keydown", e => { if (e.key === "Escape") closeAbout(); });
   }
+
+  /* pause hero-only CSS animations when the first screen is out of view */
+  const heroEl = $(".hero");
+  if (heroEl) new IntersectionObserver(es => document.documentElement.classList.toggle("hero-off", !es[0].isIntersecting)).observe(heroEl);
 
   /* active nav */
   const navLinks = $$(".nav a");
@@ -1869,18 +1943,35 @@ const CASES = {
   const form = $("#form");
   form.addEventListener("submit", e => {
     e.preventDefault();
+    const btn = $("#formBtn");
+    if (btn.disabled) return;                                         // ignore double clicks / Enter spam
+    // normalise every field first, then validate the cleaned values
+    const v = {
+      name: clean(form.elements.name.value, LIMITS.name),
+      contact: clean(form.elements.contact.value, LIMITS.contact),
+      message: clean(form.elements.message.value, LIMITS.message, true)
+    };
+    const rules = {
+      name: [v.name.length >= 2, "Укажите имя (минимум 2 символа)"],
+      contact: [validContact(v.contact), "Укажите @username, ссылку t.me, телефон или e-mail"],
+      message: [v.message.length >= 10, "Опишите задачу хотя бы в одном предложении"]
+    };
     let first = null;
-    ["name", "contact", "message"].forEach(n => {
-      const el = form.elements[n], bad = !el.value.trim();
-      el.closest(".fld").classList.toggle("err", bad);
-      if (bad && !first) first = el;
-    });
+    for (const [n, [ok, msg]] of Object.entries(rules)) {
+      const fld = form.elements[n].closest(".fld");
+      fld.classList.toggle("err", !ok);
+      if (!ok) { fld.querySelector(".msg").textContent = msg; first ||= form.elements[n]; }
+    }
     if (first) { first.focus(); return; }
-    const d = Object.fromEntries(new FormData(form));
-    if (d.company) { form.classList.add("sent"); return; }           // honeypot filled → a bot, pretend success
-    const btn = $("#formBtn"), errBox = $("#formError"), label = btn.firstChild.textContent;
+    // radios can only carry values from our own markup — anything else is dropped
+    const pick = (name, allowed) => { const val = form.elements[name].value; return allowed.includes(val) ? val : ""; };
+    const type = pick("type", ["Лендинг", "Корпоративный сайт", "Интернет-магазин", "Редизайн"]);
+    const budget = pick("budget", ["до 50 тыс. ₽", "50–100 тыс. ₽", "от 100 тыс. ₽", "Нужна консультация"]);
+    const errBox = $("#formError"), label = btn.firstChild.textContent;
     btn.disabled = true; btn.firstChild.textContent = "Отправляю… "; errBox.hidden = true;
-    sendLead("🚀 Новая заявка с сайта", [["Имя", d.name], ["Контакт", d.contact], ["Задача", d.type], ["Бюджет", d.budget], ["О проекте", d.message]])
+    sendLead("form", "🚀 Новая заявка с сайта",
+      { "Имя": v.name, "Контакт": v.contact, "Задача": type, "Бюджет": budget, "О проекте": v.message },
+      clean(form.elements.company.value, 100))
       .then(() => form.classList.add("sent"))
       .catch(err => { errBox.innerHTML = leadError(err); errBox.hidden = false; })
       .finally(() => { btn.disabled = false; btn.firstChild.textContent = label; });
@@ -2371,7 +2462,8 @@ const CASES = {
     rows.forEach((r, y) => [...r].forEach((ch, x) => { if (COL[ch]) out += `<rect x="${x}" y="${y}" width="1" height="1" fill="${COL[ch]}"/>`; }));
     SVG[k] = out;
   }
-  const draw = k => { svg.innerHTML = SVG[k]; };
+  let shown = "";
+  const draw = k => { if (k !== shown) { svg.innerHTML = SVG[k]; shown = k; } };   // touch the DOM only when the pose changes
 
   let state = "idle", frame = 0, until = 0, lock = 0, clicks = [], bubbleTimer;
   const setState = (s, ms) => {
