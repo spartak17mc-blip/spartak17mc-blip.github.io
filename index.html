@@ -663,6 +663,70 @@ button.vp-case .go{color:var(--vibe-a)}
   .vibe-panel{grid-template-columns:1fr}
 }
 
+/* ================= FAQ ================= */
+.faq{display:grid;gap:10px;max-width:900px}
+.faq-item{border-radius:20px;overflow:hidden}
+.faq-q{width:100%;display:flex;align-items:center;gap:18px;padding:22px 24px;text-align:left;color:var(--text);font-size:clamp(16.5px,1.6vw,19px);font-weight:500;letter-spacing:-.02em}
+.faq-q .n{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.08em;flex:none}
+.faq-q .pm{position:relative;margin-left:auto;width:30px;height:30px;border-radius:50%;flex:none;transition:transform .6s var(--ease-out),border-color .5s,box-shadow .5s}
+.faq-q .pm::before,.faq-q .pm::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.5px;margin:-.75px 0 0 -5.5px;background:var(--text);border-radius:1px;transition:transform .6s var(--ease-out)}
+.faq-q .pm::after{transform:rotate(90deg)}
+.faq-item.open .pm{transform:rotate(180deg);border-color:rgb(from var(--vibe-a) r g b / .4);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.1),0 0 16px -4px rgb(from var(--vibe-a) r g b / .6)}
+.faq-item.open .pm::after{transform:rotate(0)}
+/* height animates via grid rows: 0fr → 1fr */
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--ease-out)}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-a>div{overflow:hidden}
+.faq-a p{padding:0 24px 24px 58px;color:var(--muted);font-size:15.5px;max-width:70ch;opacity:0;transform:translateY(-4px);transition:opacity .45s var(--ease),transform .6s var(--ease-out)}
+.faq-item.open .faq-a p{opacity:1;transform:none;transition-delay:.12s}
+.faq-a p b{color:var(--text);font-weight:500}
+@media (max-width:640px){.faq-q{padding:18px;gap:12px}.faq-a p{padding:0 18px 20px}}
+
+/* ================= QUIZ ================= */
+/* small corner trigger + compact glass window with a 4-step estimate */
+.quiz-fab{position:fixed;right:20px;bottom:20px;z-index:50;display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 16px 0 12px;border-radius:999px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+  transition:opacity .6s var(--ease),transform .7s var(--ease-out),box-shadow .6s var(--ease),border-color .5s}
+.quiz-fab svg{width:17px;height:17px;color:var(--vibe-a)}
+.quiz-fab:hover{border-color:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.14),0 14px 30px rgba(0,0,0,.55),0 0 26px -6px rgb(from var(--vibe-a) r g b / .5)}
+html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab.hide{opacity:0;transform:translateY(12px);pointer-events:none}
+.quiz{position:fixed;right:20px;bottom:76px;z-index:58;width:min(370px,calc(100vw - 24px));border-radius:24px;padding:22px 22px 20px;
+  opacity:0;visibility:hidden;transform:translateY(10px) scale(.98);transform-origin:100% 100%;
+  transition:opacity .45s var(--ease),transform .6s var(--ease-out),visibility .45s}
+.quiz.open{opacity:1;visibility:visible;transform:none}
+.quiz-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.quiz-head b{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.quiz-dots{display:flex;gap:5px;margin-left:auto}
+.quiz-dots i{width:16px;height:3px;border-radius:2px;background:rgba(255,255,255,.12);transition:background .5s}
+.quiz-dots i.on{background:var(--vibe-a)}
+.quiz-x{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.quiz-x:hover{color:#fff}
+.quiz-x svg{width:13px;height:13px}
+.quiz-step{animation:quiz-in .5s var(--ease-out)}
+@keyframes quiz-in{from{opacity:0;transform:translateX(10px)}}
+.quiz-step h4{font-size:19px;font-weight:500;letter-spacing:-.025em;margin-bottom:14px}
+.quiz-opts{display:grid;gap:8px}
+.quiz-opt{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;border-radius:14px;text-align:left;color:#dfe3ee;font-size:14.5px;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.06);
+  transition:background .4s,border-color .4s,transform .5s var(--ease-out)}
+.quiz-opt small{color:var(--dim);font-size:12px}
+.quiz-opt:hover,.quiz-opt:focus-visible{background:rgba(255,255,255,0.06);border-color:rgb(from var(--vibe-a) r g b / .4);transform:translateX(3px);outline:none}
+.quiz-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;min-height:20px}
+.quiz-back{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.quiz-back:hover{color:#fff}
+.quiz-note{font-size:11.5px;color:var(--dim)}
+.quiz-res{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 12px}
+.quiz-res div{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08)}
+.quiz-res small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.quiz-res b{display:block;margin-top:4px;font-size:17px;font-weight:500;letter-spacing:-.02em;color:var(--vibe-a)}
+.quiz-sum{font-size:13.5px;color:var(--muted);margin-bottom:14px}
+.quiz .btn{width:100%;--h:46px;font-size:14.5px}
+@media (max-width:640px){
+  .quiz-fab{right:14px;bottom:14px;width:46px;height:46px;padding:0;justify-content:center}
+  .quiz-fab span{display:none}
+  .quiz{right:12px;left:12px;width:auto;bottom:70px}
+}
+
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -1137,6 +1201,41 @@ button.vp-case .go{color:var(--vibe-a)}
 </section>
 
 <!-- ================= CONTACT ================= -->
+<!-- ================= FAQ ================= -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow rv">Вопросы</div>
+        <h2 class="h2 rv" style="--d:.08s">Частые <span class="serif">вопросы</span></h2>
+      </div>
+      <p class="rv" style="--d:.16s">Коротко о&nbsp;том, что обычно важно обсудить до&nbsp;старта. Не&nbsp;нашли ответа — спросите напрямую.</p>
+    </div>
+    <div class="faq">
+      <div class="faq-item glass rv">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a1" id="faq-q1"><span class="n">01</span>Вы работаете по договору?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Да. Перед стартом заключаем <b>договор</b>, в&nbsp;котором фиксируются состав работ, сроки, стоимость и&nbsp;порядок приёмки. Вы&nbsp;точно знаете, что получите и&nbsp;когда.</p></div></div>
+      </div>
+      <div class="faq-item glass rv">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a2" id="faq-q2"><span class="n">02</span>Сколько правок входит в&nbsp;стоимость?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div><p>В&nbsp;стоимость входят <b>два круга правок</b> на&nbsp;этапе дизайна и&nbsp;<b>один</b> после вёрстки. Мелкие текстовые правки в&nbsp;течение двух недель после запуска — бесплатно.</p></div></div>
+      </div>
+      <div class="faq-item glass rv">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a3" id="faq-q3"><span class="n">03</span>Как происходит оплата?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p><b>50% — предоплата</b> перед стартом, <b>50% — после приёмки</b> готового сайта. Для крупных проектов оплату можно разбить по&nbsp;этапам.</p></div></div>
+      </div>
+      <div class="faq-item glass rv">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a4" id="faq-q4"><span class="n">04</span>Вы передаёте исходники и&nbsp;доступы?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div><p>Да, полностью: <b>код, макеты, доступы</b> к&nbsp;хостингу, домену и&nbsp;аналитике. Сайт — ваша собственность, никакой зависимости от&nbsp;подрядчика.</p></div></div>
+      </div>
+      <div class="faq-item glass rv">
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a5" id="faq-q5"><span class="n">05</span>Сколько времени занимает разработка?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div><p>Лендинг — <b>от 7 рабочих дней</b>, корпоративный сайт — <b>от 2–3 недель</b>. Точный срок фиксируем в&nbsp;договоре после брифа.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="contact">
   <div class="wrap">
     <div class="contact-box glass beam-on rv">
@@ -1212,6 +1311,21 @@ button.vp-case .go{color:var(--vibe-a)}
     </div>
   </div>
 </footer>
+
+<!-- ================= QUIZ ================= -->
+<button class="quiz-fab glass" id="quizFab" type="button" aria-expanded="false" aria-controls="quiz">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M9 6h6M9 11h.01M12 11h.01M15 11h.01M9 14.5h.01M12 14.5h.01M15 14.5h.01M9 18h6"/></svg>
+  <span>Рассчитать проект</span>
+</button>
+<div class="quiz glass" id="quiz" role="dialog" aria-label="Расчёт проекта">
+  <div class="quiz-head">
+    <b>[ Оценка проекта ]</b>
+    <span class="quiz-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <button class="quiz-x" id="quizX" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div id="quizBody"></div>
+</div>
+
 
 <!-- ================= MODAL ================= -->
 <dialog class="case-modal" id="caseModal" aria-labelledby="mTitle">
@@ -1464,12 +1578,101 @@ const CASES = {
       setTimeout(() => { fill(key); vibePanel.classList.remove("swap"); }, reduce ? 0 : 320);
     };
     fill("web"); casesGrid?.setAttribute("data-vibe", "web");
+    window.siteVibe = key => { if (VIBES[key] && document.documentElement.dataset.vibe !== key) setVibe(key); };
     vibeTabs.forEach((t, i) => {
       t.addEventListener("click", () => { if (t.getAttribute("aria-selected") !== "true") setVibe(t.dataset.vibe); });
       t.addEventListener("keydown", e => {
         const d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
         if (d) { e.preventDefault(); setVibe(vibeTabs[(i + d + vibeTabs.length) % vibeTabs.length].dataset.vibe, true); }
       });
+    });
+  }
+
+
+  /* FAQ accordion: one answer open at a time */
+  const faqItems = $$(".faq-item");
+  faqItems.forEach(item => {
+    const q = item.querySelector(".faq-q");
+    q.addEventListener("click", () => {
+      const open = !item.classList.contains("open");
+      faqItems.forEach(i => { i.classList.remove("open"); i.querySelector(".faq-q").setAttribute("aria-expanded", "false"); });
+      if (open) { item.classList.add("open"); q.setAttribute("aria-expanded", "true"); }
+    });
+  });
+
+  /* mini quiz: 4 quick questions → indicative estimate → prefilled contact form.
+     Edit QUIZ_PRICE / QUIZ_DAYS to match your real rates. */
+  const QUIZ_PRICE = { "Лендинг": [40, 70], "Корпоративный сайт": [90, 160], "Интернет-магазин": [140, 260], "Редизайн": [50, 110] };   // тыс. ₽
+  const QUIZ_DAYS  = { "Лендинг": [7, 10], "Корпоративный сайт": [14, 25], "Интернет-магазин": [25, 40], "Редизайн": [10, 18] };
+  const QUIZ = [
+    { q: "Что нужно сделать?", key: "type", opts: [["Лендинг", "одна продающая страница"], ["Корпоративный сайт", "несколько разделов"], ["Интернет-магазин", "каталог и корзина"], ["Редизайн", "обновить текущий сайт"]] },
+    { q: "Ваша сфера?", key: "sphere", opts: [["Цифровые продукты и IT", "", "web"], ["Рестораны и HoReCa", "", "horeca"], ["Строительство и архитектура", "", "build"], ["Другое", ""]] },
+    { q: "Что уже готово?", key: "ready", opts: [["Ничего — начинаем с нуля", "", 1.15], ["Есть тексты и фото", "", 1], ["Есть готовый дизайн", "", 0.8], ["Есть старый сайт", "", 0.95]] },
+    { q: "Когда нужен запуск?", key: "when", opts: [["Как можно скорее", "до 2 недель", 1.2], ["В течение месяца", "", 1], ["Сроки гибкие", "", 1]] }
+  ];
+  const fab = $("#quizFab"), quiz = $("#quiz"), qBody = $("#quizBody"), dots = $$(".quiz-dots i");
+  if (fab && quiz) {
+    let step = 0, ans = {};
+    const render = () => {
+      dots.forEach((d, i) => d.classList.toggle("on", i <= step));
+      if (step < QUIZ.length) {
+        const s = QUIZ[step];
+        qBody.innerHTML = `<div class="quiz-step"><h4></h4><div class="quiz-opts"></div>
+          <div class="quiz-foot">${step ? '<button class="quiz-back" type="button">← Назад</button>' : "<span></span>"}<span class="quiz-note">${step + 1} из ${QUIZ.length}</span></div></div>`;
+        qBody.querySelector("h4").textContent = s.q;
+        const box = qBody.querySelector(".quiz-opts");
+        s.opts.forEach(o => {
+          const b = document.createElement("button");
+          b.type = "button"; b.className = "quiz-opt";
+          b.innerHTML = "<span></span><small></small>";
+          b.firstChild.textContent = o[0]; b.lastChild.textContent = o[1];
+          b.addEventListener("click", () => {
+            ans[s.key] = o;
+            if (s.key === "sphere" && o[2]) window.siteVibe?.(o[2]);    // the site picks up the client's sphere
+            step++; render();
+          });
+          box.append(b);
+        });
+        qBody.querySelector(".quiz-back")?.addEventListener("click", () => { step--; render(); });
+        box.firstChild.focus({ preventScroll: true });
+      } else {
+        const type = ans.type[0], k = (ans.ready[2] || 1) * (ans.when[2] || 1);
+        const [p1, p2] = QUIZ_PRICE[type].map(v => Math.round(v * k / 5) * 5);
+        const [d1, d2] = QUIZ_DAYS[type].map(v => Math.round(v * (ans.ready[2] || 1)));
+        qBody.innerHTML = `<div class="quiz-step"><h4>Предварительная оценка</h4>
+          <div class="quiz-res"><div><small>Бюджет</small><b>${p1}–${p2} тыс. ₽</b></div><div><small>Срок</small><b>${d1}–${d2} дней</b></div></div>
+          <p class="quiz-sum"></p>
+          <button class="btn btn-primary" type="button" id="quizSend">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <div class="quiz-foot"><button class="quiz-back" type="button">↺ Заново</button><span class="quiz-note">Точная смета — после брифа</span></div></div>`;
+        qBody.querySelector(".quiz-sum").textContent = `${type} · ${ans.sphere[0]} · ${ans.ready[0].toLowerCase()} · ${ans.when[0].toLowerCase()}.`;
+        qBody.querySelector(".quiz-back").addEventListener("click", () => { step = 0; ans = {}; render(); });
+        $("#quizSend").addEventListener("click", () => {
+          const form = $("#form");
+          const radio = form?.querySelector(`input[name="type"][value="${type}"]`);
+          if (radio) radio.checked = true;
+          const msg = form?.elements.message;
+          if (msg && !msg.value.trim()) msg.value = `Расчёт с сайта: ${type}, сфера — ${ans.sphere[0]}, ${ans.ready[0].toLowerCase()}, запуск — ${ans.when[0].toLowerCase()}. Ориентир: ${p1}–${p2} тыс. ₽, ${d1}–${d2} дней.`;
+          close();
+          $("#contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+          setTimeout(() => form?.elements.name.focus({ preventScroll: true }), 900);
+        });
+        $("#quizSend").focus({ preventScroll: true });
+      }
+    };
+    const open = () => {
+      quiz.classList.add("open"); fab.setAttribute("aria-expanded", "true"); fab.classList.add("hide");
+      if (step >= QUIZ.length) { step = 0; ans = {}; }
+      render();
+    };
+    const close = () => {
+      quiz.classList.remove("open"); fab.setAttribute("aria-expanded", "false"); fab.classList.remove("hide");
+      fab.focus({ preventScroll: true });
+    };
+    fab.addEventListener("click", open);
+    $("#quizX").addEventListener("click", close);
+    addEventListener("keydown", e => { if (e.key === "Escape" && quiz.classList.contains("open")) close(); });
+    document.addEventListener("pointerdown", e => {
+      if (quiz.classList.contains("open") && !quiz.contains(e.target) && !fab.contains(e.target)) close();
     });
   }
 
@@ -1711,7 +1914,7 @@ const CASES = {
   if (!AC || !btn) return;
   btn.hidden = false;
 
-  const VOLUME = 0.07, FADE = 0.7;
+  const VOLUME = 0.032, FADE = 0.9;      // deliberately quiet: a barely-there background
   const KEY = "spartak-sound";
   const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
                   set(v) { try { localStorage.setItem(KEY, v); } catch {} } };
@@ -1740,24 +1943,24 @@ const CASES = {
     drone.connect(lp).connect(out);
     [[55, .5, "sine"], [55.35, .45, "sine"], [27.5, .6, "sine"], [82.4, .12, "triangle"], [110.2, .06, "sine"]].forEach(([f, g, t]) => osc(t, f, g, drone));
     lfo(0.07, 110, lp.frequency); lfo(0.11, 0.12, drone.gain);
-    const bp = filter("bandpass", 420), ng = ctx.createGain(); ng.gain.value = 0.22;
+    const bp = filter("bandpass", 420), ng = ctx.createGain(); ng.gain.value = 0.1;
     noise(4, brown).connect(bp).connect(ng).connect(out); lfo(0.045, 220, bp.frequency);
     return {};
   }
 
   /* ---------- scene: lounge (maj7 chords, soft bass, vinyl crackle) ---------- */
   function lounge(out) {
-    const lp = filter("lowpass", 1500), bus = ctx.createGain(); bus.gain.value = 0.9; bus.connect(lp).connect(out);
+    const lp = filter("lowpass", 820), bus = ctx.createGain(); bus.gain.value = 0.9; bus.connect(lp).connect(out);
     lfo(0.18, 0.12, bus.gain);                                   // gentle tremolo
-    const crackle = ctx.createGain(); crackle.gain.value = 0.16;
+    const crackle = ctx.createGain(); crackle.gain.value = 0.045;
     noise(3, d => { for (let i = 0; i < d.length; i++) d[i] = (Math.random() < 0.0007 ? (Math.random() * 2 - 1) : 0) + (Math.random() * 2 - 1) * 0.015; })
-      .connect(filter("highpass", 1200)).connect(crackle).connect(out);
+      .connect(filter("highpass", 700)).connect(filter("lowpass", 2200)).connect(crackle).connect(out);
     const CHORDS = [[174.6, 220, 261.6, 329.6], [164.8, 196, 246.9, 293.7], [146.8, 174.6, 220, 261.6], [130.8, 164.8, 196, 246.9]];
     const BAR = 4.2;
     let i = 0, next = 0, timer = null;
     const chord = (t, notes) => {
       notes.forEach((f, k) => {
-        [["sine", 1, 0.07], ["triangle", 2, 0.018]].forEach(([type, mul, peak]) => {
+        [["sine", 1, 0.07], ["triangle", 2, 0.006]].forEach(([type, mul, peak]) => {
           const o = ctx.createOscillator(), g = ctx.createGain();
           o.type = type; o.frequency.value = f * mul; o.detune.value = (k - 1.5) * 3;
           g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(peak, t + 0.9 + k * 0.06);
@@ -1767,7 +1970,7 @@ const CASES = {
       });
       const b = ctx.createOscillator(), bg = ctx.createGain();           // soft bass on the root
       b.type = "sine"; b.frequency.value = notes[0] / 2;
-      bg.gain.setValueAtTime(0, t); bg.gain.linearRampToValueAtTime(0.12, t + 0.08); bg.gain.setTargetAtTime(0, t + 0.4, 0.9);
+      bg.gain.setValueAtTime(0, t); bg.gain.linearRampToValueAtTime(0.08, t + 0.12); bg.gain.setTargetAtTime(0, t + 0.4, 0.9);
       b.connect(bg).connect(bus); b.start(t); b.stop(t + BAR);
     };
     const tick = () => { while (next < ctx.currentTime + 1.2) { chord(next, CHORDS[i++ % CHORDS.length]); next += BAR; } };
@@ -1777,7 +1980,8 @@ const CASES = {
 
   /* ---------- scene: workshop (room tone, warm drone, soft irregular taps) ---------- */
   function workshop(out) {
-    const room = ctx.createGain(); room.gain.value = 0.3;
+    const room = ctx.createGain(); room.gain.value = 0.2;
+    const tapLp = filter("lowpass", 1100); tapLp.connect(out);   // keeps every tap muffled
     noise(4, brown).connect(filter("lowpass", 600)).connect(room).connect(out);
     const drone = ctx.createGain(); drone.gain.value = 0.35; drone.connect(filter("lowpass", 400)).connect(out);
     osc("sine", 98, 0.12, drone); osc("sine", 147, 0.06, drone); lfo(0.09, 0.08, drone.gain);
@@ -1785,12 +1989,12 @@ const CASES = {
     clickBuf.getChannelData(0).forEach((_, i, d) => { d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.012)); });
     const tap = (t, f, gain) => {
       const s = ctx.createBufferSource(), bp = filter("bandpass", f, 3.5), g = ctx.createGain();
-      s.buffer = clickBuf; g.gain.value = gain; s.connect(bp).connect(g).connect(out); s.start(t);
+      s.buffer = clickBuf; g.gain.value = gain; s.connect(bp).connect(g).connect(tapLp); s.start(t);
     };
     const thunk = t => {
       const o = ctx.createOscillator(), g = ctx.createGain();
       o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(70, t + 0.14);
-      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.09, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
       o.connect(g).connect(out); o.start(t); o.stop(t + 0.25);
     };
     let next = 0, timer = null;
@@ -1798,7 +2002,7 @@ const CASES = {
       while (next < ctx.currentTime + 0.6) {
         const r = Math.random();
         if (r < 0.08) thunk(next);
-        else if (r < 0.75) { tap(next, 1800 + Math.random() * 1800, 0.5); if (Math.random() < 0.3) tap(next + 0.09, 2600 + Math.random() * 900, 0.35); }
+        else if (r < 0.75) { tap(next, 650 + Math.random() * 550, 0.2); if (Math.random() < 0.3) tap(next + 0.09, 900 + Math.random() * 350, 0.12); }
         next += 0.22 + Math.random() * (Math.random() < 0.15 ? 1.6 : 0.5);   // bursts of work, then pauses
       }
     };
@@ -1835,7 +2039,9 @@ const CASES = {
         if (!ctx) {
           ctx = new AC();
           master = ctx.createGain(); master.gain.value = 0;
-          master.connect(ctx.createDynamicsCompressor()).connect(ctx.destination);
+          // one soft low-pass on the whole mix: nothing sharp reaches the ears
+          const soft = ctx.createBiquadFilter(); soft.type = "lowpass"; soft.frequency.value = 1000; soft.Q.value = 0.5;
+          master.connect(soft).connect(ctx.createDynamicsCompressor()).connect(ctx.destination);
         }
         ctx.resume();
         ensure(vibe);
