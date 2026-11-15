@@ -1461,7 +1461,7 @@ const CASES = {
   };
   const LIMITS = { name: 60, contact: 100, message: 2000 };
   // Telegram @username, t.me link, phone or e-mail
-  const CONTACT_RE = /^(@?[A-Za-z][A-Za-z0-9_]{3,31}|(https?:\/\/)?t\.me\/[A-Za-z][A-Za-z0-9_]{3,31}|\+?[\d\s()\-]{7,20}|[^\s@]{1,64}@[^\s@]{1,190}\.[A-Za-z]{2,24})$/;
+  const CONTACT_RE = /^(@?[A-Za-z][A-Za-z0-9_]{4,31}|(https?:\/\/)?t\.me\/[A-Za-z][A-Za-z0-9_]{4,31}|\+?[\d\s()\-]{7,20}|[^\s@]{1,64}@[^\s@]{1,190}\.[A-Za-z]{2,24})$/;
   const validContact = v => CONTACT_RE.test(v) && (v.replace(/\D/g, "").length >= 7 || /[A-Za-z]/.test(v));
   // client-side throttle (the server repeats every check): ≥45 s between leads, ≤5 per hour
   const THROTTLE_KEY = "spartak-leads";
