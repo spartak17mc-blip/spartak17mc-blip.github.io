@@ -820,6 +820,15 @@ body.about-moving main .glass,body.about-moving .header .glass,body.about-open m
 html.vibe-switching .vibe-glow,html.vibe-switching .beams{opacity:0}
 html.vibe-switching .grad,html.vibe-switching .lg-acc{opacity:.5}
 
+/* ================= CURRENCY ================= */
+.legend-row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;flex-wrap:wrap}
+.group .legend-row{margin-bottom:10px}
+.cur{display:inline-flex;gap:2px;padding:3px;border-radius:999px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.06)}
+.cur-btn{height:26px;padding:0 10px;border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--dim);transition:color .3s,background .3s,box-shadow .3s}
+.cur-btn:hover{color:var(--text)}
+.cur-btn.on{color:#fff;background:rgba(255,255,255,0.09);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.15),0 0 14px -6px rgb(from var(--vibe-a) r g b / .7)}
+.quiz-cur{margin:-4px 0 12px}
+
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -1329,12 +1338,19 @@ html.vibe-switching .grad,html.vibe-switching .lg-acc{opacity:.5}
           </div>
         </fieldset>
         <fieldset class="group">
-          <legend>Бюджет</legend>
+          <legend class="legend-row">Бюджет
+            <span class="cur" role="group" aria-label="Валюта бюджета">
+              <button type="button" class="cur-btn" data-cur="USD" aria-pressed="false">$ USD</button>
+              <button type="button" class="cur-btn" data-cur="EUR" aria-pressed="false">€ EUR</button>
+              <button type="button" class="cur-btn" data-cur="RUB" aria-pressed="true">₽ RUB</button>
+            </span>
+          </legend>
+          <!-- values are currency-independent tier keys; labels are rendered for the selected currency -->
           <div class="opts">
-            <input type="radio" name="budget" id="b1" value="до 50 тыс. ₽"><label for="b1">до 50 тыс. ₽</label>
-            <input type="radio" name="budget" id="b2" value="50–100 тыс. ₽" checked><label for="b2">50–100 тыс. ₽</label>
-            <input type="radio" name="budget" id="b3" value="от 100 тыс. ₽"><label for="b3">от 100 тыс. ₽</label>
-            <input type="radio" name="budget" id="b4" value="Нужна консультация"><label for="b4">Пока не знаю</label>
+            <input type="radio" name="budget" id="b1" value="low"><label for="b1" data-tier="low">до 50 тыс. ₽</label>
+            <input type="radio" name="budget" id="b2" value="mid" checked><label for="b2" data-tier="mid">50–100 тыс. ₽</label>
+            <input type="radio" name="budget" id="b3" value="high"><label for="b3" data-tier="high">от 100 тыс. ₽</label>
+            <input type="radio" name="budget" id="b4" value="consult"><label for="b4" data-tier="consult">Пока не знаю</label>
           </div>
         </fieldset>
         <div class="fld"><label for="f-msg">О проекте</label><textarea id="f-msg" name="message" maxlength="2000" placeholder="Чем занимается компания, что нужно сделать и к какому сроку" required></textarea><span class="msg">Опишите задачу хотя бы в одном предложении</span></div>
@@ -1810,6 +1826,51 @@ const CASES = {
     });
   });
 
+  /* ---------- currency: picked by the visitor, defaulting from the page language ---------- */
+  // ₽ per 1 unit — rough rates used only for indicative prices; update whenever you like
+  const RATES = { RUB: 1, USD: 80, EUR: 92 };
+  const CUR_SIGN = { RUB: "₽", USD: "$", EUR: "€" };
+  // budget tiers in the contact form, per currency (edit freely)
+  const BUDGET_TIERS = {
+    RUB: { low: "до 50 тыс. ₽", mid: "50–100 тыс. ₽", high: "от 100 тыс. ₽" },
+    USD: { low: "до $600", mid: "$600–1 200", high: "от $1 200" },
+    EUR: { low: "до €550", mid: "€550–1 100", high: "от €1 100" }
+  };
+  // RU → roubles, EN → dollars (euro is always one click away)
+  const langDefault = () => (document.documentElement.lang || "ru").toLowerCase().startsWith("en") ? "USD" : "RUB";
+  let manualCurrency = null;
+  try { const saved = localStorage.getItem("spartak-currency"); if (CUR_SIGN[saved]) manualCurrency = saved; } catch {}
+  let currency = manualCurrency || langDefault();
+  const currencyListeners = [];
+  const setCurrency = (c, manual) => {
+    if (!CUR_SIGN[c]) return;
+    if (manual) { manualCurrency = c; try { localStorage.setItem("spartak-currency", c); } catch {} }
+    currency = c;
+    currencyListeners.forEach(fn => fn(c));
+  };
+  // price range given in thousands of ₽ → text in the chosen currency (rounded to 50)
+  const fmtRange = (k1, k2, c = currency) => {
+    if (c === "RUB") return `${k1}–${k2} тыс. ₽`;
+    const n = v => (Math.round(v * 1000 / RATES[c] / 50) * 50).toLocaleString("ru-RU").replace(/ /g, " ");
+    return `${CUR_SIGN[c]}${n(k1)}–${n(k2)}`;
+  };
+  // a language switch (now or added later) only changes the default — never a choice the visitor made by hand
+  new MutationObserver(() => { if (!manualCurrency) setCurrency(langDefault(), false); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+  // every currency picker on the page (form + quiz) shares one state
+  document.addEventListener("click", e => {
+    const b = e.target.closest?.("[data-cur]");
+    if (b) setCurrency(b.dataset.cur, true);
+  });
+  currencyListeners.push(c => $$("[data-cur]").forEach(b => {
+    const on = b.dataset.cur === c;
+    b.setAttribute("aria-pressed", String(on)); b.classList.toggle("on", on);
+  }));
+  currencyListeners.push(c => $$("#form label[data-tier]").forEach(l => {
+    const t = BUDGET_TIERS[c][l.dataset.tier]; if (t) l.textContent = t;
+  }));
+  setCurrency(currency);                                           // first paint with the default / remembered currency
+
   /* mini quiz: 4 quick questions → indicative estimate → prefilled contact form.
      Edit QUIZ_PRICE / QUIZ_DAYS to match your real rates. */
   const QUIZ_PRICE = { "Лендинг": [40, 70], "Корпоративный сайт": [90, 160], "Интернет-магазин": [140, 260], "Редизайн": [50, 110] };   // тыс. ₽
@@ -1823,6 +1884,8 @@ const CASES = {
   const fab = $("#quizFab"), quiz = $("#quiz"), qBody = $("#quizBody"), dots = $$(".quiz-dots i");
   if (fab && quiz) {
     let step = 0, ans = {};
+    let quizCurrencyHook = null;                                   // re-paints the result when the currency changes
+    currencyListeners.push(c => { if (quizCurrencyHook && $("#quizBudget")) quizCurrencyHook(c); });
     const render = () => {
       dots.forEach((d, i) => d.classList.toggle("on", i <= step));
       if (step < QUIZ.length) {
@@ -1850,14 +1913,18 @@ const CASES = {
         const [p1, p2] = QUIZ_PRICE[type].map(v => Math.round(v * k / 5) * 5);
         const [d1, d2] = QUIZ_DAYS[type].map(v => Math.round(v * (ans.ready[2] || 1)));
         qBody.innerHTML = `<div class="quiz-step"><h4>Подходящее решение</h4>
-          <div class="quiz-res"><div><small>Бюджет</small><b>${p1}–${p2} тыс. ₽</b></div><div><small>Срок</small><b>${d1}–${d2} дней</b></div></div>
+          <div class="quiz-res"><div><small>Бюджет</small><b id="quizBudget"></b></div><div><small>Срок</small><b>${d1}–${d2} дней</b></div></div>
+          <div class="cur quiz-cur" role="group" aria-label="Валюта бюджета"><button type="button" class="cur-btn" data-cur="USD">$ USD</button><button type="button" class="cur-btn" data-cur="EUR">€ EUR</button><button type="button" class="cur-btn" data-cur="RUB">₽ RUB</button></div>
           <p class="quiz-sum"></p>
           <input class="quiz-input" id="quizContact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="Ваш Telegram или телефон" autocomplete="tel" aria-label="Куда ответить">
           <p class="quiz-legal">Нажимая кнопку, вы соглашаетесь с <button type="button" class="legal-link inline" data-legal="terms">Условиями работы</button> и <button type="button" class="legal-link inline" data-legal="privacy">Политикой конфиденциальности</button>.</p>
           <button class="btn btn-primary" type="button" id="quizSend">Отправить в Telegram<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           <p class="quiz-err" id="quizErr" role="alert" hidden></p>
           <div class="quiz-foot"><button class="quiz-back" type="button">↺ Заново</button><button class="quiz-back" type="button" id="quizForm">Полная форма →</button></div></div>`;
-        const summary = `${type}, сфера — ${ans.sphere[0]}, ${ans.ready[0].toLowerCase()}, запуск — ${ans.when[0].toLowerCase()}. Ориентир: ${p1}–${p2} тыс. ₽, ${d1}–${d2} дней.`;
+        // the budget line follows the currency picker live
+        const paintBudget = () => { const el = $("#quizBudget"); if (el) el.textContent = fmtRange(p1, p2); };
+        paintBudget(); quizCurrencyHook = paintBudget; setCurrency(currency);
+        const summary = () => `${type}, сфера — ${ans.sphere[0]}, ${ans.ready[0].toLowerCase()}, запуск — ${ans.when[0].toLowerCase()}. Ориентир: ${fmtRange(p1, p2)} (${currency}), ${d1}–${d2} дней.`;
         qBody.querySelector(".quiz-sum").textContent = `${type} · ${ans.sphere[0]} · ${ans.ready[0].toLowerCase()} · ${ans.when[0].toLowerCase()}. Точная смета — после брифа.`;
         qBody.querySelector(".quiz-back").addEventListener("click", () => { step = 0; ans = {}; render(); });
         // option A: send straight to Telegram from the quiz
@@ -1871,7 +1938,7 @@ const CASES = {
           }
           btn.disabled = true; err.hidden = true;
           // answers come from our own option lists, so only the contact is free text
-          sendLead("quiz", "🧭 Заявка из опросника", { "Контакт": c, "Задача": type, "Сфера": ans.sphere[0], "Готово": ans.ready[0], "Сроки": ans.when[0], "Ориентир": `${p1}–${p2} тыс. ₽, ${d1}–${d2} дней` })
+          sendLead("quiz", "🧭 Заявка из опросника", { "Контакт": c, "Задача": type, "Сфера": ans.sphere[0], "Готово": ans.ready[0], "Сроки": ans.when[0], "Ориентир": `${fmtRange(p1, p2)}, ${d1}–${d2} дней`, "Валюта": currency })
             .then(() => {
               qBody.innerHTML = `<div class="quiz-step"><h4>Заявка отправлена ✓</h4><p class="quiz-sum">Спасибо! Я получил её в Telegram и отвечу в течение пары часов.</p></div>`;
               dots.forEach(d => d.classList.add("on")); step = QUIZ.length + 1;
@@ -1885,7 +1952,7 @@ const CASES = {
           const radio = form?.querySelector(`input[name="type"][value="${type}"]`);
           if (radio) radio.checked = true;
           const msg = form?.elements.message, cont = form?.elements.contact;
-          if (msg && !msg.value.trim()) msg.value = "Расчёт с сайта: " + summary;
+          if (msg && !msg.value.trim()) msg.value = "Расчёт с сайта: " + summary();
           if (cont && !cont.value.trim() && $("#quizContact").value.trim()) cont.value = $("#quizContact").value.trim();
           close();
           $("#contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
@@ -2091,11 +2158,12 @@ const CASES = {
     // radios can only carry values from our own markup — anything else is dropped
     const pick = (name, allowed) => { const val = form.elements[name].value; return allowed.includes(val) ? val : ""; };
     const type = pick("type", ["Лендинг", "Корпоративный сайт", "Интернет-магазин", "Редизайн"]);
-    const budget = pick("budget", ["до 50 тыс. ₽", "50–100 тыс. ₽", "от 100 тыс. ₽", "Нужна консультация"]);
+    const tier = pick("budget", ["low", "mid", "high", "consult"]);
+    const budget = tier === "consult" ? "Нужна консультация" : tier ? `${BUDGET_TIERS[currency][tier]} (${currency})` : "";
     const errBox = $("#formError"), label = btn.firstChild.textContent;
     btn.disabled = true; btn.firstChild.textContent = "Отправляю… "; errBox.hidden = true;
     sendLead("form", "🚀 Новая заявка с сайта",
-      { "Имя": v.name, "Контакт": v.contact, "Задача": type, "Бюджет": budget, "О проекте": v.message },
+      { "Имя": v.name, "Контакт": v.contact, "Задача": type, "Бюджет": budget, "Валюта": currency, "О проекте": v.message },
       clean(form.elements.company.value, 100))
       .then(() => form.classList.add("sent"))
       .catch(err => { errBox.innerHTML = leadError(err); errBox.hidden = false; })
