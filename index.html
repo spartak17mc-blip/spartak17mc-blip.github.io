@@ -785,7 +785,10 @@ html.hero-off .beams i{animation-play-state:paused}
 .legal-link{color:var(--dim);font-size:13px;text-decoration:underline;text-decoration-color:rgba(255,255,255,.18);text-underline-offset:3px;transition:color .3s,text-decoration-color .3s}
 .legal-link:hover,.legal-link:focus-visible{color:var(--text);text-decoration-color:var(--vibe-a)}
 .legal-link.inline{font-size:inherit;color:inherit;padding:0}
-.quiz-legal{margin-top:10px;font-size:11.5px;color:var(--dim);line-height:1.5}
+.quiz-legal{margin:2px 0 10px;font-size:11.5px;color:var(--dim);line-height:1.5}
+.consent{font-size:13px;color:var(--muted);line-height:1.55;margin-top:-4px}
+.consent .legal-link{color:var(--text);text-decoration-color:rgb(from var(--vibe-a) r g b / .5)}
+.legal-foot{display:flex;justify-content:flex-end;margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,.07)}
 dialog.legal{margin:auto;width:min(760px,calc(100% - 24px));max-height:calc(100dvh - 40px);padding:0;border-radius:26px;color:var(--text);overflow:hidden;
   background:rgba(10,10,15,0.94);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 30px 80px rgba(0,0,0,.7);
   opacity:0;transform:translateY(14px);transition:opacity .45s var(--ease),transform .55s var(--ease-out),overlay .45s allow-discrete,display .45s allow-discrete}
@@ -1337,9 +1340,10 @@ html.vibe-switching .grad,html.vibe-switching .lg-acc{opacity:.5}
         <div class="fld"><label for="f-msg">О проекте</label><textarea id="f-msg" name="message" maxlength="2000" placeholder="Чем занимается компания, что нужно сделать и к какому сроку" required></textarea><span class="msg">Опишите задачу хотя бы в одном предложении</span></div>
         <!-- honeypot: real visitors never see or fill this field -->
         <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="consent">Нажимая кнопку, вы        <div class="f-submit">nbsp;соглашаетесь с        <div class="f-submit">nbsp;<button type="button" class="legal-link inline" data-legal="terms">Условиями работы</button> и        <div class="f-submit">nbsp;<button type="button" class="legal-link inline" data-legal="privacy">Политикой конфиденциальности</button>.</p>
         <div class="f-submit">
           <button class="btn btn-primary" type="submit" id="formBtn">Отправить заявку<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-          <p>Заявка мгновенно придёт мне в&nbsp;Telegram — отвечу в&nbsp;течение пары часов. Отправляя её, вы&nbsp;соглашаетесь с&nbsp;<button type="button" class="legal-link inline" data-legal="privacy">политикой конфиденциальности</button>.</p>
+          <p>Заявка мгновенно придёт мне в&nbsp;Telegram — отвечу в&nbsp;течение пары часов.</p>
         </div>
         <p class="f-error" id="formError" role="alert" hidden></p>
         <div class="done" role="status" aria-live="polite">
@@ -1385,6 +1389,7 @@ html.vibe-switching .grad,html.vibe-switching .lg-acc{opacity:.5}
       <li><b>Права и&nbsp;исходники.</b> После полной оплаты клиент получает исходный код, макеты и&nbsp;все доступы. До&nbsp;полной оплаты сайт остаётся на&nbsp;тестовом адресе.</li>
       <li><b>Ответственность.</b> Исполнитель отвечает за&nbsp;качество и&nbsp;сроки своей работы. Исполнитель не&nbsp;отвечает за&nbsp;содержание материалов клиента, сбои сторонних сервисов (хостинг, домен, платёжные системы) и&nbsp;задержки по&nbsp;вине клиента.</li>
     </ol>
+    <div class="legal-foot"><button class="btn btn-primary btn-sm legal-ok" type="button">Понятно</button></div>
   </div>
 </dialog>
 
@@ -1405,6 +1410,7 @@ html.vibe-switching .grad,html.vibe-switching .lg-acc{opacity:.5}
       <li><b>Ваши права.</b> Вы&nbsp;можете попросить показать, исправить или удалить ваши данные — достаточно написать в&nbsp;Telegram.</li>
       <li><b>Cookies и&nbsp;аналитика.</b> Сайт не&nbsp;использует рекламные cookies и&nbsp;трекеры. В&nbsp;браузере сохраняются только ваши настройки (звук, громкость) и&nbsp;отметки о&nbsp;времени отправки заявок для защиты от&nbsp;спама. Шрифты загружаются с&nbsp;Google Fonts, поэтому Google видит ваш IP-адрес при загрузке страницы.</li>
     </ol>
+    <div class="legal-foot"><button class="btn btn-primary btn-sm legal-ok" type="button">Понятно</button></div>
   </div>
 </dialog>
 
@@ -1847,9 +1853,9 @@ const CASES = {
           <div class="quiz-res"><div><small>Бюджет</small><b>${p1}–${p2} тыс. ₽</b></div><div><small>Срок</small><b>${d1}–${d2} дней</b></div></div>
           <p class="quiz-sum"></p>
           <input class="quiz-input" id="quizContact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="Ваш Telegram или телефон" autocomplete="tel" aria-label="Куда ответить">
+          <p class="quiz-legal">Нажимая кнопку, вы соглашаетесь с <button type="button" class="legal-link inline" data-legal="terms">Условиями работы</button> и <button type="button" class="legal-link inline" data-legal="privacy">Политикой конфиденциальности</button>.</p>
           <button class="btn btn-primary" type="button" id="quizSend">Отправить в Telegram<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           <p class="quiz-err" id="quizErr" role="alert" hidden></p>
-          <p class="quiz-legal">Отправляя, вы соглашаетесь с <button type="button" class="legal-link inline" data-legal="privacy">политикой конфиденциальности</button>.</p>
           <div class="quiz-foot"><button class="quiz-back" type="button">↺ Заново</button><button class="quiz-back" type="button" id="quizForm">Полная форма →</button></div></div>`;
         const summary = `${type}, сфера — ${ans.sphere[0]}, ${ans.ready[0].toLowerCase()}, запуск — ${ans.when[0].toLowerCase()}. Ориентир: ${p1}–${p2} тыс. ₽, ${d1}–${d2} дней.`;
         qBody.querySelector(".quiz-sum").textContent = `${type} · ${ans.sphere[0]} · ${ans.ready[0].toLowerCase()} · ${ans.when[0].toLowerCase()}. Точная смета — после брифа.`;
@@ -1904,6 +1910,7 @@ const CASES = {
     $("#quizX").addEventListener("click", close);
     addEventListener("keydown", e => { if (e.key === "Escape" && quiz.classList.contains("open")) close(); });
     document.addEventListener("pointerdown", e => {
+      if (e.target.closest?.("dialog")) return;            // reading the legal text must not close the quiz
       if (quiz.classList.contains("open") && !quiz.contains(e.target) && !fab.contains(e.target)) close();
     });
   }
@@ -2016,6 +2023,7 @@ const CASES = {
   });
   $$("dialog.legal").forEach(dlg => {
     dlg.querySelector(".legal-x").addEventListener("click", () => dlg.close());
+    dlg.querySelector(".legal-ok")?.addEventListener("click", () => dlg.close());
     dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });            // click on the backdrop
     dlg.addEventListener("close", () => { if (!document.querySelector("dialog[open]")) document.body.classList.remove("modal-open"); });
   });
