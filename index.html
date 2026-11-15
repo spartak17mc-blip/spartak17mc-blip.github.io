@@ -481,12 +481,13 @@ html.intro-on #dust{opacity:0}
 .intro-tags li{height:30px;padding:0 13px;display:inline-flex;align-items:center;border-radius:999px;font-size:13px;color:#d4d9e6;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.07)}
 .intro-panel .intro-motto{margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.07);font-size:14.5px;color:#c9cfdc;font-style:italic;font-family:var(--serif);max-width:44ch}
 .intro-motto span{display:block;margin-bottom:6px;font-family:var(--mono);font-style:normal;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
-.intro-btn{position:relative;margin-top:32px;height:56px;padding:0 30px;border-radius:999px;display:inline-flex;align-items:center;gap:12px;
+.intro-btn{position:relative;margin-top:32px;min-height:56px;padding:14px 28px;text-align:center;line-height:1.35;border-radius:999px;display:inline-flex;align-items:center;gap:12px;
   font-family:var(--mono);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:#fff;
   background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.18);
   box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.14),0 10px 30px rgba(0,0,0,.5),0 0 30px -10px rgba(165,180,252,.5);
   transition:border-color .5s var(--ease),box-shadow .6s var(--ease),background .5s var(--ease),transform .6s var(--ease-out)}
 .intro-btn .br{color:#c7d2fe;transition:transform .6s var(--ease-out)}
+.ib-en{color:var(--muted);letter-spacing:.08em;font-size:.9em}
 .intro-btn::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid rgba(165,180,252,.45);pointer-events:none;animation:ring 2.6s var(--ease-out) infinite}
 @keyframes ring{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.18,1.5)}}
 .intro-btn:hover,.intro-btn:focus-visible{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.32);outline:none;
@@ -521,7 +522,8 @@ html.intro-on #dust{opacity:0}
   .intro-panel{padding:30px 20px 26px}
   .intro-panel p{font-size:15px}
   .intro-tags li{font-size:12px;height:28px;padding:0 11px}
-  .intro-btn{height:52px;padding:0 20px;font-size:12px;letter-spacing:.08em}
+  .intro-btn{min-height:52px;padding:12px 18px;font-size:12px;letter-spacing:.08em}
+  .ib-en{display:block}
   .hud.tr,.hud.bl{display:none}
   .hud{font-size:9.5px}
 }
@@ -536,6 +538,31 @@ html.intro-on #dust{opacity:0}
 @media (prefers-reduced-motion:reduce){
   .intro.launch .shock,.intro.launch .flash{animation:none}
 }
+
+/* ================= PRELOADER ================= */
+/* step 1: black screen with a small glass loader; no percentages */
+.preloader{display:none}
+.js .preloader{position:fixed;inset:0;z-index:120;display:grid;place-items:center;background:#000;transition:opacity 1s var(--ease),visibility 1s linear}
+.preloader.done{opacity:0;visibility:hidden;pointer-events:none}
+.pl-core{display:flex;flex-direction:column;align-items:center;gap:18px;padding:34px 44px 30px;border-radius:26px;min-width:260px;
+  animation:pl-in 1s var(--ease-out) both;transition:transform 1s var(--ease-out)}
+.preloader.done .pl-core{transform:scale(.96)}
+@keyframes pl-in{from{opacity:0;transform:translateY(8px) scale(.98)}}
+.pl-orbit{position:relative;width:64px;height:64px}
+.pl-orbit svg{width:100%;height:100%;animation:pl-spin 1.6s linear infinite}
+.pl-orbit .trk{fill:none;stroke:rgba(255,255,255,.08);stroke-width:1.5}
+.pl-orbit .arc{fill:none;stroke:url(#ringGrad);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:46 118}
+.pl-orbit i{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#e0e7ff;box-shadow:0 0 14px rgba(165,180,252,.9);animation:pl-pulse 1.6s ease-in-out infinite}
+@keyframes pl-spin{to{transform:rotate(360deg)}}
+@keyframes pl-pulse{50%{transform:scale(.55);opacity:.6}}
+.pl-brand{font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:#fff;padding-left:.32em}
+.pl-status{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);min-height:1.4em;transition:opacity .3s}
+.pl-scan{position:relative;width:140px;height:1px;background:rgba(255,255,255,.08);overflow:hidden}
+.pl-scan::after{content:"";position:absolute;top:0;bottom:0;width:40%;background:linear-gradient(90deg,transparent,#c7d2fe,transparent);animation:pl-scan 1.4s ease-in-out infinite}
+@keyframes pl-scan{from{left:-40%}to{left:100%}}
+
+/* step 2 waits for the preloader: story panel and HUD stay hidden until html.loaded */
+html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
 
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
@@ -612,6 +639,18 @@ html.intro-on #dust{opacity:0}
 <body>
 <canvas id="cosmos" aria-hidden="true"></canvas>
 <canvas id="dust" aria-hidden="true"></canvas>
+<!-- ================= PRELOADER ================= -->
+<div class="preloader" id="preloader" role="status" aria-label="Загрузка сайта">
+  <div class="pl-core glass">
+    <div class="pl-orbit" aria-hidden="true">
+      <svg viewBox="0 0 64 64"><circle class="trk" cx="32" cy="32" r="26"/><circle class="arc" cx="32" cy="32" r="26"/></svg>
+      <i></i>
+    </div>
+    <span class="pl-brand">Spartak.dev</span>
+    <span class="pl-scan" aria-hidden="true"></span>
+    <span class="pl-status" id="plStatus">Инициализация ядра</span>
+  </div>
+</div>
 <!-- ================= INTRO ================= -->
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
   <span class="hud tl" aria-hidden="true">Spartak.dev<br><em>Interface · 2026</em></span>
@@ -628,8 +667,8 @@ html.intro-on #dust{opacity:0}
       <li>Лендинги</li><li>Корпоративные сайты</li><li>UI-дизайн</li><li>Frontend</li>
     </ul>
     <p class="intro-motto"><span>Философия</span>Ни строчки лишнего кода, ни слова лишнего текста — только то, что ведёт клиента к&nbsp;заявке.</p>
-    <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span>Войти в&nbsp;интерфейс<span class="br">]</span></button>
-    <small class="intro-hint">Enter ↵ — вход</small>
+    <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span><span class="ib-text">Запустить интерфейс <span class="ib-en">/ Initialize Portfolio</span></span><span class="br">]</span></button>
+    <small class="intro-hint">Enter ↵ — запуск</small>
   </div>
 </div>
 
@@ -1129,16 +1168,39 @@ const CASES = {
   if (document.documentElement.classList.contains("intro-on")) addEventListener("intro:done", startReveal, { once: true });
   else startReveal();
 
-  /* intro: launch button → vortex pulse + shockwave → overlay dissolves → content appears */
-  const intro = $("#intro");
+  /* step 1 → 2: preloader waits for page + fonts (min 1.6 s, max 6 s), then reveals the story panel */
+  const intro = $("#intro"), pre = $("#preloader");
+  let ready = !pre;
+  if (pre) {
+    const status = $("#plStatus");
+    const lines = ["Инициализация ядра", "Калибровка гравитации", "Синхронизация звёздного поля", "Подготовка интерфейса"];
+    let li = 0;
+    const statusTimer = setInterval(() => {
+      li = (li + 1) % lines.length;
+      status.style.opacity = 0;
+      setTimeout(() => { status.textContent = lines[li]; status.style.opacity = 1; }, 300);
+    }, 900);
+    const loaded = new Promise(r => document.readyState === "complete" ? r() : addEventListener("load", r, { once: true }));
+    const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+    const minTime = new Promise(r => setTimeout(r, reduce ? 400 : 1600));
+    const maxTime = new Promise(r => setTimeout(r, 6000));
+    Promise.race([Promise.all([loaded, fonts, minTime]), maxTime]).then(() => {
+      ready = true;
+      pre.classList.add("done");
+      document.documentElement.classList.add("loaded");
+      $("#introBtn")?.focus({ preventScroll: true });
+      setTimeout(() => { clearInterval(statusTimer); pre.remove(); }, 1200);
+    });
+  } else document.documentElement.classList.add("loaded");
+
+  /* step 3: launch button → vortex forms + ambient + story dissolves → portfolio appears */
   if (intro) {
     const btn = $("#introBtn"), clock = $("#introClock");
     const tick = () => { clock.textContent = new Date().toLocaleTimeString("ru-RU", { hour12: false }); };
     tick(); const clockTimer = setInterval(tick, 1000);
-    btn.focus({ preventScroll: true });
     let launched = false;
     const launch = () => {
-      if (launched) return;
+      if (launched || !ready) return;
       launched = true;
       window.cosmos?.launch();
       window.ambient?.start();
@@ -1152,7 +1214,7 @@ const CASES = {
     };
     btn.addEventListener("click", launch);
     addEventListener("keydown", e => {
-      if (!launched && (e.key === "Enter" || e.key === " " || e.key === "Escape")) { e.preventDefault(); launch(); }
+      if (!launched && ready && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); launch(); }
     });
   }
 
