@@ -706,12 +706,12 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
   <div class="shock" aria-hidden="true"></div>
   <div class="intro-panel glass beam-on">
     <span class="intro-kicker"><i></i>Spartak.dev // Web Design &amp; Development</span>
-    <h2 id="introTitle">Превращаю внимание посетителей в&nbsp;<span class="serif grad">заявки</span></h2>
-    <p class="intro-lead">Я&nbsp;— веб-разработчик и&nbsp;дизайнер интерфейсов. Создаю лендинги и&nbsp;корпоративные сайты под&nbsp;ключ: от&nbsp;позиционирования и&nbsp;прототипа до&nbsp;чистого кода, запуска и&nbsp;развития.</p>
+    <h2 id="introTitle">Дизайн, которому доверяют. Код, который <span class="serif grad">приносит заявки</span></h2>
+    <p class="intro-lead">Я&nbsp;веб-разработчик и&nbsp;дизайнер интерфейсов. Проектирую и&nbsp;запускаю лендинги и&nbsp;корпоративные сайты под&nbsp;ключ&nbsp;— с&nbsp;ясной структурой, выверенной эстетикой и&nbsp;безупречно чистым кодом.</p>
     <ul class="intro-tags" aria-label="Специализация">
       <li>Лендинги</li><li>Корпоративные сайты</li><li>UI/UX-дизайн</li><li>Frontend-разработка</li>
     </ul>
-    <p class="intro-motto"><span>Подход</span>Меньше шума — больше смысла. Каждый экран, каждая строка кода и&nbsp;каждое слово ведут посетителя к&nbsp;одному решению.</p>
+    <p class="intro-motto"><span>Принцип</span>Сначала смысл, затем форма. Каждый экран, каждая строка кода и&nbsp;каждое слово служат одной цели&nbsp;— вашему результату.</p>
     <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span><span class="ib-text">Запустить интерфейс <span class="ib-en">/ Initialize Portfolio</span></span><span class="br">]</span></button>
     <small class="intro-hint">Enter ↵ — запуск</small>
   </div>
@@ -1398,6 +1398,10 @@ const CASES = {
   // intro screen: vortex sits dead centre until launch; pulse = energy burst on launch (decays to 0)
   let introMode = !!document.getElementById("intro"), pulse = 0, fx = 0.5, fy = 0.5;
   let tLaunch = 0;
+  // infall objects: glowing motes and short code tokens pulled into the throat
+  const TOKENS = ["</>", "{ }", "fn()", "=>", "const", "[ ]", "&&", "λ", "01", ";", "<div>", "async"];
+  const infall = [];
+  let nextInfall = performance.now() + 5000, glowKick = 0;
   window.cosmos = { launch() { introMode = false; pulse = 1; tLaunch = performance.now(); if (reduce) frame(tLaunch); } };
   addEventListener("pointermove", e => { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; }, { passive: true });
   addEventListener("scroll", () => {
@@ -1462,9 +1466,45 @@ const CASES = {
         ctx.stroke();
       }
     }
-    // soft core glow in the throat
+    // infall: now and then a glowing mote or a scrap of code spirals into the throat
+    if (!introMode && !reduce) {
+      if (now > nextInfall) {
+        const n = 1 + (Math.random() < 0.4 ? 1 : 0);
+        for (let i = 0; i < n; i++) infall.push({
+          r: 1.05 + Math.random() * 0.2, a: Math.random() * Math.PI * 2, px: null, py: null,
+          text: Math.random() < 0.55 ? TOKENS[Math.floor(Math.random() * TOKENS.length)] : null
+        });
+        nextInfall = now + 6000 + Math.random() * 9000;
+      }
+      for (let i = infall.length - 1; i >= 0; i--) {
+        const f = infall[i];
+        f.a += (0.006 + 0.012 / (f.r + 0.12)) * dt;
+        f.r -= (0.0014 + 0.0035 * (1 - f.r)) * dt;
+        if (f.r < 0.06) { infall.splice(i, 1); glowKick = Math.min(glowKick + 0.12, 0.3); continue; }
+        const depth = S * 0.13 * Math.pow(1 - f.r, 3);
+        const x = cx + Math.cos(f.a) * f.r * S, y = cy + Math.sin(f.a) * f.r * S * tilt + depth;
+        const alpha = Math.min(1, (1.25 - f.r) * 3) * Math.min(1, f.r / 0.2);
+        if (f.text) {
+          ctx.font = `500 ${Math.round(9 + 7 * f.r)}px "JetBrains Mono", monospace`;
+          ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillStyle = `rgba(199,210,254,${(alpha * 0.8).toFixed(3)})`;
+          ctx.fillText(f.text, x, y);
+        } else {
+          if (f.px !== null) {
+            ctx.strokeStyle = `rgba(224,231,255,${(alpha * 0.9).toFixed(3)})`; ctx.lineWidth = 1.6;
+            ctx.beginPath(); ctx.moveTo(f.px, f.py); ctx.lineTo(x, y); ctx.stroke();
+          }
+          ctx.fillStyle = `rgba(255,248,235,${alpha.toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(x, y, 1.2 + f.r * 1.4, 0, Math.PI * 2); ctx.fill();
+        }
+        f.px = x; f.py = y;
+      }
+    }
+    glowKick *= Math.pow(0.97, dt);
+
+    // soft core glow in the throat (brightens briefly when something falls in)
     const gy = cy + S * 0.12, g = ctx.createRadialGradient(cx, gy, 0, cx, gy, S * 0.16);
-    g.addColorStop(0, `rgba(255,236,214,${(0.08 + pulse * 0.3).toFixed(3)})`); g.addColorStop(0.4, `rgba(129,140,248,${(0.03 + pulse * 0.12).toFixed(3)})`); g.addColorStop(1, "rgba(0,0,0,0)");
+    g.addColorStop(0, `rgba(255,236,214,${(0.08 + pulse * 0.3 + glowKick).toFixed(3)})`); g.addColorStop(0.4, `rgba(129,140,248,${(0.03 + pulse * 0.12).toFixed(3)})`); g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g; ctx.fillRect(cx - S * 0.2, gy - S * 0.2, S * 0.4, S * 0.4);
 
     if (!reduce) requestAnimationFrame(frame);
