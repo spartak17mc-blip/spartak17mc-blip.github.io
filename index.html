@@ -727,6 +727,40 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
   .quiz{right:12px;left:12px;width:auto;bottom:70px}
 }
 
+/* ================= VOLUME SLIDER ================= */
+.snd-wrap{display:flex;align-items:center;gap:6px}
+.vol{-webkit-appearance:none;appearance:none;width:72px;height:20px;background:transparent;cursor:pointer;--val:50%;transition:opacity .4s var(--ease)}
+.vol[hidden]{display:none}
+.vol.off{opacity:.45}
+.vol::-webkit-slider-runnable-track{height:3px;border-radius:2px;background:linear-gradient(90deg,var(--vibe-a) var(--val),rgba(255,255,255,.14) var(--val))}
+.vol::-moz-range-track{height:3px;border-radius:2px;background:linear-gradient(90deg,var(--vibe-a) var(--val),rgba(255,255,255,.14) var(--val))}
+.vol::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;margin-top:-4.5px;border:0;border-radius:50%;background:#fff;
+  box-shadow:0 0 0 3px rgba(8,8,12,.7),0 0 12px rgb(from var(--vibe-a) r g b / .7);transition:transform .3s var(--ease-out)}
+.vol::-moz-range-thumb{width:12px;height:12px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(8,8,12,.7),0 0 12px rgb(from var(--vibe-a) r g b / .7)}
+.vol:hover::-webkit-slider-thumb,.vol:focus-visible::-webkit-slider-thumb{transform:scale(1.2)}
+.vol:focus-visible{outline:2px solid var(--vibe-a);outline-offset:4px;border-radius:4px}
+@media (max-width:640px){.vol{width:52px}.snd-wrap{gap:4px}}
+
+/* ================= PAYMENT ================= */
+.pay{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pay-card{padding:30px 28px;border-radius:var(--r);display:flex;flex-direction:column}
+.pay-card .ico{margin-bottom:22px}
+.pay-card h3{font-size:21px;font-weight:500;letter-spacing:-.025em}
+.pay-card h3 small{display:block;margin-top:4px;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.pay-card p{color:var(--muted);font-size:15px;margin-top:12px}
+.pay-card .chips{margin-top:18px}
+.pay-card .chip b{color:var(--vibe-a);font-weight:500;margin-right:6px}
+.pay-sub{margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.pay-sub+.chips{margin-top:8px}
+.pay-note{display:flex;align-items:center;gap:14px;margin-top:16px;padding:18px 22px;border-radius:18px;font-size:14.5px;color:var(--muted)}
+.pay-note b{color:var(--text);font-weight:500}
+.pay-note svg{width:20px;height:20px;flex:none;color:var(--vibe-a)}
+@media (max-width:1000px){.pay{grid-template-columns:1fr}}
+
+/* ================= SMOOTH SCROLL ================= */
+/* when the inertial scroller is active it drives every frame itself, so native smoothing must be off */
+html.inertia{scroll-behavior:auto}
+
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -863,7 +897,7 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
       </nav>
       <div class="h-right">
         <span class="status" title="Доступен для новых проектов"><span class="live"></span>Available</span>
-        <button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Включить звук" hidden><i></i><i></i><i></i><i></i></button>
+        <div class="snd-wrap"><button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Включить звук" hidden><i></i><i></i><i></i><i></i></button><input class="vol" id="vol" type="range" min="0" max="100" step="1" value="50" aria-label="Громкость фонового звука" hidden></div>
         <a href="#contact" class="btn btn-primary btn-sm">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="mmenu"><i></i><i></i></button>
       </div>
@@ -1222,7 +1256,7 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
       </div>
       <div class="faq-item glass rv">
         <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a3" id="faq-q3"><span class="n">03</span>Как происходит оплата?<span class="pm ico" aria-hidden="true"></span></button>
-        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p><b>50% — предоплата</b> перед стартом, <b>50% — после приёмки</b> готового сайта. Для крупных проектов оплату можно разбить по&nbsp;этапам.</p></div></div>
+        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p><b>50% — предоплата</b> перед стартом, <b>50% — после приёмки</b> готового сайта. Для крупных проектов оплату можно разбить по&nbsp;этапам. Способы оплаты — криптовалюта, Telegram Stars или перевод на&nbsp;карту — <a href="#payment">ниже</a>.</p></div></div>
       </div>
       <div class="faq-item glass rv">
         <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a4" id="faq-q4"><span class="n">04</span>Вы передаёте исходники и&nbsp;доступы?<span class="pm ico" aria-hidden="true"></span></button>
@@ -1232,6 +1266,46 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
         <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a5" id="faq-q5"><span class="n">05</span>Сколько времени занимает разработка?<span class="pm ico" aria-hidden="true"></span></button>
         <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div><p>Лендинг — <b>от 7 рабочих дней</b>, корпоративный сайт — <b>от 2–3 недель</b>. Точный срок фиксируем в&nbsp;договоре после брифа.</p></div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAYMENT ================= -->
+<section class="section" id="payment">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow rv">Оплата</div>
+        <h2 class="h2 rv" style="--d:.08s">Удобная оплата <span class="serif">из&nbsp;любой страны</span></h2>
+      </div>
+      <p class="rv" style="--d:.16s">Выберите способ, который удобен вам. Порядок оплаты и&nbsp;реквизиты фиксируем в&nbsp;договоре.</p>
+    </div>
+    <div class="pay">
+      <article class="pay-card glass glass-hover rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.5 5v10L12 22l-8.5-5V7z"/><path d="M12 7l4 2.5v5L12 17l-4-2.5v-5z"/></svg></div>
+        <h3>Криптовалюта<small>MetaMask и другие кошельки</small></h3>
+        <p>Оплата в&nbsp;стейблкоинах или популярных монетах с&nbsp;MetaMask либо любого другого криптокошелька.</p>
+        <div class="chips"><span class="chip"><b>₮</b>USDT</span><span class="chip"><b>Ξ</b>ETH</span><span class="chip"><b>◆</b>BNB</span></div>
+      </article>
+      <article class="pay-card glass glass-hover rv" style="--d:.08s">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5L2.5 11.8l6.2 2.3 2.3 6.4 3.4-4.3 4.6 3.4z"/><path d="M8.7 14.1l9.3-7.3"/></svg></div>
+        <h3>Telegram Stars<small>Оплата прямо в Telegram</small></h3>
+        <p>Быстрая оплата звёздами Telegram без банковских карт и&nbsp;лишних шагов — в&nbsp;пару касаний из&nbsp;чата.</p>
+        <div class="chips"><span class="chip"><b>⚡</b>Telegram Stars</span></div>
+      </article>
+      <article class="pay-card glass glass-hover rv" style="--d:.16s">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 15h4"/></svg></div>
+        <h3>Банковская карта<small>Европа и весь мир</small></h3>
+        <p>Прямые переводы на&nbsp;карту из&nbsp;банков Евросоюза и&nbsp;международные переводы из&nbsp;других стран.</p>
+        <div class="pay-sub">Зона SEPA</div>
+        <div class="chips"><span class="chip">Германия</span><span class="chip">Польша</span><span class="chip">Франция</span><span class="chip">Италия</span><span class="chip">Испания</span><span class="chip">и&nbsp;др.</span></div>
+        <div class="pay-sub">Международные переводы</div>
+        <div class="chips"><span class="chip">США</span><span class="chip">Великобритания</span><span class="chip">Канада</span><span class="chip">и&nbsp;др.</span></div>
+      </article>
+    </div>
+    <div class="pay-note glass rv">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <span>Реквизиты, адрес кошелька или ссылку на&nbsp;оплату отправляю <b>лично, после подписания договора</b>, — никаких платежей «вслепую».</span>
     </div>
   </div>
 </section>
@@ -1315,11 +1389,11 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
 <!-- ================= QUIZ ================= -->
 <button class="quiz-fab glass" id="quizFab" type="button" aria-expanded="false" aria-controls="quiz">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M9 6h6M9 11h.01M12 11h.01M15 11h.01M9 14.5h.01M12 14.5h.01M15 14.5h.01M9 18h6"/></svg>
-  <span>Рассчитать проект</span>
+  <span>[ Подобрать решение ]</span>
 </button>
-<div class="quiz glass" id="quiz" role="dialog" aria-label="Расчёт проекта">
+<div class="quiz glass" id="quiz" role="dialog" aria-label="Подбор решения">
   <div class="quiz-head">
-    <b>[ Оценка проекта ]</b>
+    <b>[ Подбор решения ]</b>
     <span class="quiz-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     <button class="quiz-x" id="quizX" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
@@ -1639,7 +1713,7 @@ const CASES = {
         const type = ans.type[0], k = (ans.ready[2] || 1) * (ans.when[2] || 1);
         const [p1, p2] = QUIZ_PRICE[type].map(v => Math.round(v * k / 5) * 5);
         const [d1, d2] = QUIZ_DAYS[type].map(v => Math.round(v * (ans.ready[2] || 1)));
-        qBody.innerHTML = `<div class="quiz-step"><h4>Предварительная оценка</h4>
+        qBody.innerHTML = `<div class="quiz-step"><h4>Подходящее решение</h4>
           <div class="quiz-res"><div><small>Бюджет</small><b>${p1}–${p2} тыс. ₽</b></div><div><small>Срок</small><b>${d1}–${d2} дней</b></div></div>
           <p class="quiz-sum"></p>
           <button class="btn btn-primary" type="button" id="quizSend">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -1676,6 +1750,50 @@ const CASES = {
     addEventListener("keydown", e => { if (e.key === "Escape" && quiz.classList.contains("open")) close(); });
     document.addEventListener("pointerdown", e => {
       if (quiz.classList.contains("open") && !quiz.contains(e.target) && !fab.contains(e.target)) close();
+    });
+  }
+
+
+  /* inertial scroll (desktop mouse wheel): the page glides to the wheel target instead of jumping.
+     Touch, keyboard and scrollbar keep their native behaviour; nested scroll areas are left alone. */
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduce) {
+    const root = document.documentElement;
+    root.classList.add("inertia");
+    let target = scrollY, current = scrollY, ease = 0.1, running = false, last = 0;
+    const max = () => root.scrollHeight - innerHeight;
+    const locked = () => root.classList.contains("intro-on") || document.body.style.overflow === "hidden" || document.body.classList.contains("modal-open");
+    const loop = now => {
+      const dt = last ? Math.min((now - last) / 16.67, 3) : 1; last = now;
+      current += (target - current) * (1 - Math.pow(1 - ease, dt));
+      if (Math.abs(target - current) < 0.5) { current = target; running = false; }
+      scrollTo(0, current);
+      if (running) requestAnimationFrame(loop); else last = 0;
+    };
+    const glide = (to, k) => {
+      target = Math.max(0, Math.min(to, max())); ease = k;
+      if (!running) { running = true; current = scrollY; requestAnimationFrame(loop); }
+    };
+    addEventListener("wheel", e => {
+      if (e.defaultPrevented || e.ctrlKey || locked() || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      if (e.target.closest?.("dialog, .quiz, .mmenu, textarea, .modal-scroll")) return;
+      e.preventDefault();
+      const step = e.deltaMode === 1 ? 36 : e.deltaMode === 2 ? innerHeight : 1;
+      glide((running ? target : scrollY) + e.deltaY * step, 0.1);
+    }, { passive: false });
+    // keep in sync with keyboard / scrollbar / touch scrolling
+    addEventListener("scroll", () => { if (!running) target = current = scrollY; }, { passive: true });
+    // in-page links glide too, respecting the floating header
+    document.addEventListener("click", e => {
+      const a = e.target.closest?.('a[href^="#"]');
+      if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey) return;
+      const id = a.getAttribute("href");
+      if (id.length < 2) return;
+      const el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      const top = id === "#top" ? 0 : el.getBoundingClientRect().top + scrollY - 96;
+      glide(top, 0.075);
+      history.replaceState(null, "", id);
     });
   }
 
@@ -1916,12 +2034,16 @@ const CASES = {
   const btn = document.getElementById("snd");
   if (!AC || !btn) return;
   btn.hidden = false;
+  const vol = document.getElementById("vol");
 
-  const VOLUME = 0.032, FADE = 0.9;      // deliberately quiet: a barely-there background
+  const MAX_VOLUME = 0.06, FADE = 0.9;   // slider 0–100 % maps onto 0…MAX; default 50 % is a barely-there background
   const KEY = "spartak-sound";
   const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
                   set(v) { try { localStorage.setItem(KEY, v); } catch {} } };
   let ctx = null, master = null, on = false, vibe = "web";
+  // user volume 0…1, remembered between visits
+  let level = 0.5;
+  try { const saved = parseFloat(localStorage.getItem("spartak-volume")); if (saved >= 0 && saved <= 1) level = saved; } catch {}
   const scenes = {};
 
   /* ---------- helpers ---------- */
@@ -2035,6 +2157,7 @@ const CASES = {
   function setOn(v) {
     on = v;
     btn.classList.toggle("on", v);
+    vol?.classList.toggle("off", !v);
     btn.setAttribute("aria-pressed", String(v));
     btn.setAttribute("aria-label", v ? "Выключить звук" : "Включить звук");
     try {
@@ -2043,13 +2166,13 @@ const CASES = {
           ctx = new AC();
           master = ctx.createGain(); master.gain.value = 0;
           // one soft low-pass on the whole mix: nothing sharp reaches the ears
-          const soft = ctx.createBiquadFilter(); soft.type = "lowpass"; soft.frequency.value = 1000; soft.Q.value = 0.5;
+          const soft = ctx.createBiquadFilter(); soft.type = "lowpass"; soft.frequency.value = 850; soft.Q.value = 0.5;
           master.connect(soft).connect(ctx.createDynamicsCompressor()).connect(ctx.destination);
         }
         ctx.resume();
         ensure(vibe);
         master.gain.cancelScheduledValues(ctx.currentTime);
-        master.gain.setTargetAtTime(VOLUME, ctx.currentTime, 1.2);
+        master.gain.setTargetAtTime(MAX_VOLUME * level, ctx.currentTime, 1.2);
         apply();
       } else if (ctx) {
         master.gain.cancelScheduledValues(ctx.currentTime);
@@ -2061,12 +2184,27 @@ const CASES = {
   }
 
   btn.addEventListener("click", () => { setOn(!on); store.set(on ? "on" : "off"); });
+
+  // volume slider: moving it up turns the sound on, dragging to zero turns it off
+  if (vol) {
+    vol.hidden = false;
+    const paint = () => vol.style.setProperty("--val", vol.value + "%");
+    vol.value = Math.round(level * 100); paint(); vol.classList.toggle("off", !on);
+    vol.addEventListener("input", () => {
+      level = vol.value / 100; paint();
+      try { localStorage.setItem("spartak-volume", String(level)); } catch {}
+      if (level === 0) { if (on) { setOn(false); store.set("off"); } return; }
+      if (!on) { setOn(true); store.set("on"); return; }
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setTargetAtTime(MAX_VOLUME * level, ctx.currentTime, 0.12);
+    });
+  }
   document.addEventListener("visibilitychange", () => {
     if (!ctx) return;
     if (document.hidden) ctx.suspend(); else if (on) ctx.resume();
   });
   window.ambient = {
-    start() { if (store.get() !== "off") setOn(true); },          // called by the launch button
+    start() { if (store.get() !== "off" && level > 0) setOn(true); },   // called by the launch button
     setVibe(name) {                                              // called by the vibe switcher
       if (!BUILDERS[name]) return;
       vibe = name;
