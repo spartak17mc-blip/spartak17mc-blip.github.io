@@ -26,7 +26,7 @@
 const MAX_BODY = 8 * 1024;                                 // bytes
 const FIELDS = {                                           // whitelist: field → max length
   "Имя": 60, "Контакт": 100, "Задача": 40, "Сфера": 60, "Готово": 60, "Сроки": 60,
-  "Бюджет": 40, "Ориентир": 60, "Валюта": 10, "О проекте": 2000
+  "Бюджет": 40, "Ориентир": 60, "Валюта": 10, "Язык": 5, "О проекте": 2000
 };
 const TITLES = { form: "🚀 Новая заявка с сайта", quiz: "🧭 Заявка из опросника" };
 const WINDOW_MS = 10 * 60 * 1000, MAX_PER_WINDOW = 5;     // per IP, best effort (per worker instance)

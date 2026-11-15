@@ -829,6 +829,37 @@ html.vibe-switching .grad,html.vibe-switching .lg-acc{opacity:.5}
 .cur-btn.on{color:#fff;background:rgba(255,255,255,0.09);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.15),0 0 14px -6px rgb(from var(--vibe-a) r g b / .7)}
 .quiz-cur{margin:-4px 0 12px}
 
+/* ================= LANGUAGE ================= */
+.lang{position:relative;flex:none}
+.lang-btn{height:40px;padding:0 12px 0 10px;border-radius:999px;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--dim);
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.06);transition:color .3s,border-color .3s,background .3s}
+.lang-btn svg{width:16px;height:16px;flex:none}
+.lang-btn:hover,.lang.open .lang-btn{color:var(--text);border-color:rgba(255,255,255,0.16);background:rgba(255,255,255,0.06)}
+.lang-menu{position:absolute;top:calc(100% + 10px);right:0;z-index:70;width:208px;padding:6px;border-radius:18px;display:grid;gap:1px;isolation:isolate;
+  background:rgba(10,10,15,0.985);border:1px solid rgba(255,255,255,0.1);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 20px 40px rgba(0,0,0,0.6);
+  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.98);transform-origin:100% 0;transition:opacity .3s var(--ease),transform .4s var(--ease-out),visibility .3s}
+.lang.open .lang-menu{opacity:1;visibility:visible;transform:none}
+.lang-menu button{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:8px 12px;border-radius:12px;font-size:14px;color:var(--dim);text-align:left;transition:color .2s,background .2s}
+.lang-menu button small{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;opacity:.7}
+.lang-menu button:hover,.lang-menu button:focus-visible{color:var(--text);background:rgba(255,255,255,0.06);outline:none}
+.lang-menu button.on{color:#fff;background:rgba(255,255,255,0.09);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.12)}
+.lang-menu button.on small{color:rgb(from var(--vibe-a) r g b);opacity:1}
+.mm-lang{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:18px}
+.mm-lang button{height:36px;border-radius:12px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--dim);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07)}
+.mm-lang button.on{color:#fff;background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.16)}
+@media (min-width:641px){.mm-lang{display:none}}
+@media (max-width:640px){.lang{display:none}}
+@media (prefers-reduced-motion:reduce){.lang-menu{transition:none}}
+/* long German / French / Turkish words: let them wrap instead of breaking buttons and the grid */
+html:not([lang="ru"]) .pill-en{display:none}
+/* the header row never wraps; between tablet and wide desktop the hero CTA stands in for the header one */
+.header .h-right .btn,.nav>*{white-space:nowrap}
+@media (max-width:1180px){.header .btn{display:none}}
+html:not([lang="ru"]) .btn{height:auto;min-height:var(--h);padding-block:8px;white-space:normal;text-align:center;line-height:1.2}
+html:not([lang="ru"]) :is(h1,.h2,h3,.about-h,.intro-panel h2,.faq-q,.vibe-tab,.opts label,.legal-list li,.lead,p){overflow-wrap:break-word;hyphens:auto}
+html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-break:strict}
+
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -1522,6 +1553,823 @@ html.vibe-switching .grad,html.vibe-switching .lg-acc{opacity:.5}
 </dialog>
 
 <script>
+/* ===== i18n: 10 languages (LTR only). Russian is read from the page itself, so the markup stays the single source of truth.
+   To add or fix a translation, edit I18N_DICT below; missing keys fall back to English, then Russian. ===== */
+const I18N_LANGS = [
+  ["en", "English"], ["ru", "Русский"], ["de", "Deutsch"], ["es", "Español"], ["fr", "Français"],
+  ["pt", "Português"], ["zh", "中文"], ["ja", "日本語"], ["ko", "한국어"], ["tr", "Türkçe"]
+];
+const I18N_DICT = {
+ru: {   // only strings that are created in JS (everything else is captured from the page)
+  err_name: "Укажите имя (минимум 2 символа)", err_contact: "Укажите @username, ссылку t.me, телефон или e-mail",
+  err_msg: "Опишите задачу хотя бы в одном предложении", sending: "Отправляю… ",
+  e_nc: "Отправка заявок ещё не подключена. Напишите мне напрямую в {tg}.",
+  e_thr: "Заявка уже отправлена недавно. Подождите минуту или напишите в {tg}.",
+  e_fast: "Секунду… попробуйте отправить ещё раз.", e_busy: "Отправляю предыдущую заявку…",
+  e_gen: "Не удалось отправить — проверьте интернет и попробуйте ещё раз или напишите в {tg}.",
+  tier_low: "до {v}", tier_high: "от {v}", vibe_head: "Что сделаю для вашей сферы",
+  terms_in: "Условиями работы", privacy_in: "Политикой конфиденциальности",
+  consent: "Нажимая кнопку, вы соглашаетесь с {terms} и {privacy}."
+},
+en: {
+  meta_title: "The Spartec Web — turnkey websites & landing pages", meta_desc: "Modern websites and landing pages, turnkey: strategy, design, development and launch.",
+  intro_title: `Design people trust. Code that <span class="serif grad">brings in leads</span>`,
+  intro_lead: "I'm a web developer and interface designer. I design and launch landing pages and business websites turnkey — with a clear structure, refined aesthetics and impeccably clean code.",
+  tag1: "Landing pages", tag2: "Business websites", tag3: "UI/UX design", tag4: "Frontend development",
+  intro_motto: `<span>Principle</span>Meaning first, then form. Every screen, every line of code and every word serves one goal — your result.`,
+  intro_sub: "/ Open portfolio", intro_hint: "Enter ↵ — launch",
+  nav_about: "About", nav_expertise: "Expertise", nav_work: "Work", nav_approach: "Approach", nav_contact: "Contact",
+  cta: "Discuss a project", menu_note: "I reply within a couple of hours", hero_pill: "Open to new projects ",
+  hero_h1: `Websites that <span class="serif grad">work</span> for your business`,
+  hero_lead: `I design and build modern websites and landing pages turnkey — from strategy and design to launch. <b>Instant loading, flawless responsiveness and a clear path from visitor to enquiry</b> — no templates, no compromises.`,
+  hero_work: "View work",
+  expertise_eb: "Expertise", expertise_h2: `Not just beautiful. <span class="serif">Effective.</span>`,
+  expertise_p: `A website is a sales tool. So I'm responsible not only for how it looks but for <b>how it brings in clients</b>: structure, speed, usability and trust from the first screen.`,
+  vibes_eb: "Directions", vibes_h2: `Three fields — <span class="serif">one approach</span>`, vibes_p: "Pick a field: the site adapts its atmosphere, sound and examples to your industry.",
+  work_eb: "Work", work_h2: `Real <span class="serif">work</span>`, work_p: "A live project you can open, scroll and check on your phone. The code is open on GitHub.",
+  approach_eb: "Approach & stack", approach_h2: `A transparent process. <span class="serif">Reliable</span> technology.`,
+  approach_p: "You always know what stage the project is at and what comes next. Technology is chosen for the task — not the other way round.",
+  faq_eb: "FAQ", faq_h2: `Frequently asked <span class="serif">questions</span>`, faq_p: "The short version of what's usually worth discussing before we start. Didn't find an answer? Just ask.",
+  payment_eb: "Payment", payment_h2: `Easy payment <span class="serif">from any country</span>`, payment_p: "Choose whatever suits you. Payment terms and details are fixed in the contract.",
+  contact_eb: "Contact", contact_h2: `Shall we discuss your <span class="serif">project?</span>`,
+  contact_p: "Describe your task in a few words — I'll reply within a couple of hours, ask a few precise questions and send a work plan with timing and cost. Free and with no obligation.",
+  tg_small: "Telegram — fastest", avail: "Online daily 9:00–22:00 (Moscow time)",
+  tab_web_s: "Products & interfaces", tab_hor_b: "Restaurants & HoReCa", tab_hor_s: "Taste and atmosphere", tab_bld_b: "Construction & architecture", tab_bld_s: "Scale and reliability",
+  open_site: "Open site", gh_code: "Code on GitHub", case_study: "Case study", next_meta: "Next project",
+  next_h3: `This could be <span class="serif">your website</span>`, next_task: "Tell me about your task — I'll propose a solution, timing and cost within a day.",
+  q1: "Do you work under a contract?", a1: `Yes. Before we start we sign a <b>contract</b> that fixes the scope, timing, cost and acceptance procedure. You know exactly what you'll get and when.`,
+  q2: "How many revisions are included?", a2: `The price includes <b>two rounds of revisions</b> at the design stage and <b>one</b> after development. Small text edits within two weeks after launch are free.`,
+  q3: "How does payment work?", a3: `<b>50% upfront</b> before the start, <b>50% after acceptance</b> of the finished site. Larger projects can be paid in stages. Payment options — crypto, Telegram Stars or bank transfer — are <a href="#payment">below</a>.`,
+  q4: "Do you hand over the source code and access?", a4: `Yes, in full: <b>code, design files and access</b> to hosting, domain and analytics. The site is your property — no dependence on the contractor.`,
+  q5: "How long does development take?", a5: `A landing page takes <b>from 7 working days</b>, a business website <b>from 2–3 weeks</b>. The exact timeline is fixed in the contract after the brief.`,
+  f_title: "Project request", f_sub: "Takes less than a minute", lbl_name: "Name", ph_name: "How should I address you",
+  lbl_contact: "Telegram, phone or e-mail", ph_contact: "@username or +1…", lbl_msg: "About the project", ph_msg: "What your company does, what's needed and by when",
+  lg_type: "What do you need", t1: "Landing page", t2: "Company site", t3: "Online store", t4: "Redesign", lg_budget: "Budget", b_consult: "Not sure yet",
+  consent: "By clicking the button, you agree to the {terms} and the {privacy}.", terms_in: "Terms of Service", privacy_in: "Privacy Policy",
+  submit: "Send request", f_hint: "Your request goes straight to my Telegram — I'll reply within a couple of hours.",
+  done_title: "Request sent", done_text: "Thank you! It's already in my Telegram — I'll get back to you with a project plan within a couple of hours.",
+  quiz_fab: "[ Find a solution ]", terms_link: "Terms of Service", privacy_link: "Privacy Policy",
+  about_back: "Back", about_kicker: "[ Developer profile ]", about_title: `A frontend developer who thinks about <span class="serif grad">results</span>`,
+  about_lead: "I design and build websites and interfaces turnkey — from structure and design to clean, fast code and launch. I work with clients directly: no middlemen, managers or broken telephone. You always talk to the person building your site.",
+  about_focus: "Focus", f1: "Clean semantic code without extra libraries or site builders", f2: "Performance: light pages, optimised images and fonts", f3: "Responsive and accessible — comfortable on any screen", f4: "Attention to detail: spacing, states, micro-animations",
+  about_approach: "Approach", a1x: "First I understand the task and the audience — then I design", a2x: "I show results at every stage, no “black box”", a3x: "Timing and cost are fixed in the contract", a4x: "I hand over code, access and instructions — the site is fully yours",
+  about_stack: "Stack", why1_t: "Direct contact", why1_p: "You talk to the person doing the work, not a manager. Questions get solved in minutes.",
+  why2_t: "Fast, not rushed", why2_p: "A landing page from 7 working days, with a clear plan and a preview at every step.", why3_t: "Accountability", why3_p: "A contract, fixed deadlines and support after launch.",
+  doc_kicker: "[ Document ]", ok: "Got it", terms_title: "Terms of Service",
+  terms_note: "Short version. Final terms for each project are fixed in the contract — if they differ, the contract prevails.",
+  terms_1: `<b>Start and timing.</b> Work starts after the contract is signed, the prepayment is made and materials are provided. The timeline is given in working days and fixed in the contract.`,
+  terms_2: `<b>Payment 50/50.</b> 50% upfront before the start, 50% after acceptance of the finished site. Larger projects can be paid in stages.`,
+  terms_3: `<b>Revisions.</b> The price includes two rounds of revisions at the design stage and one after development. Extra rounds and changes beyond the agreed scope are quoted separately.`,
+  terms_4: `<b>Client materials.</b> The client provides texts, photos, logos and access. Delays in materials or feedback shift the deadline by the same number of days. With no response for more than 14 days, the project is paused.`,
+  terms_5: `<b>Acceptance.</b> The client has up to 5 working days to review a finished stage. If no comments are received in that time, the stage is considered accepted.`,
+  terms_6: `<b>Rights and source code.</b> After full payment the client receives the source code, design files and all access. Until full payment the site stays on a test address.`,
+  terms_7: `<b>Liability.</b> The contractor is responsible for the quality and timing of their own work, but not for the content of client materials, failures of third-party services (hosting, domain, payment systems) or delays caused by the client.`,
+  privacy_title: "Privacy Policy", privacy_note: "In short: your data is needed only to reply to your request. It is not sold or shared with third parties.",
+  privacy_1: `<b>What data.</b> Only what you enter in the form or quiz: your name, contact (Telegram, phone or e-mail), task description and selected answers.`,
+  privacy_2: `<b>Why.</b> To contact you, clarify the task and prepare a proposal. No mailings without your consent.`,
+  privacy_3: `<b>How it's sent.</b> Your request goes to the site owner's personal Telegram over a secure connection (HTTPS). Delivery involves Telegram and an intermediary server (Cloudflare), which do not use the data for their own purposes.`,
+  privacy_4: `<b>Third parties.</b> Data is not sold, published or shared with third parties, except where directly required by law.`,
+  privacy_5: `<b>Retention.</b> No longer than 12 months after the last contact, or until you ask for deletion.`,
+  privacy_6: `<b>Your rights.</b> You can ask to see, correct or delete your data — just send a message on Telegram.`,
+  privacy_7: `<b>Cookies and analytics.</b> No advertising cookies or trackers. Your browser stores only your settings (sound, volume, language, currency) and request timestamps for spam protection. Fonts load from Google Fonts, so Google sees your IP address when the page loads.`,
+  err_name: "Enter your name (at least 2 characters)", err_contact: "Enter an @username, t.me link, phone or e-mail", err_msg: "Describe the task in at least one sentence", sending: "Sending… ",
+  e_nc: "Sending requests isn't connected yet. Message me directly on {tg}.", e_thr: "A request was sent recently. Wait a minute or message me on {tg}.",
+  e_fast: "One moment… please try sending again.", e_busy: "Sending your previous request…", e_gen: "Couldn't send — check your connection and try again, or message me on {tg}.",
+  tier_low: "up to {v}", tier_high: "from {v}", vibe_head: "What I'll build for your field"
+},
+de: {
+  meta_title: "The Spartec Web — Websites & Landingpages schlüsselfertig", meta_desc: "Moderne Websites und Landingpages schlüsselfertig: Strategie, Design, Entwicklung und Launch.",
+  intro_title: `Design, dem man vertraut. Code, der <span class="serif grad">Anfragen bringt</span>`,
+  intro_lead: "Ich bin Webentwickler und UI-Designer. Ich konzipiere und launche Landingpages und Unternehmenswebsites schlüsselfertig – mit klarer Struktur, durchdachter Ästhetik und makellos sauberem Code.",
+  tag1: "Landingpages", tag2: "Unternehmenswebsites", tag3: "UI/UX-Design", tag4: "Frontend-Entwicklung",
+  intro_motto: `<span>Prinzip</span>Erst der Sinn, dann die Form. Jeder Screen, jede Codezeile und jedes Wort dient einem Ziel – Ihrem Ergebnis.`,
+  intro_sub: "/ Portfolio starten", intro_hint: "Enter ↵ — starten",
+  nav_about: "Über mich", nav_expertise: "Expertise", nav_work: "Projekte", nav_approach: "Ansatz", nav_contact: "Kontakt",
+  cta: "Projekt besprechen", menu_note: "Antwort innerhalb weniger Stunden", hero_pill: "Offen für Projekte ",
+  hero_h1: `Websites, die für Ihr Business <span class="serif grad">arbeiten</span>`,
+  hero_lead: `Ich konzipiere und entwickle moderne Websites und Landingpages schlüsselfertig – von Strategie und Design bis zum Launch. <b>Blitzschnelles Laden, perfekte Responsivität und ein klarer Weg vom Besucher zur Anfrage</b> – ohne Templates, ohne Kompromisse.`,
+  hero_work: "Projekte ansehen",
+  expertise_eb: "Expertise", expertise_h2: `Nicht nur schön. <span class="serif">Wirksam.</span>`,
+  expertise_p: `Eine Website ist ein Vertriebswerkzeug. Darum verantworte ich nicht nur das Aussehen, sondern auch, <b>wie sie Kunden bringt</b>: Struktur, Tempo, Bedienbarkeit und Vertrauen ab dem ersten Screen.`,
+  vibes_eb: "Branchen", vibes_h2: `Drei Branchen – <span class="serif">ein Ansatz</span>`, vibes_p: "Wählen Sie eine Branche: Die Seite passt Atmosphäre, Sound und Beispiele daran an.",
+  work_eb: "Projekte", work_h2: `Echte <span class="serif">Arbeit</span>`, work_p: "Ein Live-Projekt zum Öffnen, Durchscrollen und Testen auf dem Handy. Der Code ist offen auf GitHub.",
+  approach_eb: "Ansatz & Stack", approach_h2: `Transparenter Prozess. <span class="serif">Verlässliche</span> Technik.`,
+  approach_p: "Sie wissen immer, in welcher Phase das Projekt ist und was als Nächstes kommt. Die Technik folgt der Aufgabe – nicht umgekehrt.",
+  faq_eb: "FAQ", faq_h2: `Häufige <span class="serif">Fragen</span>`, faq_p: "Kurz das, was man vor dem Start meist klären sollte. Keine Antwort gefunden? Fragen Sie einfach.",
+  payment_eb: "Zahlung", payment_h2: `Bequem bezahlen <span class="serif">aus jedem Land</span>`, payment_p: "Wählen Sie, was Ihnen passt. Zahlungsmodalitäten stehen im Vertrag.",
+  contact_eb: "Kontakt", contact_h2: `Sprechen wir über Ihr <span class="serif">Projekt?</span>`,
+  contact_p: "Beschreiben Sie die Aufgabe in ein paar Worten – ich antworte innerhalb weniger Stunden, stelle ein paar präzise Fragen und schicke einen Plan mit Zeitrahmen und Preis. Kostenlos und unverbindlich.",
+  tg_small: "Telegram – am schnellsten", avail: "Täglich erreichbar 9–22 Uhr (Moskauer Zeit)",
+  tab_web_s: "Produkte & Interfaces", tab_hor_b: "Gastronomie & HoReCa", tab_hor_s: "Geschmack & Atmosphäre", tab_bld_b: "Bau & Architektur", tab_bld_s: "Größe & Verlässlichkeit",
+  open_site: "Website öffnen", gh_code: "Code auf GitHub", case_study: "Case Study", next_meta: "Nächstes Projekt",
+  next_h3: `Hier könnte <span class="serif">Ihre Website</span> stehen`, next_task: "Erzählen Sie von Ihrer Aufgabe – Lösung, Zeitplan und Preis erhalten Sie innerhalb eines Tages.",
+  q1: "Arbeiten Sie mit Vertrag?", a1: `Ja. Vor dem Start schließen wir einen <b>Vertrag</b>, der Umfang, Zeitplan, Preis und Abnahme festlegt. Sie wissen genau, was Sie wann bekommen.`,
+  q2: "Wie viele Korrekturschleifen sind inklusive?", a2: `Im Preis enthalten sind <b>zwei Korrekturschleifen</b> beim Design und <b>eine</b> nach der Umsetzung. Kleine Textänderungen bis zwei Wochen nach dem Launch sind kostenlos.`,
+  q3: "Wie läuft die Zahlung?", a3: `<b>50 % Anzahlung</b> vor dem Start, <b>50 % nach Abnahme</b> der fertigen Website. Größere Projekte lassen sich in Etappen zahlen. Zahlungswege – Krypto, Telegram Stars oder Überweisung – finden Sie <a href="#payment">unten</a>.`,
+  q4: "Erhalte ich Quellcode und Zugänge?", a4: `Ja, vollständig: <b>Code, Designdateien und Zugänge</b> zu Hosting, Domain und Analytics. Die Website gehört Ihnen – ohne Abhängigkeit vom Dienstleister.`,
+  q5: "Wie lange dauert die Entwicklung?", a5: `Eine Landingpage <b>ab 7 Arbeitstagen</b>, eine Unternehmenswebsite <b>ab 2–3 Wochen</b>. Der genaue Zeitplan steht nach dem Briefing im Vertrag.`,
+  f_title: "Projektanfrage", f_sub: "Dauert weniger als eine Minute", lbl_name: "Name", ph_name: "Wie darf ich Sie nennen",
+  lbl_contact: "Telegram, Telefon oder E-Mail", ph_contact: "@username oder +49…", lbl_msg: "Zum Projekt", ph_msg: "Was Ihr Unternehmen macht, was gebraucht wird und bis wann",
+  lg_type: "Was wird gebraucht", t1: "Landingpage", t2: "Firmenwebsite", t3: "Onlineshop", t4: "Redesign", lg_budget: "Budget", b_consult: "Noch unklar",
+  consent: "Mit dem Klick stimmen Sie den {terms} und der {privacy} zu.", terms_in: "Arbeitsbedingungen", privacy_in: "Datenschutzerklärung",
+  submit: "Anfrage senden", f_hint: "Ihre Anfrage landet direkt in meinem Telegram – Antwort innerhalb weniger Stunden.",
+  done_title: "Anfrage gesendet", done_text: "Danke! Sie ist schon in meinem Telegram – ich melde mich in wenigen Stunden mit einem Projektplan.",
+  quiz_fab: "[ Lösung finden ]", terms_link: "Arbeitsbedingungen", privacy_link: "Datenschutz",
+  about_back: "Zurück", about_kicker: "[ Entwicklerprofil ]", about_title: `Frontend-Entwickler mit Blick aufs <span class="serif grad">Ergebnis</span>`,
+  about_lead: "Ich konzipiere und entwickle Websites und Interfaces schlüsselfertig – von Struktur und Design bis zu sauberem, schnellem Code und Launch. Ich arbeite direkt mit Kunden: ohne Vermittler, Manager und Stille Post. Sie sprechen immer mit dem, der Ihre Website baut.",
+  about_focus: "Fokus", f1: "Sauberer, semantischer Code ohne überflüssige Bibliotheken und Baukästen", f2: "Performance: schlanke Seiten, optimierte Bilder und Schriften", f3: "Responsiv und barrierearm – angenehm auf jedem Bildschirm", f4: "Liebe zum Detail: Abstände, Zustände, Mikroanimationen",
+  about_approach: "Ansatz", a1x: "Erst Aufgabe und Zielgruppe verstehen – dann gestalten", a2x: "Ergebnisse in jeder Phase, keine „Blackbox“", a3x: "Zeitplan und Preis stehen im Vertrag", a4x: "Übergabe von Code, Zugängen und Anleitung – die Website gehört ganz Ihnen",
+  about_stack: "Stack", why1_t: "Direkter Kontakt", why1_p: "Sie sprechen mit dem Umsetzer, nicht mit einem Manager. Fragen sind in Minuten geklärt.",
+  why2_t: "Schnell, nicht hektisch", why2_p: "Landingpage ab 7 Arbeitstagen, mit klarem Plan und Vorschau in jeder Phase.", why3_t: "Verantwortung", why3_p: "Vertrag, feste Termine und Support nach dem Launch.",
+  doc_kicker: "[ Dokument ]", ok: "Verstanden", terms_title: "Arbeitsbedingungen",
+  terms_note: "Kurzfassung. Die verbindlichen Bedingungen je Projekt stehen im Vertrag – bei Abweichungen gilt der Vertrag.",
+  terms_1: `<b>Start und Fristen.</b> Die Arbeit beginnt nach Vertragsunterzeichnung, Anzahlung und Übergabe der Materialien. Die Frist wird in Arbeitstagen im Vertrag festgelegt.`,
+  terms_2: `<b>Zahlung 50/50.</b> 50 % Anzahlung vor dem Start, 50 % nach Abnahme der fertigen Website. Größere Projekte können in Etappen bezahlt werden.`,
+  terms_3: `<b>Korrekturen.</b> Im Preis enthalten sind zwei Korrekturschleifen beim Design und eine nach der Umsetzung. Weitere Schleifen und Änderungen außerhalb des vereinbarten Umfangs werden gesondert berechnet.`,
+  terms_4: `<b>Materialien des Kunden.</b> Texte, Fotos, Logos und Zugänge stellt der Kunde bereit. Verzögerungen bei Materialien oder Feedback verschieben die Frist um dieselbe Anzahl Tage. Ohne Rückmeldung über 14 Tage wird das Projekt pausiert.`,
+  terms_5: `<b>Abnahme.</b> Für die Prüfung einer fertigen Phase hat der Kunde bis zu 5 Arbeitstage. Gehen keine Anmerkungen ein, gilt die Phase als abgenommen.`,
+  terms_6: `<b>Rechte und Quellcode.</b> Nach vollständiger Zahlung erhält der Kunde Quellcode, Designdateien und alle Zugänge. Bis dahin bleibt die Website auf einer Testadresse.`,
+  terms_7: `<b>Haftung.</b> Der Auftragnehmer haftet für Qualität und Termine der eigenen Arbeit, nicht aber für Inhalte der Kundenmaterialien, Ausfälle externer Dienste (Hosting, Domain, Zahlungssysteme) und vom Kunden verursachte Verzögerungen.`,
+  privacy_title: "Datenschutzerklärung", privacy_note: "Kurz gesagt: Ihre Daten dienen nur der Antwort auf Ihre Anfrage. Sie werden weder verkauft noch weitergegeben.",
+  privacy_1: `<b>Welche Daten.</b> Nur was Sie im Formular oder Quiz angeben: Name, Kontakt (Telegram, Telefon oder E-Mail), Aufgabenbeschreibung und gewählte Antworten.`,
+  privacy_2: `<b>Wozu.</b> Um Sie zu kontaktieren, die Aufgabe zu klären und ein Angebot zu erstellen. Keine Newsletter ohne Ihre Zustimmung.`,
+  privacy_3: `<b>Übermittlung.</b> Die Anfrage geht über eine verschlüsselte Verbindung (HTTPS) an den privaten Telegram des Seiteninhabers. Beteiligt sind Telegram und ein Vermittlungsserver (Cloudflare), die die Daten nicht für eigene Zwecke nutzen.`,
+  privacy_4: `<b>Dritte.</b> Daten werden weder verkauft, veröffentlicht noch an Dritte weitergegeben, außer wenn das Gesetz es ausdrücklich verlangt.`,
+  privacy_5: `<b>Speicherdauer.</b> Höchstens 12 Monate nach dem letzten Kontakt oder bis zu Ihrer Löschanfrage.`,
+  privacy_6: `<b>Ihre Rechte.</b> Sie können Auskunft, Berichtigung oder Löschung verlangen – eine Nachricht auf Telegram genügt.`,
+  privacy_7: `<b>Cookies und Analyse.</b> Keine Werbe-Cookies oder Tracker. Im Browser gespeichert werden nur Ihre Einstellungen (Ton, Lautstärke, Sprache, Währung) und Zeitstempel von Anfragen zum Spamschutz. Schriften kommen von Google Fonts, daher sieht Google Ihre IP-Adresse beim Laden der Seite.`,
+  err_name: "Bitte Namen angeben (mind. 2 Zeichen)", err_contact: "@username, t.me-Link, Telefon oder E-Mail angeben", err_msg: "Beschreiben Sie die Aufgabe in mindestens einem Satz", sending: "Wird gesendet… ",
+  e_nc: "Der Versand ist noch nicht eingerichtet. Schreiben Sie mir direkt auf {tg}.", e_thr: "Gerade wurde schon eine Anfrage gesendet. Bitte kurz warten oder auf {tg} schreiben.",
+  e_fast: "Einen Moment… bitte erneut senden.", e_busy: "Vorherige Anfrage wird gesendet…", e_gen: "Senden fehlgeschlagen – Verbindung prüfen und erneut versuchen oder auf {tg} schreiben.",
+  tier_low: "bis {v}", tier_high: "ab {v}", vibe_head: "Was ich für Ihre Branche umsetze"
+},
+es: {
+  meta_title: "The Spartec Web — sitios web y landing pages llave en mano", meta_desc: "Sitios web y landing pages modernos llave en mano: estrategia, diseño, desarrollo y lanzamiento.",
+  intro_title: `Diseño que inspira confianza. Código que <span class="serif grad">trae clientes</span>`,
+  intro_lead: "Soy desarrollador web y diseñador de interfaces. Diseño y lanzo landing pages y sitios corporativos llave en mano, con estructura clara, estética cuidada y código impecable.",
+  tag1: "Landing pages", tag2: "Sitios corporativos", tag3: "Diseño UI/UX", tag4: "Desarrollo frontend",
+  intro_motto: `<span>Principio</span>Primero el sentido, luego la forma. Cada pantalla, cada línea de código y cada palabra sirven a un solo objetivo: tu resultado.`,
+  intro_sub: "/ Abrir portafolio", intro_hint: "Enter ↵ — iniciar",
+  nav_about: "Sobre mí", nav_expertise: "Experiencia", nav_work: "Proyectos", nav_approach: "Enfoque", nav_contact: "Contacto",
+  cta: "Hablemos del proyecto", menu_note: "Respondo en un par de horas", hero_pill: "Disponible para proyectos ",
+  hero_h1: `Sitios web que <span class="serif grad">trabajan</span> para tu negocio`,
+  hero_lead: `Diseño y desarrollo sitios web y landing pages modernos llave en mano, desde la estrategia y el diseño hasta el lanzamiento. <b>Carga instantánea, adaptación perfecta y un camino claro del visitante a la solicitud</b>, sin plantillas ni concesiones.`,
+  hero_work: "Ver proyectos",
+  expertise_eb: "Experiencia", expertise_h2: `No solo bonito. <span class="serif">Eficaz.</span>`,
+  expertise_p: `Un sitio web es una herramienta de ventas. Por eso respondo no solo por su aspecto, sino por <b>cómo atrae clientes</b>: estructura, velocidad, usabilidad y confianza desde la primera pantalla.`,
+  vibes_eb: "Sectores", vibes_h2: `Tres sectores, <span class="serif">un enfoque</span>`, vibes_p: "Elige un sector: el sitio adapta su ambiente, sonido y ejemplos a tu negocio.",
+  work_eb: "Proyectos", work_h2: `Trabajo <span class="serif">real</span>`, work_p: "Un proyecto en vivo que puedes abrir, recorrer y probar en el móvil. El código está abierto en GitHub.",
+  approach_eb: "Enfoque y stack", approach_h2: `Proceso transparente. Tecnología <span class="serif">fiable</span>.`,
+  approach_p: "Siempre sabes en qué etapa está el proyecto y qué viene después. La tecnología se elige según la tarea, no al revés.",
+  faq_eb: "Preguntas", faq_h2: `Preguntas <span class="serif">frecuentes</span>`, faq_p: "Lo esencial que conviene hablar antes de empezar. ¿No encuentras la respuesta? Pregunta directamente.",
+  payment_eb: "Pago", payment_h2: `Pago cómodo <span class="serif">desde cualquier país</span>`, payment_p: "Elige el método que te convenga. Las condiciones y datos de pago se fijan en el contrato.",
+  contact_eb: "Contacto", contact_h2: `¿Hablamos de tu <span class="serif">proyecto?</span>`,
+  contact_p: "Describe tu tarea en pocas palabras: respondo en un par de horas, hago algunas preguntas concretas y te envío un plan con plazos y coste. Gratis y sin compromiso.",
+  tg_small: "Telegram: lo más rápido", avail: "Disponible a diario de 9:00 a 22:00 (hora de Moscú)",
+  tab_web_s: "Productos e interfaces", tab_hor_b: "Restaurantes y HoReCa", tab_hor_s: "Sabor y ambiente", tab_bld_b: "Construcción y arquitectura", tab_bld_s: "Escala y fiabilidad",
+  open_site: "Abrir sitio", gh_code: "Código en GitHub", case_study: "Caso de estudio", next_meta: "Próximo proyecto",
+  next_h3: `Aquí puede estar <span class="serif">tu sitio</span>`, next_task: "Cuéntame tu tarea: te propongo solución, plazos y coste en un día.",
+  q1: "¿Trabajas con contrato?", a1: `Sí. Antes de empezar firmamos un <b>contrato</b> que fija el alcance, plazos, coste y la entrega. Sabes exactamente qué recibirás y cuándo.`,
+  q2: "¿Cuántas revisiones incluye el precio?", a2: `El precio incluye <b>dos rondas de revisiones</b> en la fase de diseño y <b>una</b> tras el desarrollo. Los pequeños cambios de texto durante dos semanas tras el lanzamiento son gratis.`,
+  q3: "¿Cómo es el pago?", a3: `<b>50 % por adelantado</b> antes de empezar y <b>50 % tras la entrega</b> del sitio terminado. Los proyectos grandes pueden pagarse por etapas. Métodos de pago — cripto, Telegram Stars o transferencia — <a href="#payment">más abajo</a>.`,
+  q4: "¿Entregas el código fuente y los accesos?", a4: `Sí, todo: <b>código, diseños y accesos</b> al hosting, dominio y analítica. El sitio es tuyo, sin depender del proveedor.`,
+  q5: "¿Cuánto tarda el desarrollo?", a5: `Una landing page, <b>desde 7 días laborables</b>; un sitio corporativo, <b>desde 2–3 semanas</b>. El plazo exacto se fija en el contrato tras el brief.`,
+  f_title: "Solicitud de proyecto", f_sub: "Te llevará menos de un minuto", lbl_name: "Nombre", ph_name: "¿Cómo te llamas?",
+  lbl_contact: "Telegram, teléfono o e-mail", ph_contact: "@username o +34…", lbl_msg: "Sobre el proyecto", ph_msg: "A qué se dedica tu empresa, qué necesitas y para cuándo",
+  lg_type: "¿Qué necesitas?", t1: "Landing page", t2: "Web corporativa", t3: "Tienda online", t4: "Rediseño", lg_budget: "Presupuesto", b_consult: "Aún no lo sé",
+  consent: "Al pulsar el botón, aceptas las {terms} y la {privacy}.", terms_in: "Condiciones de trabajo", privacy_in: "Política de privacidad",
+  submit: "Enviar solicitud", f_hint: "Tu solicitud llega directo a mi Telegram: respondo en un par de horas.",
+  done_title: "Solicitud enviada", done_text: "¡Gracias! Ya está en mi Telegram: te escribo con un plan en un par de horas.",
+  quiz_fab: "[ Encontrar solución ]", terms_link: "Condiciones de trabajo", privacy_link: "Privacidad",
+  about_back: "Volver", about_kicker: "[ Perfil del desarrollador ]", about_title: `Desarrollador frontend que piensa en el <span class="serif grad">resultado</span>`,
+  about_lead: "Diseño y desarrollo sitios e interfaces llave en mano: de la estructura y el diseño al código limpio y rápido y el lanzamiento. Trabajo directamente con el cliente, sin intermediarios ni gestores. Siempre hablas con quien construye tu sitio.",
+  about_focus: "Enfoque", f1: "Código limpio y semántico, sin librerías ni constructores de más", f2: "Rendimiento: páginas ligeras, imágenes y fuentes optimizadas", f3: "Adaptable y accesible: cómodo en cualquier pantalla", f4: "Atención al detalle: espacios, estados, microanimaciones",
+  about_approach: "Método", a1x: "Primero entiendo la tarea y el público; luego diseño", a2x: "Muestro resultados en cada etapa, sin «caja negra»", a3x: "Plazos y coste fijados en el contrato", a4x: "Entrego código, accesos e instrucciones: el sitio es totalmente tuyo",
+  about_stack: "Stack", why1_t: "Contacto directo", why1_p: "Hablas con quien hace el trabajo, no con un gestor. Las dudas se resuelven en minutos.",
+  why2_t: "Rápido, sin prisas", why2_p: "Landing page desde 7 días laborables, con plan claro y vista previa en cada paso.", why3_t: "Responsabilidad", why3_p: "Contrato, plazos fijos y soporte tras el lanzamiento.",
+  doc_kicker: "[ Documento ]", ok: "Entendido", terms_title: "Condiciones de trabajo",
+  terms_note: "Versión breve. Las condiciones finales de cada proyecto se fijan en el contrato; en caso de diferencia, prevalece el contrato.",
+  terms_1: `<b>Inicio y plazos.</b> El trabajo empieza tras firmar el contrato, recibir el anticipo y los materiales. El plazo se indica en días laborables y se fija en el contrato.`,
+  terms_2: `<b>Pago 50/50.</b> 50 % por adelantado antes de empezar y 50 % tras la entrega del sitio terminado. Los proyectos grandes pueden pagarse por etapas.`,
+  terms_3: `<b>Revisiones.</b> El precio incluye dos rondas de revisiones en diseño y una tras el desarrollo. Las rondas extra y los cambios fuera del alcance acordado se presupuestan aparte.`,
+  terms_4: `<b>Materiales del cliente.</b> El cliente aporta textos, fotos, logotipos y accesos. Los retrasos en materiales o respuestas desplazan el plazo el mismo número de días. Sin respuesta durante más de 14 días, el proyecto se pausa.`,
+  terms_5: `<b>Entrega.</b> El cliente dispone de hasta 5 días laborables para revisar cada etapa. Si no hay comentarios en ese tiempo, la etapa se considera aceptada.`,
+  terms_6: `<b>Derechos y código fuente.</b> Tras el pago completo, el cliente recibe el código fuente, los diseños y todos los accesos. Hasta entonces, el sitio permanece en una dirección de prueba.`,
+  terms_7: `<b>Responsabilidad.</b> El contratista responde de la calidad y los plazos de su trabajo, pero no del contenido de los materiales del cliente, de fallos de servicios externos (hosting, dominio, pagos) ni de retrasos causados por el cliente.`,
+  privacy_title: "Política de privacidad", privacy_note: "En resumen: tus datos solo sirven para responder a tu solicitud. No se venden ni se comparten con terceros.",
+  privacy_1: `<b>Qué datos.</b> Solo lo que indicas en el formulario o el cuestionario: nombre, contacto (Telegram, teléfono o e-mail), descripción de la tarea y respuestas elegidas.`,
+  privacy_2: `<b>Para qué.</b> Para contactarte, aclarar la tarea y preparar una propuesta. Sin envíos masivos sin tu consentimiento.`,
+  privacy_3: `<b>Cómo se envían.</b> La solicitud llega al Telegram personal del titular del sitio mediante conexión segura (HTTPS). Intervienen Telegram y un servidor intermediario (Cloudflare), que no usan los datos para fines propios.`,
+  privacy_4: `<b>Terceros.</b> Los datos no se venden, publican ni ceden a terceros, salvo cuando la ley lo exige expresamente.`,
+  privacy_5: `<b>Conservación.</b> Como máximo 12 meses desde el último contacto o hasta que pidas su eliminación.`,
+  privacy_6: `<b>Tus derechos.</b> Puedes pedir ver, corregir o borrar tus datos: basta con escribir por Telegram.`,
+  privacy_7: `<b>Cookies y analítica.</b> Sin cookies publicitarias ni rastreadores. Tu navegador solo guarda tus ajustes (sonido, volumen, idioma, moneda) y las horas de envío para proteger contra spam. Las fuentes se cargan desde Google Fonts, por lo que Google ve tu IP al cargar la página.`,
+  err_name: "Indica tu nombre (mínimo 2 caracteres)", err_contact: "Indica un @usuario, enlace t.me, teléfono o e-mail", err_msg: "Describe la tarea en al menos una frase", sending: "Enviando… ",
+  e_nc: "El envío aún no está conectado. Escríbeme directamente por {tg}.", e_thr: "Ya enviaste una solicitud hace poco. Espera un minuto o escríbeme por {tg}.",
+  e_fast: "Un momento… intenta enviarlo de nuevo.", e_busy: "Enviando la solicitud anterior…", e_gen: "No se pudo enviar: revisa tu conexión e inténtalo de nuevo o escríbeme por {tg}.",
+  tier_low: "hasta {v}", tier_high: "desde {v}", vibe_head: "Lo que haré para tu sector"
+},
+fr: {
+  meta_title: "The Spartec Web — sites web et landing pages clés en main", meta_desc: "Sites web et landing pages modernes clés en main : stratégie, design, développement et lancement.",
+  intro_title: `Un design qui inspire confiance. Un code qui <span class="serif grad">apporte des clients</span>`,
+  intro_lead: "Je suis développeur web et designer d'interfaces. Je conçois et lance des landing pages et des sites d'entreprise clés en main — structure claire, esthétique soignée et code impeccable.",
+  tag1: "Landing pages", tag2: "Sites d'entreprise", tag3: "Design UI/UX", tag4: "Développement frontend",
+  intro_motto: `<span>Principe</span>Le sens d'abord, la forme ensuite. Chaque écran, chaque ligne de code et chaque mot servent un seul but : votre résultat.`,
+  intro_sub: "/ Ouvrir le portfolio", intro_hint: "Entrée ↵ — lancer",
+  nav_about: "À propos", nav_expertise: "Expertise", nav_work: "Projets", nav_approach: "Approche", nav_contact: "Contact",
+  cta: "Parlons de votre projet", menu_note: "Réponse sous quelques heures", hero_pill: "Disponible pour des projets ",
+  hero_h1: `Des sites qui <span class="serif grad">travaillent</span> pour votre business`,
+  hero_lead: `Je conçois et développe des sites et landing pages modernes clés en main — de la stratégie au lancement. <b>Chargement instantané, responsive impeccable et parcours clair du visiteur à la demande</b> — sans templates ni compromis.`,
+  hero_work: "Voir les projets",
+  expertise_eb: "Expertise", expertise_h2: `Pas seulement beau. <span class="serif">Efficace.</span>`,
+  expertise_p: `Un site est un outil de vente. Je réponds donc non seulement de son apparence, mais aussi de <b>sa capacité à attirer des clients</b> : structure, vitesse, ergonomie et confiance dès le premier écran.`,
+  vibes_eb: "Secteurs", vibes_h2: `Trois secteurs, <span class="serif">une approche</span>`, vibes_p: "Choisissez un secteur : le site adapte son ambiance, son son et ses exemples.",
+  work_eb: "Projets", work_h2: `Un vrai <span class="serif">projet</span>`, work_p: "Un projet en ligne à ouvrir, parcourir et tester sur mobile. Le code est ouvert sur GitHub.",
+  approach_eb: "Approche et stack", approach_h2: `Un processus transparent. Une technique <span class="serif">fiable</span>.`,
+  approach_p: "Vous savez toujours où en est le projet et ce qui suit. La technique s'adapte à la mission, pas l'inverse.",
+  faq_eb: "Questions", faq_h2: `Questions <span class="serif">fréquentes</span>`, faq_p: "L'essentiel à aborder avant de commencer. Pas de réponse ? Posez-moi la question.",
+  payment_eb: "Paiement", payment_h2: `Paiement simple <span class="serif">depuis tout pays</span>`, payment_p: "Choisissez le moyen qui vous convient. Modalités et coordonnées figurent au contrat.",
+  contact_eb: "Contact", contact_h2: `On parle de votre <span class="serif">projet ?</span>`,
+  contact_p: "Décrivez votre besoin en quelques mots — je réponds sous quelques heures, pose quelques questions précises et envoie un plan avec délais et coût. Gratuit et sans engagement.",
+  tg_small: "Telegram — le plus rapide", avail: "Joignable chaque jour de 9 h à 22 h (heure de Moscou)",
+  tab_web_s: "Produits et interfaces", tab_hor_b: "Restaurants et CHR", tab_hor_s: "Goût et ambiance", tab_bld_b: "Construction et architecture", tab_bld_s: "Envergure et fiabilité",
+  open_site: "Ouvrir le site", gh_code: "Code sur GitHub", case_study: "Étude de cas", next_meta: "Prochain projet",
+  next_h3: `Ici pourrait être <span class="serif">votre site</span>`, next_task: "Parlez-moi de votre besoin — solution, délais et coût sous 24 h.",
+  q1: "Travaillez-vous sous contrat ?", a1: `Oui. Avant de commencer, nous signons un <b>contrat</b> qui fixe le périmètre, les délais, le coût et la recette. Vous savez exactement ce que vous obtiendrez et quand.`,
+  q2: "Combien de retouches sont incluses ?", a2: `Le prix inclut <b>deux séries de retouches</b> au stade du design et <b>une</b> après l'intégration. Les petites modifications de texte pendant deux semaines après le lancement sont gratuites.`,
+  q3: "Comment se passe le paiement ?", a3: `<b>50 % d'acompte</b> avant le démarrage, <b>50 % après la recette</b> du site. Les gros projets peuvent être payés par étapes. Moyens de paiement — crypto, Telegram Stars ou virement — <a href="#payment">ci-dessous</a>.`,
+  q4: "Fournissez-vous les sources et les accès ?", a4: `Oui, intégralement : <b>code, maquettes et accès</b> à l'hébergement, au domaine et aux statistiques. Le site vous appartient — aucune dépendance au prestataire.`,
+  q5: "Combien de temps prend le développement ?", a5: `Une landing page <b>à partir de 7 jours ouvrés</b>, un site d'entreprise <b>à partir de 2–3 semaines</b>. Le délai exact est fixé au contrat après le brief.`,
+  f_title: "Demande de projet", f_sub: "Moins d'une minute", lbl_name: "Nom", ph_name: "Comment vous appeler",
+  lbl_contact: "Telegram, téléphone ou e-mail", ph_contact: "@username ou +33…", lbl_msg: "À propos du projet", ph_msg: "Votre activité, le besoin et l'échéance",
+  lg_type: "Votre besoin", t1: "Landing page", t2: "Site d'entreprise", t3: "Boutique en ligne", t4: "Refonte", lg_budget: "Budget", b_consult: "Je ne sais pas encore",
+  consent: "En cliquant sur le bouton, vous acceptez les {terms} et la {privacy}.", terms_in: "Conditions de travail", privacy_in: "Politique de confidentialité",
+  submit: "Envoyer la demande", f_hint: "Votre demande arrive directement sur mon Telegram — réponse sous quelques heures.",
+  done_title: "Demande envoyée", done_text: "Merci ! Elle est déjà sur mon Telegram — je reviens vers vous avec un plan sous quelques heures.",
+  quiz_fab: "[ Trouver une solution ]", terms_link: "Conditions de travail", privacy_link: "Confidentialité",
+  about_back: "Retour", about_kicker: "[ Profil du développeur ]", about_title: `Un développeur frontend tourné vers le <span class="serif grad">résultat</span>`,
+  about_lead: "Je conçois et développe sites et interfaces clés en main — de la structure au code propre et rapide, jusqu'au lancement. Je travaille en direct : ni intermédiaires, ni chefs de projet, ni téléphone arabe. Vous parlez toujours à celui qui construit votre site.",
+  about_focus: "Focus", f1: "Code propre et sémantique, sans bibliothèques ni constructeurs superflus", f2: "Performance : pages légères, images et polices optimisées", f3: "Responsive et accessible — agréable sur tout écran", f4: "Souci du détail : espacements, états, micro-animations",
+  about_approach: "Approche", a1x: "D'abord comprendre le besoin et le public — ensuite dessiner", a2x: "Des résultats visibles à chaque étape, pas de « boîte noire »", a3x: "Délais et coût fixés au contrat", a4x: "Remise du code, des accès et des instructions — le site est entièrement à vous",
+  about_stack: "Stack", why1_t: "Contact direct", why1_p: "Vous parlez à celui qui réalise, pas à un chef de projet. Les questions se règlent en minutes.",
+  why2_t: "Rapide, sans précipitation", why2_p: "Landing page dès 7 jours ouvrés, avec un plan clair et un aperçu à chaque étape.", why3_t: "Responsabilité", why3_p: "Contrat, délais fixes et suivi après le lancement.",
+  doc_kicker: "[ Document ]", ok: "Compris", terms_title: "Conditions de travail",
+  terms_note: "Version courte. Les conditions définitives de chaque projet figurent au contrat — en cas d'écart, le contrat prévaut.",
+  terms_1: `<b>Démarrage et délais.</b> Le travail commence après la signature du contrat, le versement de l'acompte et la remise des contenus. Le délai, en jours ouvrés, est fixé au contrat.`,
+  terms_2: `<b>Paiement 50/50.</b> 50 % d'acompte avant le démarrage, 50 % après la recette du site. Les gros projets peuvent être payés par étapes.`,
+  terms_3: `<b>Retouches.</b> Le prix inclut deux séries de retouches au design et une après l'intégration. Les séries supplémentaires et les changements hors périmètre sont chiffrés à part.`,
+  terms_4: `<b>Contenus du client.</b> Le client fournit textes, photos, logos et accès. Tout retard de contenus ou de réponse décale le délai d'autant. Sans réponse pendant plus de 14 jours, le projet est mis en pause.`,
+  terms_5: `<b>Recette.</b> Le client dispose de 5 jours ouvrés pour vérifier une étape terminée. Sans remarque dans ce délai, l'étape est réputée acceptée.`,
+  terms_6: `<b>Droits et sources.</b> Après paiement complet, le client reçoit le code source, les maquettes et tous les accès. Jusque-là, le site reste sur une adresse de test.`,
+  terms_7: `<b>Responsabilité.</b> Le prestataire répond de la qualité et des délais de son propre travail, mais pas du contenu fourni par le client, des pannes de services tiers (hébergement, domaine, paiement) ni des retards dus au client.`,
+  privacy_title: "Politique de confidentialité", privacy_note: "En bref : vos données servent uniquement à répondre à votre demande. Elles ne sont ni vendues ni transmises à des tiers.",
+  privacy_1: `<b>Quelles données.</b> Uniquement ce que vous saisissez dans le formulaire ou le quiz : nom, contact (Telegram, téléphone ou e-mail), description du besoin et réponses choisies.`,
+  privacy_2: `<b>Pourquoi.</b> Pour vous recontacter, préciser le besoin et préparer une proposition. Aucun envoi commercial sans votre accord.`,
+  privacy_3: `<b>Transmission.</b> La demande parvient au Telegram personnel du propriétaire du site via une connexion sécurisée (HTTPS). Telegram et un serveur intermédiaire (Cloudflare) participent à l'acheminement sans utiliser les données à leurs fins.`,
+  privacy_4: `<b>Tiers.</b> Les données ne sont ni vendues, ni publiées, ni transmises à des tiers, sauf obligation légale expresse.`,
+  privacy_5: `<b>Conservation.</b> 12 mois maximum après le dernier contact, ou jusqu'à votre demande de suppression.`,
+  privacy_6: `<b>Vos droits.</b> Vous pouvez demander l'accès, la rectification ou la suppression de vos données — un message sur Telegram suffit.`,
+  privacy_7: `<b>Cookies et statistiques.</b> Ni cookies publicitaires ni traceurs. Votre navigateur conserve seulement vos réglages (son, volume, langue, devise) et l'heure des envois pour la protection anti-spam. Les polices viennent de Google Fonts : Google voit donc votre adresse IP au chargement de la page.`,
+  err_name: "Indiquez votre nom (2 caractères minimum)", err_contact: "Indiquez un @username, un lien t.me, un téléphone ou un e-mail", err_msg: "Décrivez le besoin en une phrase au moins", sending: "Envoi… ",
+  e_nc: "L'envoi n'est pas encore activé. Écrivez-moi directement sur {tg}.", e_thr: "Une demande vient d'être envoyée. Patientez une minute ou écrivez-moi sur {tg}.",
+  e_fast: "Un instant… réessayez d'envoyer.", e_busy: "Envoi de la demande précédente…", e_gen: "Échec de l'envoi — vérifiez votre connexion et réessayez, ou écrivez-moi sur {tg}.",
+  tier_low: "jusqu'à {v}", tier_high: "à partir de {v}", vibe_head: "Ce que je réalise pour votre secteur"
+},
+pt: {
+  meta_title: "The Spartec Web — sites e landing pages completos", meta_desc: "Sites e landing pages modernos, do zero ao lançamento: estratégia, design e desenvolvimento.",
+  intro_title: `Design que gera confiança. Código que <span class="serif grad">traz clientes</span>`,
+  intro_lead: "Sou desenvolvedor web e designer de interfaces. Crio e lanço landing pages e sites corporativos completos — com estrutura clara, estética refinada e código impecável.",
+  tag1: "Landing pages", tag2: "Sites corporativos", tag3: "Design UI/UX", tag4: "Desenvolvimento frontend",
+  intro_motto: `<span>Princípio</span>Primeiro o sentido, depois a forma. Cada tela, cada linha de código e cada palavra servem a um objetivo: o seu resultado.`,
+  intro_sub: "/ Abrir portfólio", intro_hint: "Enter ↵ — iniciar",
+  nav_about: "Sobre mim", nav_expertise: "Expertise", nav_work: "Projetos", nav_approach: "Abordagem", nav_contact: "Contato",
+  cta: "Falar sobre o projeto", menu_note: "Respondo em poucas horas", hero_pill: "Disponível para projetos ",
+  hero_h1: `Sites que <span class="serif grad">trabalham</span> pelo seu negócio`,
+  hero_lead: `Projeto e desenvolvo sites e landing pages modernos, da estratégia e do design ao lançamento. <b>Carregamento instantâneo, responsividade impecável e um caminho claro do visitante ao pedido</b> — sem templates e sem concessões.`,
+  hero_work: "Ver projetos",
+  expertise_eb: "Expertise", expertise_h2: `Não só bonito. <span class="serif">Eficaz.</span>`,
+  expertise_p: `Um site é uma ferramenta de vendas. Por isso respondo não só pela aparência, mas por <b>como ele traz clientes</b>: estrutura, velocidade, usabilidade e confiança desde a primeira tela.`,
+  vibes_eb: "Setores", vibes_h2: `Três setores, <span class="serif">uma abordagem</span>`, vibes_p: "Escolha um setor: o site adapta o clima, o som e os exemplos ao seu negócio.",
+  work_eb: "Projetos", work_h2: `Trabalho <span class="serif">real</span>`, work_p: "Um projeto real que você pode abrir, navegar e testar no celular. O código está aberto no GitHub.",
+  approach_eb: "Abordagem e stack", approach_h2: `Processo transparente. Tecnologia <span class="serif">confiável</span>.`,
+  approach_p: "Você sempre sabe em que etapa está o projeto e o que vem a seguir. A tecnologia é escolhida para a tarefa, não o contrário.",
+  faq_eb: "Perguntas", faq_h2: `Perguntas <span class="serif">frequentes</span>`, faq_p: "O essencial para conversar antes de começar. Não achou a resposta? Pergunte diretamente.",
+  payment_eb: "Pagamento", payment_h2: `Pagamento fácil <span class="serif">de qualquer país</span>`, payment_p: "Escolha o método mais conveniente. Condições e dados de pagamento ficam no contrato.",
+  contact_eb: "Contato", contact_h2: `Vamos falar do seu <span class="serif">projeto?</span>`,
+  contact_p: "Descreva sua tarefa em poucas palavras — respondo em poucas horas, faço algumas perguntas e envio um plano com prazos e custo. Grátis e sem compromisso.",
+  tg_small: "Telegram — o mais rápido", avail: "Disponível diariamente das 9h às 22h (horário de Moscou)",
+  tab_web_s: "Produtos e interfaces", tab_hor_b: "Restaurantes e HoReCa", tab_hor_s: "Sabor e atmosfera", tab_bld_b: "Construção e arquitetura", tab_bld_s: "Escala e confiabilidade",
+  open_site: "Abrir site", gh_code: "Código no GitHub", case_study: "Estudo de caso", next_meta: "Próximo projeto",
+  next_h3: `Aqui pode estar <span class="serif">o seu site</span>`, next_task: "Conte sua tarefa — proponho solução, prazo e custo em um dia.",
+  q1: "Você trabalha com contrato?", a1: `Sim. Antes de começar assinamos um <b>contrato</b> que define escopo, prazos, custo e forma de aceite. Você sabe exatamente o que vai receber e quando.`,
+  q2: "Quantas revisões estão incluídas?", a2: `O preço inclui <b>duas rodadas de revisões</b> na fase de design e <b>uma</b> após o desenvolvimento. Pequenos ajustes de texto até duas semanas após o lançamento são gratuitos.`,
+  q3: "Como funciona o pagamento?", a3: `<b>50% adiantado</b> antes do início e <b>50% após o aceite</b> do site pronto. Projetos maiores podem ser pagos por etapas. Formas de pagamento — cripto, Telegram Stars ou transferência — <a href="#payment">abaixo</a>.`,
+  q4: "Você entrega o código-fonte e os acessos?", a4: `Sim, tudo: <b>código, layouts e acessos</b> à hospedagem, domínio e analytics. O site é seu — sem depender do fornecedor.`,
+  q5: "Quanto tempo leva o desenvolvimento?", a5: `Landing page <b>a partir de 7 dias úteis</b>, site corporativo <b>a partir de 2–3 semanas</b>. O prazo exato é definido no contrato após o briefing.`,
+  f_title: "Pedido de projeto", f_sub: "Leva menos de um minuto", lbl_name: "Nome", ph_name: "Como posso te chamar",
+  lbl_contact: "Telegram, telefone ou e-mail", ph_contact: "@username ou +55…", lbl_msg: "Sobre o projeto", ph_msg: "O que sua empresa faz, o que precisa e para quando",
+  lg_type: "O que você precisa", t1: "Landing page", t2: "Site da empresa", t3: "Loja online", t4: "Redesign", lg_budget: "Orçamento", b_consult: "Ainda não sei",
+  consent: "Ao clicar no botão, você concorda com os {terms} e a {privacy}.", terms_in: "Termos de trabalho", privacy_in: "Política de Privacidade",
+  submit: "Enviar pedido", f_hint: "Seu pedido chega direto no meu Telegram — respondo em poucas horas.",
+  done_title: "Pedido enviado", done_text: "Obrigado! Já chegou no meu Telegram — volto com um plano em poucas horas.",
+  quiz_fab: "[ Encontrar solução ]", terms_link: "Termos de trabalho", privacy_link: "Privacidade",
+  about_back: "Voltar", about_kicker: "[ Perfil do desenvolvedor ]", about_title: `Desenvolvedor frontend focado em <span class="serif grad">resultado</span>`,
+  about_lead: "Projeto e desenvolvo sites e interfaces do zero ao lançamento — da estrutura e do design ao código limpo e rápido. Trabalho direto com o cliente: sem intermediários nem gerentes. Você sempre fala com quem constrói o seu site.",
+  about_focus: "Foco", f1: "Código limpo e semântico, sem bibliotecas nem construtores extras", f2: "Performance: páginas leves, imagens e fontes otimizadas", f3: "Responsivo e acessível — confortável em qualquer tela", f4: "Atenção aos detalhes: espaçamentos, estados, microanimações",
+  about_approach: "Abordagem", a1x: "Primeiro entendo a tarefa e o público — depois desenho", a2x: "Mostro resultados em cada etapa, sem “caixa-preta”", a3x: "Prazos e custo fixados no contrato", a4x: "Entrego código, acessos e instruções — o site é totalmente seu",
+  about_stack: "Stack", why1_t: "Contato direto", why1_p: "Você fala com quem faz, não com um gerente. Dúvidas resolvidas em minutos.",
+  why2_t: "Rápido, sem pressa", why2_p: "Landing page a partir de 7 dias úteis, com plano claro e prévia em cada etapa.", why3_t: "Responsabilidade", why3_p: "Contrato, prazos fixos e suporte após o lançamento.",
+  doc_kicker: "[ Documento ]", ok: "Entendi", terms_title: "Termos de trabalho",
+  terms_note: "Versão resumida. As condições finais de cada projeto ficam no contrato — em caso de divergência, vale o contrato.",
+  terms_1: `<b>Início e prazos.</b> O trabalho começa após a assinatura do contrato, o pagamento do adiantamento e o envio dos materiais. O prazo é definido em dias úteis no contrato.`,
+  terms_2: `<b>Pagamento 50/50.</b> 50% adiantado antes do início e 50% após o aceite do site pronto. Projetos maiores podem ser pagos por etapas.`,
+  terms_3: `<b>Revisões.</b> O preço inclui duas rodadas de revisões no design e uma após o desenvolvimento. Rodadas extras e mudanças fora do escopo combinado são orçadas à parte.`,
+  terms_4: `<b>Materiais do cliente.</b> O cliente fornece textos, fotos, logotipos e acessos. Atrasos nos materiais ou nas respostas deslocam o prazo na mesma quantidade de dias. Sem resposta por mais de 14 dias, o projeto é pausado.`,
+  terms_5: `<b>Aceite.</b> O cliente tem até 5 dias úteis para revisar cada etapa concluída. Sem comentários nesse prazo, a etapa é considerada aceita.`,
+  terms_6: `<b>Direitos e código-fonte.</b> Após o pagamento integral, o cliente recebe o código-fonte, os layouts e todos os acessos. Até lá, o site fica em um endereço de teste.`,
+  terms_7: `<b>Responsabilidade.</b> O contratado responde pela qualidade e pelos prazos do próprio trabalho, mas não pelo conteúdo dos materiais do cliente, por falhas de serviços de terceiros (hospedagem, domínio, pagamentos) nem por atrasos causados pelo cliente.`,
+  privacy_title: "Política de Privacidade", privacy_note: "Em resumo: seus dados servem só para responder ao seu pedido. Não são vendidos nem compartilhados com terceiros.",
+  privacy_1: `<b>Quais dados.</b> Só o que você informa no formulário ou no quiz: nome, contato (Telegram, telefone ou e-mail), descrição da tarefa e respostas escolhidas.`,
+  privacy_2: `<b>Para quê.</b> Para entrar em contato, entender a tarefa e preparar uma proposta. Nada de envios sem o seu consentimento.`,
+  privacy_3: `<b>Como são enviados.</b> O pedido chega ao Telegram pessoal do dono do site por conexão segura (HTTPS). Participam da entrega o Telegram e um servidor intermediário (Cloudflare), que não usam os dados para fins próprios.`,
+  privacy_4: `<b>Terceiros.</b> Os dados não são vendidos, publicados nem compartilhados com terceiros, salvo quando a lei exigir expressamente.`,
+  privacy_5: `<b>Retenção.</b> No máximo 12 meses após o último contato ou até você pedir a exclusão.`,
+  privacy_6: `<b>Seus direitos.</b> Você pode pedir para ver, corrigir ou excluir seus dados — basta escrever no Telegram.`,
+  privacy_7: `<b>Cookies e análise.</b> Sem cookies de publicidade nem rastreadores. O navegador guarda só suas preferências (som, volume, idioma, moeda) e os horários de envio para proteção contra spam. As fontes vêm do Google Fonts, então o Google vê seu IP ao carregar a página.`,
+  err_name: "Informe seu nome (mínimo 2 caracteres)", err_contact: "Informe um @usuário, link t.me, telefone ou e-mail", err_msg: "Descreva a tarefa em pelo menos uma frase", sending: "Enviando… ",
+  e_nc: "O envio ainda não está conectado. Fale comigo direto no {tg}.", e_thr: "Um pedido foi enviado há pouco. Aguarde um minuto ou fale comigo no {tg}.",
+  e_fast: "Um instante… tente enviar de novo.", e_busy: "Enviando o pedido anterior…", e_gen: "Não foi possível enviar — verifique a conexão e tente de novo ou fale comigo no {tg}.",
+  tier_low: "até {v}", tier_high: "a partir de {v}", vibe_head: "O que faço para o seu setor"
+},
+zh: {
+  meta_title: "The Spartec Web — 一站式网站与落地页开发", meta_desc: "现代化网站与落地页一站式交付：策略、设计、开发与上线。",
+  intro_title: `值得信赖的设计，<span class="serif grad">带来客户</span>的代码`,
+  intro_lead: "我是一名网页开发者和界面设计师。从结构到上线，一站式打造落地页和企业网站——结构清晰、审美精致、代码干净。",
+  tag1: "落地页", tag2: "企业网站", tag3: "UI/UX 设计", tag4: "前端开发",
+  intro_motto: `<span>原则</span>先有意义，再有形式。每一屏、每一行代码、每一个字，都只为一个目标——您的成果。`,
+  intro_sub: "/ 进入作品集", intro_hint: "Enter ↵ — 启动",
+  nav_about: "关于我", nav_expertise: "专长", nav_work: "项目", nav_approach: "方法", nav_contact: "联系",
+  cta: "洽谈项目", menu_note: "通常几小时内回复", hero_pill: "可接新项目 ",
+  hero_h1: `为您的业务<span class="serif grad">创造价值</span>的网站`,
+  hero_lead: `从策略、设计到上线，一站式打造现代网站与落地页。<b>秒开加载、完美适配各类设备、从访客到咨询的清晰路径</b>——不用模板，绝不妥协。`,
+  hero_work: "查看项目",
+  expertise_eb: "专长", expertise_h2: `不只是好看，<span class="serif">更有效。</span>`,
+  expertise_p: `网站是销售工具。因此我不仅负责外观，更负责<b>它如何带来客户</b>：结构、速度、易用性，以及首屏即建立的信任。`,
+  vibes_eb: "领域", vibes_h2: `三大领域，<span class="serif">同一方法</span>`, vibes_p: "选择一个领域：网站会随之调整氛围、声音与案例方向。",
+  work_eb: "项目", work_h2: `真实<span class="serif">项目</span>`, work_p: "一个可以打开、浏览、在手机上检验的真实项目。代码已在 GitHub 公开。",
+  approach_eb: "方法与技术栈", approach_h2: `透明的流程，<span class="serif">可靠</span>的技术。`,
+  approach_p: "您始终清楚项目处于哪个阶段、下一步是什么。技术为任务服务，而非相反。",
+  faq_eb: "问答", faq_h2: `常见<span class="serif">问题</span>`, faq_p: "开工前通常需要沟通的要点。没找到答案？直接问我。",
+  payment_eb: "付款", payment_h2: `<span class="serif">全球</span>便捷付款`, payment_p: "选择适合您的方式。付款流程与收款信息在合同中约定。",
+  contact_eb: "联系", contact_h2: `聊聊您的<span class="serif">项目？</span>`,
+  contact_p: "用几句话描述您的需求——我会在几小时内回复，提出几个关键问题，并发送包含工期与报价的方案。免费且无任何义务。",
+  tg_small: "Telegram——最快", avail: "每天 9:00–22:00 在线（莫斯科时间）",
+  tab_web_s: "产品与界面", tab_hor_b: "餐饮与酒店", tab_hor_s: "风味与氛围", tab_bld_b: "建筑与设计", tab_bld_s: "规模与可靠",
+  open_site: "打开网站", gh_code: "GitHub 代码", case_study: "项目解析", next_meta: "下一个项目",
+  next_h3: `这里可以是<span class="serif">您的网站</span>`, next_task: "告诉我您的需求——一天内给出方案、工期和报价。",
+  q1: "是否签订合同？", a1: `是的。开工前我们会签订<b>合同</b>，明确工作范围、工期、费用和验收方式。您清楚知道会得到什么、何时得到。`,
+  q2: "价格包含几轮修改？", a2: `价格包含设计阶段<b>两轮修改</b>和开发完成后<b>一轮</b>修改。上线后两周内的小幅文字修改免费。`,
+  q3: "如何付款？", a3: `开工前<b>预付 50%</b>，网站验收后<b>支付 50%</b>。大型项目可分阶段付款。付款方式——加密货币、Telegram Stars 或银行转账——见<a href="#payment">下方</a>。`,
+  q4: "是否交付源代码和权限？", a4: `是的，全部交付：<b>代码、设计稿以及主机、域名和数据分析的访问权限</b>。网站归您所有，不依赖开发方。`,
+  q5: "开发需要多长时间？", a5: `落地页<b>7 个工作日起</b>，企业网站<b>2–3 周起</b>。具体工期在需求沟通后写入合同。`,
+  f_title: "项目咨询", f_sub: "不到一分钟", lbl_name: "姓名", ph_name: "怎么称呼您",
+  lbl_contact: "Telegram、电话或邮箱", ph_contact: "@username 或 +86…", lbl_msg: "项目简介", ph_msg: "公司业务、需求和期望时间",
+  lg_type: "需要做什么", t1: "落地页", t2: "企业网站", t3: "网店", t4: "改版", lg_budget: "预算", b_consult: "还不确定",
+  consent: "点击按钮即表示您同意{terms}和{privacy}。", terms_in: "服务条款", privacy_in: "隐私政策",
+  submit: "提交咨询", f_hint: "咨询会直接发送到我的 Telegram，几小时内回复。",
+  done_title: "已发送", done_text: "谢谢！我已在 Telegram 收到，几小时内给您发送项目方案。",
+  quiz_fab: "[ 匹配方案 ]", terms_link: "服务条款", privacy_link: "隐私政策",
+  about_back: "返回", about_kicker: "[ 开发者简介 ]", about_title: `以<span class="serif grad">结果</span>为导向的前端开发者`,
+  about_lead: "我一站式设计并开发网站与界面——从结构、设计到干净高效的代码与上线。直接与客户合作：没有中间人、没有项目经理、不会传话走样。您始终在与真正做网站的人沟通。",
+  about_focus: "专注", f1: "干净的语义化代码，不堆砌多余库和建站工具", f2: "性能：轻量页面，优化图片与字体", f3: "响应式与无障碍——任何屏幕都好用", f4: "注重细节：间距、状态、微动效",
+  about_approach: "方法", a1x: "先理解任务与受众，再动手设计", a2x: "每个阶段都展示成果，没有“黑箱”", a3x: "工期和费用写入合同", a4x: "交付代码、权限和说明——网站完全属于您",
+  about_stack: "技术栈", why1_t: "直接沟通", why1_p: "与动手的人对话，而不是经理。问题几分钟内解决。",
+  why2_t: "快而不乱", why2_p: "落地页 7 个工作日起，计划清晰，每一步都可预览。", why3_t: "负责到底", why3_p: "合同、固定工期以及上线后的支持。",
+  doc_kicker: "[ 文件 ]", ok: "知道了", terms_title: "服务条款",
+  terms_note: "简要版本。每个项目的最终条款以合同为准——如有不一致，以合同为准。",
+  terms_1: `<b>开工与工期。</b>签订合同、支付预付款并提供资料后开始工作。工期以工作日计，并写入合同。`,
+  terms_2: `<b>50/50 付款。</b>开工前预付 50%，网站验收后支付 50%。大型项目可分阶段付款。`,
+  terms_3: `<b>修改。</b>价格包含设计阶段两轮修改和开发后一轮修改。额外修改及超出约定范围的变更另行报价。`,
+  terms_4: `<b>客户资料。</b>文字、图片、标志和账号权限由客户提供。资料或反馈延迟，工期相应顺延同等天数。超过 14 天无回复，项目暂停。`,
+  terms_5: `<b>验收。</b>客户有最多 5 个工作日审核已完成的阶段。期间未提出意见，视为该阶段验收通过。`,
+  terms_6: `<b>权利与源代码。</b>全额付款后，客户获得源代码、设计稿及全部权限。付清之前，网站保留在测试地址。`,
+  terms_7: `<b>责任。</b>开发方对自身工作的质量与工期负责；不对客户资料内容、第三方服务故障（主机、域名、支付系统）以及客户原因造成的延误负责。`,
+  privacy_title: "隐私政策", privacy_note: "简而言之：您的数据仅用于回复咨询，不会出售或提供给第三方。",
+  privacy_1: `<b>收集哪些数据。</b>仅限您在表单或问卷中填写的内容：姓名、联系方式（Telegram、电话或邮箱）、需求描述和所选答案。`,
+  privacy_2: `<b>用途。</b>用于联系您、确认需求并准备方案。未经同意不会发送任何推广信息。`,
+  privacy_3: `<b>传输方式。</b>咨询通过安全连接（HTTPS）发送到网站所有者的个人 Telegram。传输过程中涉及 Telegram 和中转服务器（Cloudflare），它们不会将数据用于自身目的。`,
+  privacy_4: `<b>第三方。</b>除法律明确要求外，数据不会被出售、公开或提供给第三方。`,
+  privacy_5: `<b>保存期限。</b>自最后一次联系起最长 12 个月，或直到您要求删除。`,
+  privacy_6: `<b>您的权利。</b>您可以要求查看、更正或删除您的数据——在 Telegram 上发消息即可。`,
+  privacy_7: `<b>Cookie 与统计。</b>本站不使用广告 Cookie 或追踪器。浏览器中仅保存您的设置（声音、音量、语言、货币）以及用于防垃圾信息的提交时间。字体从 Google Fonts 加载，因此页面加载时 Google 会获知您的 IP 地址。`,
+  err_name: "请填写姓名（至少 2 个字符）", err_contact: "请填写 @用户名、t.me 链接、电话或邮箱", err_msg: "请至少用一句话描述需求", sending: "发送中… ",
+  e_nc: "提交功能尚未接通，请直接在 {tg} 联系我。", e_thr: "刚刚已提交过。请稍等一分钟，或在 {tg} 联系我。",
+  e_fast: "请稍候……再试一次。", e_busy: "正在发送上一条…", e_gen: "发送失败——请检查网络后重试，或在 {tg} 联系我。",
+  tier_low: "{v} 以内", tier_high: "{v} 以上", vibe_head: "我能为您的领域做什么"
+},
+ja: {
+  meta_title: "The Spartec Web — ウェブサイト・LP制作をワンストップで", meta_desc: "戦略・デザイン・開発・公開まで、モダンなウェブサイトとLPをワンストップで。",
+  intro_title: `信頼されるデザイン。<span class="serif grad">問い合わせを生む</span>コード`,
+  intro_lead: "ウェブ開発者・UIデザイナーとして、LPやコーポレートサイトを設計から公開までワンストップで手がけます。明快な構成、洗練された美しさ、そして徹底的にクリーンなコード。",
+  tag1: "LP制作", tag2: "コーポレートサイト", tag3: "UI/UXデザイン", tag4: "フロントエンド開発",
+  intro_motto: `<span>信条</span>まず意味、それから形。すべての画面、コードの一行、言葉のひとつひとつが、ただひとつの目的——あなたの成果のためにあります。`,
+  intro_sub: "/ ポートフォリオへ", intro_hint: "Enter ↵ — 起動",
+  nav_about: "私について", nav_expertise: "強み", nav_work: "実績", nav_approach: "進め方", nav_contact: "お問い合わせ",
+  cta: "相談する", menu_note: "数時間以内に返信します", hero_pill: "新規案件受付中 ",
+  hero_h1: `ビジネスのために<span class="serif grad">働く</span>ウェブサイト`,
+  hero_lead: `戦略・デザインから公開まで、モダンなサイトとLPをワンストップで制作します。<b>瞬時の表示、完璧なレスポンシブ、訪問者を問い合わせへ導く明快な導線</b>——テンプレートも妥協もなし。`,
+  hero_work: "実績を見る",
+  expertise_eb: "強み", expertise_h2: `美しいだけでなく、<span class="serif">成果につながる。</span>`,
+  expertise_p: `ウェブサイトは営業ツールです。だから見た目だけでなく、<b>どう顧客を呼び込むか</b>まで責任を持ちます。構成、速度、使いやすさ、そしてファーストビューからの信頼感。`,
+  vibes_eb: "対応分野", vibes_h2: `3つの分野、<span class="serif">ひとつの流儀</span>`, vibes_p: "分野を選ぶと、サイトの雰囲気・サウンド・提案内容がその業界に合わせて変わります。",
+  work_eb: "実績", work_h2: `リアルな<span class="serif">実績</span>`, work_p: "開いてスクロールし、スマホでも確かめられる公開中のプロジェクトです。コードはGitHubで公開しています。",
+  approach_eb: "進め方と技術", approach_h2: `透明なプロセス。<span class="serif">確かな</span>技術。`,
+  approach_p: "プロジェクトが今どの段階で、次に何をするのか常に把握できます。技術は課題に合わせて選びます。",
+  faq_eb: "よくある質問", faq_h2: `よくある<span class="serif">質問</span>`, faq_p: "着手前によく確認される点をまとめました。答えがなければ、気軽にご質問ください。",
+  payment_eb: "お支払い", payment_h2: `<span class="serif">どの国からでも</span>簡単にお支払い`, payment_p: "ご都合のよい方法をお選びください。支払い条件と振込先は契約書に明記します。",
+  contact_eb: "お問い合わせ", contact_h2: `あなたの<span class="serif">プロジェクト</span>について話しませんか？`,
+  contact_p: "ご依頼内容をひとことでお送りください。数時間以内に返信し、いくつか質問したうえで、期間と費用を含む作業計画をお送りします。無料・義務なし。",
+  tg_small: "Telegram — 最速", avail: "毎日 9:00–22:00 対応（モスクワ時間）",
+  tab_web_s: "プロダクトとUI", tab_hor_b: "飲食・ホテル", tab_hor_s: "味と雰囲気", tab_bld_b: "建設・建築", tab_bld_s: "規模と信頼",
+  open_site: "サイトを開く", gh_code: "GitHubのコード", case_study: "事例解説", next_meta: "次のプロジェクト",
+  next_h3: `ここに<span class="serif">あなたのサイト</span>を`, next_task: "ご依頼内容を教えてください。1日以内に解決策・期間・費用をご提案します。",
+  q1: "契約書を交わしますか？", a1: `はい。着手前に<b>契約書</b>を交わし、作業範囲・期間・費用・検収方法を明記します。何をいつ受け取れるのか明確です。`,
+  q2: "修正は何回まで含まれますか？", a2: `デザイン段階で<b>2回</b>、実装後に<b>1回</b>の修正が料金に含まれます。公開後2週間以内の軽微なテキスト修正は無料です。`,
+  q3: "支払いはどのように？", a3: `着手前に<b>50%を前払い</b>、完成・検収後に<b>残り50%</b>。大規模案件は段階的なお支払いも可能です。支払い方法（暗号資産、Telegram Stars、銀行振込）は<a href="#payment">下記</a>をご覧ください。`,
+  q4: "ソースコードやアカウントは引き渡されますか？", a4: `はい、すべてお渡しします：<b>コード、デザインデータ、サーバー・ドメイン・アナリティクスのアクセス権</b>。サイトはお客様のもので、制作者への依存はありません。`,
+  q5: "制作期間はどのくらいですか？", a5: `LPは<b>7営業日〜</b>、コーポレートサイトは<b>2〜3週間〜</b>。正確な期間はヒアリング後に契約書で確定します。`,
+  f_title: "制作のご依頼", f_sub: "1分もかかりません", lbl_name: "お名前", ph_name: "お名前を入力",
+  lbl_contact: "Telegram・電話・メール", ph_contact: "@username または +81…", lbl_msg: "プロジェクト概要", ph_msg: "事業内容、必要なもの、希望納期",
+  lg_type: "ご依頼内容", t1: "LP", t2: "コーポレートサイト", t3: "ECサイト", t4: "リニューアル", lg_budget: "ご予算", b_consult: "まだ未定",
+  consent: "ボタンを押すと、{terms}と{privacy}に同意したものとみなされます。", terms_in: "利用条件", privacy_in: "プライバシーポリシー",
+  submit: "送信する", f_hint: "ご依頼は私のTelegramに直接届きます。数時間以内に返信します。",
+  done_title: "送信しました", done_text: "ありがとうございます！Telegramで受け取りました。数時間以内に計画をお送りします。",
+  quiz_fab: "[ 最適なプランを探す ]", terms_link: "利用条件", privacy_link: "プライバシー",
+  about_back: "戻る", about_kicker: "[ 開発者プロフィール ]", about_title: `<span class="serif grad">成果</span>から考えるフロントエンド開発者`,
+  about_lead: "構成・デザインから、クリーンで高速なコード、そして公開まで、サイトとUIをワンストップで手がけます。仲介やマネージャーを挟まず、お客様と直接やり取りします。常にサイトを作る本人と話せます。",
+  about_focus: "フォーカス", f1: "余計なライブラリやビルダーに頼らない、クリーンでセマンティックなコード", f2: "パフォーマンス：軽いページ、最適化された画像とフォント", f3: "レスポンシブ＆アクセシブル——どの画面でも快適", f4: "細部へのこだわり：余白、状態、マイクロアニメーション",
+  about_approach: "進め方", a1x: "まず課題とユーザーを理解し、それからデザイン", a2x: "各段階で成果を共有、「ブラックボックス」なし", a3x: "期間と費用は契約書で確定", a4x: "コード・アクセス権・手順書をお渡し——サイトは完全にお客様のもの",
+  about_stack: "技術スタック", why1_t: "直接やり取り", why1_p: "マネージャーではなく制作者本人と話せます。疑問は数分で解決。",
+  why2_t: "速く、でも丁寧に", why2_p: "LPは7営業日〜。明確な計画と各段階のプレビュー付き。", why3_t: "責任", why3_p: "契約、確定した納期、公開後のサポート。",
+  doc_kicker: "[ 文書 ]", ok: "了解", terms_title: "利用条件",
+  terms_note: "要約版です。各プロジェクトの最終条件は契約書で定め、相違がある場合は契約書が優先されます。",
+  terms_1: `<b>開始と期間。</b>契約締結、前払い金のお支払い、素材のご提供後に作業を開始します。期間は営業日で契約書に定めます。`,
+  terms_2: `<b>支払い 50/50。</b>着手前に50%、完成したサイトの検収後に50%。大規模案件は段階払いも可能です。`,
+  terms_3: `<b>修正。</b>デザイン段階で2回、実装後に1回の修正が料金に含まれます。追加の修正や合意範囲外の変更は別途お見積もりします。`,
+  terms_4: `<b>お客様の素材。</b>文章・写真・ロゴ・アクセス情報はお客様にご用意いただきます。素材やご返答が遅れた場合、その日数分だけ納期が延びます。14日以上ご返答がない場合はプロジェクトを一時停止します。`,
+  terms_5: `<b>検収。</b>完成した各段階の確認期間は最大5営業日です。期間内にご指摘がなければ、その段階は検収済みとみなします。`,
+  terms_6: `<b>権利とソースコード。</b>全額のお支払い後、ソースコード、デザインデータ、すべてのアクセス権をお渡しします。それまではテスト環境で公開します。`,
+  terms_7: `<b>責任。</b>制作者は自らの作業の品質と納期に責任を負います。お客様の素材の内容、外部サービス（サーバー、ドメイン、決済）の障害、お客様起因の遅延については責任を負いません。`,
+  privacy_title: "プライバシーポリシー", privacy_note: "要するに：データはご依頼への返信のためだけに使い、販売や第三者への提供はしません。",
+  privacy_1: `<b>取得するデータ。</b>フォームや質問で入力された内容のみ：お名前、連絡先（Telegram・電話・メール）、ご依頼内容、選択した回答。`,
+  privacy_2: `<b>利用目的。</b>ご連絡、内容の確認、ご提案の準備のため。同意なくメール配信は行いません。`,
+  privacy_3: `<b>送信方法。</b>ご依頼は暗号化通信（HTTPS）でサイト運営者の個人Telegramに届きます。配信にはTelegramと中継サーバー（Cloudflare）が関わりますが、データを独自の目的で利用することはありません。`,
+  privacy_4: `<b>第三者提供。</b>法令で明確に求められる場合を除き、データの販売・公開・第三者提供は行いません。`,
+  privacy_5: `<b>保存期間。</b>最後のご連絡から最長12か月、または削除のご依頼まで。`,
+  privacy_6: `<b>お客様の権利。</b>データの開示・訂正・削除をご依頼いただけます。Telegramでメッセージをお送りください。`,
+  privacy_7: `<b>Cookieと解析。</b>広告用Cookieやトラッカーは使用しません。ブラウザに保存されるのは設定（サウンド、音量、言語、通貨）とスパム対策用の送信時刻のみです。フォントはGoogle Fontsから読み込むため、ページ表示時にGoogleがIPアドレスを取得します。`,
+  err_name: "お名前を入力してください（2文字以上）", err_contact: "@ユーザー名、t.meリンク、電話番号、メールのいずれかを入力してください", err_msg: "内容を一文以上でご記入ください", sending: "送信中… ",
+  e_nc: "送信機能はまだ準備中です。{tg}で直接ご連絡ください。", e_thr: "少し前に送信済みです。1分ほど待つか、{tg}でご連絡ください。",
+  e_fast: "少々お待ちください…もう一度送信してください。", e_busy: "前の送信を処理中…", e_gen: "送信できませんでした。接続を確認して再試行するか、{tg}でご連絡ください。",
+  tier_low: "{v}まで", tier_high: "{v}以上", vibe_head: "この分野でできること"
+},
+ko: {
+  meta_title: "The Spartec Web — 웹사이트·랜딩 페이지 원스톱 제작", meta_desc: "전략부터 디자인, 개발, 런칭까지 — 현대적인 웹사이트와 랜딩 페이지를 원스톱으로.",
+  intro_title: `신뢰받는 디자인, <span class="serif grad">문의를 만드는</span> 코드`,
+  intro_lead: "웹 개발자이자 인터페이스 디자이너입니다. 랜딩 페이지와 기업 웹사이트를 기획부터 런칭까지 원스톱으로 — 명확한 구조, 세련된 미감, 깔끔한 코드로 만듭니다.",
+  tag1: "랜딩 페이지", tag2: "기업 웹사이트", tag3: "UI/UX 디자인", tag4: "프론트엔드 개발",
+  intro_motto: `<span>원칙</span>의미가 먼저, 형태는 그다음. 모든 화면, 모든 코드 한 줄, 모든 단어가 단 하나의 목표 — 당신의 성과를 향합니다.`,
+  intro_sub: "/ 포트폴리오 열기", intro_hint: "Enter ↵ — 시작",
+  nav_about: "소개", nav_expertise: "전문성", nav_work: "프로젝트", nav_approach: "작업 방식", nav_contact: "연락처",
+  cta: "프로젝트 상담", menu_note: "몇 시간 안에 답변드립니다", hero_pill: "새 프로젝트 가능 ",
+  hero_h1: `비즈니스를 위해 <span class="serif grad">일하는</span> 웹사이트`,
+  hero_lead: `전략과 디자인부터 런칭까지, 현대적인 웹사이트와 랜딩 페이지를 원스톱으로 만듭니다. <b>즉각적인 로딩, 완벽한 반응형, 방문자를 문의로 이끄는 명확한 흐름</b> — 템플릿도 타협도 없습니다.`,
+  hero_work: "프로젝트 보기",
+  expertise_eb: "전문성", expertise_h2: `아름다움을 넘어, <span class="serif">효과적으로.</span>`,
+  expertise_p: `웹사이트는 영업 도구입니다. 그래서 외형뿐 아니라 <b>고객을 어떻게 데려오는지</b>까지 책임집니다: 구조, 속도, 사용성, 첫 화면부터의 신뢰.`,
+  vibes_eb: "분야", vibes_h2: `세 가지 분야, <span class="serif">하나의 접근</span>`, vibes_p: "분야를 선택하면 사이트의 분위기, 사운드, 예시가 그에 맞게 바뀝니다.",
+  work_eb: "프로젝트", work_h2: `실제 <span class="serif">작업</span>`, work_p: "열어보고, 스크롤하고, 휴대폰으로 확인할 수 있는 실제 프로젝트입니다. 코드는 GitHub에 공개되어 있습니다.",
+  approach_eb: "방식과 스택", approach_h2: `투명한 프로세스, <span class="serif">믿을 수 있는</span> 기술.`,
+  approach_p: "프로젝트가 어느 단계인지, 다음은 무엇인지 항상 알 수 있습니다. 기술은 과제에 맞춰 선택합니다.",
+  faq_eb: "자주 묻는 질문", faq_h2: `자주 묻는 <span class="serif">질문</span>`, faq_p: "시작 전에 보통 확인하는 내용을 정리했습니다. 답을 못 찾으셨다면 바로 물어보세요.",
+  payment_eb: "결제", payment_h2: `<span class="serif">어느 나라에서든</span> 간편 결제`, payment_p: "편한 방법을 선택하세요. 결제 조건과 정보는 계약서에 명시합니다.",
+  contact_eb: "연락처", contact_h2: `프로젝트에 대해 <span class="serif">이야기해 볼까요?</span>`,
+  contact_p: "과제를 몇 마디로 설명해 주세요. 몇 시간 안에 답변하고, 몇 가지 질문 후 일정과 비용이 담긴 작업 계획을 보내드립니다. 무료이며 부담 없습니다.",
+  tg_small: "텔레그램 — 가장 빠름", avail: "매일 9:00–22:00 응답 (모스크바 시간)",
+  tab_web_s: "제품과 인터페이스", tab_hor_b: "레스토랑·호스피탈리티", tab_hor_s: "맛과 분위기", tab_bld_b: "건설·건축", tab_bld_s: "규모와 신뢰",
+  open_site: "사이트 열기", gh_code: "GitHub 코드", case_study: "케이스 스터디", next_meta: "다음 프로젝트",
+  next_h3: `여기에 <span class="serif">당신의 사이트</span>가`, next_task: "과제를 알려주세요. 하루 안에 해결책, 일정, 비용을 제안드립니다.",
+  q1: "계약서를 작성하나요?", a1: `네. 시작 전에 작업 범위, 일정, 비용, 검수 절차를 명시한 <b>계약서</b>를 작성합니다. 무엇을 언제 받는지 정확히 알 수 있습니다.`,
+  q2: "수정은 몇 번 포함되나요?", a2: `디자인 단계 <b>2회</b>, 개발 후 <b>1회</b> 수정이 포함됩니다. 런칭 후 2주 이내의 간단한 텍스트 수정은 무료입니다.`,
+  q3: "결제는 어떻게 하나요?", a3: `시작 전 <b>50% 선금</b>, 완성된 사이트 검수 후 <b>50% 잔금</b>입니다. 큰 프로젝트는 단계별 결제도 가능합니다. 결제 수단(암호화폐, 텔레그램 스타, 계좌 이체)은 <a href="#payment">아래</a>를 참고하세요.`,
+  q4: "소스 코드와 접근 권한을 넘겨주나요?", a4: `네, 전부 드립니다: <b>코드, 디자인 파일, 호스팅·도메인·분석 도구 접근 권한</b>. 사이트는 고객의 소유이며 제작자에게 종속되지 않습니다.`,
+  q5: "개발 기간은 얼마나 걸리나요?", a5: `랜딩 페이지는 <b>영업일 기준 7일부터</b>, 기업 웹사이트는 <b>2–3주부터</b>입니다. 정확한 일정은 브리핑 후 계약서에 명시합니다.`,
+  f_title: "프로젝트 문의", f_sub: "1분도 걸리지 않습니다", lbl_name: "이름", ph_name: "성함을 알려주세요",
+  lbl_contact: "텔레그램, 전화 또는 이메일", ph_contact: "@username 또는 +82…", lbl_msg: "프로젝트 소개", ph_msg: "회사 업무, 필요한 작업, 희망 일정",
+  lg_type: "필요한 작업", t1: "랜딩 페이지", t2: "기업 사이트", t3: "온라인 스토어", t4: "리디자인", lg_budget: "예산", b_consult: "아직 모르겠어요",
+  consent: "버튼을 누르면 {terms} 및 {privacy}에 동의하는 것으로 간주됩니다.", terms_in: "작업 조건", privacy_in: "개인정보 처리방침",
+  submit: "문의 보내기", f_hint: "문의는 제 텔레그램으로 바로 전달되며, 몇 시간 안에 답변드립니다.",
+  done_title: "전송 완료", done_text: "감사합니다! 텔레그램으로 받았으며 몇 시간 안에 프로젝트 계획을 보내드리겠습니다.",
+  quiz_fab: "[ 솔루션 찾기 ]", terms_link: "작업 조건", privacy_link: "개인정보 처리방침",
+  about_back: "뒤로", about_kicker: "[ 개발자 프로필 ]", about_title: `<span class="serif grad">결과</span>를 생각하는 프론트엔드 개발자`,
+  about_lead: "구조와 디자인부터 깔끔하고 빠른 코드, 런칭까지 웹사이트와 인터페이스를 원스톱으로 만듭니다. 중개인이나 매니저 없이 고객과 직접 소통합니다. 항상 사이트를 만드는 사람과 이야기하게 됩니다.",
+  about_focus: "포커스", f1: "불필요한 라이브러리나 빌더 없는 깔끔한 시맨틱 코드", f2: "성능: 가벼운 페이지, 최적화된 이미지와 폰트", f3: "반응형·접근성 — 어떤 화면에서도 편리하게", f4: "디테일에 대한 집중: 여백, 상태, 마이크로 애니메이션",
+  about_approach: "작업 방식", a1x: "과제와 사용자를 먼저 이해한 뒤 디자인합니다", a2x: "모든 단계에서 결과를 공유 — “블랙박스” 없음", a3x: "일정과 비용은 계약서에 명시", a4x: "코드, 권한, 안내서를 전달 — 사이트는 온전히 고객의 것",
+  about_stack: "스택", why1_t: "직접 소통", why1_p: "매니저가 아닌 작업자와 바로 이야기합니다. 질문은 몇 분 안에 해결됩니다.",
+  why2_t: "빠르지만 서두르지 않게", why2_p: "랜딩 페이지는 영업일 7일부터, 명확한 계획과 단계별 미리보기 제공.", why3_t: "책임감", why3_p: "계약, 확정된 일정, 런칭 후 지원.",
+  doc_kicker: "[ 문서 ]", ok: "확인", terms_title: "작업 조건",
+  terms_note: "요약본입니다. 프로젝트별 최종 조건은 계약서에 명시되며, 차이가 있을 경우 계약서가 우선합니다.",
+  terms_1: `<b>시작과 일정.</b> 계약 체결, 선금 입금, 자료 전달 후 작업을 시작합니다. 일정은 영업일 기준으로 계약서에 명시합니다.`,
+  terms_2: `<b>50/50 결제.</b> 시작 전 50% 선금, 완성된 사이트 검수 후 50% 잔금. 큰 프로젝트는 단계별 결제가 가능합니다.`,
+  terms_3: `<b>수정.</b> 디자인 단계 2회, 개발 후 1회 수정이 포함됩니다. 추가 수정과 합의 범위를 벗어난 변경은 별도 견적입니다.`,
+  terms_4: `<b>고객 자료.</b> 텍스트, 사진, 로고, 접근 권한은 고객이 제공합니다. 자료나 피드백이 늦어지면 그만큼 일정이 연기됩니다. 14일 이상 응답이 없으면 프로젝트를 일시 중단합니다.`,
+  terms_5: `<b>검수.</b> 완료된 단계의 검토 기간은 최대 영업일 5일입니다. 그 기간 안에 의견이 없으면 해당 단계는 승인된 것으로 봅니다.`,
+  terms_6: `<b>권리와 소스 코드.</b> 잔금 완납 후 소스 코드, 디자인 파일, 모든 접근 권한을 전달합니다. 완납 전까지 사이트는 테스트 주소에 둡니다.`,
+  terms_7: `<b>책임.</b> 제작자는 자신의 작업 품질과 일정에 책임을 집니다. 고객 자료의 내용, 외부 서비스(호스팅, 도메인, 결제) 장애, 고객 사유로 인한 지연에는 책임지지 않습니다.`,
+  privacy_title: "개인정보 처리방침", privacy_note: "요약: 데이터는 문의에 답변하는 데만 사용되며, 판매하거나 제3자에게 제공하지 않습니다.",
+  privacy_1: `<b>수집하는 정보.</b> 양식이나 설문에 직접 입력한 내용만: 이름, 연락처(텔레그램, 전화 또는 이메일), 과제 설명, 선택한 답변.`,
+  privacy_2: `<b>목적.</b> 연락, 과제 확인, 제안서 준비를 위해서만. 동의 없이 광고 메시지를 보내지 않습니다.`,
+  privacy_3: `<b>전송 방식.</b> 문의는 보안 연결(HTTPS)로 사이트 운영자의 개인 텔레그램에 전달됩니다. 전송에는 텔레그램과 중계 서버(Cloudflare)가 관여하며, 이들은 데이터를 자체 목적으로 사용하지 않습니다.`,
+  privacy_4: `<b>제3자 제공.</b> 법률이 명시적으로 요구하는 경우를 제외하고 데이터를 판매, 공개하거나 제3자에게 제공하지 않습니다.`,
+  privacy_5: `<b>보관 기간.</b> 마지막 연락 후 최대 12개월 또는 삭제 요청 시까지.`,
+  privacy_6: `<b>이용자의 권리.</b> 데이터 열람, 정정, 삭제를 요청할 수 있습니다 — 텔레그램으로 메시지를 보내주세요.`,
+  privacy_7: `<b>쿠키와 분석.</b> 광고 쿠키나 추적기를 사용하지 않습니다. 브라우저에는 설정(사운드, 볼륨, 언어, 통화)과 스팸 방지를 위한 전송 시각만 저장됩니다. 폰트는 Google Fonts에서 불러오므로 페이지 로딩 시 Google이 IP 주소를 확인할 수 있습니다.`,
+  err_name: "이름을 입력하세요 (2자 이상)", err_contact: "@사용자명, t.me 링크, 전화번호 또는 이메일을 입력하세요", err_msg: "과제를 한 문장 이상 적어주세요", sending: "전송 중… ",
+  e_nc: "전송 기능이 아직 연결되지 않았습니다. {tg}로 직접 연락해 주세요.", e_thr: "방금 문의를 보내셨습니다. 1분 후 다시 시도하거나 {tg}로 연락해 주세요.",
+  e_fast: "잠시만요… 다시 보내주세요.", e_busy: "이전 문의 전송 중…", e_gen: "전송에 실패했습니다. 연결을 확인하고 다시 시도하거나 {tg}로 연락해 주세요.",
+  tier_low: "{v} 이하", tier_high: "{v} 이상", vibe_head: "이 분야를 위해 만들 수 있는 것"
+},
+tr: {
+  meta_title: "The Spartec Web — anahtar teslim web siteleri ve açılış sayfaları", meta_desc: "Modern web siteleri ve açılış sayfaları anahtar teslim: strateji, tasarım, geliştirme ve yayın.",
+  intro_title: `Güven veren tasarım. <span class="serif grad">Müşteri getiren</span> kod`,
+  intro_lead: "Web geliştirici ve arayüz tasarımcısıyım. Açılış sayfaları ve kurumsal siteleri anahtar teslim tasarlayıp yayına alıyorum — net yapı, özenli estetik ve kusursuz temiz kodla.",
+  tag1: "Açılış sayfaları", tag2: "Kurumsal siteler", tag3: "UI/UX tasarımı", tag4: "Frontend geliştirme",
+  intro_motto: `<span>İlke</span>Önce anlam, sonra biçim. Her ekran, her kod satırı ve her kelime tek bir amaca hizmet eder: sizin sonucunuz.`,
+  intro_sub: "/ Portfolyoyu aç", intro_hint: "Enter ↵ — başlat",
+  nav_about: "Hakkımda", nav_expertise: "Uzmanlık", nav_work: "Projeler", nav_approach: "Yaklaşım", nav_contact: "İletişim",
+  cta: "Projeyi konuşalım", menu_note: "Birkaç saat içinde yanıt veriyorum", hero_pill: "Yeni projelere açığım ",
+  hero_h1: `İşiniz için <span class="serif grad">çalışan</span> web siteleri`,
+  hero_lead: `Modern web siteleri ve açılış sayfalarını stratejiden tasarıma, yayına kadar anahtar teslim hazırlıyorum. <b>Anında yükleme, kusursuz uyumluluk ve ziyaretçiden talebe net bir yol</b> — şablon yok, taviz yok.`,
+  hero_work: "Projeleri gör",
+  expertise_eb: "Uzmanlık", expertise_h2: `Sadece güzel değil. <span class="serif">Etkili.</span>`,
+  expertise_p: `Web sitesi bir satış aracıdır. Bu yüzden yalnızca görünümden değil, <b>müşteri getirmesinden</b> de sorumluyum: yapı, hız, kullanılabilirlik ve ilk ekrandan itibaren güven.`,
+  vibes_eb: "Alanlar", vibes_h2: `Üç alan, <span class="serif">tek yaklaşım</span>`, vibes_p: "Bir alan seçin: site atmosferini, sesini ve örneklerini sektörünüze göre uyarlar.",
+  work_eb: "Projeler", work_h2: `Gerçek <span class="serif">iş</span>`, work_p: "Açıp gezebileceğiniz ve telefonda test edebileceğiniz canlı bir proje. Kod GitHub'da açık.",
+  approach_eb: "Yaklaşım ve teknoloji", approach_h2: `Şeffaf süreç. <span class="serif">Güvenilir</span> teknoloji.`,
+  approach_p: "Projenin hangi aşamada olduğunu ve sırada ne olduğunu her zaman bilirsiniz. Teknoloji işe göre seçilir, tersi değil.",
+  faq_eb: "SSS", faq_h2: `Sık sorulan <span class="serif">sorular</span>`, faq_p: "Başlamadan önce genelde konuşulan konular. Cevap bulamadınız mı? Doğrudan sorun.",
+  payment_eb: "Ödeme", payment_h2: `<span class="serif">Her ülkeden</span> kolay ödeme`, payment_p: "Size uygun yöntemi seçin. Ödeme koşulları ve bilgileri sözleşmede yer alır.",
+  contact_eb: "İletişim", contact_h2: `<span class="serif">Projenizi</span> konuşalım mı?`,
+  contact_p: "Görevinizi birkaç kelimeyle anlatın — birkaç saat içinde yanıtlar, birkaç net soru sorar ve süre ile maliyeti içeren bir iş planı gönderirim. Ücretsiz ve yükümlülüksüz.",
+  tg_small: "Telegram — en hızlısı", avail: "Her gün 09:00–22:00 arası ulaşılabilir (Moskova saati)",
+  tab_web_s: "Ürünler ve arayüzler", tab_hor_b: "Restoran ve HoReCa", tab_hor_s: "Lezzet ve atmosfer", tab_bld_b: "İnşaat ve mimari", tab_bld_s: "Ölçek ve güvenilirlik",
+  open_site: "Siteyi aç", gh_code: "GitHub'da kod", case_study: "Vaka analizi", next_meta: "Sıradaki proje",
+  next_h3: `Burada <span class="serif">sizin siteniz</span> olabilir`, next_task: "Görevinizi anlatın — bir gün içinde çözüm, süre ve maliyet önereyim.",
+  q1: "Sözleşmeyle mi çalışıyorsunuz?", a1: `Evet. Başlamadan önce kapsamı, süreyi, maliyeti ve teslim alma sürecini belirleyen bir <b>sözleşme</b> imzalıyoruz. Neyi ne zaman alacağınızı tam olarak bilirsiniz.`,
+  q2: "Fiyata kaç revizyon dahil?", a2: `Fiyata tasarım aşamasında <b>iki tur revizyon</b>, geliştirmeden sonra <b>bir tur</b> dahildir. Yayından sonraki iki hafta içinde küçük metin düzeltmeleri ücretsizdir.`,
+  q3: "Ödeme nasıl yapılıyor?", a3: `Başlangıçta <b>%50 ön ödeme</b>, bitmiş sitenin tesliminden sonra <b>%50</b>. Büyük projeler aşamalı ödenebilir. Ödeme yöntemleri — kripto, Telegram Stars veya banka transferi — <a href="#payment">aşağıda</a>.`,
+  q4: "Kaynak kodu ve erişimleri teslim ediyor musunuz?", a4: `Evet, eksiksiz: <b>kod, tasarım dosyaları ve hosting, alan adı ve analitik erişimleri</b>. Site sizin mülkünüzdür, geliştiriciye bağımlılık yoktur.`,
+  q5: "Geliştirme ne kadar sürer?", a5: `Açılış sayfası <b>7 iş gününden</b>, kurumsal site <b>2–3 haftadan</b> başlar. Kesin süre brif sonrası sözleşmeye yazılır.`,
+  f_title: "Proje talebi", f_sub: "Bir dakikadan kısa sürer", lbl_name: "Ad", ph_name: "Size nasıl hitap edeyim",
+  lbl_contact: "Telegram, telefon veya e-posta", ph_contact: "@username veya +90…", lbl_msg: "Proje hakkında", ph_msg: "Şirketiniz ne yapıyor, ne gerekiyor ve ne zamana",
+  lg_type: "Neye ihtiyacınız var", t1: "Açılış sayfası", t2: "Kurumsal site", t3: "Online mağaza", t4: "Yeniden tasarım", lg_budget: "Bütçe", b_consult: "Henüz bilmiyorum",
+  consent: "Butona tıklayarak {terms} ve {privacy} kabul etmiş olursunuz.", terms_in: "Çalışma Koşullarını", privacy_in: "Gizlilik Politikasını",
+  submit: "Talebi gönder", f_hint: "Talebiniz doğrudan Telegram'ıma gelir — birkaç saat içinde yanıtlarım.",
+  done_title: "Talep gönderildi", done_text: "Teşekkürler! Telegram'ıma ulaştı — birkaç saat içinde proje planıyla dönüyorum.",
+  quiz_fab: "[ Çözüm bul ]", terms_link: "Çalışma koşulları", privacy_link: "Gizlilik politikası",
+  about_back: "Geri", about_kicker: "[ Geliştirici profili ]", about_title: `<span class="serif grad">Sonucu</span> düşünen bir frontend geliştirici`,
+  about_lead: "Web siteleri ve arayüzleri anahtar teslim tasarlayıp geliştiriyorum — yapı ve tasarımdan temiz, hızlı koda ve yayına kadar. Müşteriyle doğrudan çalışırım: aracı, yönetici ya da kulaktan kulağa yok. Her zaman sitenizi yapan kişiyle konuşursunuz.",
+  about_focus: "Odak", f1: "Gereksiz kütüphane ve site oluşturucu olmadan temiz, anlamsal kod", f2: "Performans: hafif sayfalar, optimize görseller ve fontlar", f3: "Duyarlı ve erişilebilir — her ekranda rahat", f4: "Detaylara özen: boşluklar, durumlar, mikro animasyonlar",
+  about_approach: "Yaklaşım", a1x: "Önce görevi ve hedef kitleyi anlar, sonra tasarlarım", a2x: "Her aşamada sonucu gösteririm, “kara kutu” yok", a3x: "Süre ve maliyet sözleşmede sabitlenir", a4x: "Kodu, erişimleri ve talimatları teslim ederim — site tamamen sizindir",
+  about_stack: "Teknolojiler", why1_t: "Doğrudan iletişim", why1_p: "Bir yöneticiyle değil, işi yapanla konuşursunuz. Sorular dakikalar içinde çözülür.",
+  why2_t: "Hızlı ama aceleci değil", why2_p: "Açılış sayfası 7 iş gününden, net plan ve her adımda önizlemeyle.", why3_t: "Sorumluluk", why3_p: "Sözleşme, sabit tarihler ve yayın sonrası destek.",
+  doc_kicker: "[ Belge ]", ok: "Anladım", terms_title: "Çalışma koşulları",
+  terms_note: "Kısa sürüm. Her projenin nihai koşulları sözleşmede belirlenir — farklılık varsa sözleşme geçerlidir.",
+  terms_1: `<b>Başlangıç ve süre.</b> Çalışma; sözleşme imzalandıktan, ön ödeme yapıldıktan ve materyaller teslim edildikten sonra başlar. Süre iş günü olarak sözleşmede belirlenir.`,
+  terms_2: `<b>50/50 ödeme.</b> Başlamadan önce %50 ön ödeme, bitmiş sitenin tesliminden sonra %50. Büyük projeler aşamalı ödenebilir.`,
+  terms_3: `<b>Revizyonlar.</b> Fiyata tasarım aşamasında iki, geliştirmeden sonra bir tur revizyon dahildir. Ek turlar ve kararlaştırılan kapsam dışındaki değişiklikler ayrıca fiyatlandırılır.`,
+  terms_4: `<b>Müşteri materyalleri.</b> Metinleri, fotoğrafları, logoları ve erişimleri müşteri sağlar. Materyal veya geri bildirimdeki gecikmeler süreyi aynı gün sayısı kadar uzatır. 14 günden uzun yanıt gelmezse proje duraklatılır.`,
+  terms_5: `<b>Teslim alma.</b> Müşterinin tamamlanan bir aşamayı incelemek için 5 iş günü vardır. Bu sürede görüş gelmezse aşama kabul edilmiş sayılır.`,
+  terms_6: `<b>Haklar ve kaynak kod.</b> Tam ödemeden sonra müşteri kaynak kodu, tasarım dosyalarını ve tüm erişimleri alır. O zamana kadar site test adresinde kalır.`,
+  terms_7: `<b>Sorumluluk.</b> Yüklenici kendi işinin kalitesinden ve süresinden sorumludur; müşteri materyallerinin içeriğinden, üçüncü taraf hizmet arızalarından (hosting, alan adı, ödeme sistemleri) ve müşteriden kaynaklanan gecikmelerden sorumlu değildir.`,
+  privacy_title: "Gizlilik Politikası", privacy_note: "Kısaca: verileriniz yalnızca talebinize yanıt vermek için kullanılır. Satılmaz ve üçüncü kişilerle paylaşılmaz.",
+  privacy_1: `<b>Hangi veriler.</b> Yalnızca form veya ankette sizin girdikleriniz: ad, iletişim (Telegram, telefon veya e-posta), görev açıklaması ve seçtiğiniz cevaplar.`,
+  privacy_2: `<b>Neden.</b> Sizinle iletişime geçmek, görevi netleştirmek ve teklif hazırlamak için. Onayınız olmadan toplu mesaj gönderilmez.`,
+  privacy_3: `<b>Nasıl iletilir.</b> Talep, güvenli bağlantı (HTTPS) üzerinden site sahibinin kişisel Telegram'ına gider. İletimde Telegram ve aracı sunucu (Cloudflare) yer alır; verileri kendi amaçları için kullanmazlar.`,
+  privacy_4: `<b>Üçüncü kişiler.</b> Kanunun açıkça gerektirdiği durumlar dışında veriler satılmaz, yayımlanmaz ve üçüncü kişilerle paylaşılmaz.`,
+  privacy_5: `<b>Saklama süresi.</b> Son iletişimden itibaren en fazla 12 ay veya silme talebinize kadar.`,
+  privacy_6: `<b>Haklarınız.</b> Verilerinizi görmeyi, düzeltmeyi veya silmeyi talep edebilirsiniz — Telegram'dan yazmanız yeterli.`,
+  privacy_7: `<b>Çerezler ve analiz.</b> Reklam çerezi veya izleyici kullanılmaz. Tarayıcıda yalnızca ayarlarınız (ses, ses düzeyi, dil, para birimi) ve spam koruması için gönderim zamanları saklanır. Fontlar Google Fonts'tan yüklenir; bu nedenle sayfa yüklenirken Google IP adresinizi görür.`,
+  err_name: "Adınızı girin (en az 2 karakter)", err_contact: "@kullanıcıadı, t.me bağlantısı, telefon veya e-posta girin", err_msg: "Görevi en az bir cümleyle anlatın", sending: "Gönderiliyor… ",
+  e_nc: "Gönderim henüz bağlanmadı. Bana doğrudan {tg} üzerinden yazın.", e_thr: "Kısa süre önce talep gönderildi. Bir dakika bekleyin veya {tg} üzerinden yazın.",
+  e_fast: "Bir saniye… lütfen tekrar gönderin.", e_busy: "Önceki talep gönderiliyor…", e_gen: "Gönderilemedi — bağlantınızı kontrol edip tekrar deneyin veya {tg} üzerinden yazın.",
+  tier_low: "en fazla {v}", tier_high: "{v} ve üzeri", vibe_head: "Alanınız için yapabileceklerim"
+}
+};
+
+/* sphere panel content per language (Russian lives in VIBES inside the main script) */
+const I18N_VIBES = {
+  en: {
+    web: { sound: "Cosmic ambient", title: "Digital products and interfaces", text: "Landing pages for IT products, SaaS services and personal brands. The focus is speed, clear interface logic and a tech-forward look.", points: ["Well-thought-out user flows", "Design systems and UI kits", "Animations that explain rather than distract"], cases: [["IT product landing page", "Offer, live demo and a path to a free trial", "landing"], ["Service interface", "Dashboard, account area, clear scenarios", "UI"], ["Personal brand website", "Expertise, case studies and consultation booking", "website"]] },
+    horeca: { sound: "Soft lounge", title: "An atmosphere you want to taste", text: "Cafés, restaurants, bars and delivery. The site conveys the taste and mood of the place — and turns a menu view into a booking or an order.", points: ["Menu with photos and online ordering", "Table booking in two taps", "Warm visuals and a consistent photo style"], cases: [["Café or restaurant landing page", "Menu with photos, atmosphere and online orders", "landing"], ["Online booking", "Choose a table, time and occasion", "service"], ["Delivery website", "Dish catalogue, cart and checkout in a minute", "store"]] },
+    build: { sound: "Workshop sounds", title: "Reliability you can see from the first screen", text: "Developers, architecture firms, renovation and manufacturing. The site shows scale and expertise and removes doubts before a big deal.", points: ["Property and floor-plan catalogues", "Cost and timeline calculators", "Portfolios with before-and-after photos"], cases: [["Residential complex website", "Find an apartment by layout and floor", "website"], ["Architecture firm portfolio", "Projects, process and team", "website"], ["Estimate calculator", "Cost and timing right on the site", "service"]] }
+  },
+  de: {
+    web: { sound: "Kosmisches Ambient", title: "Digitale Produkte und Interfaces", text: "Landingpages für IT-Produkte, SaaS-Dienste und Personal Brands. Im Fokus: Tempo, klare Interface-Logik und technologische Ästhetik.", points: ["Durchdachte User Flows", "Designsysteme und UI-Kits", "Animationen, die erklären statt ablenken"], cases: [["Landingpage für ein IT-Produkt", "Angebot, Live-Demo und Weg zur Testphase", "Landing"], ["Service-Interface", "Dashboard, Kundenbereich, klare Abläufe", "UI"], ["Website für eine Personal Brand", "Expertise, Cases und Terminbuchung", "Website"]] },
+    horeca: { sound: "Sanfte Lounge", title: "Eine Atmosphäre, die man schmecken will", text: "Cafés, Restaurants, Bars und Lieferdienste. Die Website vermittelt Geschmack und Stimmung des Ortes – und macht aus dem Blick ins Menü eine Reservierung oder Bestellung.", points: ["Menü mit Fotos und Online-Bestellung", "Tischreservierung mit zwei Klicks", "Warme Bildsprache und einheitlicher Fotostil"], cases: [["Landingpage für Café oder Restaurant", "Menü mit Fotos, Atmosphäre und Online-Bestellung", "Landing"], ["Online-Reservierung", "Tisch, Uhrzeit und Anlass wählen", "Service"], ["Liefer-Website", "Speisekatalog, Warenkorb und Bezahlung in einer Minute", "Shop"]] },
+    build: { sound: "Werkstattklänge", title: "Verlässlichkeit, die man ab dem ersten Screen sieht", text: "Bauträger, Architekturbüros, Renovierung und Produktion. Die Website zeigt Größe und Kompetenz und nimmt Zweifel vor dem großen Auftrag.", points: ["Objekt- und Grundrisskataloge", "Kosten- und Zeitrechner", "Portfolios mit Vorher-nachher-Fotos"], cases: [["Website für ein Wohnquartier", "Wohnungssuche nach Grundriss und Etage", "Website"], ["Portfolio eines Architekturbüros", "Projekte, Ablauf und Team", "Website"], ["Kostenrechner", "Preis und Dauer direkt auf der Website", "Service"]] }
+  },
+  es: {
+    web: { sound: "Ambiente cósmico", title: "Productos digitales e interfaces", text: "Landing pages para productos IT, servicios SaaS y marcas personales. El foco: velocidad, lógica clara de interfaz y estética tecnológica.", points: ["Flujos de usuario bien pensados", "Sistemas de diseño y UI kits", "Animaciones que explican, no distraen"], cases: [["Landing de producto IT", "Oferta, demo en vivo y camino a la prueba gratis", "landing"], ["Interfaz de servicio", "Panel, área de cliente, escenarios claros", "UI"], ["Web de marca personal", "Experiencia, casos y reserva de consulta", "web"]] },
+    horeca: { sound: "Lounge suave", title: "Un ambiente que dan ganas de probar", text: "Cafeterías, restaurantes, bares y delivery. El sitio transmite el sabor y el ambiente del lugar, y convierte ver la carta en una reserva o un pedido.", points: ["Carta con fotos y pedidos online", "Reserva de mesa en dos toques", "Estética cálida y estilo fotográfico coherente"], cases: [["Landing de cafetería o restaurante", "Carta con fotos, ambiente y pedidos online", "landing"], ["Reservas online", "Elige mesa, hora y ocasión", "servicio"], ["Web de delivery", "Catálogo de platos, carrito y pago en un minuto", "tienda"]] },
+    build: { sound: "Sonidos de taller", title: "Fiabilidad visible desde la primera pantalla", text: "Promotoras, estudios de arquitectura, reformas y producción. El sitio muestra escala y experiencia, y disipa dudas antes de un gran contrato.", points: ["Catálogos de inmuebles y planos", "Calculadoras de coste y plazos", "Portafolios con fotos de antes y después"], cases: [["Web de complejo residencial", "Busca piso por plano y planta", "web"], ["Portafolio de estudio de arquitectura", "Obras, proceso y equipo", "web"], ["Calculadora de presupuesto", "Coste y plazos directamente en la web", "servicio"]] }
+  },
+  fr: {
+    web: { sound: "Ambiance cosmique", title: "Produits numériques et interfaces", text: "Landing pages pour produits tech, services SaaS et marques personnelles. Priorité à la vitesse, à une logique d'interface claire et à une esthétique technologique.", points: ["Parcours utilisateurs pensés", "Design systems et UI kits", "Des animations qui expliquent au lieu de distraire"], cases: [["Landing page de produit tech", "Offre, démo live et accès à l'essai gratuit", "landing"], ["Interface de service", "Tableau de bord, espace client, scénarios clairs", "UI"], ["Site de marque personnelle", "Expertise, études de cas et prise de rendez-vous", "site"]] },
+    horeca: { sound: "Lounge doux", title: "Une ambiance qu'on a envie de goûter", text: "Cafés, restaurants, bars et livraison. Le site transmet le goût et l'atmosphère du lieu — et transforme la consultation du menu en réservation ou en commande.", points: ["Menu avec photos et commande en ligne", "Réservation de table en deux clics", "Visuels chaleureux et style photo cohérent"], cases: [["Landing page de café ou restaurant", "Menu photo, ambiance et commandes en ligne", "landing"], ["Réservation en ligne", "Choix de la table, de l'heure et de l'occasion", "service"], ["Site de livraison", "Catalogue de plats, panier et paiement en une minute", "boutique"]] },
+    build: { sound: "Bruits d'atelier", title: "Une fiabilité visible dès le premier écran", text: "Promoteurs, cabinets d'architecture, rénovation et industrie. Le site montre l'envergure et l'expertise, et lève les doutes avant un gros contrat.", points: ["Catalogues de biens et de plans", "Calculateurs de coût et de délais", "Portfolios avec photos avant/après"], cases: [["Site de résidence neuve", "Recherche d'appartement par plan et étage", "site"], ["Portfolio de cabinet d'architecture", "Réalisations, méthode et équipe", "site"], ["Calculateur de devis", "Coût et délais directement sur le site", "service"]] }
+  },
+  pt: {
+    web: { sound: "Ambiente cósmico", title: "Produtos digitais e interfaces", text: "Landing pages para produtos de TI, serviços SaaS e marcas pessoais. Foco em velocidade, lógica de interface clara e estética tecnológica.", points: ["Fluxos de usuário bem pensados", "Design systems e UI kits", "Animações que explicam, não distraem"], cases: [["Landing de produto de TI", "Oferta, demo ao vivo e caminho para o teste grátis", "landing"], ["Interface de serviço", "Painel, área do cliente, cenários claros", "UI"], ["Site de marca pessoal", "Expertise, cases e agendamento de consultoria", "site"]] },
+    horeca: { sound: "Lounge suave", title: "Uma atmosfera que dá vontade de provar", text: "Cafés, restaurantes, bares e delivery. O site transmite o sabor e o clima do lugar — e transforma a visita ao cardápio em reserva ou pedido.", points: ["Cardápio com fotos e pedidos online", "Reserva de mesa em dois toques", "Visual acolhedor e estilo de foto consistente"], cases: [["Landing de café ou restaurante", "Cardápio com fotos, clima e pedidos online", "landing"], ["Reserva online", "Escolha de mesa, horário e ocasião", "serviço"], ["Site de delivery", "Catálogo de pratos, carrinho e pagamento em um minuto", "loja"]] },
+    build: { sound: "Sons de oficina", title: "Confiabilidade visível desde a primeira tela", text: "Construtoras, escritórios de arquitetura, reformas e indústria. O site mostra escala e expertise e tira dúvidas antes de um grande negócio.", points: ["Catálogos de imóveis e plantas", "Calculadoras de custo e prazo", "Portfólios com fotos de antes e depois"], cases: [["Site de empreendimento residencial", "Busca de apartamento por planta e andar", "site"], ["Portfólio de escritório de arquitetura", "Obras, processo e equipe", "site"], ["Calculadora de orçamento", "Custo e prazo direto no site", "serviço"]] }
+  },
+  zh: {
+    web: { sound: "宇宙氛围音", title: "数字产品与界面", text: "为 IT 产品、SaaS 服务和个人品牌打造落地页。重点是速度、清晰的界面逻辑和科技感美学。", points: ["精心设计的用户流程", "设计系统与 UI 组件库", "解释而非干扰的动效"], cases: [["IT 产品落地页", "卖点、在线演示与免费试用路径", "落地页"], ["服务界面", "仪表盘、用户中心、清晰的流程", "UI"], ["个人品牌网站", "专业能力、案例与预约咨询", "网站"]] },
+    horeca: { sound: "轻柔 Lounge", title: "让人想要品尝的氛围", text: "咖啡馆、餐厅、酒吧与外卖。网站传递店铺的味道与氛围，把浏览菜单变成预订或下单。", points: ["带图菜单与在线点餐", "两步完成订座", "温暖的视觉与统一的摄影风格"], cases: [["咖啡馆或餐厅落地页", "带图菜单、氛围展示与在线点单", "落地页"], ["在线订座", "选择座位、时间与场合", "服务"], ["外卖网站", "菜品目录、购物车，一分钟完成支付", "商城"]] },
+    build: { sound: "工坊之声", title: "首屏即可感受到的可靠", text: "开发商、建筑事务所、装修与制造企业。网站展示规模与专业，在大额合作前打消疑虑。", points: ["楼盘与户型目录", "造价与工期计算器", "带前后对比照片的作品集"], cases: [["住宅项目网站", "按户型与楼层选房", "网站"], ["建筑事务所作品集", "项目、流程与团队", "网站"], ["造价计算器", "在网站上直接估算费用与工期", "服务"]] }
+  },
+  ja: {
+    web: { sound: "コズミック・アンビエント", title: "デジタルプロダクトとUI", text: "ITプロダクト、SaaS、パーソナルブランドのLP。速度、明快なUIロジック、テクノロジー感のある美しさを重視します。", points: ["よく練られたユーザーフロー", "デザインシステムとUIキット", "気を散らさず、伝えるためのアニメーション"], cases: [["ITプロダクトのLP", "訴求、ライブデモ、無料トライアルへの導線", "LP"], ["サービスのUI", "ダッシュボード、マイページ、明快なシナリオ", "UI"], ["パーソナルブランドのサイト", "専門性、事例、相談予約", "サイト"]] },
+    horeca: { sound: "ソフトラウンジ", title: "味わいたくなる雰囲気を", text: "カフェ、レストラン、バー、デリバリー。お店の味と空気感を伝え、メニューの閲覧を予約や注文につなげます。", points: ["写真付きメニューとオンライン注文", "2タップで席を予約", "温かみのあるビジュアルと統一した写真表現"], cases: [["カフェ・レストランのLP", "写真付きメニュー、雰囲気、オンライン注文", "LP"], ["オンライン予約", "席・時間・目的を選択", "サービス"], ["デリバリーサイト", "料理カタログ、カート、1分で決済", "ストア"]] },
+    build: { sound: "工房のサウンド", title: "ファーストビューで伝わる信頼感", text: "デベロッパー、建築事務所、リフォーム、製造業。規模と専門性を示し、大きな契約の前の不安を解消します。", points: ["物件・間取りカタログ", "費用・工期シミュレーター", "ビフォーアフター写真付きの実績"], cases: [["分譲マンションのサイト", "間取りと階から住戸を検索", "サイト"], ["建築事務所のポートフォリオ", "作品、プロセス、チーム", "サイト"], ["見積もりシミュレーター", "費用と期間をサイト上で算出", "サービス"]] }
+  },
+  ko: {
+    web: { sound: "코스믹 앰비언트", title: "디지털 제품과 인터페이스", text: "IT 제품, SaaS 서비스, 퍼스널 브랜드를 위한 랜딩 페이지. 속도, 명확한 인터페이스 논리, 기술적인 미감에 집중합니다.", points: ["잘 설계된 사용자 흐름", "디자인 시스템과 UI 키트", "방해하지 않고 설명하는 애니메이션"], cases: [["IT 제품 랜딩 페이지", "오퍼, 라이브 데모, 무료 체험으로 가는 흐름", "랜딩"], ["서비스 인터페이스", "대시보드, 마이페이지, 명확한 시나리오", "UI"], ["퍼스널 브랜드 사이트", "전문성, 사례, 상담 예약", "사이트"]] },
+    horeca: { sound: "소프트 라운지", title: "맛보고 싶어지는 분위기", text: "카페, 레스토랑, 바, 배달. 매장의 맛과 분위기를 전하고 메뉴 탐색을 예약이나 주문으로 바꿉니다.", points: ["사진 메뉴와 온라인 주문", "두 번의 탭으로 테이블 예약", "따뜻한 비주얼과 일관된 사진 스타일"], cases: [["카페·레스토랑 랜딩 페이지", "사진 메뉴, 분위기, 온라인 주문", "랜딩"], ["온라인 예약", "테이블, 시간, 방문 목적 선택", "서비스"], ["배달 사이트", "메뉴 카탈로그, 장바구니, 1분 결제", "스토어"]] },
+    build: { sound: "작업장 사운드", title: "첫 화면부터 보이는 신뢰", text: "건설사, 건축 사무소, 리모델링, 제조업. 사이트가 규모와 전문성을 보여주고 큰 계약 전의 의심을 없애줍니다.", points: ["매물과 평면도 카탈로그", "비용·일정 계산기", "전후 비교 사진이 담긴 포트폴리오"], cases: [["주거 단지 웹사이트", "평면도와 층으로 세대 찾기", "사이트"], ["건축 사무소 포트폴리오", "프로젝트, 과정, 팀", "사이트"], ["견적 계산기", "사이트에서 바로 비용과 일정 산출", "서비스"]] }
+  },
+  tr: {
+    web: { sound: "Kozmik ambiyans", title: "Dijital ürünler ve arayüzler", text: "IT ürünleri, SaaS hizmetleri ve kişisel markalar için açılış sayfaları. Odak: hız, net arayüz mantığı ve teknolojik estetik.", points: ["İyi düşünülmüş kullanıcı akışları", "Tasarım sistemleri ve UI kitleri", "Dikkat dağıtmayan, anlatan animasyonlar"], cases: [["IT ürünü açılış sayfası", "Teklif, canlı demo ve ücretsiz denemeye yol", "landing"], ["Hizmet arayüzü", "Panel, müşteri alanı, net senaryolar", "UI"], ["Kişisel marka sitesi", "Uzmanlık, vakalar ve danışmanlık randevusu", "site"]] },
+    horeca: { sound: "Yumuşak lounge", title: "Tadına bakmak istenen bir atmosfer", text: "Kafeler, restoranlar, barlar ve paket servis. Site mekânın lezzetini ve havasını aktarır, menüye göz atmayı rezervasyona veya siparişe dönüştürür.", points: ["Fotoğraflı menü ve online sipariş", "İki dokunuşta masa rezervasyonu", "Sıcak görseller ve tutarlı fotoğraf stili"], cases: [["Kafe veya restoran açılış sayfası", "Fotoğraflı menü, atmosfer ve online sipariş", "landing"], ["Online rezervasyon", "Masa, saat ve vesile seçimi", "hizmet"], ["Paket servis sitesi", "Yemek kataloğu, sepet ve bir dakikada ödeme", "mağaza"]] },
+    build: { sound: "Atölye sesleri", title: "İlk ekrandan görünen güvenilirlik", text: "Müteahhitler, mimarlık ofisleri, tadilat ve üretim. Site ölçeği ve uzmanlığı gösterir, büyük bir anlaşma öncesi şüpheleri giderir.", points: ["Proje ve kat planı katalogları", "Maliyet ve süre hesaplayıcıları", "Öncesi-sonrası fotoğraflı portfolyolar"], cases: [["Konut projesi sitesi", "Plana ve kata göre daire seçimi", "site"], ["Mimarlık ofisi portfolyosu", "Projeler, süreç ve ekip", "site"], ["Keşif hesaplayıcı", "Maliyet ve süre doğrudan sitede", "hizmet"]] }
+  }
+};
+
+/* where each key lives on the page: [selector, key, mode]; modes: t = first text node, h = inner HTML, p = placeholder, c = consent line */
+const I18N_MAP = [
+  [".intro-panel h2", "intro_title", "h"], [".intro-lead", "intro_lead", "t"], [".intro-tags li:nth-child(1)", "tag1", "t"], [".intro-tags li:nth-child(2)", "tag2", "t"],
+  [".intro-tags li:nth-child(3)", "tag3", "t"], [".intro-tags li:nth-child(4)", "tag4", "t"], [".intro-motto", "intro_motto", "h"], [".ib-en", "intro_sub", "t"], [".intro-hint", "intro_hint", "t"],
+  ["[data-about]", "nav_about", "t"],
+  ['.nav a[href="#expertise"], .mmenu a.ml[href="#expertise"], footer nav a[href="#expertise"]', "nav_expertise", "t"], ['.nav a[href="#work"], .mmenu a.ml[href="#work"]', "nav_work", "t"],
+  ['.nav a[href="#approach"], .mmenu a.ml[href="#approach"], footer nav a[href="#approach"]', "nav_approach", "t"], ['.nav a[href="#contact"], .mmenu a.ml[href="#contact"]', "nav_contact", "t"],
+  ['a.btn-primary[href="#contact"]:not(#mCta)', "cta", "t"], [".case-next .more", "cta", "t"], [".mmenu > p", "menu_note", "t"],
+  [".hero .pill", "hero_pill", "t"], [".hero h1", "hero_h1", "h"], [".hero .lead", "hero_lead", "h"], ['.hero-cta a[href="#work"]', "hero_work", "t"],
+  ...["expertise", "vibes", "work", "approach", "faq", "payment"].flatMap(s => [
+    [`#${s} .sec-head .eyebrow`, `${s}_eb`, "t"], [`#${s} .sec-head .h2`, `${s}_h2`, "h"], [`#${s} .sec-head > p`, `${s}_p`, "h"]]),
+  ["#contact .eyebrow", "contact_eb", "t"], ["#contact .h2", "contact_h2", "h"], [".contact-l > p", "contact_p", "t"], ["#tgLink small", "tg_small", "t"], [".avail", "avail", "t"],
+  ["#tab-web small", "tab_web_s", "t"], ["#tab-horeca b", "tab_hor_b", "t"], ["#tab-horeca small", "tab_hor_s", "t"], ["#tab-build b", "tab_bld_b", "t"], ["#tab-build small", "tab_bld_s", "t"],
+  [".case-actions a.btn-primary", "open_site", "t"], [".case-actions a.btn-glass", "gh_code", "t"], ["[data-open-case]", "case_study", "t"],
+  [".case-next .case-meta span", "next_meta", "t"], [".case-next h3", "next_h3", "h"], [".case-next .task", "next_task", "t"],
+  ...[1, 2, 3, 4, 5].flatMap(i => [[`.faq-item:nth-child(${i}) .faq-q`, `q${i}`, "t"], [`.faq-item:nth-child(${i}) .faq-a p`, `a${i}`, "h"]]),
+  [".f-title", "f_title", "t"], [".f-title small", "f_sub", "t"], ['label[for="f-name"]', "lbl_name", "t"], ["#f-name", "ph_name", "p"],
+  ['label[for="f-contact"]', "lbl_contact", "t"], ["#f-contact", "ph_contact", "p"], ['label[for="f-msg"]', "lbl_msg", "t"], ["#f-msg", "ph_msg", "p"],
+  ["#form fieldset:first-of-type legend", "lg_type", "t"], ["#form .legend-row", "lg_budget", "t"],
+  ['label[for="t1"]', "t1", "t"], ['label[for="t2"]', "t2", "t"], ['label[for="t3"]', "t3", "t"], ['label[for="t4"]', "t4", "t"], ['label[for="b4"]', "b_consult", "t"],
+  [".consent", "consent", "c"], ["#formBtn", "submit", "t"], [".f-submit p", "f_hint", "t"], [".lead-form .done h3", "done_title", "t"], [".lead-form .done p", "done_text", "t"],
+  [".quiz-fab span", "quiz_fab", "t"], ['.foot-legal [data-legal="terms"]', "terms_link", "t"], ['.foot-legal [data-legal="privacy"]', "privacy_link", "t"],
+  ["#aboutBack", "about_back", "t"], [".about-top .about-kicker", "about_kicker", "t"], ["#aboutTitle", "about_title", "h"], [".about-lead", "about_lead", "t"],
+  [".about-grid .about-block:nth-child(1) h3", "about_focus", "t"], [".about-grid .about-block:nth-child(2) h3", "about_approach", "t"], [".about-stack h3", "about_stack", "t"],
+  ...[1, 2, 3, 4].flatMap(i => [[`.about-grid .about-block:nth-child(1) li:nth-child(${i})`, `f${i}`, "t"], [`.about-grid .about-block:nth-child(2) li:nth-child(${i})`, `a${i}x`, "t"]]),
+  ...[1, 2, 3].flatMap(i => [[`.about-why div:nth-child(${i}) b`, `why${i}_t`, "t"], [`.about-why div:nth-child(${i}) p`, `why${i}_p`, "t"]]),
+  [".legal-head .about-kicker", "doc_kicker", "t"], [".legal-ok", "ok", "t"],
+  ["#legal-terms h2", "terms_title", "t"], ["#legal-terms .legal-note", "terms_note", "t"], ["#legal-privacy h2", "privacy_title", "t"], ["#legal-privacy .legal-note", "privacy_note", "t"],
+  ...[1, 2, 3, 4, 5, 6, 7].flatMap(i => [[`#legal-terms li:nth-child(${i})`, `terms_${i}`, "h"], [`#legal-privacy li:nth-child(${i})`, `privacy_${i}`, "h"]])
+];
+
+/* hero mock-up labels: [report, speed, accessibility, practices, first screen, page weight, devices, excellent, new request, just now · landing] */
+const I18N_HV = {
+  en: ["Quality report", "Performance", "Accessibility", "Best practices", "First screen", "Page weight", "Devices", "excellent", "New request from the site", "just now · landing"],
+  de: ["Qualitätsbericht", "Leistung", "Barrierefreiheit", "Best Practices", "Erster Screen", "Seitengewicht", "Geräte", "exzellent", "Neue Anfrage über die Website", "gerade eben · Landing"],
+  es: ["Informe de calidad", "Rendimiento", "Accesibilidad", "Buenas prácticas", "Primera pantalla", "Peso de página", "Dispositivos", "excelente", "Nueva solicitud del sitio", "ahora mismo · landing"],
+  fr: ["Rapport qualité", "Performance", "Accessibilité", "Bonnes pratiques", "Premier écran", "Poids de page", "Appareils", "excellent", "Nouvelle demande du site", "à l'instant · landing"],
+  pt: ["Relatório de qualidade", "Desempenho", "Acessibilidade", "Boas práticas", "Primeira tela", "Peso da página", "Dispositivos", "excelente", "Novo pedido pelo site", "agora mesmo · landing"],
+  zh: ["质量报告", "性能", "无障碍", "最佳实践", "首屏", "页面大小", "设备", "优秀", "网站新咨询", "刚刚 · 落地页"],
+  ja: ["品質レポート", "パフォーマンス", "アクセシビリティ", "ベストプラクティス", "ファーストビュー", "ページ容量", "対応画面", "優秀", "サイトから新しい依頼", "たった今 · LP"],
+  ko: ["품질 리포트", "성능", "접근성", "권장사항", "첫 화면", "페이지 용량", "기기", "우수", "사이트 새 문의", "방금 · 랜딩"],
+  tr: ["Kalite raporu", "Performans", "Erişilebilirlik", "En iyi uygulamalar", "İlk ekran", "Sayfa boyutu", "Cihazlar", "mükemmel", "Siteden yeni talep", "az önce · landing"]
+};
+for (const [l, v] of Object.entries(I18N_HV)) v.forEach((s, i) => { I18N_DICT[l]["hv" + i] = s; });
+I18N_MAP.push([".report-h b", "hv0", "t"], [".rings .ring:nth-child(1) small", "hv1", "t"], [".rings .ring:nth-child(2) small", "hv2", "t"], [".rings .ring:nth-child(3) small", "hv3", "t"],
+  [".metrics > div:nth-child(1) small", "hv4", "t"], [".metrics > div:nth-child(2) small", "hv5", "t"], [".metrics > div:nth-child(3) small", "hv6", "t"], [".metrics i", "hv7", "t"],
+  [".toast b", "hv8", "t"], [".toast small", "hv9", "t"]);
+
+const I18N = (() => {
+  const RU = I18N_DICT.ru, listeners = [];
+  const supported = new Set(I18N_LANGS.map(l => l[0]));
+  // first non-empty text node: keeps icons, numbers and nested spans of the element intact
+  const textNode = el => [...el.childNodes].find(n => n.nodeType === 3 && n.data.trim());
+  const read = (el, mode) => mode === "h" || mode === "c" ? el.innerHTML : mode === "p" ? el.placeholder : (textNode(el)?.data ?? el.textContent);
+  // capture the Russian originals from the page once
+  const ruHTML = {};
+  I18N_MAP.forEach(([sel, key, mode]) => {
+    const el = document.querySelector(sel);
+    if (el && !(key in RU)) RU[key] = read(el, mode);
+    if (el && mode === "c") ruHTML[key] = el.innerHTML;
+  });
+  RU.meta_title = document.title;
+  RU.meta_desc = document.querySelector('meta[name="description"]')?.content || "";
+
+  let lang = "ru";
+  const t = (key, vars) => {
+    let s = (I18N_DICT[lang] && I18N_DICT[lang][key]) ?? (lang !== "ru" ? I18N_DICT.en[key] : undefined) ?? RU[key] ?? key;
+    if (vars) for (const [k, v] of Object.entries(vars)) s = s.split(`{${k}}`).join(v);
+    return s;
+  };
+  const write = (el, mode, value, key) => {
+    if (mode === "h") el.innerHTML = value;
+    else if (mode === "p") el.placeholder = value;
+    else if (mode === "c") {
+      if (lang === "ru") { el.innerHTML = ruHTML[key]; return; }
+      const link = (doc, k) => `<button type="button" class="legal-link inline" data-legal="${doc}">${t(k)}</button>`;
+      el.innerHTML = t("consent", { terms: link("terms", "terms_in"), privacy: link("privacy", "privacy_in") });
+    } else {
+      const n = textNode(el);
+      if (n) n.data = n.data.match(/^\s*/)[0] + value.trim() + (value.endsWith(" ") ? " " : n.data.match(/\s*$/)[0]);
+      else el.textContent = value;
+    }
+  };
+  const apply = () => {
+    document.documentElement.lang = lang;
+    document.title = t("meta_title");
+    document.querySelector('meta[name="description"]')?.setAttribute("content", t("meta_desc"));
+    I18N_MAP.forEach(([sel, key, mode]) => document.querySelectorAll(sel).forEach(el => write(el, mode, t(key), key)));
+    $$i("[data-lang-code]").forEach(el => { el.textContent = lang.toUpperCase(); });
+    $$i("[data-lang]").forEach(b => { const on = b.dataset.lang === lang; b.setAttribute("aria-checked", String(on)); b.classList.toggle("on", on); });
+  };
+  const $$i = s => [...document.querySelectorAll(s)];
+  const detect = () => {
+    try { const saved = localStorage.getItem("spartak-lang"); if (supported.has(saved)) return saved; } catch {}
+    for (const l of navigator.languages || [navigator.language || "ru"]) {
+      const c = String(l).toLowerCase().slice(0, 2);
+      if (supported.has(c)) return c;
+      if (["uk", "be", "kk", "ky", "uz"].includes(c)) return "ru";
+    }
+    return "en";
+  };
+  const set = (l, byUser) => {
+    if (!supported.has(l)) return;
+    lang = l;
+    if (byUser) { try { localStorage.setItem("spartak-lang", l); } catch {} }
+    apply();
+    listeners.forEach(fn => fn(l, !!byUser));
+  };
+
+  /* switcher UI: header dropdown + a compact grid in the mobile menu */
+  const globe = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.8 5.8 3.8 9S14.6 18.2 12 21M12 3C9.4 5.8 8.2 8.8 8.2 12S9.4 18.2 12 21"/></svg>';
+  const items = I18N_LANGS.map(([c, name]) => `<button type="button" role="menuitemradio" aria-checked="false" data-lang="${c}"><span>${name}</span><small>${c.toUpperCase()}</small></button>`).join("");
+  const host = document.querySelector(".h-right");
+  if (host) {
+    const wrap = document.createElement("div");
+    wrap.className = "lang";
+    wrap.innerHTML = `<button class="lang-btn" id="langBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Language">${globe}<span data-lang-code>RU</span></button>
+      <div class="lang-menu" id="langMenu" role="menu" aria-label="Language">${items}</div>`;
+    host.prepend(wrap);
+    const btn = wrap.querySelector("#langBtn"), menu = wrap.querySelector("#langMenu");
+    const open = v => {
+      wrap.classList.toggle("open", v); btn.setAttribute("aria-expanded", String(v));
+      if (v) menu.querySelector(`[data-lang="${lang}"]`)?.focus({ preventScroll: true });
+    };
+    btn.addEventListener("click", () => open(!wrap.classList.contains("open")));
+    document.addEventListener("pointerdown", e => { if (!wrap.contains(e.target)) open(false); });
+    wrap.addEventListener("keydown", e => {
+      if (e.key === "Escape") { open(false); btn.focus(); }
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const list = [...menu.querySelectorAll("[data-lang]")], i = list.indexOf(document.activeElement);
+        list[(i + (e.key === "ArrowDown" ? 1 : -1) + list.length) % list.length].focus();
+      }
+    });
+    menu.addEventListener("click", e => { const b = e.target.closest("[data-lang]"); if (b) { set(b.dataset.lang, true); open(false); btn.focus(); } });
+  }
+  const mm = document.querySelector(".mmenu");
+  if (mm) {
+    const grid = document.createElement("div");
+    grid.className = "mm-lang"; grid.setAttribute("role", "menu"); grid.setAttribute("aria-label", "Language");
+    grid.innerHTML = I18N_LANGS.map(([c, name]) => `<button type="button" role="menuitemradio" aria-checked="false" data-lang="${c}" title="${name}">${c.toUpperCase()}</button>`).join("");
+    mm.insertBefore(grid, mm.querySelector("p"));
+    grid.addEventListener("click", e => { const b = e.target.closest("[data-lang]"); if (b) set(b.dataset.lang, true); });
+  }
+
+  set(detect(), false);
+  return {
+    get lang() { return lang; }, t, set,
+    onChange(fn) { listeners.push(fn); },
+    vibe(key) { return (I18N_VIBES[lang] || {})[key] || null; }
+  };
+})();
+</script>
+<script>
 /* ===== Контакты: замените на свои ===== */
 const CONTACTS = {
   telegram: "username"            // ваш ник в Telegram, без @
@@ -1617,12 +2465,7 @@ const CASES = {
     } finally { clearTimeout(timer); sending = false; }
   };
   const tgLink = () => `<a href="https://t.me/${encodeURIComponent(CONTACTS.telegram)}" target="_blank" rel="noopener noreferrer">Telegram</a>`;
-  const leadError = err => ({
-    "not-configured": `Отправка заявок ещё не подключена. Напишите мне напрямую в ${tgLink()}.`,
-    "throttled": `Заявка уже отправлена недавно. Подождите минуту или напишите в ${tgLink()}.`,
-    "too-fast": "Секунду… попробуйте отправить ещё раз.",
-    "busy": "Отправляю предыдущую заявку…"
-  })[err.message] || `Не удалось отправить — проверьте интернет и попробуйте ещё раз или напишите в ${tgLink()}.`;
+  const leadError = err => I18N.t({ "not-configured": "e_nc", "throttled": "e_thr", "too-fast": "e_fast", "busy": "e_busy" }[err.message] || "e_gen", { tg: tgLink() });
 
   /* header */
   const header = $("#header");
@@ -1768,12 +2611,13 @@ const CASES = {
   const vibeTabs = $$(".vibe-tab"), vibePanel = $("#vibePanel"), casesGrid = $(".cases");
   if (vibePanel) {
     const fill = key => {
-      const v = VIBES[key];
+      const tr = I18N.vibe(key);
+      const v = tr ? { ...tr, cases: tr.cases.map(([t, d, tag]) => ({ t, d, tag })) } : VIBES[key];
       $("#vpSound").textContent = v.sound;
       $("#vpTitle").textContent = v.title;
       $("#vpText").textContent = v.text;
       $("#vpPoints").replaceChildren(...v.points.map(p => Object.assign(document.createElement("li"), { textContent: p })));
-      const head = Object.assign(document.createElement("h4"), { textContent: "Что сделаю для вашей сферы" });
+      const head = Object.assign(document.createElement("h4"), { textContent: I18N.t("vibe_head") });
       $("#vpCases").replaceChildren(head, ...v.cases.map(c => {
         const el = document.createElement("div");
         el.className = "vp-case";
@@ -1782,6 +2626,10 @@ const CASES = {
         return el;
       }));
     };
+    // language switch: re-render the open sphere's card in the new language
+    const refill = () => fill(vibeTabs.find(t => t.getAttribute("aria-selected") === "true")?.dataset.vibe || "web");
+    I18N.onChange(refill);
+    if (I18N.lang !== "ru") refill();             // the markup ships in Russian
     let swapTimer = 0;
     const setVibe = (key, focus) => {
       vibeTabs.forEach(t => {
@@ -1836,8 +2684,13 @@ const CASES = {
     USD: { low: "до $600", mid: "$600–1 200", high: "от $1 200" },
     EUR: { low: "до €550", mid: "€550–1 100", high: "от €1 100" }
   };
-  // RU → roubles, EN → dollars (euro is always one click away)
-  const langDefault = () => (document.documentElement.lang || "ru").toLowerCase().startsWith("en") ? "USD" : "RUB";
+  // language → default currency: RU → ₽, DE/FR/ES → €, everything else → $ (the visitor can always pick another)
+  const LANG_CURRENCY = { ru: "RUB", de: "EUR", fr: "EUR", es: "EUR" };
+  const langDefault = () => LANG_CURRENCY[(document.documentElement.lang || "en").toLowerCase().slice(0, 2)] || "USD";
+  // tier labels for other languages: the amount plus a translated "up to / from"
+  const TIER_V = { RUB: ["50 000 ₽", "50 000–100 000 ₽", "100 000 ₽"], USD: ["$600", "$600–1 200", "$1 200"], EUR: ["€550", "€550–1 100", "€1 100"] };
+  const tierLabel = (c, tier) => I18N.lang === "ru" ? BUDGET_TIERS[c][tier]
+    : tier === "mid" ? TIER_V[c][1] : I18N.t("tier_" + tier, { v: TIER_V[c][tier === "low" ? 0 : 2] });
   let manualCurrency = null;
   try { const saved = localStorage.getItem("spartak-currency"); if (CUR_SIGN[saved]) manualCurrency = saved; } catch {}
   let currency = manualCurrency || langDefault();
@@ -1867,8 +2720,13 @@ const CASES = {
     b.setAttribute("aria-pressed", String(on)); b.classList.toggle("on", on);
   }));
   currencyListeners.push(c => $$("#form label[data-tier]").forEach(l => {
-    const t = BUDGET_TIERS[c][l.dataset.tier]; if (t) l.textContent = t;
+    if (BUDGET_TIERS[c][l.dataset.tier]) l.textContent = tierLabel(c, l.dataset.tier);
   }));
+  // choosing a language by hand resets the currency to that language's default (a later manual pick still wins)
+  I18N.onChange((l, byUser) => {
+    if (byUser) { manualCurrency = null; try { localStorage.removeItem("spartak-currency"); } catch {} }
+    setCurrency(manualCurrency || langDefault(), false);
+  });
   setCurrency(currency);                                           // first paint with the default / remembered currency
 
   /* mini quiz: 4 quick questions → indicative estimate → prefilled contact form.
@@ -1934,11 +2792,11 @@ const CASES = {
           const c = clean(contact.value, LIMITS.contact);
           if (!validContact(c)) {
             contact.classList.add("err"); contact.focus();
-            err.textContent = "Укажите @username, ссылку t.me, телефон или e-mail"; err.hidden = false; return;
+            err.textContent = I18N.t("err_contact"); err.hidden = false; return;
           }
           btn.disabled = true; err.hidden = true;
           // answers come from our own option lists, so only the contact is free text
-          sendLead("quiz", "🧭 Заявка из опросника", { "Контакт": c, "Задача": type, "Сфера": ans.sphere[0], "Готово": ans.ready[0], "Сроки": ans.when[0], "Ориентир": `${fmtRange(p1, p2)}, ${d1}–${d2} дней`, "Валюта": currency })
+          sendLead("quiz", "🧭 Заявка из опросника", { "Контакт": c, "Задача": type, "Сфера": ans.sphere[0], "Готово": ans.ready[0], "Сроки": ans.when[0], "Ориентир": `${fmtRange(p1, p2)}, ${d1}–${d2} дней`, "Валюта": currency, "Язык": I18N.lang.toUpperCase() })
             .then(() => {
               qBody.innerHTML = `<div class="quiz-step"><h4>Заявка отправлена ✓</h4><p class="quiz-sum">Спасибо! Я получил её в Telegram и отвечу в течение пары часов.</p></div>`;
               dots.forEach(d => d.classList.add("on")); step = QUIZ.length + 1;
@@ -2144,9 +3002,9 @@ const CASES = {
       message: clean(form.elements.message.value, LIMITS.message, true)
     };
     const rules = {
-      name: [v.name.length >= 2, "Укажите имя (минимум 2 символа)"],
-      contact: [validContact(v.contact), "Укажите @username, ссылку t.me, телефон или e-mail"],
-      message: [v.message.length >= 10, "Опишите задачу хотя бы в одном предложении"]
+      name: [v.name.length >= 2, I18N.t("err_name")],
+      contact: [validContact(v.contact), I18N.t("err_contact")],
+      message: [v.message.length >= 10, I18N.t("err_msg")]
     };
     let first = null;
     for (const [n, [ok, msg]] of Object.entries(rules)) {
@@ -2161,9 +3019,9 @@ const CASES = {
     const tier = pick("budget", ["low", "mid", "high", "consult"]);
     const budget = tier === "consult" ? "Нужна консультация" : tier ? `${BUDGET_TIERS[currency][tier]} (${currency})` : "";
     const errBox = $("#formError"), label = btn.firstChild.textContent;
-    btn.disabled = true; btn.firstChild.textContent = "Отправляю… "; errBox.hidden = true;
+    btn.disabled = true; btn.firstChild.textContent = I18N.t("sending"); errBox.hidden = true;
     sendLead("form", "🚀 Новая заявка с сайта",
-      { "Имя": v.name, "Контакт": v.contact, "Задача": type, "Бюджет": budget, "Валюта": currency, "О проекте": v.message },
+      { "Имя": v.name, "Контакт": v.contact, "Задача": type, "Бюджет": budget, "Валюта": currency, "Язык": I18N.lang.toUpperCase(), "О проекте": v.message },
       clean(form.elements.company.value, 100))
       .then(() => form.classList.add("sent"))
       .catch(err => { errBox.innerHTML = leadError(err); errBox.hidden = false; })
