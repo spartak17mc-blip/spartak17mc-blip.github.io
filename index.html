@@ -468,15 +468,19 @@ html.intro-on body{overflow:hidden}
 html.intro-on .header,html.intro-on main,html.intro-on footer{opacity:0;transform:translateY(18px) scale(.985)}
 html.intro-on #dust{opacity:0}
 
-.intro-panel{position:relative;width:min(520px,100%);padding:44px 40px 34px;border-radius:28px;text-align:center;
+.intro-panel{position:relative;width:min(680px,100%);padding:48px 48px 38px;border-radius:28px;text-align:center;
   animation:intro-in 1.4s var(--ease-out) .3s both;transition:opacity .6s var(--ease),transform .9s var(--ease-out)}
 @keyframes intro-in{from{opacity:0;transform:translateY(16px) scale(.98)}}
 .intro.launch .intro-panel{opacity:0;transform:scale(.94)}
 .intro-kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .intro-kicker i{width:6px;height:6px;border-radius:50%;background:#5eead4;box-shadow:0 0 10px #5eead4;animation:blinkdot 2.4s ease-in-out infinite}
 @keyframes blinkdot{50%{opacity:.35}}
-.intro-panel h2{font-size:clamp(28px,4.4vw,40px);line-height:1.08;letter-spacing:-.04em;font-weight:500;margin:20px 0 12px}
-.intro-panel p{color:var(--muted);font-size:15.5px;max-width:36ch;margin:0 auto}
+.intro-panel h2{font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spacing:-.045em;font-weight:500;margin:22px auto 16px;max-width:17ch}
+.intro-panel p{color:var(--muted);font-size:16.5px;max-width:46ch;margin:0 auto;line-height:1.6}
+.intro-tags{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:22px 0 0}
+.intro-tags li{height:30px;padding:0 13px;display:inline-flex;align-items:center;border-radius:999px;font-size:13px;color:#d4d9e6;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.07)}
+.intro-panel .intro-motto{margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.07);font-size:14.5px;color:#c9cfdc;font-style:italic;font-family:var(--serif);max-width:44ch}
+.intro-motto span{display:block;margin-bottom:6px;font-family:var(--mono);font-style:normal;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
 .intro-btn{position:relative;margin-top:32px;height:56px;padding:0 30px;border-radius:999px;display:inline-flex;align-items:center;gap:12px;
   font-family:var(--mono);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:#fff;
   background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.18);
@@ -514,7 +518,9 @@ html.intro-on #dust{opacity:0}
 @keyframes flash{0%{opacity:0}14%{opacity:1}100%{opacity:0}}
 
 @media (max-width:640px){
-  .intro-panel{padding:34px 22px 28px}
+  .intro-panel{padding:30px 20px 26px}
+  .intro-panel p{font-size:15px}
+  .intro-tags li{font-size:12px;height:28px;padding:0 11px}
   .intro-btn{height:52px;padding:0 20px;font-size:12px;letter-spacing:.08em}
   .hud.tr,.hud.bl{display:none}
   .hud{font-size:9.5px}
@@ -607,11 +613,15 @@ html.intro-on #dust{opacity:0}
   <div class="flash" aria-hidden="true"></div>
   <div class="shock" aria-hidden="true"></div>
   <div class="intro-panel glass beam-on">
-    <span class="intro-kicker"><i></i>Spartak.dev // interface</span>
-    <h2 id="introTitle">Система готова <span class="serif grad">к&nbsp;запуску</span></h2>
-    <p>Портфолио разработчика современных сайтов и&nbsp;лендингов под&nbsp;ключ.</p>
-    <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span>Инициализировать систему<span class="br">]</span></button>
-    <small class="intro-hint">Enter ↵ — запуск</small>
+    <span class="intro-kicker"><i></i>Spartak.dev // веб-разработчик</span>
+    <h2 id="introTitle">Создаю сайты, в&nbsp;которых <span class="serif grad">каждая деталь</span> работает на&nbsp;результат</h2>
+    <p class="intro-lead">Проектирую и&nbsp;разрабатываю лендинги и&nbsp;сайты для бизнеса под&nbsp;ключ — от&nbsp;стратегии и&nbsp;дизайна до&nbsp;запуска и&nbsp;поддержки.</p>
+    <ul class="intro-tags" aria-label="Специализация">
+      <li>Лендинги</li><li>Корпоративные сайты</li><li>UI-дизайн</li><li>Frontend</li>
+    </ul>
+    <p class="intro-motto"><span>Философия</span>Ни строчки лишнего кода, ни слова лишнего текста — только то, что ведёт клиента к&nbsp;заявке.</p>
+    <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span>Войти в&nbsp;интерфейс<span class="br">]</span></button>
+    <small class="intro-hint">Enter ↵ — вход</small>
   </div>
 </div>
 
@@ -1267,7 +1277,8 @@ const CASES = {
   let mx = 0, my = 0, ox = 0, oy = 0, scrollP = 0, t0 = performance.now(), last = t0, running = true;
   // intro screen: vortex sits dead centre until launch; pulse = energy burst on launch (decays to 0)
   let introMode = !!document.getElementById("intro"), pulse = 0, fx = 0.5, fy = 0.5;
-  window.cosmos = { launch() { introMode = false; pulse = 1; } };
+  let tLaunch = 0;
+  window.cosmos = { launch() { introMode = false; pulse = 1; tLaunch = performance.now(); if (reduce) frame(tLaunch); } };
   addEventListener("pointermove", e => { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; }, { passive: true });
   addEventListener("scroll", () => {
     scrollP = Math.min(scrollY / H, 1.6);
@@ -1283,7 +1294,8 @@ const CASES = {
     if (!running) return;
     const dt = Math.min((now - last) / 16.67, 3); last = now;
     // intro: particles start scattered wide and collapse into the funnel
-    const intro = reduce ? 1 : Math.min((now - t0) / 2600, 1);
+    // before launch the stars hang still and scattered; on launch they collapse into the funnel
+    const intro = reduce && !introMode ? 1 : introMode ? 0 : Math.min((now - tLaunch) / 2600, 1);
     const ease = 1 - Math.pow(1 - intro, 3);
     const spread = 1 + (1 - ease) * 2.2;
 
@@ -1294,12 +1306,12 @@ const CASES = {
     const cx = W * fx + ox, cy = H * fy + oy;
     S = Math.min(W, H) * (small ? 0.72 : 0.62) * (1 + scrollP * 0.55) * (introMode ? 0.85 : 1) * (1 + pulse * 0.45);
     const tilt = 0.36 + my * 0.08 + scrollP * 0.1;
-    const spin = (0.0042 + scrollP * 0.004) * dt * (1 + pulse * 7);
-    const pull = (0.0009 + scrollP * 0.0007) * dt;
+    const spin = (0.0042 + scrollP * 0.004) * dt * (1 + pulse * 7) * (introMode ? 0.05 : 1);
+    const pull = (0.0009 + scrollP * 0.0007) * dt * (introMode ? 0 : 1);
 
     // trails: paint translucent black over the last frame
     ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle = reduce ? "#000" : "rgba(0,0,0,0.2)";
+    ctx.fillStyle = reduce || introMode ? "#000" : "rgba(0,0,0,0.2)";
     ctx.fillRect(0, 0, W, H);
     ctx.globalCompositeOperation = "lighter";
 
@@ -1312,7 +1324,7 @@ const CASES = {
       const depth = S * 0.13 * Math.pow(Math.max(0, 1 - p.r), 3);   // throat of the funnel
       const x = cx + Math.cos(p.a) * rr * S;
       const y = cy + Math.sin(p.a) * rr * S * tilt + depth;
-      if (reduce) paths[p.c].push(x - 0.8, y, x + 0.8, y, p.lw);   // static stars, no motion
+      if (reduce || introMode) paths[p.c].push(x - 0.8, y, x + 0.8, y, p.lw);   // still stars, no trails
       else if (p.px !== null && p.r > 0.1 && Math.abs(x - p.px) + Math.abs(y - p.py) < 28) paths[p.c].push(p.px, p.py, x, y, p.lw);
       p.px = x; p.py = y;
     }
