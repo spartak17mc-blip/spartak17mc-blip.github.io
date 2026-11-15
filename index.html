@@ -1696,6 +1696,7 @@ const CASES = {
   function run() {
     if (document.hidden) return schedule();
     const W = innerWidth, H = innerHeight;
+    layer.getAnimations({ subtree: true }).forEach(a => a.cancel());
     card.innerHTML = SNIPPETS[pick++ % SNIPPETS.length];
     const cw = card.offsetWidth, ch = card.offsetHeight;
     // stay in the top or bottom band; the vortex lives in the middle of the screen
@@ -1719,7 +1720,7 @@ const CASES = {
       { offset: 0.68, opacity: 0.5, transform: T(x2, y2) },
       { offset: 0.86, opacity: 0.5, transform: T(x2, y2) },
       { offset: 1, opacity: 0, transform: T(x2, y2) }
-    ], { duration: DUR, easing: "ease-in-out", fill: "both" });
+    ], { duration: DUR, easing: "ease-in-out" });
 
     const cx0 = x1 - 140, cy0 = y1 + 90;
     cursor.animate([
@@ -1733,18 +1734,19 @@ const CASES = {
       { offset: 0.84, opacity: 0.45, transform: T(x2 + gx + 110, y2 + gy + 60) },
       { offset: 0.92, opacity: 0, transform: T(x2 + gx + 130, y2 + gy + 70) },
       { offset: 1, opacity: 0, transform: T(x2 + gx + 130, y2 + gy + 70) }
-    ], { duration: DUR, easing: "ease-in-out", fill: "both" });
+    ], { duration: DUR, easing: "ease-in-out" });
 
     // grab: the cursor "presses" while it holds the card
     press.animate([
       { offset: 0, transform: "scale(1)" }, { offset: 0.29, transform: "scale(1)" }, { offset: 0.31, transform: "scale(.82)" },
       { offset: 0.66, transform: "scale(.82)" }, { offset: 0.68, transform: "scale(1)" }, { offset: 1, transform: "scale(1)" }
-    ], { duration: DUR, fill: "both" });
+    ], { duration: DUR });
 
     schedule(DUR);
   }
   function schedule(extra = 0) { setTimeout(run, extra + rand(9000, 17000)); }
   setTimeout(run, 2500);
+  window.__ghostRun = run;   // handy for testing in the console
 })();
 </script>
 </body>
