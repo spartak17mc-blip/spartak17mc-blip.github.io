@@ -24,7 +24,7 @@
   --stroke:rgba(255,255,255,.08);--stroke-2:rgba(255,255,255,.12);--stroke-3:rgba(255,255,255,.2);
   --hi:inset 0 1px 0 0 rgba(255,255,255,.1);
   --sky:#8ec5ff;--indigo:#a5b4fc;
-  --grad:linear-gradient(110deg,#dfe6ff 0%,#a5b4fc 45%,#8ec5ff 100%);
+  --grad:linear-gradient(110deg,#eef1ff 0%,var(--vibe-a) 45%,var(--vibe-b) 100%);
   --blur:blur(22px) saturate(150%);
   --r:22px;--r-lg:30px;
   --max:1220px;--gut:clamp(16px,4vw,40px);
@@ -59,7 +59,7 @@ svg{display:block}
   animation:beam var(--t) ease-in-out var(--d) infinite}
 @keyframes beam{0%,100%{opacity:.14;transform:translateX(0) scaleX(1)}50%{opacity:var(--o,.6);transform:translateX(var(--dx)) scaleX(1.35)}}
 .beams i:nth-child(1){--x:8%;--w:70px;--b:22px;--c:rgba(103,232,249,.9);--c2:rgba(59,130,246,.5);--t:9s;--d:-2s;--dx:24px}
-.beams i:nth-child(2){--x:21%;--w:16px;--b:6px;--c:rgba(255,255,255,.9);--c2:rgba(165,180,252,.4);--t:7s;--d:-5s;--dx:-14px;--o:.75}
+.beams i:nth-child(2){--x:21%;--w:16px;--b:6px;--c:rgba(255,255,255,.9);--c2:rgb(from var(--vibe-a) r g b / .4);--t:7s;--d:-5s;--dx:-14px;--o:.75}
 .beams i:nth-child(3){--x:33%;--w:110px;--b:34px;--c:rgba(167,139,250,.75);--c2:rgba(124,58,237,.35);--t:12s;--d:-1s;--dx:30px}
 .beams i:nth-child(4){--x:49%;--w:26px;--b:9px;--c:rgba(186,230,253,.95);--c2:rgba(56,189,248,.45);--t:8s;--d:-6s;--dx:-18px;--o:.7}
 .beams i:nth-child(5){--x:61%;--w:90px;--b:30px;--c:rgba(244,114,182,.55);--c2:rgba(139,92,246,.35);--t:11s;--d:-3s;--dx:22px;--o:.5}
@@ -77,7 +77,7 @@ svg{display:block}
   box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 20px 40px rgba(0,0,0,0.6)}
 /* border beam: a short streak of light travelling around the edge */
 .glass::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
-  background:conic-gradient(from var(--beam),transparent 0deg,transparent 250deg,rgba(165,180,252,.15) 290deg,rgba(199,210,254,.85) 335deg,#fff 350deg,transparent 360deg);
+  background:conic-gradient(from var(--beam),transparent 0deg,transparent 250deg,rgb(from var(--vibe-a) r g b / .15) 290deg,rgb(from var(--vibe-a) r g b / .85) 335deg,#fff 350deg,transparent 360deg);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
   opacity:0;transition:opacity .8s var(--ease)}
 @keyframes beam{to{--beam:360deg}}
@@ -86,10 +86,10 @@ svg{display:block}
 .beam-live::before{opacity:.5;animation:beam 6.5s linear var(--bd,0s) infinite}
 /* soft light under the pointer */
 .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
-  background:radial-gradient(440px circle at var(--mx,50%) var(--my,-30%),rgba(165,180,252,.07),transparent 45%);opacity:0;transition:opacity .8s var(--ease)}
+  background:radial-gradient(440px circle at var(--mx,50%) var(--my,-30%),rgb(from var(--vibe-a) r g b / .07),transparent 45%);opacity:0;transition:opacity .8s var(--ease)}
 .glass-hover{transform-style:preserve-3d;transition:transform 1s var(--ease-out),background .8s var(--ease),box-shadow .9s var(--ease)}
 .glass-hover.tilting{transition:transform .25s ease-out,background .8s var(--ease),box-shadow .9s var(--ease)}
-.glass-hover:hover{background:rgba(14,14,20,0.58);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.14),0 26px 50px rgba(0,0,0,0.7),0 0 50px -24px rgba(165,180,252,.35)}
+.glass-hover:hover{background:rgba(14,14,20,0.58);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.14),0 26px 50px rgba(0,0,0,0.7),0 0 50px -24px rgb(from var(--vibe-a) r g b / .35)}
 .glass-hover:hover::before{opacity:1;animation:beam 6.5s linear var(--bd,0s) infinite}
 .glass-hover:hover::after{opacity:1}
 
@@ -100,12 +100,12 @@ svg{display:block}
   box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 10px 24px rgba(0,0,0,0.45);
   transition:transform .7s var(--ease-out),background .6s var(--ease),border-color .6s var(--ease),box-shadow .7s var(--ease)}
 .btn svg{width:16px;height:16px;transition:transform .7s var(--ease-out)}
-.btn:hover{transform:translateY(-1px);background:rgba(18,18,26,0.6);border-color:rgba(255,255,255,0.22);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.16),0 14px 30px rgba(0,0,0,0.5),0 0 28px -6px rgba(165,180,252,.35)}
+.btn:hover{transform:translateY(-1px);background:rgba(18,18,26,0.6);border-color:rgba(255,255,255,0.22);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.16),0 14px 30px rgba(0,0,0,0.5),0 0 28px -6px rgb(from var(--vibe-a) r g b / .35)}
 .btn:hover svg{transform:translateX(3px)}
 .btn-primary{background:linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.02)),rgba(10,10,16,0.6);border-color:rgba(255,255,255,0.2);
-  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.18),0 10px 24px rgba(0,0,0,0.45),0 0 24px -10px rgba(165,180,252,.45)}
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.18),0 10px 24px rgba(0,0,0,0.45),0 0 24px -10px rgb(from var(--vibe-a) r g b / .45)}
 .btn-primary:hover{background:linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.03)),rgba(14,14,22,0.65);border-color:rgba(255,255,255,0.3);
-  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.22),0 14px 30px rgba(0,0,0,0.5),0 0 36px -6px rgba(165,180,252,.55)}
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.22),0 14px 30px rgba(0,0,0,0.5),0 0 36px -6px rgb(from var(--vibe-a) r g b / .55)}
 .btn-sm{--h:40px;padding:0 18px;font-size:14px}
 
 /* ================= HEADER ================= */
@@ -146,7 +146,7 @@ svg{display:block}
   transition:border-color .5s var(--ease),box-shadow .5s var(--ease),background .5s var(--ease)}
 .snd[hidden]{display:none}
 .snd i{display:block;width:2.5px;height:4px;border-radius:2px;background:var(--muted);transition:height .4s var(--ease),background .4s}
-.snd:hover{border-color:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.12),0 0 20px -6px rgba(165,180,252,.5)}
+.snd:hover{border-color:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.12),0 0 20px -6px rgb(from var(--vibe-a) r g b / .5)}
 .snd.on i{background:#e0e7ff;animation:eq 1.1s ease-in-out infinite alternate}
 .snd.on i:nth-child(2){animation-duration:.8s;animation-delay:-.3s}
 .snd.on i:nth-child(3){animation-duration:1.3s;animation-delay:-.6s}
@@ -204,7 +204,7 @@ svg{display:block}
 .sk.h{height:16px;width:90%;background:rgba(255,255,255,.2)}
 .sk.h2{height:16px;width:62%;background:rgba(255,255,255,.2);margin-bottom:16px}
 .sk-btn{display:inline-block;width:46%;height:26px;border-radius:99px;background:#eef1f7;margin-top:8px}
-.sk-img{aspect-ratio:4/3;border-radius:12px;background:radial-gradient(circle at 30% 30%,rgba(165,180,252,.5),transparent 55%),radial-gradient(circle at 75% 75%,rgba(142,197,255,.45),transparent 55%),rgba(255,255,255,.04);border:1px solid var(--stroke)}
+.sk-img{aspect-ratio:4/3;border-radius:12px;background:radial-gradient(circle at 30% 30%,rgb(from var(--vibe-a) r g b / .5),transparent 55%),radial-gradient(circle at 75% 75%,rgba(142,197,255,.45),transparent 55%),rgba(255,255,255,.04);border:1px solid var(--stroke)}
 .toast{right:-2%;top:54%;display:flex;align-items:center;gap:12px;padding:12px 16px 12px 12px;border-radius:16px;animation:hover 7s ease-in-out infinite}
 .toast .ti{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:rgba(94,234,212,.14);color:#5eead4;border:1px solid rgba(94,234,212,.25)}
 .toast .ti svg{width:18px;height:18px}
@@ -224,7 +224,7 @@ svg{display:block}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:24px}
 .eyebrow::before{content:"";width:18px;height:1px;background:var(--sky)}
 .h2{font-size:clamp(36px,5vw,68px);line-height:1.02;letter-spacing:-.045em;font-weight:500}
-.h2 .serif{color:var(--indigo)}
+.h2 .serif{color:var(--vibe-a);transition:color 1.4s var(--ease)}
 .sec-head{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:end;margin-bottom:60px}
 .sec-head p{color:var(--muted);font-size:17px;max-width:440px;justify-self:end}
 .sec-head p b{color:var(--text);font-weight:500}
@@ -262,7 +262,7 @@ svg{display:block}
 .more{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500}
 .more .arr{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--stroke-2);background:rgba(255,255,255,.04);transition:background .6s var(--ease),border-color .6s,color .6s}
 .more .arr svg{width:15px;height:15px;transition:transform .7s var(--ease-out)}
-.case:hover .more .arr{background:linear-gradient(135deg,rgba(129,140,248,.6),rgba(56,189,248,.4));color:#fff;border-color:rgba(199,210,254,.55)}
+.case:hover .more .arr{background:linear-gradient(135deg,rgba(129,140,248,.6),rgba(56,189,248,.4));color:#fff;border-color:rgb(from var(--vibe-a) r g b / .55)}
 .case:hover .more .arr svg{transform:rotate(-45deg)}
 .case-foot small{font-size:13px;color:var(--dim)}
 
@@ -392,7 +392,7 @@ form.lead-form{padding:clamp(28px,5vw,60px);display:grid;gap:22px;align-content:
 .opts input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .opts label{height:40px;padding:0 16px;display:inline-flex;align-items:center;border-radius:999px;border:1px solid var(--stroke-2);background:rgba(255,255,255,.03);font-size:14.5px;color:var(--muted);cursor:pointer;transition:all .5s var(--ease);user-select:none}
 .opts label:hover{color:var(--text);border-color:var(--stroke-3)}
-.opts input:checked+label{background:linear-gradient(135deg,rgba(129,140,248,.45),rgba(56,189,248,.28));color:#fff;border-color:rgba(199,210,254,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.opts input:checked+label{background:linear-gradient(135deg,rgba(129,140,248,.45),rgba(56,189,248,.28));color:#fff;border-color:rgb(from var(--vibe-a) r g b / .5);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
 .opts input:focus-visible+label{outline:2px solid var(--sky);outline-offset:2px}
 .f-submit{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
 .f-submit p{font-size:13px;color:var(--dim);flex:1;min-width:200px}
@@ -445,10 +445,10 @@ body.modal-open{overflow:hidden}
 .qlink:hover,.opts label:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.16)}
 .qi{color:#e2e6f3}
 .qi.tg,.qi.ml,.qi.gh{color:#e2e6f3}
-.glass-hover:hover .ico{border-color:rgba(199,210,254,.3);color:#c7d2fe;box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.12),0 0 20px -6px rgba(165,180,252,.5)}
-.opts input:checked+label{background:rgba(255,255,255,0.09);color:#fff;border-color:rgba(255,255,255,0.28);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.18),0 0 20px -8px rgba(165,180,252,.6)}
-.case:hover .more .arr{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.25);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.15),0 0 22px -6px rgba(165,180,252,.55)}
-.fld input:focus,.fld textarea:focus{background:rgba(255,255,255,0.05);border-color:rgba(199,210,254,.4);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08),0 0 0 4px rgba(165,180,252,.1)}
+.glass-hover:hover .ico{border-color:rgb(from var(--vibe-a) r g b / .3);color:#c7d2fe;box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.12),0 0 20px -6px rgb(from var(--vibe-a) r g b / .5)}
+.opts input:checked+label{background:rgba(255,255,255,0.09);color:#fff;border-color:rgba(255,255,255,0.28);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.18),0 0 20px -8px rgb(from var(--vibe-a) r g b / .6)}
+.case:hover .more .arr{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.25);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.15),0 0 22px -6px rgb(from var(--vibe-a) r g b / .55)}
+.fld input:focus,.fld textarea:focus{background:rgba(255,255,255,0.05);border-color:rgb(from var(--vibe-a) r g b / .4);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08),0 0 0 4px rgb(from var(--vibe-a) r g b / .1)}
 .modal-close:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2)}
 .shot,.m-frame{border-color:rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08)}
 .toast .ti{background:rgba(94,234,212,.08);border-color:rgba(94,234,212,.2)}
@@ -461,7 +461,7 @@ body.modal-open{overflow:hidden}
   background:radial-gradient(70% 70% at 50% 50%,transparent 0%,rgba(0,0,0,.35) 65%,rgba(0,0,0,.8) 100%);
   transition:opacity 1.1s var(--ease) .2s,visibility 1.1s linear .2s}
 .intro::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(199,210,254,.18) 30%,rgba(199,210,254,.18) 70%,transparent)}
+  background:linear-gradient(90deg,transparent,rgb(from var(--vibe-a) r g b / .18) 30%,rgb(from var(--vibe-a) r g b / .18) 70%,transparent)}
 .intro.out{opacity:0;visibility:hidden;pointer-events:none}
 html.intro-on body{overflow:hidden}
 .header,main,footer,#dust{transition:opacity 1.4s var(--ease) .45s,transform 1.8s var(--ease-out) .45s}
@@ -484,14 +484,14 @@ html.intro-on #dust{opacity:0}
 .intro-btn{position:relative;margin-top:32px;min-height:56px;padding:14px 28px;text-align:center;line-height:1.35;border-radius:999px;display:inline-flex;align-items:center;gap:12px;
   font-family:var(--mono);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:#fff;
   background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.18);
-  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.14),0 10px 30px rgba(0,0,0,.5),0 0 30px -10px rgba(165,180,252,.5);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.14),0 10px 30px rgba(0,0,0,.5),0 0 30px -10px rgb(from var(--vibe-a) r g b / .5);
   transition:border-color .5s var(--ease),box-shadow .6s var(--ease),background .5s var(--ease),transform .6s var(--ease-out)}
 .intro-btn .br{color:#c7d2fe;transition:transform .6s var(--ease-out)}
 .ib-en{color:var(--muted);letter-spacing:.08em;font-size:.9em}
-.intro-btn::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid rgba(165,180,252,.45);pointer-events:none;animation:ring 2.6s var(--ease-out) infinite}
+.intro-btn::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid rgb(from var(--vibe-a) r g b / .45);pointer-events:none;animation:ring 2.6s var(--ease-out) infinite}
 @keyframes ring{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.18,1.5)}}
 .intro-btn:hover,.intro-btn:focus-visible{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.32);outline:none;
-  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.2),0 12px 34px rgba(0,0,0,.55),0 0 44px -6px rgba(165,180,252,.65)}
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.2),0 12px 34px rgba(0,0,0,.55),0 0 44px -6px rgb(from var(--vibe-a) r g b / .65)}
 .intro-btn:hover .br:first-child,.intro-btn:focus-visible .br:first-child{transform:translateX(-4px)}
 .intro-btn:hover .br:last-child,.intro-btn:focus-visible .br:last-child{transform:translateX(4px)}
 .intro-btn:active{transform:scale(.98)}
@@ -511,8 +511,8 @@ html.intro-on #dust{opacity:0}
 /* launch: shockwave ring + soft flash from the vortex core */
 .shock,.flash{position:absolute;pointer-events:none;opacity:0}
 .shock{left:50%;top:50%;width:36vmax;height:36vmax;margin:-18vmax 0 0 -18vmax;border-radius:50%;border:1.5px solid rgba(214,222,255,.85);
-  box-shadow:0 0 50px rgba(165,180,252,.55),inset 0 0 50px rgba(165,180,252,.35)}
-.flash{inset:0;background:radial-gradient(circle at 50% 50%,rgba(236,240,255,.5) 0%,rgba(165,180,252,.16) 28%,transparent 60%)}
+  box-shadow:0 0 50px rgb(from var(--vibe-a) r g b / .55),inset 0 0 50px rgb(from var(--vibe-a) r g b / .35)}
+.flash{inset:0;background:radial-gradient(circle at 50% 50%,rgba(236,240,255,.5) 0%,rgb(from var(--vibe-a) r g b / .16) 28%,transparent 60%)}
 .intro.launch .shock{animation:shock 1.4s cubic-bezier(.16,1,.3,1) forwards}
 .intro.launch .flash{animation:flash 1.2s ease-out forwards}
 @keyframes shock{0%{opacity:.95;transform:scale(.08)}100%{opacity:0;transform:scale(3.4)}}
@@ -553,7 +553,7 @@ html.intro-on #dust{opacity:0}
 .pl-orbit svg{width:100%;height:100%;animation:pl-spin 1.6s linear infinite}
 .pl-orbit .trk{fill:none;stroke:rgba(255,255,255,.08);stroke-width:1.5}
 .pl-orbit .arc{fill:none;stroke:url(#ringGrad);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:46 118}
-.pl-orbit i{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#e0e7ff;box-shadow:0 0 14px rgba(165,180,252,.9);animation:pl-pulse 1.6s ease-in-out infinite}
+.pl-orbit i{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#e0e7ff;box-shadow:0 0 14px rgb(from var(--vibe-a) r g b / .9);animation:pl-pulse 1.6s ease-in-out infinite}
 @keyframes pl-spin{to{transform:rotate(360deg)}}
 @keyframes pl-pulse{50%{transform:scale(.55);opacity:.6}}
 .pl-brand{font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:#fff;padding-left:.32em}
@@ -604,6 +604,64 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
 @media (max-width:640px),(prefers-reduced-motion:reduce){.ghost{display:none}}
 
 @media (max-width:960px){.pet{margin-right:auto}}
+
+/* ================= VIBES ================= */
+/* one accent pair drives every highlight; switching direction animates it site-wide */
+@property --vibe-a{syntax:"<color>";inherits:true;initial-value:#a5b4fc}
+@property --vibe-b{syntax:"<color>";inherits:true;initial-value:#7dd3fc}
+html{--vibe-a:#a5b4fc;--vibe-b:#7dd3fc;transition:--vibe-a 1.4s var(--ease),--vibe-b 1.4s var(--ease)}
+html[data-vibe="horeca"]{--vibe-a:#fdba74;--vibe-b:#f9a8d4}
+html[data-vibe="build"]{--vibe-a:#fcd34d;--vibe-b:#5eead4}
+.beams{transition:filter 1.6s var(--ease)}
+html[data-vibe="horeca"] .beams{filter:hue-rotate(160deg) saturate(1.1)}
+html[data-vibe="build"] .beams{filter:hue-rotate(205deg) saturate(.85)}
+/* faint coloured light in the corners that follows the vibe */
+.vibe-glow{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(55% 45% at 8% 0%,rgb(from var(--vibe-a) r g b / .09),transparent 70%),
+             radial-gradient(45% 45% at 100% 100%,rgb(from var(--vibe-b) r g b / .07),transparent 70%)}
+
+.vibe-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.vibe-tab{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;text-align:left;color:var(--text);
+  transition:border-color .6s var(--ease),box-shadow .8s var(--ease),background .6s var(--ease),transform .6s var(--ease-out)}
+.vibe-tab:hover{background:rgba(14,14,20,0.62);transform:translateY(-2px)}
+.vibe-tab b{display:block;font-weight:500;font-size:16px;letter-spacing:-.015em}
+.vibe-tab small{display:block;margin-top:2px;color:var(--dim);font-size:13px}
+.vt-ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none;color:var(--muted);transition:color .6s,box-shadow .6s}
+.vt-ico svg{width:20px;height:20px}
+.vibe-tab[aria-selected="true"]{border-color:rgb(from var(--vibe-a) r g b / .45);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.14),0 20px 40px rgba(0,0,0,0.6),0 0 44px -14px rgb(from var(--vibe-a) r g b / .7)}
+.vibe-tab[aria-selected="true"] .vt-ico{color:var(--vibe-a);box-shadow:inset 0 1px 0 0 rgba(255,255,255,.1),0 0 18px -6px var(--vibe-a)}
+
+.vibe-panel{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4vw,48px);padding:clamp(24px,4vw,44px);border-radius:28px}
+.vp-main,.vp-cases{transition:opacity .35s var(--ease),transform .5s var(--ease-out)}
+.vibe-panel.swap .vp-main,.vibe-panel.swap .vp-cases{opacity:0;transform:translateY(8px)}
+.vp-sound{display:inline-flex;align-items:center;gap:10px;height:30px;padding:0 12px;border-radius:999px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--vibe-a)}
+.vp-eq{display:inline-flex;align-items:flex-end;gap:2px;height:12px}
+.vp-eq i{width:2px;height:4px;border-radius:1px;background:currentColor;animation:eq 1s ease-in-out infinite alternate}
+.vp-eq i:nth-child(2){animation-duration:.7s}.vp-eq i:nth-child(3){animation-duration:1.25s}
+.vibe-panel h3{font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-.04em;line-height:1.1;margin:20px 0 12px}
+.vibe-panel .vp-main>p{color:var(--muted);font-size:16px;max-width:48ch}
+.vp-points{list-style:none;display:grid;gap:10px;margin-top:22px}
+.vp-points li{position:relative;padding-left:28px;font-size:15px;color:#d4d9e6}
+.vp-points li::before{content:"";position:absolute;left:4px;top:7px;width:11px;height:6px;border-left:1.5px solid var(--vibe-a);border-bottom:1.5px solid var(--vibe-a);transform:rotate(-45deg)}
+.vp-cases{display:grid;gap:10px;align-content:start}
+.vp-cases h4{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.vp-case{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;text-align:left;color:var(--text);width:100%;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.07);transition:background .5s,border-color .5s,transform .6s var(--ease-out)}
+.vp-case b{display:block;font-weight:500;font-size:15.5px}
+.vp-case small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.vp-case .go{margin-left:auto;flex:none;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+button.vp-case{cursor:pointer}
+button.vp-case:hover{background:rgba(255,255,255,0.06);border-color:rgb(from var(--vibe-a) r g b / .35);transform:translateX(4px)}
+button.vp-case .go{color:var(--vibe-a)}
+/* the portfolio grid brings the matching cases forward */
+.cases[data-vibe="web"] .case[data-case="cargo"],
+.cases[data-vibe="horeca"] .case[data-case="coffee"],
+.cases[data-vibe="build"] .case[data-case="auto"],.cases[data-vibe="build"] .case[data-case="cargo"]{order:-1}
+@media (max-width:900px){
+  .vibe-tabs{grid-template-columns:1fr}
+  .vibe-panel{grid-template-columns:1fr}
+}
 
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
@@ -680,6 +738,7 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
 <body>
 <canvas id="cosmos" aria-hidden="true"></canvas>
 <canvas id="dust" aria-hidden="true"></canvas>
+<div class="vibe-glow" aria-hidden="true"></div>
 <div class="ghost" id="ghost" aria-hidden="true">
   <div class="ghost-card"></div>
   <svg class="ghost-cursor" viewBox="0 0 22 22"><g class="press"><path d="M3 2 L3 17 L7 13.3 L9.8 19.5 L12.4 18.3 L9.7 12.3 L15 12.3 Z" fill="#ffffff" fill-opacity=".92" stroke="#0b0b14" stroke-width="1.2" stroke-linejoin="round"/></g></svg>
@@ -691,7 +750,7 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
       <svg viewBox="0 0 64 64"><circle class="trk" cx="32" cy="32" r="26"/><circle class="arc" cx="32" cy="32" r="26"/></svg>
       <i></i>
     </div>
-    <span class="pl-brand">Spartak.dev</span>
+    <span class="pl-brand">[ Initializing System… ]</span>
     <span class="pl-scan" aria-hidden="true"></span>
     <span class="pl-status" id="plStatus">Инициализация ядра</span>
   </div>
@@ -712,7 +771,7 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
       <li>Лендинги</li><li>Корпоративные сайты</li><li>UI/UX-дизайн</li><li>Frontend-разработка</li>
     </ul>
     <p class="intro-motto"><span>Принцип</span>Сначала смысл, затем форма. Каждый экран, каждая строка кода и&nbsp;каждое слово служат одной цели&nbsp;— вашему результату.</p>
-    <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span><span class="ib-text">Запустить интерфейс <span class="ib-en">/ Initialize Portfolio</span></span><span class="br">]</span></button>
+    <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span><span class="ib-text">Initialize Portfolio <span class="ib-en">/ Запустить портфолио</span></span><span class="br">]</span></button>
     <small class="intro-hint">Enter ↵ — запуск</small>
   </div>
 </div>
@@ -869,6 +928,44 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
 </section>
 
 <!-- ================= PORTFOLIO ================= -->
+<!-- ================= VIBES ================= -->
+<section class="section" id="vibes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow rv">Направления</div>
+        <h2 class="h2 rv" style="--d:.08s">Три сферы — <span class="serif">один подход</span></h2>
+      </div>
+      <p class="rv" style="--d:.16s">Выберите направление: сайт подстроит атмосферу, звук и&nbsp;примеры проектов под&nbsp;вашу сферу.</p>
+    </div>
+
+    <div class="vibe-tabs rv" role="tablist" aria-label="Направления">
+      <button class="vibe-tab glass" role="tab" id="tab-web" aria-selected="true" aria-controls="vibePanel" data-vibe="web">
+        <span class="vt-ico ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span>
+        <span><b>Web &amp; UI</b><small>Продукты и интерфейсы</small></span>
+      </button>
+      <button class="vibe-tab glass" role="tab" id="tab-horeca" aria-selected="false" aria-controls="vibePanel" data-vibe="horeca" tabindex="-1">
+        <span class="vt-ico ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 010 8h-1M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4zM6 2v3M10 2v3M14 2v3"/></svg></span>
+        <span><b>Рестораны и HoReCa</b><small>Вкус и атмосфера места</small></span>
+      </button>
+      <button class="vibe-tab glass" role="tab" id="tab-build" aria-selected="false" aria-controls="vibePanel" data-vibe="build" tabindex="-1">
+        <span class="vt-ico ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6M9 10h.01M15 10h.01"/></svg></span>
+        <span><b>Строительство и архитектура</b><small>Масштаб и надёжность</small></span>
+      </button>
+    </div>
+
+    <div class="vibe-panel glass beam-on rv" id="vibePanel" role="tabpanel" aria-labelledby="tab-web" aria-live="polite">
+      <div class="vp-main">
+        <span class="vp-sound"><span class="vp-eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="vpSound">Космический эмбиент</span></span>
+        <h3 id="vpTitle">Цифровые продукты и&nbsp;интерфейсы</h3>
+        <p id="vpText">Лендинги IT-продуктов, SaaS-сервисы и&nbsp;личные бренды. Акцент — на&nbsp;скорость, ясную логику интерфейса и&nbsp;технологичную эстетику.</p>
+        <ul class="vp-points" id="vpPoints"></ul>
+      </div>
+      <div class="vp-cases" id="vpCases"></div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="work">
   <div class="wrap">
     <div class="sec-head">
@@ -1306,6 +1403,76 @@ const CASES = {
   const beamIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("beam-live", e.isIntersecting)), { rootMargin: "60px" });
   $$(".glass-hover").forEach((c, i) => { c.style.setProperty("--bd", `${-(i * 1.7) % 6.5}s`); beamIO.observe(c); });
 
+
+  /* vibe switcher: changes accent colours, vortex palette, ambient scene and the examples shown */
+  const VIBES = {
+    web: {
+      sound: "Космический эмбиент", title: "Цифровые продукты и интерфейсы",
+      text: "Лендинги IT-продуктов, SaaS-сервисы и личные бренды. Акцент — на скорость, ясную логику интерфейса и технологичную эстетику.",
+      points: ["Продуманные пользовательские сценарии", "Дизайн-системы и UI-киты", "Анимации, которые объясняют, а не отвлекают"],
+      cases: [{ t: "Vector Cargo", d: "B2B-сайт с калькулятором доставки", c: "cargo" },
+              { t: "Analytics Dashboard", d: "Интерфейс SaaS-аналитики: метрики, графики, фильтры" },
+              { t: "Лендинг IT-продукта", d: "Оффер, живое демо и путь к пробному доступу" }]
+    },
+    horeca: {
+      sound: "Мягкий лаунж", title: "Атмосфера, которую хочется попробовать",
+      text: "Кофейни, рестораны, бары и доставка. Сайт передаёт вкус и настроение места — и превращает просмотр меню в бронь или заказ.",
+      points: ["Меню с фото и онлайн-заказом", "Бронирование стола в два касания", "Тёплая визуальная подача и единый фотостиль"],
+      cases: [{ t: "Зерно — кофейня", d: "Лендинг с меню и онлайн-предзаказом", c: "coffee" },
+              { t: "Ресторан с онлайн-бронью", d: "Выбор стола, времени и повода визита" },
+              { t: "Сервис доставки", d: "Каталог блюд, корзина и оплата за минуту" }]
+    },
+    build: {
+      sound: "Звуки мастерской", title: "Надёжность, которую видно с первого экрана",
+      text: "Застройщики, архитектурные бюро, ремонт и производство. Сайт показывает масштаб и экспертизу и снимает сомнения перед крупной сделкой.",
+      points: ["Каталоги объектов и планировок", "Калькуляторы стоимости и сроков", "Портфолио с фотоотчётами «до и после»"],
+      cases: [{ t: "ЖК «Северный квартал»", d: "Подбор квартиры по планировкам и этажам" },
+              { t: "Архитектурное бюро «Линия»", d: "Портфолио объектов и этапы работы" },
+              { t: "Torque — автосервис", d: "Прозрачная смета и запись онлайн", c: "auto" }]
+    }
+  };
+  const vibeTabs = $$(".vibe-tab"), vibePanel = $("#vibePanel"), casesGrid = $(".cases");
+  if (vibePanel) {
+    const fill = key => {
+      const v = VIBES[key];
+      $("#vpSound").textContent = v.sound;
+      $("#vpTitle").textContent = v.title;
+      $("#vpText").textContent = v.text;
+      $("#vpPoints").replaceChildren(...v.points.map(p => Object.assign(document.createElement("li"), { textContent: p })));
+      const head = Object.assign(document.createElement("h4"), { textContent: "Примеры проектов" });
+      $("#vpCases").replaceChildren(head, ...v.cases.map(c => {
+        const el = document.createElement(c.c ? "button" : "div");
+        el.className = "vp-case";
+        if (c.c) { el.type = "button"; el.addEventListener("click", () => $(`.case[data-case="${c.c}"]`)?.click()); }
+        el.innerHTML = `<span><b></b><small></small></span><span class="go">${c.c ? "Открыть →" : "Концепт"}</span>`;
+        el.querySelector("b").textContent = c.t; el.querySelector("small").textContent = c.d;
+        return el;
+      }));
+    };
+    const setVibe = (key, focus) => {
+      vibeTabs.forEach(t => {
+        const on = t.dataset.vibe === key;
+        t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1;
+        if (on && focus) t.focus();
+      });
+      vibePanel.setAttribute("aria-labelledby", "tab-" + key);
+      document.documentElement.dataset.vibe = key;
+      casesGrid?.setAttribute("data-vibe", key);
+      window.cosmos?.setVibe(key);
+      window.ambient?.setVibe(key);
+      vibePanel.classList.add("swap");
+      setTimeout(() => { fill(key); vibePanel.classList.remove("swap"); }, reduce ? 0 : 320);
+    };
+    fill("web"); casesGrid?.setAttribute("data-vibe", "web");
+    vibeTabs.forEach((t, i) => {
+      t.addEventListener("click", () => { if (t.getAttribute("aria-selected") !== "true") setVibe(t.dataset.vibe); });
+      t.addEventListener("keydown", e => {
+        const d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+        if (d) { e.preventDefault(); setVibe(vibeTabs[(i + d + vibeTabs.length) % vibeTabs.length].dataset.vibe, true); }
+      });
+    });
+  }
+
   /* active nav */
   const navLinks = $$(".nav a");
   const spy = new IntersectionObserver(es => es.forEach(e => {
@@ -1371,7 +1538,22 @@ const CASES = {
   const N = small ? 700 : 1700;
   const ARMS = 3;
   // colour buckets: drawing each bucket as one path keeps it fast
-  const COLORS = ["rgba(255,244,230,.85)", "rgba(196,181,253,.6)", "rgba(125,211,252,.55)", "rgba(99,102,241,.5)", "rgba(244,114,182,.4)"];
+  // palettes per vibe (r, g, b, a); the live palette eases toward the target one
+  const PALETTES = {
+    web:    { stars: [[255,244,230,.85], [196,181,253,.6], [125,211,252,.55], [99,102,241,.5], [244,114,182,.4]], core: [255,236,214] },
+    horeca: { stars: [[255,240,220,.85], [253,186,116,.6], [251,146,60,.5], [244,114,182,.45], [250,204,21,.4]], core: [255,214,170] },
+    build:  { stars: [[245,245,240,.85], [252,211,77,.55], [94,234,212,.5], [148,163,184,.5], [251,146,60,.42]], core: [235,245,255] }
+  };
+  const live = { stars: PALETTES.web.stars.map(c => c.slice()), core: PALETTES.web.core.slice() };
+  let target = PALETTES.web;
+  const COLORS = live.stars.map(c => `rgba(${c.join(",")})`);
+  const easePalette = k => {
+    live.stars.forEach((c, i) => {
+      for (let j = 0; j < 4; j++) c[j] += (target.stars[i][j] - c[j]) * k;
+      COLORS[i] = `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${c[3].toFixed(2)})`;
+    });
+    for (let j = 0; j < 3; j++) live.core[j] += (target.core[j] - live.core[j]) * k;
+  };
   let W = 0, H = 0, DPR = 1, S = 0;
 
   const resize = () => {
@@ -1402,7 +1584,10 @@ const CASES = {
   const TOKENS = ["</>", "{ }", "fn()", "=>", "const", "[ ]", "&&", "λ", "01", ";", "<div>", "async"];
   const infall = [];
   let nextInfall = performance.now() + 5000, glowKick = 0;
-  window.cosmos = { launch() { introMode = false; pulse = 1; tLaunch = performance.now(); if (reduce) frame(tLaunch); } };
+  window.cosmos = {
+    launch() { introMode = false; pulse = 1; tLaunch = performance.now(); if (reduce) frame(tLaunch); },
+    setVibe(key) { target = PALETTES[key] || PALETTES.web; pulse = Math.max(pulse, 0.25); if (reduce) { easePalette(1); frame(performance.now()); } }
+  };
   addEventListener("pointermove", e => { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; }, { passive: true });
   addEventListener("scroll", () => {
     scrollP = Math.min(scrollY / H, 1.6);
@@ -1425,6 +1610,7 @@ const CASES = {
 
     ox += (mx * 60 - ox) * 0.04; oy += (my * 40 - oy) * 0.04;
     pulse *= Math.pow(0.965, dt);
+    easePalette(Math.min(0.04 * dt, 1));
     fx += ((introMode || small ? 0.5 : 0.64) - fx) * 0.02 * dt;
     fy += ((introMode ? 0.5 : small ? 0.46 : 0.52) - fy) * 0.02 * dt;
     const cx = W * fx + ox, cy = H * fy + oy;
@@ -1504,7 +1690,7 @@ const CASES = {
 
     // soft core glow in the throat (brightens briefly when something falls in)
     const gy = cy + S * 0.12, g = ctx.createRadialGradient(cx, gy, 0, cx, gy, S * 0.16);
-    g.addColorStop(0, `rgba(255,236,214,${(0.08 + pulse * 0.3 + glowKick).toFixed(3)})`); g.addColorStop(0.4, `rgba(129,140,248,${(0.03 + pulse * 0.12).toFixed(3)})`); g.addColorStop(1, "rgba(0,0,0,0)");
+    g.addColorStop(0, `rgba(${live.core[0] | 0},${live.core[1] | 0},${live.core[2] | 0},${(0.08 + pulse * 0.3 + glowKick).toFixed(3)})`); g.addColorStop(0.4, `rgba(129,140,248,${(0.03 + pulse * 0.12).toFixed(3)})`); g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g; ctx.fillRect(cx - S * 0.2, gy - S * 0.2, S * 0.4, S * 0.4);
 
     if (!reduce) requestAnimationFrame(frame);
@@ -1516,57 +1702,129 @@ const CASES = {
 })();
 </script>
 <script>
-/* ===== Ambient sound: a quiet synthesized space hum (Web Audio, no files) =====
-   Starts only after a user gesture (the launch button or the sound toggle), so browsers never block it. */
+/* ===== Ambient sound: three synthesized scenes (Web Audio, no files) that crossfade with the vibe =====
+   web → deep space hum · horeca → soft lounge chords with vinyl crackle · build → calm workshop taps.
+   Starts only after a user gesture (launch button or sound toggle), so browsers never block it. */
 (() => {
   const AC = window.AudioContext || window.webkitAudioContext;
   const btn = document.getElementById("snd");
   if (!AC || !btn) return;
   btn.hidden = false;
 
-  const VOLUME = 0.065;
+  const VOLUME = 0.07, FADE = 0.7;
   const KEY = "spartak-sound";
   const store = { get() { try { return localStorage.getItem(KEY); } catch { return null; } },
                   set(v) { try { localStorage.setItem(KEY, v); } catch {} } };
-  let ctx = null, master = null, on = false;
+  let ctx = null, master = null, on = false, vibe = "web";
+  const scenes = {};
 
-  function build() {
-    ctx = new AC();
-    master = ctx.createGain(); master.gain.value = 0;
-    const comp = ctx.createDynamicsCompressor();
-    master.connect(comp).connect(ctx.destination);
+  /* ---------- helpers ---------- */
+  const osc = (type, f, gain, out) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.value = f; g.gain.value = gain; o.connect(g).connect(out); o.start(); return o;
+  };
+  const lfo = (rate, depth, param) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = rate; g.gain.value = depth; o.connect(g).connect(param); o.start();
+  };
+  const noise = (seconds, fill) => {
+    const len = Math.floor(ctx.sampleRate * seconds), buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    fill(buf.getChannelData(0)); const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true; src.start(); return src;
+  };
+  const brown = d => { let last = 0; for (let i = 0; i < d.length; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.2; } };
+  const filter = (type, f, q = 0.7) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; b.Q.value = q; return b; };
 
-    // drone: low detuned sines + a soft fifth, through a slowly breathing low-pass
-    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 120; lp.Q.value = 0.8;
-    const drone = ctx.createGain(); drone.gain.value = 0.55;
-    drone.connect(lp).connect(master);
-    [[55, 0.5, "sine"], [55.35, 0.45, "sine"], [27.5, 0.6, "sine"], [82.4, 0.12, "triangle"], [110.2, 0.06, "sine"]].forEach(([f, g, type]) => {
-      const o = ctx.createOscillator(), a = ctx.createGain();
-      o.type = type; o.frequency.value = f; a.gain.value = g;
-      o.connect(a).connect(drone); o.start();
-    });
-    const lfo = (rate, depth, target) => {
-      const o = ctx.createOscillator(), a = ctx.createGain();
-      o.frequency.value = rate; a.gain.value = depth; o.connect(a).connect(target); o.start();
-    };
-    lfo(0.07, 110, lp.frequency);     // filter slowly opens and closes
-    lfo(0.11, 0.12, drone.gain);      // gentle swell
-
-    // "space wind": looped brown noise through a drifting band-pass
-    const len = ctx.sampleRate * 4, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
-    let last = 0;
-    for (let i = 0; i < len; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.2; }
-    const noise = ctx.createBufferSource(); noise.buffer = buf; noise.loop = true;
-    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 420; bp.Q.value = 0.7;
-    const ng = ctx.createGain(); ng.gain.value = 0.22;
-    noise.connect(bp).connect(ng).connect(master); noise.start();
-    lfo(0.045, 220, bp.frequency);
-
-    // launch sweep: the low-pass rises from closed to its resting point
-    lp.frequency.setValueAtTime(70, ctx.currentTime);
-    lp.frequency.exponentialRampToValueAtTime(320, ctx.currentTime + 4);
+  /* ---------- scene: deep space hum ---------- */
+  function space(out) {
+    const lp = filter("lowpass", 320, 0.8), drone = ctx.createGain(); drone.gain.value = 0.55;
+    drone.connect(lp).connect(out);
+    [[55, .5, "sine"], [55.35, .45, "sine"], [27.5, .6, "sine"], [82.4, .12, "triangle"], [110.2, .06, "sine"]].forEach(([f, g, t]) => osc(t, f, g, drone));
+    lfo(0.07, 110, lp.frequency); lfo(0.11, 0.12, drone.gain);
+    const bp = filter("bandpass", 420), ng = ctx.createGain(); ng.gain.value = 0.22;
+    noise(4, brown).connect(bp).connect(ng).connect(out); lfo(0.045, 220, bp.frequency);
+    return {};
   }
 
+  /* ---------- scene: lounge (maj7 chords, soft bass, vinyl crackle) ---------- */
+  function lounge(out) {
+    const lp = filter("lowpass", 1500), bus = ctx.createGain(); bus.gain.value = 0.9; bus.connect(lp).connect(out);
+    lfo(0.18, 0.12, bus.gain);                                   // gentle tremolo
+    const crackle = ctx.createGain(); crackle.gain.value = 0.16;
+    noise(3, d => { for (let i = 0; i < d.length; i++) d[i] = (Math.random() < 0.0007 ? (Math.random() * 2 - 1) : 0) + (Math.random() * 2 - 1) * 0.015; })
+      .connect(filter("highpass", 1200)).connect(crackle).connect(out);
+    const CHORDS = [[174.6, 220, 261.6, 329.6], [164.8, 196, 246.9, 293.7], [146.8, 174.6, 220, 261.6], [130.8, 164.8, 196, 246.9]];
+    const BAR = 4.2;
+    let i = 0, next = 0, timer = null;
+    const chord = (t, notes) => {
+      notes.forEach((f, k) => {
+        [["sine", 1, 0.07], ["triangle", 2, 0.018]].forEach(([type, mul, peak]) => {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.type = type; o.frequency.value = f * mul; o.detune.value = (k - 1.5) * 3;
+          g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(peak, t + 0.9 + k * 0.06);
+          g.gain.setTargetAtTime(0, t + BAR - 0.8, 0.5);
+          o.connect(g).connect(bus); o.start(t); o.stop(t + BAR + 2.5);
+        });
+      });
+      const b = ctx.createOscillator(), bg = ctx.createGain();           // soft bass on the root
+      b.type = "sine"; b.frequency.value = notes[0] / 2;
+      bg.gain.setValueAtTime(0, t); bg.gain.linearRampToValueAtTime(0.12, t + 0.08); bg.gain.setTargetAtTime(0, t + 0.4, 0.9);
+      b.connect(bg).connect(bus); b.start(t); b.stop(t + BAR);
+    };
+    const tick = () => { while (next < ctx.currentTime + 1.2) { chord(next, CHORDS[i++ % CHORDS.length]); next += BAR; } };
+    return { start() { next = Math.max(next, ctx.currentTime + 0.1); tick(); timer = setInterval(tick, 300); },
+             stop() { clearInterval(timer); timer = null; } };
+  }
+
+  /* ---------- scene: workshop (room tone, warm drone, soft irregular taps) ---------- */
+  function workshop(out) {
+    const room = ctx.createGain(); room.gain.value = 0.3;
+    noise(4, brown).connect(filter("lowpass", 600)).connect(room).connect(out);
+    const drone = ctx.createGain(); drone.gain.value = 0.35; drone.connect(filter("lowpass", 400)).connect(out);
+    osc("sine", 98, 0.12, drone); osc("sine", 147, 0.06, drone); lfo(0.09, 0.08, drone.gain);
+    const clickBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.08), ctx.sampleRate);
+    clickBuf.getChannelData(0).forEach((_, i, d) => { d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.012)); });
+    const tap = (t, f, gain) => {
+      const s = ctx.createBufferSource(), bp = filter("bandpass", f, 3.5), g = ctx.createGain();
+      s.buffer = clickBuf; g.gain.value = gain; s.connect(bp).connect(g).connect(out); s.start(t);
+    };
+    const thunk = t => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(70, t + 0.14);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+      o.connect(g).connect(out); o.start(t); o.stop(t + 0.25);
+    };
+    let next = 0, timer = null;
+    const tick = () => {
+      while (next < ctx.currentTime + 0.6) {
+        const r = Math.random();
+        if (r < 0.08) thunk(next);
+        else if (r < 0.75) { tap(next, 1800 + Math.random() * 1800, 0.5); if (Math.random() < 0.3) tap(next + 0.09, 2600 + Math.random() * 900, 0.35); }
+        next += 0.22 + Math.random() * (Math.random() < 0.15 ? 1.6 : 0.5);   // bursts of work, then pauses
+      }
+    };
+    return { start() { next = Math.max(next, ctx.currentTime + 0.1); timer = setInterval(tick, 150); },
+             stop() { clearInterval(timer); timer = null; } };
+  }
+
+  const BUILDERS = { web: space, horeca: lounge, build: workshop };
+
+  /* ---------- engine ---------- */
+  function ensure(name) {
+    if (scenes[name]) return scenes[name];
+    const g = ctx.createGain(); g.gain.value = 0; g.connect(master);
+    scenes[name] = Object.assign({ gain: g, active: false }, BUILDERS[name](g));
+    return scenes[name];
+  }
+  function apply() {
+    const t = ctx.currentTime;
+    for (const [name, s] of Object.entries(scenes)) {
+      const want = on && name === vibe;
+      s.gain.gain.cancelScheduledValues(t);
+      s.gain.gain.setTargetAtTime(want ? 1 : 0, t, FADE);
+      if (want && !s.active) { s.active = true; s.start?.(); }
+      if (!want && s.active) { s.active = false; s.stop?.(); }
+    }
+  }
   function setOn(v) {
     on = v;
     btn.classList.toggle("on", v);
@@ -1574,13 +1832,20 @@ const CASES = {
     btn.setAttribute("aria-label", v ? "Выключить звук" : "Включить звук");
     try {
       if (v) {
-        if (!ctx) build();
+        if (!ctx) {
+          ctx = new AC();
+          master = ctx.createGain(); master.gain.value = 0;
+          master.connect(ctx.createDynamicsCompressor()).connect(ctx.destination);
+        }
         ctx.resume();
+        ensure(vibe);
         master.gain.cancelScheduledValues(ctx.currentTime);
         master.gain.setTargetAtTime(VOLUME, ctx.currentTime, 1.2);
+        apply();
       } else if (ctx) {
         master.gain.cancelScheduledValues(ctx.currentTime);
         master.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
+        apply();
         setTimeout(() => { if (!on) ctx.suspend(); }, 900);
       }
     } catch (e) { on = false; btn.classList.remove("on"); }
@@ -1591,8 +1856,14 @@ const CASES = {
     if (!ctx) return;
     if (document.hidden) ctx.suspend(); else if (on) ctx.resume();
   });
-  // called by the intro launch (a user gesture); respects an earlier "off" choice
-  window.ambient = { start() { if (store.get() !== "off") setOn(true); } };
+  window.ambient = {
+    start() { if (store.get() !== "off") setOn(true); },          // called by the launch button
+    setVibe(name) {                                              // called by the vibe switcher
+      if (!BUILDERS[name]) return;
+      vibe = name;
+      if (ctx && on) { ensure(name); apply(); }
+    }
+  };
 })();
 </script>
 <script>
