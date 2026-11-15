@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Spartak.dev — сайты и лендинги под ключ</title>
+<title>The Spartec Web — сайты и лендинги под ключ</title>
 <meta name="description" content="Профессиональная разработка современных сайтов и лендингов под ключ: стратегия, дизайн, разработка и запуск. Быстрая загрузка, безупречная адаптивность, продуманный путь клиента к заявке.">
 <meta name="theme-color" content="#000000">
 <!-- Security: only our own code, Google Fonts and HTTPS requests (lead endpoint / Telegram API) are allowed; no plugins, no foreign frames, no eval -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https:; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta property="og:title" content="Spartak.dev — сайты и лендинги под ключ">
+<meta property="og:title" content="The Spartec Web — сайты и лендинги под ключ">
+<meta property="og:site_name" content="The Spartec Web">
 <meta property="og:description" content="Сайты, которые работают на ваш бизнес.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://spartak17mc-blip.github.io/">
@@ -130,7 +131,9 @@ svg{display:block}
 .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16.5px;letter-spacing:-.025em}
 .logo-mark{width:32px;height:32px;border-radius:10px;display:grid;place-items:center}
 .logo-mark svg{width:15px;height:15px}
-.logo small{font-size:inherit;color:var(--dim);font-weight:400}
+.logo .lg-the,.logo .lg-web{color:var(--muted);font-weight:400}
+/* brand accent: "Spartec" carries the vibe gradient */
+.lg-acc{font-weight:700;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .nav{display:flex;gap:2px}
 .nav a{padding:8px 14px;border-radius:999px;font-size:14px;color:var(--muted);border:1px solid transparent;transition:color .4s,background .4s,border-color .4s}
 .nav a:hover{color:var(--text)}
@@ -558,7 +561,9 @@ html:not(.loaded) .intro-panel,html:not(.loaded) .hud{opacity:0;animation:none}
 /* one accent pair drives every highlight; switching direction animates it site-wide */
 @property --vibe-a{syntax:"<color>";inherits:true;initial-value:#a5b4fc}
 @property --vibe-b{syntax:"<color>";inherits:true;initial-value:#7dd3fc}
-html{--vibe-a:#a5b4fc;--vibe-b:#7dd3fc;transition:--vibe-a 1.4s var(--ease),--vibe-b 1.4s var(--ease)}
+/* vibe colours switch instantly at the root (animating inherited variables would restyle the whole page every frame);
+   the change is softened by short opacity dips on the few accent layers instead — see html.vibe-switching below */
+html{--vibe-a:#a5b4fc;--vibe-b:#7dd3fc}
 html[data-vibe="horeca"]{--vibe-a:#fdba74;--vibe-b:#f9a8d4}
 html[data-vibe="build"]{--vibe-a:#fcd34d;--vibe-b:#5eead4}
 .beams{transition:filter 1.6s var(--ease)}
@@ -685,7 +690,7 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
 .vol:hover::-webkit-slider-thumb,.vol:focus-visible::-webkit-slider-thumb{transform:scale(1.2)}
 .vol:focus-visible{outline:2px solid var(--vibe-a);outline-offset:4px;border-radius:4px}
 @media (max-width:1100px){.nav a{padding:8px 11px}}
-@media (max-width:640px){.vol{width:48px}.snd-wrap{gap:4px}.logo small{display:none}}
+@media (max-width:640px){.vol{width:48px}.snd-wrap{gap:4px}.logo .lg-the,.logo .lg-web{display:none}}
 
 /* ================= PAYMENT ================= */
 .pay{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -726,7 +731,7 @@ html.inertia{scroll-behavior:auto}
 body.about-anim .header,body.about-anim main,body.about-anim footer{
   transition:transform .95s cubic-bezier(.7,0,.2,1),opacity .75s var(--ease),filter .75s var(--ease)!important}
 body.about-open .header,body.about-open main,body.about-open footer{transform:translateX(-14%) scale(.92);opacity:.18;pointer-events:none}
-@media (hover:hover){body.about-open main,body.about-open footer{filter:blur(6px)}}
+/* no blur on the (very tall) page while it moves: a cheap dim veil gives the same depth at 60 fps */
 body.about-open .quiz-fab{opacity:0;transform:translateY(12px);pointer-events:none}
 .about{position:fixed;inset:0;z-index:80;visibility:hidden;pointer-events:none;transition:visibility 0s linear .95s}
 .about.open{visibility:visible;pointer-events:auto;transition-delay:0s}
@@ -774,6 +779,43 @@ body.about-open .quiz-fab{opacity:0;transform:translateY(12px);pointer-events:no
 .fld input,.fld textarea,.quiz-input,.quiz-sum,.done p,.f-error,.quiz-err{overflow-wrap:anywhere}
 /* hero beams sleep while the first screen is off-screen */
 html.hero-off .beams i{animation-play-state:paused}
+
+/* ================= LEGAL ================= */
+.foot-legal{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 12px;margin-top:14px;font-size:13px;color:var(--dim)}
+.legal-link{color:var(--dim);font-size:13px;text-decoration:underline;text-decoration-color:rgba(255,255,255,.18);text-underline-offset:3px;transition:color .3s,text-decoration-color .3s}
+.legal-link:hover,.legal-link:focus-visible{color:var(--text);text-decoration-color:var(--vibe-a)}
+.legal-link.inline{font-size:inherit;color:inherit;padding:0}
+.quiz-legal{margin-top:10px;font-size:11.5px;color:var(--dim);line-height:1.5}
+dialog.legal{margin:auto;width:min(760px,calc(100% - 24px));max-height:calc(100dvh - 40px);padding:0;border-radius:26px;color:var(--text);overflow:hidden;
+  background:rgba(10,10,15,0.94);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.1),0 30px 80px rgba(0,0,0,.7);
+  opacity:0;transform:translateY(14px);transition:opacity .45s var(--ease),transform .55s var(--ease-out),overlay .45s allow-discrete,display .45s allow-discrete}
+dialog.legal[open]{opacity:1;transform:none}
+@starting-style{dialog.legal[open]{opacity:0;transform:translateY(14px)}}
+dialog.legal::backdrop{background:rgba(3,4,8,.7)}
+.legal-in{max-height:calc(100dvh - 40px);overflow-y:auto;overscroll-behavior:contain;padding:clamp(22px,4vw,40px)}
+.legal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.legal-x{position:static}
+dialog.legal h2{font-size:clamp(26px,3.4vw,36px);font-weight:500;letter-spacing:-.035em}
+.legal-note{margin-top:10px;color:var(--muted);font-size:15px}
+.legal-list{margin-top:22px;padding-left:22px;display:grid;gap:14px;color:#cfd4df;font-size:15px;line-height:1.6}
+.legal-list li::marker{color:var(--vibe-a);font-family:var(--mono);font-size:12px}
+.legal-list b{color:var(--text);font-weight:500}
+
+/* ================= GPU & SMOOTHNESS ================= */
+/* own compositor layers for the always-animating canvases */
+#cosmos,#dust{will-change:transform;transform:translateZ(0);backface-visibility:hidden}
+/* "Обо мне": layers are promoted only while they move, then released (huge permanent layers waste GPU memory) */
+body.about-moving .header,body.about-moving main,body.about-moving footer{will-change:transform,opacity;backface-visibility:hidden}
+.about-card{will-change:transform,opacity;backface-visibility:hidden;
+  background:rgba(10,10,15,0.9);backdrop-filter:none;-webkit-backdrop-filter:none}   /* opaque card: nothing to re-blur while sliding */
+/* glass behind the panel stops re-blurring a moving backdrop */
+body.about-moving main .glass,body.about-moving .header .glass,body.about-open main .glass,body.about-open .header .glass{backdrop-filter:none;-webkit-backdrop-filter:none}
+.about::before{content:"";position:fixed;inset:0;background:rgba(2,3,6,.55);opacity:0;transition:opacity .7s var(--ease);pointer-events:none}
+.about.open::before{opacity:1}
+/* vibe switch: accent layers dip briefly instead of recolouring the whole tree frame by frame */
+.vibe-glow,.beams,.grad,.lg-acc{transition:opacity .45s var(--ease)}
+html.vibe-switching .vibe-glow,html.vibe-switching .beams{opacity:0}
+html.vibe-switching .grad,html.vibe-switching .lg-acc{opacity:.5}
 
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
@@ -869,14 +911,14 @@ html.hero-off .beams i{animation-play-state:paused}
 </div>
 <!-- ================= INTRO ================= -->
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
-  <span class="hud tl" aria-hidden="true">Spartak.dev<br><em>Interface · 2026</em></span>
+  <span class="hud tl" aria-hidden="true">The Spartec Web<br><em>Interface · 2026</em></span>
   <span class="hud tr" aria-hidden="true">Signal · <b>stable</b><br><em id="introClock">00:00:00</em></span>
   <span class="hud bl" aria-hidden="true">Sector 07<br><em>Orbit · ready</em></span>
   <span class="hud br" aria-hidden="true">Design · Development<br><em>Launch</em></span>
   <div class="flash" aria-hidden="true"></div>
   <div class="shock" aria-hidden="true"></div>
   <div class="intro-panel glass beam-on">
-    <span class="intro-kicker"><i></i>Spartak.dev // Web Design &amp; Development</span>
+    <span class="intro-kicker"><i></i>The Spartec Web // Web Design &amp; Development</span>
     <h2 id="introTitle">Дизайн, которому доверяют. Код, который <span class="serif grad">приносит заявки</span></h2>
     <p class="intro-lead">Я&nbsp;веб-разработчик и&nbsp;дизайнер интерфейсов. Проектирую и&nbsp;запускаю лендинги и&nbsp;корпоративные сайты под&nbsp;ключ&nbsp;— с&nbsp;ясной структурой, выверенной эстетикой и&nbsp;безупречно чистым кодом.</p>
     <ul class="intro-tags" aria-label="Специализация">
@@ -894,9 +936,9 @@ html.hero-off .beams i{animation-play-state:paused}
 <header class="header" id="header">
   <div class="wrap">
     <div class="header-in glass">
-      <a href="#top" class="logo" aria-label="Spartak.dev — на главную">
+      <a href="#top" class="logo" aria-label="The Spartec Web — на главную">
         <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="url(#ringGrad)" stroke-width="2.6" stroke-linecap="round"><path d="M17 6.5C16 5 14.2 4 12 4 8.7 4 7 5.8 7 8c0 5.5 10 3 10 8.5 0 2.2-2 3.5-5 3.5-2.3 0-4.2-1-5.2-2.5"/></svg></span>
-        Spartak<small>.dev</small>
+        <span class="lg-name"><span class="lg-the">The</span> <b class="lg-acc">Spartec</b> <span class="lg-web">Web</span></span>
       </a>
       <button class="pet idle" id="pet" type="button" aria-label="Пиксельный питомец — нажмите, чтобы поиграть" title="Погладить">
         <svg id="petSvg" viewBox="0 0 12 11" aria-hidden="true"></svg>
@@ -1297,7 +1339,7 @@ html.hero-off .beams i{animation-play-state:paused}
         <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="f-submit">
           <button class="btn btn-primary" type="submit" id="formBtn">Отправить заявку<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-          <p>Заявка мгновенно придёт мне в&nbsp;Telegram — отвечу в&nbsp;течение пары часов.</p>
+          <p>Заявка мгновенно придёт мне в&nbsp;Telegram — отвечу в&nbsp;течение пары часов. Отправляя её, вы&nbsp;соглашаетесь с&nbsp;<button type="button" class="legal-link inline" data-legal="privacy">политикой конфиденциальности</button>.</p>
         </div>
         <p class="f-error" id="formError" role="alert" hidden></p>
         <div class="done" role="status" aria-live="polite">
@@ -1314,11 +1356,57 @@ html.hero-off .beams i{animation-play-state:paused}
 <footer>
   <div class="wrap">
     <div class="foot glass">
-      <span>© <span id="year">2026</span> Spartak.dev — разработка сайтов под ключ</span>
+      <span>© <span id="year">2026</span> The <b class="lg-acc">Spartec</b> Web — разработка сайтов под ключ</span>
       <nav aria-label="Ссылки в подвале"><a href="#expertise">Экспертиза</a><a href="#work">Проекты</a><a href="#approach">Подход</a><a href="#contact">Контакты</a><a href="#top">Наверх ↑</a></nav>
+    </div>
+    <div class="foot-legal">
+      <button type="button" class="legal-link" data-legal="terms">Условия работы</button>
+      <span aria-hidden="true">·</span>
+      <button type="button" class="legal-link" data-legal="privacy">Политика конфиденциальности</button>
     </div>
   </div>
 </footer>
+
+<!-- ================= LEGAL ================= -->
+<dialog class="legal" id="legal-terms" aria-labelledby="legal-terms-title">
+  <div class="legal-in">
+    <div class="legal-head">
+      <span class="about-kicker">[ Документ ]</span>
+      <button class="modal-close legal-x" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <h2 id="legal-terms-title">Условия работы</h2>
+    <p class="legal-note">Краткая версия. Окончательные условия по&nbsp;каждому проекту фиксируются в&nbsp;договоре — при расхождении действует договор.</p>
+    <ol class="legal-list">
+      <li><b>Старт и сроки.</b> Работа начинается после подписания договора, внесения предоплаты и&nbsp;передачи материалов. Срок указывается в&nbsp;рабочих днях и&nbsp;фиксируется в&nbsp;договоре.</li>
+      <li><b>Оплата 50/50.</b> 50% — предоплата перед стартом, 50% — после приёмки готового сайта. Крупные проекты можно оплачивать поэтапно.</li>
+      <li><b>Правки.</b> В&nbsp;стоимость входят два круга правок на&nbsp;этапе дизайна и&nbsp;один — после вёрстки. Дополнительные круги и&nbsp;изменения, выходящие за&nbsp;согласованное задание, оцениваются отдельно.</li>
+      <li><b>Материалы клиента.</b> Тексты, фото, логотипы и&nbsp;доступы предоставляет клиент. Задержка материалов или ответа сдвигает срок на&nbsp;то&nbsp;же количество дней. Если ответа нет больше 14 дней, проект ставится на&nbsp;паузу.</li>
+      <li><b>Приёмка.</b> На&nbsp;проверку готового этапа — до&nbsp;5 рабочих дней. Если замечаний за&nbsp;это время не&nbsp;поступило, этап считается принятым.</li>
+      <li><b>Права и&nbsp;исходники.</b> После полной оплаты клиент получает исходный код, макеты и&nbsp;все доступы. До&nbsp;полной оплаты сайт остаётся на&nbsp;тестовом адресе.</li>
+      <li><b>Ответственность.</b> Исполнитель отвечает за&nbsp;качество и&nbsp;сроки своей работы. Исполнитель не&nbsp;отвечает за&nbsp;содержание материалов клиента, сбои сторонних сервисов (хостинг, домен, платёжные системы) и&nbsp;задержки по&nbsp;вине клиента.</li>
+    </ol>
+  </div>
+</dialog>
+
+<dialog class="legal" id="legal-privacy" aria-labelledby="legal-privacy-title">
+  <div class="legal-in">
+    <div class="legal-head">
+      <span class="about-kicker">[ Документ ]</span>
+      <button class="modal-close legal-x" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <h2 id="legal-privacy-title">Политика конфиденциальности</h2>
+    <p class="legal-note">Коротко: ваши данные нужны только для того, чтобы ответить на&nbsp;заявку. Их не&nbsp;продают и&nbsp;не&nbsp;передают третьим лицам.</p>
+    <ol class="legal-list">
+      <li><b>Какие данные.</b> Только то, что вы сами указали в&nbsp;форме или опроснике: имя, контакт (Telegram, телефон или e-mail), описание задачи и&nbsp;выбранные варианты ответов.</li>
+      <li><b>Зачем.</b> Чтобы связаться с&nbsp;вами, уточнить задачу и&nbsp;подготовить предложение. Никаких рассылок без вашего согласия.</li>
+      <li><b>Как передаются.</b> Заявка отправляется в&nbsp;личный Telegram владельца сайта через защищённое соединение (HTTPS). Технически в&nbsp;доставке участвуют Telegram и&nbsp;сервер-посредник (Cloudflare), которые не&nbsp;используют данные в&nbsp;своих целях.</li>
+      <li><b>Третьи лица.</b> Данные не&nbsp;продаются, не&nbsp;публикуются и&nbsp;не&nbsp;передаются третьим лицам, кроме случаев, прямо предусмотренных законом.</li>
+      <li><b>Сколько хранятся.</b> Не&nbsp;дольше 12 месяцев с&nbsp;последнего контакта или до&nbsp;вашей просьбы об&nbsp;удалении.</li>
+      <li><b>Ваши права.</b> Вы&nbsp;можете попросить показать, исправить или удалить ваши данные — достаточно написать в&nbsp;Telegram.</li>
+      <li><b>Cookies и&nbsp;аналитика.</b> Сайт не&nbsp;использует рекламные cookies и&nbsp;трекеры. В&nbsp;браузере сохраняются только ваши настройки (звук, громкость) и&nbsp;отметки о&nbsp;времени отправки заявок для защиты от&nbsp;спама. Шрифты загружаются с&nbsp;Google Fonts, поэтому Google видит ваш IP-адрес при загрузке страницы.</li>
+    </ol>
+  </div>
+</dialog>
 
 <!-- ================= ABOUT PANEL ================= -->
 <div class="about" id="about" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" aria-hidden="true">
@@ -1680,13 +1768,18 @@ const CASES = {
         if (on && focus) t.focus();
       });
       vibePanel.setAttribute("aria-labelledby", "tab-" + key);
-      document.documentElement.dataset.vibe = key;
-      casesGrid?.setAttribute("data-vibe", key);
-      window.cosmos?.setVibe(key);
-      window.ambient?.setVibe(key);
+      const root = document.documentElement;
+      window.cosmos?.setVibe(key);                // eases its palette frame by frame on its own
+      window.ambient?.setVibe(key);               // crossfades on the audio thread
       vibePanel.classList.add("swap");
+      root.classList.add("vibe-switching");       // accent layers dim first…
       clearTimeout(swapTimer);                    // fast clicking: only the last choice is rendered
-      swapTimer = setTimeout(() => { fill(key); vibePanel.classList.remove("swap"); }, reduce ? 0 : 320);
+      swapTimer = setTimeout(() => {
+        root.dataset.vibe = key;                  // …the colours switch once, while dimmed…
+        casesGrid?.setAttribute("data-vibe", key);
+        fill(key); vibePanel.classList.remove("swap");
+        setTimeout(() => root.classList.remove("vibe-switching"), 30);   // …and fade back in
+      }, reduce ? 0 : 320);
     };
     fill("web"); casesGrid?.setAttribute("data-vibe", "web");
     window.siteVibe = key => { if (VIBES[key] && document.documentElement.dataset.vibe !== key) setVibe(key); };
@@ -1756,6 +1849,7 @@ const CASES = {
           <input class="quiz-input" id="quizContact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="Ваш Telegram или телефон" autocomplete="tel" aria-label="Куда ответить">
           <button class="btn btn-primary" type="button" id="quizSend">Отправить в Telegram<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           <p class="quiz-err" id="quizErr" role="alert" hidden></p>
+          <p class="quiz-legal">Отправляя, вы соглашаетесь с <button type="button" class="legal-link inline" data-legal="privacy">политикой конфиденциальности</button>.</p>
           <div class="quiz-foot"><button class="quiz-back" type="button">↺ Заново</button><button class="quiz-back" type="button" id="quizForm">Полная форма →</button></div></div>`;
         const summary = `${type}, сфера — ${ans.sphere[0]}, ${ans.ready[0].toLowerCase()}, запуск — ${ans.when[0].toLowerCase()}. Ориентир: ${p1}–${p2} тыс. ₽, ${d1}–${d2} дней.`;
         qBody.querySelector(".quiz-sum").textContent = `${type} · ${ans.sphere[0]} · ${ans.ready[0].toLowerCase()} · ${ans.when[0].toLowerCase()}. Точная смета — после брифа.`;
@@ -1863,7 +1957,13 @@ const CASES = {
   /* "Обо мне": throw the page aside, slide the profile in; "Назад" (or Esc) reverses it */
   const about = $("#about");
   if (about) {
-    let opener = null, focusTimer = 0;
+    let opener = null, focusTimer = 0, moveTimer = 0;
+    // promote the moving layers to the GPU only for the length of the transition
+    const moving = () => {
+      document.body.classList.add("about-moving");
+      clearTimeout(moveTimer);
+      moveTimer = setTimeout(() => document.body.classList.remove("about-moving"), 1100);
+    };
     const behind = [$("#header"), $("main"), $("footer"), $("#quizFab")].filter(Boolean);
     const openAbout = trigger => {
       if (about.classList.contains("open")) return;                      // repeated clicks do nothing
@@ -1871,6 +1971,7 @@ const CASES = {
       if (document.body.classList.contains("menu-open")) $("#burger")?.click();
       if ($("#quiz")?.classList.contains("open")) $("#quizX")?.click();
       document.body.classList.add("about-anim");
+      moving();
       void document.body.offsetWidth;            // commit the transition setup before the page moves
       document.body.classList.add("about-open");
       about.classList.add("open"); about.setAttribute("aria-hidden", "false");
@@ -1883,6 +1984,7 @@ const CASES = {
     const closeAbout = () => {
       if (!about.classList.contains("open")) return;
       clearTimeout(focusTimer);
+      moving();
       document.body.classList.remove("about-open");
       about.classList.remove("open"); about.setAttribute("aria-hidden", "true");
       behind.forEach(el => { el.inert = false; });
@@ -1902,6 +2004,21 @@ const CASES = {
   /* pause hero-only CSS animations when the first screen is out of view */
   const heroEl = $(".hero");
   if (heroEl) new IntersectionObserver(es => document.documentElement.classList.toggle("hero-off", !es[0].isIntersecting)).observe(heroEl);
+
+  /* legal documents: any [data-legal] (footer, form, quiz) opens its dialog; delegated, so dynamic buttons work too */
+  document.addEventListener("click", e => {
+    const t = e.target.closest?.("[data-legal]");
+    if (!t) return;
+    const dlg = document.getElementById("legal-" + t.dataset.legal);
+    if (!dlg || dlg.open) return;
+    dlg.showModal(); dlg.querySelector(".legal-in").scrollTop = 0;
+    document.body.classList.add("modal-open");
+  });
+  $$("dialog.legal").forEach(dlg => {
+    dlg.querySelector(".legal-x").addEventListener("click", () => dlg.close());
+    dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });            // click on the backdrop
+    dlg.addEventListener("close", () => { if (!document.querySelector("dialog[open]")) document.body.classList.remove("modal-open"); });
+  });
 
   /* active nav */
   const navLinks = $$(".nav a");
@@ -2348,6 +2465,10 @@ const CASES = {
         master.gain.cancelScheduledValues(ctx.currentTime);
         master.gain.setTargetAtTime(MAX_VOLUME * level, ctx.currentTime, 1.2);
         apply();
+        // pre-build the other scenes while the browser is idle: their noise buffers take a few ms each to
+        // generate, which would otherwise land exactly on the click that switches the vibe
+        const idle = window.requestIdleCallback || (fn => setTimeout(fn, 1500));
+        Object.keys(BUILDERS).forEach((name, i) => idle(() => { if (ctx) ensure(name); }, { timeout: 4000 + i * 1000 }));
       } else if (ctx) {
         master.gain.cancelScheduledValues(ctx.currentTime);
         master.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
