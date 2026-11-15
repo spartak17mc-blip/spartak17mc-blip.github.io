@@ -1805,13 +1805,12 @@ const CASES = {
       opener = trigger || null;
       if (document.body.classList.contains("menu-open")) $("#burger")?.click();
       document.body.classList.add("about-anim");
-      requestAnimationFrame(() => {
-        document.body.classList.add("about-open");
-        about.classList.add("open"); about.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
-        about.querySelector(".about-scroll").scrollTop = 0;
-        setTimeout(() => $("#aboutBack").focus({ preventScroll: true }), reduce ? 0 : 500);
-      });
+      void document.body.offsetWidth;            // commit the transition setup before the page moves
+      document.body.classList.add("about-open");
+      about.classList.add("open"); about.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      about.querySelector(".about-scroll").scrollTop = 0;
+      setTimeout(() => $("#aboutBack").focus({ preventScroll: true }), reduce ? 0 : 500);
     };
     const closeAbout = () => {
       if (!about.classList.contains("open")) return;
