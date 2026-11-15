@@ -250,94 +250,33 @@ svg{display:block}
 .big-num small{font-size:.32em;letter-spacing:-.02em;color:var(--muted);margin-left:8px}
 
 /* ================= PORTFOLIO ================= */
-.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-.case{display:flex;flex-direction:column;border-radius:var(--r-lg);cursor:pointer;padding:12px}
-.shot{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:16/11;border:1px solid var(--stroke);container-type:inline-size}
-.shot .mk{position:absolute;inset:0;transition:transform 1.4s var(--ease-out)}
-.case:hover .shot .mk{transform:scale(1.025)}
-.shot-tag{position:absolute;top:14px;left:14px;z-index:3;height:30px;padding:0 13px;border-radius:999px;display:inline-flex;align-items:center;font-size:12.5px;background:rgba(10,15,29,.45);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cases{display:grid;grid-template-columns:1.6fr 1fr;gap:22px}
+.case{display:flex;flex-direction:column;border-radius:var(--r-lg);padding:12px}
+.shot{position:relative;display:block;border-radius:20px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--stroke);background:#0b0c10}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block;transition:transform 1.4s var(--ease-out)}
+.case:hover .shot img{transform:scale(1.025)}
+.shot-live{position:absolute;right:14px;bottom:14px;height:28px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;font-family:var(--mono);font-size:11.5px;color:#86efac;
+  background:rgba(8,8,12,.7);border:1px solid rgba(134,239,172,.3)}
 .case-body{padding:22px 14px 14px;display:flex;flex-direction:column;flex:1}
 .case-meta{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px}
 .case h3{font-size:clamp(25px,2.4vw,32px);font-weight:500;letter-spacing:-.04em;line-height:1.1}
 .case h3 .serif{color:var(--muted)}
-.case .task{color:var(--muted);margin-top:12px;font-size:15.5px;max-width:52ch}
+.case .task{color:var(--muted);margin-top:12px;font-size:15.5px;max-width:58ch}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px}
 .chip{height:30px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;font-size:12.5px;color:#c9cfdc;background:rgba(255,255,255,.04);border:1px solid var(--stroke)}
-.case-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:24px}
+.case-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.case-next{padding:34px 30px;justify-content:center}
+.case-next .next-ico{width:56px;height:56px;border-radius:16px;margin-bottom:26px;transition:transform .8s var(--ease-out)}
+.case-next:hover .next-ico{transform:rotate(90deg)}
+.case-next .next-ico svg{width:24px;height:24px}
+.case-next .task{margin-bottom:28px}
 .more{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500}
-.more .arr{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--stroke-2);background:rgba(255,255,255,.04);transition:background .6s var(--ease),border-color .6s,color .6s}
+.more .arr{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;transition:background .6s var(--ease),border-color .6s,color .6s}
 .more .arr svg{width:15px;height:15px;transition:transform .7s var(--ease-out)}
-.case:hover .more .arr{background:linear-gradient(135deg,rgba(129,140,248,.6),rgba(56,189,248,.4));color:#fff;border-color:rgb(from var(--vibe-a) r g b / .55)}
-.case:hover .more .arr svg{transform:rotate(-45deg)}
-.case-foot small{font-size:13px;color:var(--dim)}
-
-/* --- mockups (container units) --- */
-.mk{font-family:var(--sans);overflow:hidden}
-.mk-nav{display:flex;align-items:center;gap:3.2cqw;padding:3.4cqw 5cqw;font-size:1.9cqw;opacity:.78}
-.mk-nav b{font-size:2.6cqw;margin-right:auto}
-.mk-nav i{font-style:normal;padding:1cqw 2.2cqw;border-radius:99px}
-.mk-coffee{background:radial-gradient(90% 80% at 85% 40%,#4a2c17 0%,transparent 60%),#160e09;color:#f3e6d6}
-.mk-coffee .mk-nav b{font-family:var(--serif);font-style:italic;font-weight:500;font-size:3.2cqw}
-.mk-coffee .mk-nav i{background:#e9a35a;color:#1a0f07;font-weight:600}
-.mk-coffee .hero-m{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;padding:1cqw 5cqw 0;gap:2cqw}
-.mk-coffee h5{font-size:5.3cqw;line-height:1;font-weight:600;letter-spacing:-.04em}
-.mk-coffee h5 em{font-family:var(--serif);font-weight:400;color:#e9a35a}
-.mk-coffee p{font-size:1.9cqw;opacity:.6;margin-top:2.4cqw;max-width:34cqw}
-.mk-btns{display:flex;gap:1.4cqw;margin-top:3.4cqw}
-.mk-btns i{font-style:normal;font-size:1.8cqw;padding:1.4cqw 3cqw;border-radius:99px;border:1px solid currentColor;opacity:.8}
-.mk-coffee .mk-btns i:first-child{background:#e9a35a;border-color:#e9a35a;color:#1a0f07;opacity:1;font-weight:600}
-.cup{position:relative;width:34cqw;aspect-ratio:1;margin:0 auto;border-radius:50%;background:radial-gradient(circle,#2a1a10 56%,#f3e6d6 57%,#f3e6d6 62%,#3a2416 63%,#3a2416 72%,transparent 73%)}
-.cup::before{content:"";position:absolute;inset:23%;border-radius:50%;background:radial-gradient(circle at 50% 55%,#e8cfa9 0 18%,#9a6232 34%,#5a341a 60%)}
-.cup::after{content:"";position:absolute;width:13%;height:7%;right:-2%;top:46%;border:1.2cqw solid #f3e6d6;border-left:0;border-radius:0 99px 99px 0}
-.mk-menu{position:absolute;left:5cqw;right:5cqw;bottom:4cqw;display:grid;grid-template-columns:repeat(3,1fr);gap:1.6cqw}
-.mk-menu span{border:1px solid rgba(243,230,214,.14);border-radius:1.6cqw;padding:1.8cqw 2cqw;font-size:1.8cqw;display:flex;justify-content:space-between;background:rgba(243,230,214,.04)}
-.mk-menu b{color:#e9a35a;font-weight:600}
-.mk-cargo{background:#06101d;color:#e6eefb}
-.mk-cargo .mk-nav b::before{content:"";display:inline-block;width:2cqw;height:2cqw;background:#3b82f6;border-radius:.5cqw;margin-right:1cqw;vertical-align:-.3cqw;transform:rotate(45deg)}
-.mk-cargo .mk-nav i{background:#3b82f6;color:#fff;font-weight:600}
-.mk-cargo .map{position:absolute;inset:0;background-image:radial-gradient(rgba(147,197,253,.18) 1px,transparent 1.2px);background-size:2.6cqw 2.6cqw;-webkit-mask-image:radial-gradient(70% 70% at 70% 60%,#000,transparent);mask-image:radial-gradient(70% 70% at 70% 60%,#000,transparent)}
-.mk-cargo svg.route{position:absolute;right:0;top:12%;width:66%;height:80%}
-.route path{stroke-dasharray:6 6}
-.mk-cargo .txt{position:relative;padding:2cqw 5cqw 0;max-width:56cqw}
-.mk-cargo h5{font-size:4.5cqw;line-height:1.04;font-weight:600;letter-spacing:-.045em}
-.mk-cargo h5 span{color:#60a5fa}
-.mk-cargo p{font-size:1.9cqw;opacity:.55;margin-top:2cqw}
-.calc{position:absolute;left:5cqw;bottom:4.5cqw;width:46cqw;padding:2.4cqw;border-radius:2cqw;background:rgba(15,30,52,.8);border:1px solid rgba(96,165,250,.22)}
-.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2cqw}
-.calc-row span{font-size:1.6cqw;padding:1.3cqw 1.6cqw;border-radius:1cqw;background:rgba(255,255,255,.05);opacity:.85}
-.calc-res{display:flex;justify-content:space-between;align-items:center;margin-top:1.6cqw;font-size:1.7cqw}
-.calc-res b{font-size:3cqw;letter-spacing:-.03em;color:#93c5fd}
-.calc-res i{font-style:normal;background:#3b82f6;padding:1.1cqw 2.2cqw;border-radius:99px;font-weight:600}
-.truck{position:absolute;right:7cqw;bottom:6cqw;padding:1.6cqw 2.2cqw;border-radius:1.6cqw;background:#0f1e34;border:1px solid rgba(96,165,250,.3);font-size:1.6cqw;display:flex;gap:1.4cqw;align-items:center}
-.truck::before{content:"";width:1.4cqw;height:1.4cqw;border-radius:50%;background:#22c55e;box-shadow:0 0 0 .8cqw rgba(34,197,94,.2)}
-.mk-barber{background:radial-gradient(70% 70% at 50% 0%,#2a2214,transparent 70%),#0b0a08;color:#efe6d2;text-align:center}
-.mk-barber .mk-nav{text-align:left}
-.mk-barber .mk-nav b{font-family:var(--serif);font-style:italic;font-weight:500;color:#c9a35b}
-.mk-barber .mk-nav i{border:1px solid #c9a35b;color:#c9a35b}
-.mk-barber small{display:block;font-size:1.7cqw;letter-spacing:.5cqw;text-transform:uppercase;color:#c9a35b;margin-top:1cqw}
-.mk-barber h5{font-family:var(--serif);font-style:italic;font-weight:500;font-size:10cqw;line-height:1;letter-spacing:-.02em;margin-top:1.4cqw}
-.mk-barber h5 b{font-family:var(--sans);font-style:normal;font-weight:300;color:#c9a35b}
-.mk-barber p{font-size:1.9cqw;opacity:.55;margin-top:1.6cqw}
-.slots{position:absolute;left:12cqw;right:12cqw;bottom:5cqw;padding:2.4cqw;border-radius:2cqw;border:1px solid rgba(201,163,91,.25);background:rgba(201,163,91,.05)}
-.slots-h{display:flex;justify-content:space-between;font-size:1.7cqw;opacity:.7;margin-bottom:1.6cqw}
-.slots-g{display:grid;grid-template-columns:repeat(6,1fr);gap:1.2cqw}
-.slots-g i{font-style:normal;font-size:1.7cqw;padding:1.2cqw 0;border-radius:1cqw;border:1px solid rgba(239,230,210,.14)}
-.slots-g i.x{opacity:.25;text-decoration:line-through}
-.slots-g i.on{background:#c9a35b;color:#0b0a08;border-color:#c9a35b;font-weight:700}
-.mk-auto{background:linear-gradient(135deg,#17171a 0%,#0c0c0e 60%);color:#f1f1f1}
-.mk-auto::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent 0 3cqw,rgba(255,255,255,.015) 3cqw 6cqw)}
-.mk-auto .mk-nav{position:relative}
-.mk-auto .mk-nav b{font-weight:800;letter-spacing:.2cqw;font-style:italic}
-.mk-auto .mk-nav i{background:#ff5b1f;color:#fff;font-weight:600}
-.mk-auto .row{position:relative;display:grid;grid-template-columns:1.2fr 1fr;align-items:center;padding:0 5cqw;gap:2cqw}
-.mk-auto h5{font-size:11cqw;font-weight:800;font-style:italic;letter-spacing:-.04em;line-height:.88;text-transform:uppercase}
-.mk-auto h5 span{color:#ff5b1f}
-.mk-auto p{font-size:1.9cqw;opacity:.6;margin-top:2cqw}
-.gauge{width:100%;max-width:34cqw;margin:0 auto}
-.svc{position:absolute;left:5cqw;right:5cqw;bottom:4cqw;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4cqw}
-.svc span{padding:1.8cqw 2cqw;border-radius:1.4cqw;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:1.7cqw;display:flex;flex-direction:column;gap:.6cqw}
-.svc b{font-size:2.6cqw;letter-spacing:-.02em}
-.svc b em{font-style:normal;color:#ff5b1f}
+.case-next:hover .more .arr svg{transform:translateX(3px)}
+.m-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left}
+@media (max-width:900px){.cases{grid-template-columns:1fr}}
+@media (max-width:640px){.case-actions .btn{flex:1 1 100%}}
 
 /* ================= PROCESS & STACK ================= */
 .approach{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -659,10 +598,6 @@ html[data-vibe="build"] .beams{filter:hue-rotate(205deg) saturate(.85)}
 button.vp-case{cursor:pointer}
 button.vp-case:hover{background:rgba(255,255,255,0.06);border-color:rgb(from var(--vibe-a) r g b / .35);transform:translateX(4px)}
 button.vp-case .go{color:var(--vibe-a)}
-/* the portfolio grid brings the matching cases forward */
-.cases[data-vibe="web"] .case[data-case="cargo"],
-.cases[data-vibe="horeca"] .case[data-case="coffee"],
-.cases[data-vibe="build"] .case[data-case="auto"],.cases[data-vibe="build"] .case[data-case="cargo"]{order:-1}
 @media (max-width:900px){
   .vibe-tabs{grid-template-columns:1fr}
   .vibe-panel{grid-template-columns:1fr}
@@ -766,6 +701,68 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
 /* ================= SMOOTH SCROLL ================= */
 /* when the inertial scroller is active it drives every frame itself, so native smoothing must be off */
 html.inertia{scroll-behavior:auto}
+
+/* ================= LEADS ================= */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.f-error,.quiz-err{font-size:14px;color:#fca5a5;line-height:1.5}
+.f-error a,.quiz-err a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.quiz-err{font-size:13px;margin-top:10px}
+.quiz-input{width:100%;margin-bottom:10px;padding:13px 14px;border-radius:14px;font-size:15px;outline:none;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.06);transition:border-color .4s,box-shadow .4s}
+.quiz-input:focus{border-color:rgb(from var(--vibe-a) r g b / .5);box-shadow:0 0 0 4px rgb(from var(--vibe-a) r g b / .1)}
+.quiz-input.err{border-color:rgba(248,113,113,.7)}
+.btn:disabled{opacity:.6;cursor:progress;transform:none}
+
+/* ================= ABOUT PANEL ================= */
+/* the page is thrown aside, a clean profile card slides in; "Назад" reverses it */
+.nav .nav-btn{padding:8px 14px;border-radius:999px;font-size:14px;color:var(--muted);border:1px solid transparent;background:none;transition:color .4s,background .4s,border-color .4s}
+.nav .nav-btn:hover{color:var(--text)}
+.mmenu button.ml{width:100%;text-align:left;color:var(--text);background:none}
+body.about-anim .header,body.about-anim main,body.about-anim footer{
+  transition:transform .95s cubic-bezier(.7,0,.2,1),opacity .75s var(--ease),filter .75s var(--ease)!important}
+body.about-open .header,body.about-open main,body.about-open footer{transform:translateX(-14%) scale(.92);opacity:.18;pointer-events:none}
+@media (hover:hover){body.about-open main,body.about-open footer{filter:blur(6px)}}
+body.about-open .quiz-fab{opacity:0;transform:translateY(12px);pointer-events:none}
+.about{position:fixed;inset:0;z-index:80;visibility:hidden;pointer-events:none;transition:visibility 0s linear .95s}
+.about.open{visibility:visible;pointer-events:auto;transition-delay:0s}
+.about-scroll{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:clamp(16px,4vw,48px) clamp(12px,3vw,32px);display:flex}
+.about-card{margin:auto;width:min(900px,100%);padding:clamp(26px,4vw,52px);border-radius:32px;background:rgba(8,8,12,0.72);
+  opacity:0;transform:translateX(22%) scale(.97);transition:transform .95s cubic-bezier(.7,0,.2,1),opacity .6s var(--ease)}
+.about.open .about-card{opacity:1;transform:none;transition-delay:.12s}
+.about-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:34px}
+.about-back{display:inline-flex;align-items:center;gap:10px;height:42px;padding:0 18px 0 14px;border-radius:999px;font-size:14.5px;color:var(--text);
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08);transition:background .4s,border-color .4s,transform .6s var(--ease-out)}
+.about-back svg{width:16px;height:16px;transition:transform .6s var(--ease-out)}
+.about-back:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.22)}
+.about-back:hover svg{transform:translateX(-3px)}
+.about-kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.about-h{font-size:clamp(32px,4.6vw,56px);line-height:1.04;letter-spacing:-.045em;font-weight:500;max-width:18ch}
+.about-lead{margin-top:20px;font-size:clamp(16px,1.5vw,18.5px);color:var(--muted);max-width:60ch;line-height:1.65}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:40px}
+.about-block{padding:24px;border-radius:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.06)}
+.about-card h3{display:flex;align-items:baseline;gap:12px;font-size:18px;font-weight:500;letter-spacing:-.02em;margin-bottom:14px}
+.about-card h3 span{font-family:var(--mono);font-size:11px;color:var(--vibe-a);letter-spacing:.1em}
+.about-list{list-style:none;display:grid;gap:11px}
+.about-list li{position:relative;padding-left:22px;font-size:15px;color:#d1d6e2;line-height:1.55}
+.about-list li::before{content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:2px;background:var(--vibe-a);box-shadow:0 0 10px rgb(from var(--vibe-a) r g b / .6)}
+.about-stack{margin-top:14px;padding:24px;border-radius:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)}
+.about-stack .chips{margin-top:0}
+.about-why{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.about-why div{padding:22px;border-radius:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)}
+.about-why b{display:block;font-size:16.5px;font-weight:500;letter-spacing:-.02em;margin-bottom:6px}
+.about-why p{font-size:14.5px;color:var(--muted)}
+.about-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+@media (max-width:760px){.about-grid,.about-why{grid-template-columns:1fr}.about-cta .btn{flex:1 1 100%}}
+@media (prefers-reduced-motion:reduce){
+  body.about-open .header,body.about-open main,body.about-open footer{transform:none}
+  .about-card{transform:none}
+}
+
+/* ================= MOBILE PERFORMANCE ================= */
+/* lighter blur on phones: the vortex behind is already soft, and every pixel of blur costs frames */
+@media (max-width:640px){
+  .glass,.btn{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+}
 
 /* ================= REVEAL ================= */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity 1.3s var(--ease),transform 1.4s var(--ease-out);transition-delay:var(--d,0s)}
@@ -896,6 +893,7 @@ html.inertia{scroll-behavior:auto}
         <span class="pet-bubble" id="petBubble" aria-live="polite"></span>
       </button>
       <nav class="nav" aria-label="Навигация">
+        <button class="nav-btn" type="button" data-about>Обо мне</button>
         <a href="#expertise">Экспертиза</a>
         <a href="#work">Проекты</a>
         <a href="#approach">Подход</a>
@@ -911,6 +909,7 @@ html.inertia{scroll-behavior:auto}
 </header>
 
 <div class="mmenu" id="mmenu">
+  <button class="ml" type="button" data-about>Обо мне<span>◇</span></button>
   <a class="ml" href="#expertise">Экспертиза<span>01</span></a>
   <a class="ml" href="#work">Проекты<span>02</span></a>
   <a class="ml" href="#approach">Подход<span>03</span></a>
@@ -932,6 +931,7 @@ html.inertia{scroll-behavior:auto}
         <div class="hero-cta rv" style="--d:.24s">
           <a href="#contact" class="btn btn-primary">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a href="#work" class="btn btn-glass">Смотреть проекты</a>
+          <button class="btn btn-glass" type="button" data-about>Обо мне</button>
         </div>
         <div class="trust rv" style="--d:.32s"><span class="trust-line"></span>Лендинги · корпоративные сайты · сайты услуг</div>
       </div>
@@ -1074,117 +1074,37 @@ html.inertia{scroll-behavior:auto}
     <div class="sec-head">
       <div>
         <div class="eyebrow rv">Проекты</div>
-        <h2 class="h2 rv" style="--d:.08s">Избранные <span class="serif">работы</span></h2>
+        <h2 class="h2 rv" style="--d:.08s">Реальная <span class="serif">работа</span></h2>
       </div>
-      <p class="rv" style="--d:.16s">Концепт-проекты для разных ниш. В каждом — своя стратегия, визуальный язык и путь клиента к заявке. <b>Откройте карточку</b>, чтобы увидеть разбор.</p>
+      <p class="rv" style="--d:.16s">Живой проект, который можно открыть, полистать и&nbsp;проверить на&nbsp;телефоне. Код — открыт на&nbsp;GitHub.</p>
     </div>
 
     <div class="cases">
-      <article class="case glass glass-hover rv" data-case="coffee" tabindex="0" role="button" aria-label="Открыть проект: Зерно — кофейня">
-        <div class="shot">
-          <div class="mk mk-coffee">
-            <div class="mk-nav"><b>Зерно</b><span>Меню</span><span>Обжарка</span><span>Адреса</span><i>Предзаказ</i></div>
-            <div class="hero-m">
-              <div>
-                <h5>Кофе, ради которого хочется <em>проснуться</em></h5>
-                <p>Обжариваем сами каждую неделю. Закажите заранее — заберёте без очереди.</p>
-                <div class="mk-btns"><i>Заказать</i><i>Смотреть меню</i></div>
-              </div>
-              <div class="cup"></div>
-            </div>
-            <div class="mk-menu"><span>Флэт уайт<b>260 ₽</b></span><span>Раф лаванда<b>310 ₽</b></span><span>Фильтр<b>220 ₽</b></span></div>
-          </div>
-        </div>
+      <article class="case case-main glass glass-hover rv" data-case="pulsefit">
+        <a class="shot" href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener" aria-label="Открыть сайт PULSE FIT в новой вкладке">
+          <img src="pulsefit.jpg" width="800" height="600" alt="Первый экран сайта PULSE FIT: заголовок «Преврати силу в привычку», кнопка бесплатной тренировки и статистика клуба" loading="lazy" decoding="async">
+          <span class="shot-live">● Live</span>
+        </a>
         <div class="case-body">
-          <div class="case-meta"><span>Лендинг · HoReCa</span><span>01 / 04</span></div>
-          <h3>Зерно <span class="serif">— кофейня</span></h3>
-          <p class="task">Перевести гостей из соцсетей в онлайн-предзаказ и разгрузить утренние очереди.</p>
-          <div class="chips"><span class="chip">HTML / CSS</span><span class="chip">JavaScript</span><span class="chip">Онлайн-предзаказ</span></div>
-          <div class="case-foot"><span class="more">Смотреть проект<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span><small>Концепт</small></div>
+          <div class="case-meta"><span>Лендинг · Фитнес-клуб</span><span>2026</span></div>
+          <h3>PULSE FIT <span class="serif">— фитнес-клуб 24/7</span></h3>
+          <p class="task">Адаптивный лендинг, который превращает посетителя в&nbsp;запись на&nbsp;бесплатную пробную тренировку. Энергичный визуал, понятные тарифы и&nbsp;форма записи на&nbsp;каждом ключевом экране.</p>
+          <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">Адаптив</span><span class="chip">Без фреймворков</span></div>
+          <div class="case-actions">
+            <a class="btn btn-primary btn-sm" href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener">Открыть сайт<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+            <a class="btn btn-glass btn-sm" href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener">Код на GitHub</a>
+            <button class="btn btn-glass btn-sm" type="button" data-open-case="pulsefit">Разбор проекта</button>
+          </div>
         </div>
       </article>
 
-      <article class="case glass glass-hover rv" data-case="cargo" tabindex="0" role="button" aria-label="Открыть проект: Vector Cargo — логистика" style="--d:.1s">
-        <div class="shot">
-          <div class="mk mk-cargo">
-            <div class="map"></div>
-            <svg class="route" viewBox="0 0 300 200" fill="none" aria-hidden="true">
-              <path d="M30 160 C 90 150, 110 60, 180 70 S 260 40, 280 30" stroke="#60a5fa" stroke-width="2"/>
-              <circle cx="30" cy="160" r="5" fill="#3b82f6"/><circle cx="30" cy="160" r="11" fill="#3b82f6" opacity=".2"/>
-              <circle cx="180" cy="70" r="4" fill="#93c5fd"/>
-              <circle cx="280" cy="30" r="5" fill="#22c55e"/><circle cx="280" cy="30" r="11" fill="#22c55e" opacity=".2"/>
-            </svg>
-            <div class="mk-nav" style="position:relative"><b>Vector Cargo</b><span>Услуги</span><span>Тарифы</span><span>Трекинг</span><i>Рассчитать</i></div>
-            <div class="txt">
-              <h5>Грузы по России <span>за 48 часов</span> — с гарантией в договоре</h5>
-              <p>FTL, LTL, сборные грузы и складская логистика</p>
-            </div>
-            <div class="calc">
-              <div class="calc-row"><span>Москва</span><span>Казань</span></div>
-              <div class="calc-row" style="margin-top:1.2cqw"><span>1,2 т · 8 м³</span><span>Тент 20 т</span></div>
-              <div class="calc-res"><span>от <b>18 400 ₽</b></span><i>Оформить</i></div>
-            </div>
-            <div class="truck">Груз VC-2817 · в пути</div>
-          </div>
-        </div>
-        <div class="case-body">
-          <div class="case-meta"><span>Корпоративный сайт · B2B</span><span>02 / 04</span></div>
-          <h3>Vector Cargo <span class="serif">— логистика</span></h3>
-          <p class="task">Сайт, который генерирует B2B-заявки, — с расчётом стоимости доставки за 30 секунд.</p>
-          <div class="chips"><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Калькулятор</span></div>
-          <div class="case-foot"><span class="more">Смотреть проект<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span><small>Концепт</small></div>
-        </div>
-      </article>
-
-      <article class="case glass glass-hover rv" data-case="barber" tabindex="0" role="button" aria-label="Открыть проект: Blade & Co. — барбершоп">
-        <div class="shot">
-          <div class="mk mk-barber">
-            <div class="mk-nav"><b>Blade&amp;Co.</b><span>Услуги</span><span>Мастера</span><span>Отзывы</span><i>Записаться</i></div>
-            <small>Барбершоп · с 2019</small>
-            <h5>Blade <b>&amp;</b> Co.</h5>
-            <p>Стрижка, борода и час тишины — для тех, кто ценит детали</p>
-            <div class="slots">
-              <div class="slots-h"><span>Мастер: Артём</span><span>Пятница, 14 ноября</span></div>
-              <div class="slots-g"><i class="x">10:00</i><i>11:30</i><i class="x">13:00</i><i class="on">14:30</i><i>16:00</i><i>17:30</i></div>
-            </div>
-          </div>
-        </div>
-        <div class="case-body">
-          <div class="case-meta"><span>Лендинг · Beauty</span><span>03 / 04</span></div>
-          <h3>Blade &amp; Co. <span class="serif">— барбершоп</span></h3>
-          <p class="task">Премиальная подача и онлайн-запись в 3 касания — чтобы клиенты записывались сами, без звонков.</p>
-          <div class="chips"><span class="chip">HTML / CSS</span><span class="chip">JavaScript</span><span class="chip">Онлайн-запись</span></div>
-          <div class="case-foot"><span class="more">Смотреть проект<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span><small>Концепт</small></div>
-        </div>
-      </article>
-
-      <article class="case glass glass-hover rv" data-case="auto" tabindex="0" role="button" aria-label="Открыть проект: Torque — автосервис" style="--d:.1s">
-        <div class="shot">
-          <div class="mk mk-auto">
-            <div class="mk-nav"><b>TORQUE</b><span>Услуги</span><span>Цены</span><span>Гарантия</span><i>Диагностика</i></div>
-            <div class="row">
-              <div>
-                <h5>Ремонт <span>без</span> сюрпризов</h5>
-                <p>Фиксируем смету до начала работ. Гарантия 12 месяцев.</p>
-              </div>
-              <svg class="gauge" viewBox="0 0 100 70" aria-hidden="true">
-                <path d="M12 60 A 40 40 0 1 1 88 60" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6" stroke-linecap="round"/>
-                <path d="M12 60 A 40 40 0 1 1 88 60" fill="none" stroke="#ff5b1f" stroke-width="6" stroke-linecap="round" stroke-dasharray="190" stroke-dashoffset="60"/>
-                <line x1="50" y1="50" x2="70" y2="26" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
-                <circle cx="50" cy="50" r="5" fill="#ff5b1f"/>
-              </svg>
-            </div>
-            <div class="svc"><span>Диагностика<b>от <em>1 500</em> ₽</b></span><span>ТО и масло<b>от <em>2 900</em> ₽</b></span><span>Ходовая<b>от <em>3 500</em> ₽</b></span></div>
-          </div>
-        </div>
-        <div class="case-body">
-          <div class="case-meta"><span>Сайт услуг · Авто</span><span>04 / 04</span></div>
-          <h3>Torque <span class="serif">— автосервис</span></h3>
-          <p class="task">Снять главный страх клиента — «насчитают втрое больше» — и превратить его в запись на диагностику.</p>
-          <div class="chips"><span class="chip">Next.js</span><span class="chip">Tailwind CSS</span><span class="chip">Калькулятор ТО</span></div>
-          <div class="case-foot"><span class="more">Смотреть проект<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span><small>Концепт</small></div>
-        </div>
-      </article>
+      <a class="case case-next glass glass-hover rv" href="#contact" style="--d:.1s">
+        <span class="next-ico ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <span class="case-meta"><span>Следующий проект</span></span>
+        <h3>Здесь может быть <span class="serif">ваш сайт</span></h3>
+        <p class="task">Расскажите о&nbsp;задаче — предложу решение, сроки и&nbsp;стоимость в&nbsp;течение дня.</p>
+        <span class="more">Обсудить проект<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      </a>
     </div>
   </div>
 </section>
@@ -1328,11 +1248,6 @@ html.inertia{scroll-behavior:auto}
             <span><small>Telegram — быстрее всего</small><strong id="tgText">@username</strong></span>
             <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="qlink" id="mailLink" href="#">
-            <span class="qi ml"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 6 10-6"/></svg></span>
-            <span><small>Почта</small><strong id="mailText">hello@example.com</strong></span>
-            <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
           <a class="qlink" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener">
             <span class="qi gh"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 00-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.300 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 015.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.300c0 .3.2.7.8.6A11.5 11.5 0 0012 .5z"/></svg></span>
             <span><small>GitHub</small><strong>spartak17mc-blip</strong></span>
@@ -1367,14 +1282,17 @@ html.inertia{scroll-behavior:auto}
           </div>
         </fieldset>
         <div class="fld"><label for="f-msg">О проекте</label><textarea id="f-msg" name="message" placeholder="Чем занимается компания, что нужно сделать и к какому сроку" required></textarea><span class="msg">Опишите задачу хотя бы в одном предложении</span></div>
+        <!-- honeypot: real visitors never see or fill this field -->
+        <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="f-submit">
-          <button class="btn btn-primary" type="submit">Отправить заявку<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-          <p>Откроется письмо с готовым текстом заявки — останется нажать «Отправить».</p>
+          <button class="btn btn-primary" type="submit" id="formBtn">Отправить заявку<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p>Заявка мгновенно придёт мне в&nbsp;Telegram — отвечу в&nbsp;течение пары часов.</p>
         </div>
+        <p class="f-error" id="formError" role="alert" hidden></p>
         <div class="done" role="status" aria-live="polite">
           <div class="ok"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <h3>Заявка готова</h3>
-          <p>Отправьте открывшееся письмо — и я вернусь с планом проекта в течение пары часов. Если письмо не открылось, напишите в Telegram.</p>
+          <h3>Заявка отправлена</h3>
+          <p>Спасибо! Я уже получил её в&nbsp;Telegram и&nbsp;вернусь с&nbsp;планом проекта в&nbsp;течение пары часов.</p>
         </div>
       </form>
     </div>
@@ -1390,6 +1308,58 @@ html.inertia{scroll-behavior:auto}
     </div>
   </div>
 </footer>
+
+<!-- ================= ABOUT PANEL ================= -->
+<div class="about" id="about" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" aria-hidden="true">
+  <div class="about-scroll">
+    <article class="about-card glass beam-on">
+      <div class="about-top">
+        <button class="about-back" id="aboutBack" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Назад</button>
+        <span class="about-kicker">[ Профиль разработчика ]</span>
+      </div>
+
+      <h2 class="about-h" id="aboutTitle">Frontend-разработчик, который думает о&nbsp;<span class="serif grad">результате</span></h2>
+      <p class="about-lead">Я проектирую и&nbsp;разрабатываю сайты и&nbsp;интерфейсы под&nbsp;ключ — от&nbsp;структуры и&nbsp;дизайна до&nbsp;чистого, быстрого кода и&nbsp;запуска. Работаю с&nbsp;клиентом напрямую: без посредников, менеджеров и&nbsp;«испорченного телефона». Вы&nbsp;всегда говорите с&nbsp;тем, кто делает ваш сайт.</p>
+
+      <div class="about-grid">
+        <div class="about-block">
+          <h3><span>01</span>Фокус</h3>
+          <ul class="about-list">
+            <li>Чистый семантичный код без лишних библиотек и&nbsp;конструкторов</li>
+            <li>Производительность: лёгкие страницы, оптимизированные изображения и&nbsp;шрифты</li>
+            <li>Адаптивность и&nbsp;доступность — удобно на&nbsp;любом экране</li>
+            <li>Внимание к&nbsp;деталям: отступы, состояния, микро-анимации</li>
+          </ul>
+        </div>
+        <div class="about-block">
+          <h3><span>02</span>Подход</h3>
+          <ul class="about-list">
+            <li>Сначала разбираюсь в&nbsp;задаче и&nbsp;аудитории — потом рисую</li>
+            <li>Показываю результат на&nbsp;каждом этапе, без «чёрного ящика»</li>
+            <li>Фиксирую сроки и&nbsp;стоимость в&nbsp;договоре</li>
+            <li>Передаю код, доступы и&nbsp;инструкции — сайт полностью ваш</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="about-stack">
+        <h3><span>03</span>Стек</h3>
+        <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">Next.js</span><span class="chip">Tailwind CSS</span><span class="chip">Vite</span><span class="chip">Figma</span><span class="chip">Git</span></div>
+      </div>
+
+      <div class="about-why">
+        <div><b>Прямой контакт</b><p>Общаетесь с&nbsp;исполнителем, а&nbsp;не&nbsp;с&nbsp;менеджером. Вопросы решаются за&nbsp;минуты.</p></div>
+        <div><b>Скорость без спешки</b><p>Лендинг — от&nbsp;7&nbsp;рабочих дней, с&nbsp;понятным планом и&nbsp;превью на&nbsp;каждом шаге.</p></div>
+        <div><b>Ответственность</b><p>Договор, фиксированные сроки и&nbsp;поддержка после запуска.</p></div>
+      </div>
+
+      <div class="about-cta">
+        <a class="btn btn-primary" href="#contact" data-about-close>Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-glass" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </article>
+  </div>
+</div>
 
 <!-- ================= QUIZ ================= -->
 <button class="quiz-fab glass" id="quizFab" type="button" aria-expanded="false" aria-controls="quiz">
@@ -1413,7 +1383,7 @@ html.inertia{scroll-behavior:auto}
     <div class="m-shot" id="mShot"></div>
     <div class="m-body">
       <div>
-        <div class="case-meta"><span id="mCat"></span><span>Концепт · 2026</span></div>
+        <div class="case-meta"><span id="mCat"></span><span>Live · 2026</span></div>
         <h3 id="mTitle"></h3>
         <div class="m-sec"><h4>Задача</h4><p id="mTask"></p></div>
         <div class="m-sec"><h4>Решение</h4><p id="mSolution"></p></div>
@@ -1422,9 +1392,9 @@ html.inertia{scroll-behavior:auto}
       <aside class="m-aside">
         <div class="m-box"><h4>Акценты дизайна</h4><p id="mDesign"></p></div>
         <div class="m-box"><h4>Стек</h4><div class="chips" id="mStack"></div></div>
-        <div class="m-box"><h4>Срок</h4><p id="mTime" style="font-size:28px;font-weight:500;letter-spacing:-.03em;color:var(--text)"></p></div>
+        <div class="m-box"><h4>Статус</h4><p id="mTime" style="font-size:28px;font-weight:500;letter-spacing:-.03em;color:var(--text)"></p></div>
         <a href="#contact" class="btn btn-primary" id="mCta">Обсудить похожий проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <p class="m-note">Концепт-проект: демонстрирует подход и уровень работы для этой ниши.</p>
+        <p class="m-note">Живой проект: <a href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener">открыть сайт ↗</a> · <a href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener">код на GitHub ↗</a></p>
       </aside>
     </div>
   </div>
@@ -1433,42 +1403,29 @@ html.inertia{scroll-behavior:auto}
 <script>
 /* ===== Контакты: замените на свои ===== */
 const CONTACTS = {
-  telegram: "username",           // без @
-  email: "hello@example.com"
+  telegram: "username"            // ваш ник в Telegram, без @
+};
+
+/* ===== Заявки в Telegram (форма и опросник) =====
+   Вариант 1 — рекомендуется: endpoint — адрес вашего прокси (готовый код: telegram-worker.js).
+     Токен бота хранится на сервере и не виден в коде сайта.
+   Вариант 2 — быстрый: botToken + chatId — запрос идёт напрямую в Telegram Bot API.
+     ВНИМАНИЕ: токен в коде публичного сайта может увидеть и использовать любой посетитель.
+   Пока ничего не заполнено, форма честно сообщает, что не подключена, и предлагает написать в Telegram. */
+const LEADS = {
+  endpoint: "",                   // например: "https://leads.your-name.workers.dev"
+  botToken: "",                   // например: "123456789:AA…"
+  chatId: ""                      // ваш chat_id (число)
 };
 
 const CASES = {
-  coffee: {
-    title: "Зерно — кофейня", cat: "Лендинг · HoReCa", time: "6 дней",
-    task: "Сеть из трёх кофеен теряла гостей в утренние часы: очереди по 10–15 минут, а подписчики из соцсетей не понимали, как сделать заказ заранее.",
-    solution: "Атмосферный лендинг с меню и онлайн-предзаказом: гость выбирает напиток, точку и время — и забирает заказ без очереди. Структура построена вокруг одного действия — «заказать заранее».",
-    done: ["Меню с фильтрами и предзаказом к нужному времени", "Карта трёх точек с часами работы и маршрутом", "Раздел о собственной обжарке — ключевое отличие от сетевых кофеен", "Мобильная версия, в которой заказ оформляется одной рукой"],
-    design: "Тёплая карамельная палитра, сочетание гротеска и изящного курсива, крупные фото напитков — сайт передаёт уют места ещё до первого визита.",
-    stack: ["HTML / CSS", "JavaScript", "CSS-анимации", "Яндекс Карты"]
-  },
-  cargo: {
-    title: "Vector Cargo — логистика", cat: "Корпоративный сайт · B2B", time: "9 дней",
-    task: "Логистическая компания получала заявки только по звонкам и рекомендациям. Старый сайт не объяснял преимуществ и не давал понять стоимость без долгой переписки.",
-    solution: "Корпоративный сайт с калькулятором на первом экране: клиент вводит маршрут и параметры груза — и сразу видит ориентировочную цену и срок. Дальше — аргументы для B2B: гарантии в договоре, страхование, отслеживание.",
-    done: ["Калькулятор доставки с расчётом за 30 секунд", "Страницы услуг: FTL, LTL, сборные грузы, склад", "Трекинг груза по номеру накладной", "Блок гарантий и отраслевых кейсов для длинного цикла сделки"],
-    design: "Строгая тёмно-синяя палитра, карта маршрутов и чёткая сетка подчёркивают масштаб и надёжность компании.",
-    stack: ["React", "TypeScript", "Vite", "REST API"]
-  },
-  barber: {
-    title: "Blade & Co. — барбершоп", cat: "Лендинг · Beauty", time: "5 дней",
-    task: "Барбершоп премиум-сегмента записывал клиентов только по телефону: администратор не успевал отвечать, а часть клиентов уходила к конкурентам с онлайн-записью.",
-    solution: "Лендинг с премиальной подачей и онлайн-записью в три касания: услуга → мастер → время. Страницы мастеров с портфолио работ снимают сомнения при выборе.",
-    done: ["Онлайн-запись с выбором услуги, мастера и свободного времени", "Карточки мастеров с портфолио и отзывами", "Прайс с понятными пакетами услуг", "Подарочные сертификаты как дополнительный источник выручки"],
-    design: "Глубокий чёрный, золотые акценты и крупная антиква — ощущение закрытого клуба, где ценят время и детали.",
-    stack: ["HTML / CSS", "JavaScript", "YCLIENTS API"]
-  },
-  auto: {
-    title: "Torque — автосервис", cat: "Сайт услуг · Авто", time: "8 дней",
-    task: "Главное возражение клиентов автосервисов — «насчитают втрое больше». Нужно было снять недоверие и превратить посетителей сайта в записи на диагностику.",
-    solution: "Сайт, построенный вокруг прозрачности: калькулятор ТО по марке и пробегу, фиксированная смета до начала работ, фото- и видеоотчёт о ремонте.",
-    done: ["Калькулятор ТО по марке, модели и пробегу", "Блок «Ремонт без сюрпризов»: смета, гарантия, отчёт", "Онлайн-запись на диагностику с выбором времени", "Отзывы, сгруппированные по видам работ"],
-    design: "Графитовый фон, энергичный оранжевый акцент и плотная типографика — характер мастерской, которой можно доверить машину.",
-    stack: ["Next.js", "Tailwind CSS", "TypeScript", "Vercel"]
+  pulsefit: {
+    title: "PULSE FIT — фитнес-клуб 24/7", cat: "Лендинг · Фитнес", time: "Реальный проект",
+    task: "Фитнес-клубу нужен сайт, который за несколько секунд передаёт энергию места и доводит посетителя до записи на бесплатную пробную тренировку — без звонков и лишних шагов.",
+    solution: "Лендинг с сильным первым экраном и понятной логикой: преимущества клуба → направления → тарифы → тренеры → призыв «Первая тренировка — бесплатно». Кнопка записи доступна на каждом ключевом экране.",
+    done: ["Первый экран с оффером, ключевыми цифрами клуба и двумя призывами к действию", "Блок тарифов с переключением периода оплаты", "Разделы направлений и тренеров", "Модальная форма записи с проверкой полей и маской телефона", "Адаптив под телефоны, бургер-меню и анимации появления при прокрутке"],
+    design: "Тёмная палитра с кислотно-лаймовым акцентом и крупная плотная типографика — характер зала, где тренируются всерьёз.",
+    stack: ["HTML5", "CSS3", "JavaScript", "Без фреймворков", "GitHub Pages"]
   }
 };
 
@@ -1480,9 +1437,28 @@ const CASES = {
   /* contacts */
   $("#tgLink").href = "https://t.me/" + CONTACTS.telegram;
   $("#tgText").textContent = "@" + CONTACTS.telegram;
-  $("#mailLink").href = "mailto:" + CONTACTS.email;
-  $("#mailText").textContent = CONTACTS.email;
   $("#year").textContent = new Date().getFullYear();
+
+  /* lead delivery: one function for the form and the quiz */
+  const esc = s => String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+  const sendLead = async (title, rows) => {
+    const text = `<b>${esc(title)}</b>\n\n` + rows.filter(r => r[1]).map(([k, v]) => `<b>${esc(k)}:</b> ${esc(v)}`).join("\n")
+      + `\n\n<i>${esc(location.host || "сайт")} · ${new Date().toLocaleString("ru-RU")}</i>`;
+    let url, body;
+    if (LEADS.endpoint) { url = LEADS.endpoint; body = { text }; }
+    else if (LEADS.botToken && LEADS.chatId) {
+      url = `https://api.telegram.org/bot${LEADS.botToken}/sendMessage`;
+      body = { chat_id: LEADS.chatId, text, parse_mode: "HTML", disable_web_page_preview: true };
+    } else throw new Error("not-configured");
+    const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), 12000);
+    try {
+      const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body.text.length > 3800 ? { ...body, text: body.text.slice(0, 3800) } : body), signal: ctrl.signal });
+      if (!res.ok) throw new Error("http-" + res.status);
+    } finally { clearTimeout(timer); }
+  };
+  const leadError = err => err.message === "not-configured"
+    ? `Отправка заявок ещё не подключена. Напишите мне напрямую в <a href="https://t.me/${esc(CONTACTS.telegram)}" target="_blank" rel="noopener">Telegram</a>.`
+    : `Не удалось отправить — проверьте интернет и попробуйте ещё раз или напишите в <a href="https://t.me/${esc(CONTACTS.telegram)}" target="_blank" rel="noopener">Telegram</a>.`;
 
   /* header */
   const header = $("#header");
@@ -1594,7 +1570,8 @@ const CASES = {
 
   /* border beam: run it only on cards that are on screen, each with its own phase */
   const beamIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("beam-live", e.isIntersecting)), { rootMargin: "60px" });
-  $$(".glass-hover").forEach((c, i) => { c.style.setProperty("--bd", `${-(i * 2.3) % 10}s`); beamIO.observe(c); });
+  // phones skip the continuous beam to save battery and frames
+  if (matchMedia("(hover: hover)").matches) $$(".glass-hover").forEach((c, i) => { c.style.setProperty("--bd", `${-(i * 2.3) % 10}s`); beamIO.observe(c); });
 
 
   /* vibe switcher: changes accent colours, vortex palette, ambient scene and the examples shown */
@@ -1603,25 +1580,25 @@ const CASES = {
       sound: "Космический эмбиент", title: "Цифровые продукты и интерфейсы",
       text: "Лендинги IT-продуктов, SaaS-сервисы и личные бренды. Акцент — на скорость, ясную логику интерфейса и технологичную эстетику.",
       points: ["Продуманные пользовательские сценарии", "Дизайн-системы и UI-киты", "Анимации, которые объясняют, а не отвлекают"],
-      cases: [{ t: "Vector Cargo", d: "B2B-сайт с калькулятором доставки", c: "cargo" },
-              { t: "Analytics Dashboard", d: "Интерфейс SaaS-аналитики: метрики, графики, фильтры" },
-              { t: "Лендинг IT-продукта", d: "Оффер, живое демо и путь к пробному доступу" }]
+      cases: [{ t: "Лендинг IT-продукта", d: "Оффер, живое демо и путь к пробному доступу", tag: "лендинг" },
+              { t: "Интерфейс сервиса", d: "Личный кабинет, дашборд, понятные сценарии", tag: "UI" },
+              { t: "Сайт личного бренда", d: "Экспертиза, кейсы и запись на консультацию", tag: "сайт" }]
     },
     horeca: {
       sound: "Мягкий лаунж", title: "Атмосфера, которую хочется попробовать",
       text: "Кофейни, рестораны, бары и доставка. Сайт передаёт вкус и настроение места — и превращает просмотр меню в бронь или заказ.",
       points: ["Меню с фото и онлайн-заказом", "Бронирование стола в два касания", "Тёплая визуальная подача и единый фотостиль"],
-      cases: [{ t: "Зерно — кофейня", d: "Лендинг с меню и онлайн-предзаказом", c: "coffee" },
-              { t: "Ресторан с онлайн-бронью", d: "Выбор стола, времени и повода визита" },
-              { t: "Сервис доставки", d: "Каталог блюд, корзина и оплата за минуту" }]
+      cases: [{ t: "Лендинг кафе или ресторана", d: "Меню с фото, атмосфера и онлайн-заказ", tag: "лендинг" },
+              { t: "Онлайн-бронирование", d: "Выбор стола, времени и повода визита", tag: "сервис" },
+              { t: "Сайт доставки", d: "Каталог блюд, корзина и оплата за минуту", tag: "магазин" }]
     },
     build: {
       sound: "Звуки мастерской", title: "Надёжность, которую видно с первого экрана",
       text: "Застройщики, архитектурные бюро, ремонт и производство. Сайт показывает масштаб и экспертизу и снимает сомнения перед крупной сделкой.",
       points: ["Каталоги объектов и планировок", "Калькуляторы стоимости и сроков", "Портфолио с фотоотчётами «до и после»"],
-      cases: [{ t: "ЖК «Северный квартал»", d: "Подбор квартиры по планировкам и этажам" },
-              { t: "Архитектурное бюро «Линия»", d: "Портфолио объектов и этапы работы" },
-              { t: "Torque — автосервис", d: "Прозрачная смета и запись онлайн", c: "auto" }]
+      cases: [{ t: "Сайт жилого комплекса", d: "Подбор квартиры по планировкам и этажам", tag: "сайт" },
+              { t: "Портфолио бюро", d: "Объекты, этапы работы и команда", tag: "сайт" },
+              { t: "Калькулятор сметы", d: "Расчёт стоимости и сроков прямо на сайте", tag: "сервис" }]
     }
   };
   const vibeTabs = $$(".vibe-tab"), vibePanel = $("#vibePanel"), casesGrid = $(".cases");
@@ -1632,13 +1609,12 @@ const CASES = {
       $("#vpTitle").textContent = v.title;
       $("#vpText").textContent = v.text;
       $("#vpPoints").replaceChildren(...v.points.map(p => Object.assign(document.createElement("li"), { textContent: p })));
-      const head = Object.assign(document.createElement("h4"), { textContent: "Примеры проектов" });
+      const head = Object.assign(document.createElement("h4"), { textContent: "Что сделаю для вашей сферы" });
       $("#vpCases").replaceChildren(head, ...v.cases.map(c => {
-        const el = document.createElement(c.c ? "button" : "div");
+        const el = document.createElement("div");
         el.className = "vp-case";
-        if (c.c) { el.type = "button"; el.addEventListener("click", () => $(`.case[data-case="${c.c}"]`)?.click()); }
-        el.innerHTML = `<span><b></b><small></small></span><span class="go">${c.c ? "Открыть →" : "Концепт"}</span>`;
-        el.querySelector("b").textContent = c.t; el.querySelector("small").textContent = c.d;
+        el.innerHTML = `<span><b></b><small></small></span><span class="go"></span>`;
+        el.querySelector("b").textContent = c.t; el.querySelector("small").textContent = c.d; el.querySelector(".go").textContent = c.tag;
         return el;
       }));
     };
@@ -1721,21 +1697,39 @@ const CASES = {
         qBody.innerHTML = `<div class="quiz-step"><h4>Подходящее решение</h4>
           <div class="quiz-res"><div><small>Бюджет</small><b>${p1}–${p2} тыс. ₽</b></div><div><small>Срок</small><b>${d1}–${d2} дней</b></div></div>
           <p class="quiz-sum"></p>
-          <button class="btn btn-primary" type="button" id="quizSend">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-          <div class="quiz-foot"><button class="quiz-back" type="button">↺ Заново</button><span class="quiz-note">Точная смета — после брифа</span></div></div>`;
-        qBody.querySelector(".quiz-sum").textContent = `${type} · ${ans.sphere[0]} · ${ans.ready[0].toLowerCase()} · ${ans.when[0].toLowerCase()}.`;
+          <input class="quiz-input" id="quizContact" type="text" placeholder="Ваш Telegram или телефон" autocomplete="tel" aria-label="Куда ответить">
+          <button class="btn btn-primary" type="button" id="quizSend">Отправить в Telegram<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="quiz-err" id="quizErr" role="alert" hidden></p>
+          <div class="quiz-foot"><button class="quiz-back" type="button">↺ Заново</button><button class="quiz-back" type="button" id="quizForm">Полная форма →</button></div></div>`;
+        const summary = `${type}, сфера — ${ans.sphere[0]}, ${ans.ready[0].toLowerCase()}, запуск — ${ans.when[0].toLowerCase()}. Ориентир: ${p1}–${p2} тыс. ₽, ${d1}–${d2} дней.`;
+        qBody.querySelector(".quiz-sum").textContent = `${type} · ${ans.sphere[0]} · ${ans.ready[0].toLowerCase()} · ${ans.when[0].toLowerCase()}. Точная смета — после брифа.`;
         qBody.querySelector(".quiz-back").addEventListener("click", () => { step = 0; ans = {}; render(); });
+        // option A: send straight to Telegram from the quiz
         $("#quizSend").addEventListener("click", () => {
+          const contact = $("#quizContact"), err = $("#quizErr"), btn = $("#quizSend");
+          if (!contact.value.trim()) { contact.classList.add("err"); contact.focus(); return; }
+          btn.disabled = true; err.hidden = true;
+          sendLead("🧭 Заявка из опросника", [["Контакт", contact.value.trim()], ["Задача", type], ["Сфера", ans.sphere[0]], ["Готово", ans.ready[0]], ["Сроки", ans.when[0]], ["Ориентир", `${p1}–${p2} тыс. ₽, ${d1}–${d2} дней`]])
+            .then(() => {
+              qBody.innerHTML = `<div class="quiz-step"><h4>Заявка отправлена ✓</h4><p class="quiz-sum">Спасибо! Я получил её в Telegram и отвечу в течение пары часов.</p></div>`;
+              dots.forEach(d => d.classList.add("on")); step = QUIZ.length + 1;
+            })
+            .catch(e => { err.innerHTML = leadError(e); err.hidden = false; btn.disabled = false; });
+        });
+        $("#quizContact").addEventListener("input", e => e.target.classList.remove("err"));
+        // option B: carry the answers into the full contact form
+        $("#quizForm").addEventListener("click", () => {
           const form = $("#form");
           const radio = form?.querySelector(`input[name="type"][value="${type}"]`);
           if (radio) radio.checked = true;
-          const msg = form?.elements.message;
-          if (msg && !msg.value.trim()) msg.value = `Расчёт с сайта: ${type}, сфера — ${ans.sphere[0]}, ${ans.ready[0].toLowerCase()}, запуск — ${ans.when[0].toLowerCase()}. Ориентир: ${p1}–${p2} тыс. ₽, ${d1}–${d2} дней.`;
+          const msg = form?.elements.message, cont = form?.elements.contact;
+          if (msg && !msg.value.trim()) msg.value = "Расчёт с сайта: " + summary;
+          if (cont && !cont.value.trim() && $("#quizContact").value.trim()) cont.value = $("#quizContact").value.trim();
           close();
           $("#contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
           setTimeout(() => form?.elements.name.focus({ preventScroll: true }), 900);
         });
-        $("#quizSend").focus({ preventScroll: true });
+        $("#quizContact").focus({ preventScroll: true });
       }
     };
     const open = () => {
@@ -1802,6 +1796,40 @@ const CASES = {
     });
   }
 
+
+  /* "Обо мне": throw the page aside, slide the profile in; "Назад" (or Esc) reverses it */
+  const about = $("#about");
+  if (about) {
+    let opener = null;
+    const openAbout = trigger => {
+      opener = trigger || null;
+      if (document.body.classList.contains("menu-open")) $("#burger")?.click();
+      document.body.classList.add("about-anim");
+      requestAnimationFrame(() => {
+        document.body.classList.add("about-open");
+        about.classList.add("open"); about.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        about.querySelector(".about-scroll").scrollTop = 0;
+        setTimeout(() => $("#aboutBack").focus({ preventScroll: true }), reduce ? 0 : 500);
+      });
+    };
+    const closeAbout = () => {
+      if (!about.classList.contains("open")) return;
+      document.body.classList.remove("about-open");
+      about.classList.remove("open"); about.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      opener?.focus({ preventScroll: true });
+    };
+    $$("[data-about]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); openAbout(b); }));
+    $("#aboutBack").addEventListener("click", closeAbout);
+    // links inside the panel wait for the page to fly back before scrolling to their section
+    $$("[data-about-close]").forEach(a => a.addEventListener("click", e => {
+      e.preventDefault(); closeAbout(); opener = null;
+      setTimeout(() => document.querySelector(a.hash)?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }), reduce ? 0 : 800);
+    }));
+    addEventListener("keydown", e => { if (e.key === "Escape") closeAbout(); });
+  }
+
   /* active nav */
   const navLinks = $$(".nav a");
   const spy = new IntersectionObserver(es => es.forEach(e => {
@@ -1814,7 +1842,7 @@ const CASES = {
   const openCase = card => {
     const d = CASES[card.dataset.case]; if (!d) return;
     const frame = document.createElement("div"); frame.className = "m-frame";
-    frame.append(card.querySelector(".mk").cloneNode(true));
+    frame.append(card.querySelector(".shot img").cloneNode(true));
     $("#mShot").replaceChildren(frame);
     $("#mTitle").textContent = d.title;
     $("#mCat").textContent = d.cat;
@@ -1828,10 +1856,10 @@ const CASES = {
     modal.querySelector(".modal-scroll").scrollTop = 0;
     document.body.classList.add("modal-open");
   };
-  $$(".case").forEach(c => {
-    c.addEventListener("click", () => openCase(c));
-    c.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCase(c); } });
-  });
+  $$("[data-open-case]").forEach(b => b.addEventListener("click", () => {
+    const card = $(`.case[data-case="${b.dataset.openCase}"]`);
+    if (card) openCase(card);
+  }));
   const closeModal = () => modal.close();
   $("#mClose").addEventListener("click", closeModal);
   $("#mCta").addEventListener("click", closeModal);
@@ -1850,9 +1878,13 @@ const CASES = {
     });
     if (first) { first.focus(); return; }
     const d = Object.fromEntries(new FormData(form));
-    const body = `Имя: ${d.name}\nКонтакт: ${d.contact}\nЗадача: ${d.type}\nБюджет: ${d.budget}\n\n${d.message}`;
-    location.href = `mailto:${CONTACTS.email}?subject=${encodeURIComponent("Заявка с сайта: " + d.type + " — " + d.name)}&body=${encodeURIComponent(body)}`;
-    form.classList.add("sent");
+    if (d.company) { form.classList.add("sent"); return; }           // honeypot filled → a bot, pretend success
+    const btn = $("#formBtn"), errBox = $("#formError"), label = btn.firstChild.textContent;
+    btn.disabled = true; btn.firstChild.textContent = "Отправляю… "; errBox.hidden = true;
+    sendLead("🚀 Новая заявка с сайта", [["Имя", d.name], ["Контакт", d.contact], ["Задача", d.type], ["Бюджет", d.budget], ["О проекте", d.message]])
+      .then(() => form.classList.add("sent"))
+      .catch(err => { errBox.innerHTML = leadError(err); errBox.hidden = false; })
+      .finally(() => { btn.disabled = false; btn.firstChild.textContent = label; });
   });
   $$("#form input, #form textarea").forEach(el => el.addEventListener("input", () => el.closest(".fld")?.classList.remove("err")));
 })();
@@ -1886,7 +1918,7 @@ const CASES = {
   let W = 0, H = 0, DPR = 1, S = 0;
 
   const resize = () => {
-    DPR = Math.min(devicePixelRatio || 1, 1.5);
+    DPR = Math.min(devicePixelRatio || 1, small ? 1 : 1.5);   // phones: 1× canvas is plenty behind blurred glass
     W = innerWidth; H = innerHeight;
     canvas.width = W * DPR; canvas.height = H * DPR;
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
@@ -1908,7 +1940,7 @@ const CASES = {
   let mx = 0, my = 0, ox = 0, oy = 0, scrollP = 0, t0 = performance.now(), last = t0, running = true;
   // intro screen: vortex sits dead centre until launch; pulse = energy burst on launch (decays to 0)
   let introMode = !!document.getElementById("intro"), pulse = 0, fx = 0.5, fy = 0.5;
-  let tLaunch = 0;
+  let tLaunch = 0, skipFrame = false;
   // infall objects: glowing motes and short code tokens pulled into the throat
   const TOKENS = ["</>", "{ }", "fn()", "=>", "const", "[ ]", "&&", "λ", "01", ";", "<div>", "async"];
   const infall = [];
@@ -1930,6 +1962,7 @@ const CASES = {
 
   function frame(now) {
     if (!running) return;
+    if (small && (skipFrame = !skipFrame)) { requestAnimationFrame(frame); return; }   // ~30 fps on phones
     const dt = Math.min((now - last) / 16.67, 3); last = now;
     // intro: particles start scattered wide and collapse into the funnel
     // before launch the stars hang still and scattered; on launch they collapse into the funnel
