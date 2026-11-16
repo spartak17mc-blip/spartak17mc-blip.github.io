@@ -20,7 +20,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('js','intro-on')</script>
+<script>
+/* device tier, decided once before anything renders: touch phones/tablets and weak computers get "lite"
+   (fewer vortex particles, 30 fps cap, lighter effects). CSS reads html.lite / html.touch, scripts read window.PERF. */
+(function () {
+  var d = document.documentElement, n = navigator, m = function (q) { return window.matchMedia && matchMedia(q).matches; };
+  var touch = m("(pointer: coarse)") && !m("(pointer: fine)");
+  var weak = (n.hardwareConcurrency || 4) <= 4 || (n.deviceMemory || 4) <= 4 || !!(n.connection && n.connection.saveData);
+  d.classList.add("js", "intro-on");
+  if (touch) d.classList.add("touch");
+  if (touch || weak) d.classList.add("lite");
+  window.PERF = { touch: touch, weak: weak, lite: touch || weak };
+})();
+</script>
 <style>
 /* ================= TOKENS ================= */
 :root{
@@ -419,7 +431,10 @@ body.modal-open{overflow:hidden}
 .intro.out{opacity:0;visibility:hidden;pointer-events:none}
 html.intro-on body{overflow:hidden}
 .header,main,footer,#dust{transition:opacity 1.4s var(--ease) .45s,transform 1.8s var(--ease-out) .45s}
-html.intro-on .header,html.intro-on main,html.intro-on footer{opacity:0;transform:translateY(18px) scale(.985)}
+/* on launch the small header slides in; the (very tall, glass-filled) page body only fades — moving or scaling it
+   would re-render every glass panel's blur on every frame of the launch, which is what made phones stutter */
+html.intro-on .header{opacity:0;transform:translateY(18px)}
+html.intro-on main,html.intro-on footer{opacity:0}
 html.intro-on #dust{opacity:0}
 
 .intro-panel{position:relative;width:min(680px,100%);padding:48px 48px 38px;border-radius:28px;text-align:center;
@@ -773,6 +788,12 @@ body.about-open .quiz-fab{opacity:0;transform:translateY(12px);pointer-events:no
 @media (max-width:640px){
   .glass,.btn{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 }
+/* lite tier (phones, tablets, weak computers — set in <head>): same look, cheaper to draw */
+html.lite .glass,html.lite .btn{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+html.lite .beams i{mix-blend-mode:normal}               /* screen blending over the live canvas is costly on mobile GPUs */
+html.lite .beams{transition:none}                       /* sphere switch: beams change hue while dimmed, no 1.6 s filter animation */
+/* the canvases are full-screen, fixed and self-contained: nothing inside affects layout elsewhere */
+#cosmos,#dust{contain:strict}
 
 /* ================= HEALTH ================= */
 /* long unbroken input can never stretch the layout */
@@ -2570,18 +2591,23 @@ const I18N = (() => {
       <div class="lang-menu" id="langMenu" role="menu" aria-label="Language">${items}</div>`;
     host.prepend(wrap);
     const btn = wrap.querySelector("#langBtn"), menu = wrap.querySelector("#langMenu");
+    const isOpen = () => wrap.classList.contains("open");
     const open = v => {
+      if (v === isOpen()) return;                                   // nothing to do (e.g. any click while it is closed)
       wrap.classList.toggle("open", v); btn.setAttribute("aria-expanded", String(v));
       if (v) menu.querySelector(`[data-lang="${lang}"]`)?.focus({ preventScroll: true });
     };
-    btn.addEventListener("click", () => open(!wrap.classList.contains("open")));
-    document.addEventListener("pointerdown", e => { if (!wrap.contains(e.target)) open(false); });
+    btn.addEventListener("click", () => open(!isOpen()));
+    document.addEventListener("pointerdown", e => { if (isOpen() && !wrap.contains(e.target)) open(false); });
     wrap.addEventListener("keydown", e => {
-      if (e.key === "Escape") { open(false); btn.focus(); }
+      // Esc closes only the language list — it must not also close the quiz or the About panel underneath
+      if (e.key === "Escape" && isOpen()) { e.stopPropagation(); open(false); btn.focus(); }
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
-        const list = [...menu.querySelectorAll("[data-lang]")], i = list.indexOf(document.activeElement);
-        list[(i + (e.key === "ArrowDown" ? 1 : -1) + list.length) % list.length].focus();
+        if (!isOpen()) { open(true); return; }                     // first arrow opens the list on the current language
+        const list = [...menu.querySelectorAll("[data-lang]")], i = list.indexOf(document.activeElement), down = e.key === "ArrowDown";
+        const next = i < 0 ? (down ? 0 : list.length - 1) : (i + (down ? 1 : -1) + list.length) % list.length;
+        list[next].focus();
       }
     });
     menu.addEventListener("click", e => { const b = e.target.closest("[data-lang]"); if (b) { set(b.dataset.lang, true); open(false); btn.focus(); } });
@@ -2913,8 +2939,16 @@ const CASES = {
       vibePanel.style.minHeight = tallest + "px";
     };
     I18N.onChange(refill);
-    let panelW = 0;
-    addEventListener("resize", () => { if (vibePanel.offsetWidth !== panelW) { panelW = vibePanel.offsetWidth; refill(); } }, { passive: true });
+    // only width changes matter; phones fire "resize" for the address bar sliding during a scroll, and reading the
+    // panel's size there would force a layout mid-scroll — so compare the (free) window width first, once per frame
+    let panelW = 0, winW = innerWidth, resizeQ = 0;
+    addEventListener("resize", () => {
+      if (innerWidth === winW || resizeQ) return;
+      resizeQ = requestAnimationFrame(() => {
+        resizeQ = 0; winW = innerWidth;
+        if (vibePanel.offsetWidth !== panelW) { panelW = vibePanel.offsetWidth; refill(); }
+      });
+    }, { passive: true });
     document.fonts?.ready.then(refill);           // web fonts change line breaks: measure once they are in
     let swapTimer = 0;
     const setVibe = (key, focus) => {
@@ -3036,6 +3070,7 @@ const CASES = {
     currencyListeners.push(c => { if (quizCurrencyHook && $("#quizBudget")) quizCurrencyHook(c); });
     const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
     const render = () => {
+      rendered = true;
       dots.forEach((d, i) => d.classList.toggle("on", sent || i <= step));
       quizCurrencyHook = null;
       if (sent) {
@@ -3131,7 +3166,9 @@ const CASES = {
       if (quiz.classList.contains("open") && !typed) input.focus({ preventScroll: true });
     };
     // an open quiz follows a language switch without losing the answers
-    I18N.onChange(() => { if (quiz.classList.contains("open")) render(); });
+    // (closed or open: a closed quiz keeps its last screen in the DOM, which must not stay in the old language)
+    let rendered = false;
+    I18N.onChange(() => { if (rendered) render(); });
     const open = () => {
       quiz.classList.add("open"); fab.setAttribute("aria-expanded", "true"); fab.classList.add("hide");
       if (sent || step >= QUIZ.length) { step = 0; ans = {}; sent = false; }
@@ -3146,7 +3183,8 @@ const CASES = {
     const away = new IntersectionObserver(es => fab.classList.toggle("away", es[0].isIntersecting), { threshold: 0.15 });
     $("#contact") && away.observe($("#contact"));
     $("#quizX").addEventListener("click", close);
-    addEventListener("keydown", e => { if (e.key === "Escape" && quiz.classList.contains("open")) close(); });
+    // Esc closes only the topmost layer: with a legal document open over the quiz, the document closes, not the quiz
+    addEventListener("keydown", e => { if (e.key === "Escape" && quiz.classList.contains("open") && !document.querySelector("dialog[open]")) close(); });
     document.addEventListener("pointerdown", e => {
       if (e.target.closest?.("dialog")) return;            // reading the legal text must not close the quiz
       if (quiz.classList.contains("open") && !quiz.contains(e.target) && !fab.contains(e.target)) close();
@@ -3206,7 +3244,7 @@ const CASES = {
       e.preventDefault(); closeAbout(); opener = null;
       setTimeout(() => document.getElementById(a.hash.slice(1))?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }), reduce ? 0 : 800);
     }));
-    addEventListener("keydown", e => { if (e.key === "Escape") closeAbout(); });
+    addEventListener("keydown", e => { if (e.key === "Escape" && !document.querySelector("dialog[open]")) closeAbout(); });
   }
 
   /* pause hero-only CSS animations when the first screen is out of view */
@@ -3262,7 +3300,7 @@ const CASES = {
     modal.querySelector(".modal-scroll").scrollTop = 0;
     document.body.classList.add("modal-open");
   };
-  I18N.onChange(() => { if (modal.open && openCard) fillCase(openCard); });
+  I18N.onChange(() => { if (openCard) fillCase(openCard); });     // closed or open: no stale language left in the DOM
   $$("[data-open-case]").forEach(b => b.addEventListener("click", () => {
     const card = $(`.case[data-case="${b.dataset.openCase}"]`);
     if (card) openCase(card);
@@ -3328,14 +3366,22 @@ const CASES = {
   const ctx = canvas.getContext("2d", { alpha: false });
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let small = matchMedia("(max-width: 640px)").matches;
-  /* quality budget: start from what the device can probably afford, then let the frame-time governor
-     (in frame()) trim or restore particles on the fly, so the animation never stalls */
-  const cores = navigator.hardwareConcurrency || 4, memory = navigator.deviceMemory || 4;
-  const weak = small || cores <= 4 || memory <= 4 || !!navigator.connection?.saveData;
-  const N_MAX = small ? 650 : weak ? 1100 : 1700;          // particles allocated (upper bound)
-  const N_MIN = small ? 240 : 420;                          // never thinner than this
-  let active = weak ? Math.round(N_MAX * 0.8) : N_MAX;      // particles actually simulated and drawn
-  let dprCap = small || weak ? 1 : 1.5;                     // canvas resolution cap (lowered if frames stay slow)
+  /* quality budget, from the device tier decided in <head> (window.PERF):
+       full  — 1700 particles, 60 fps cap, 1.5× resolution, code tokens falling in
+       lite  — weak computer (≤4 cores / ≤4 GB / data saver): ÷2.5 → 680 particles, 30 fps, 1×, motes only
+       phone — touch screen or narrow window: ÷3 → 567 particles, 30 fps, 1×, motes only
+     On top of that a frame-time governor (govern()) trims or restores particles on the fly. */
+  const perf = window.PERF || {};
+  const phone = small || !!perf.touch;
+  const lite = phone || !!perf.weak;
+  const N_FULL = 1700;
+  const N_MAX = phone ? Math.round(N_FULL / 3) : lite ? Math.round(N_FULL / 2.5) : N_FULL;   // particles allocated
+  const N_MIN = phone ? 200 : lite ? 260 : 420;             // never thinner than this
+  let active = N_MAX;                                       // particles actually simulated and drawn
+  let dprCap = lite ? 1 : 1.5;                              // canvas resolution cap (lowered if frames stay slow)
+  const FPS = lite ? 30 : 60;                               // frame cap, whatever the screen's refresh rate (60/90/120/144 Hz)
+  const FPS_BUSY = lite ? 20 : 30;                          // while the page scrolls / switches sphere or language
+  const TOKENS_ON = !lite;                                  // text is the most expensive thing to draw: lite gets glowing motes only
   const N = N_MAX;
   const ARMS = 3;
   // colour buckets: drawing each bucket as one path keeps it fast
@@ -3365,7 +3411,9 @@ const CASES = {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
     for (const p of P) p.px = null;                          // no streaks across the resized canvas
+    if (reduce && drawnOnce) frame(performance.now());       // reduced motion: resizing clears the canvas, so redraw the still frame
   };
+  let drawnOnce = false;
   // resizing reallocates the whole canvas: do it at most once per frame, and ignore the phone address bar
   // sliding in and out (height-only changes), which would otherwise re-create the canvas while scrolling
   let resizeQueued = false;
@@ -3396,15 +3444,22 @@ const CASES = {
   let winSum = 0, winN = 0, base = Infinity, goodWins = 0, govFrom = 0;
   // intro screen: vortex sits dead centre until launch; pulse = energy burst on launch (decays to 0)
   let introMode = !!document.getElementById("intro"), pulse = 0, fx = 0.5, fy = 0.5;
-  let tLaunch = 0, skipFrame = false;
+  let tLaunch = 0, lastDraw = 0, busyUntil = 0;
   // infall objects: glowing motes and short code tokens pulled into the throat
   const TOKENS = ["</>", "{ }", "fn()", "=>", "const", "[ ]", "&&", "λ", "01", ";", "<div>", "async"];
   const infall = [];
   let nextInfall = performance.now() + 5000, glowKick = 0;
   window.cosmos = {
     launch() { introMode = false; pulse = 1; tLaunch = performance.now(); govFrom = tLaunch + 2500; if (reduce) frame(tLaunch); },
-    setVibe(key) { target = PALETTES[key] || PALETTES.web; pulse = Math.max(pulse, 0.12); if (reduce) { easePalette(1); frame(performance.now()); } }
+    // the page is about to do heavy DOM/style work (sphere or language switch): yield frames to it for a moment
+    busy(ms) { busyUntil = Math.max(busyUntil, performance.now() + ms); },
+    setVibe(key) {
+      target = PALETTES[key] || PALETTES.web; pulse = Math.max(pulse, 0.12);
+      this.busy(900);                                    // the colour change restyles the page: give it the frames
+      if (reduce) { easePalette(1); frame(performance.now()); }
+    }
   };
+  if (typeof I18N !== "undefined") I18N.onChange(() => window.cosmos.busy(700));   // a language switch rewrites a few hundred texts
   addEventListener("pointermove", e => { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; }, { passive: true });
   let shownOpacity = "";
   addEventListener("scroll", () => {
@@ -3427,8 +3482,8 @@ const CASES = {
     if (winSum < 1000) return;
     const avg = winSum / winN; winSum = winN = 0;
     base = Math.min(base, avg);                                         // the display's own cadence (60/90/120 Hz…)
-    // dropping frames: well behind the display's cadence, or simply too slow in absolute terms
-    const slow = avg > Math.max(base * 1.45, 20) || avg > (small ? 45 : 28);
+    // dropping frames: clearly behind both the best cadence seen so far and the frame cap itself
+    const slow = avg > Math.max(base * 1.45, (1000 / FPS) * 1.35);
     if (slow) {
       goodWins = 0;
       if (active > N_MIN) active = Math.max(N_MIN, Math.round(active * 0.8));
@@ -3444,12 +3499,17 @@ const CASES = {
   function frame(now) {
     raf = 0;
     if (!running) return;
-    // ~30 fps on phones, and on every device while the page scrolls: the browser gets the headroom to move the page
-    const scrollingNow = document.documentElement.classList.contains("scrolling");
-    if ((small || scrollingNow) && (skipFrame = !skipFrame)) { schedule(); return; }
+    // frame cap by elapsed time (not by counting frames), so 120/144 Hz screens don't run the vortex 2× as often;
+    // lower still while the page scrolls or switches sphere/language, so the page gets the processor
+    const busy = now < busyUntil || document.documentElement.classList.contains("scrolling");
+    const gap = 1000 / (busy ? FPS_BUSY : FPS), sinceDraw = now - lastDraw;
+    if (!reduce && sinceDraw < gap - 2) { schedule(); return; }        // reduced motion draws on demand only: never skip those
+    // keep the cadence even (carry over the part beyond one gap), but never "catch up" after a pause:
+    // 60 Hz → every frame at 60 fps; 120 Hz → every 2nd; 144 Hz → alternating 2nd/3rd ≈ 60 fps
+    lastDraw = sinceDraw >= gap && sinceDraw < gap * 2 ? now - (sinceDraw - gap) : now;
     const interval = now - last;
     const dt = Math.min(interval / 16.67, 3); last = now;
-    if (scrollingNow) { winSum = winN = 0; govFrom = now + 400; }      // half-rate frames are deliberate, not a slow device
+    if (busy) { winSum = winN = 0; govFrom = now + 400; }              // deliberately slower frames are not a slow device
     else govern(now, interval);
     // intro: particles start scattered wide and collapse into the funnel
     // before launch the stars hang still and scattered; on launch they collapse into the funnel
@@ -3470,11 +3530,13 @@ const CASES = {
 
     // trails: paint translucent black over the last frame
     ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle = reduce || introMode ? "#000" : "rgba(0,0,0,0.2)";
+    // fade by elapsed time, not per frame: trails look the same at 20, 30 or 60 fps
+    ctx.fillStyle = reduce || introMode ? "#000" : `rgba(0,0,0,${(1 - Math.pow(0.8, dt)).toFixed(3)})`;
     ctx.fillRect(0, 0, W, H);
     ctx.globalCompositeOperation = "lighter";
 
     for (const arr of paths) arr.length = 0;
+    const streakMax = 28 * Math.max(1, dt);                 // at 30 fps a particle travels twice as far per frame
     for (let i = 0; i < active; i++) {
       const p = P[i];
       p.a += Math.min(spin * p.w / Math.pow(p.r + 0.05, 0.85), 0.12);   // cap step so inner orbits stay smooth arcs
@@ -3485,7 +3547,7 @@ const CASES = {
       const x = cx + Math.cos(p.a) * rr * S;
       const y = cy + Math.sin(p.a) * rr * S * tilt + depth;
       if (reduce || introMode) paths[p.c].push(x - 0.8, y, x + 0.8, y, p.lw);   // still stars, no trails
-      else if (p.px !== null && p.r > 0.1 && Math.abs(x - p.px) + Math.abs(y - p.py) < 28) paths[p.c].push(p.px, p.py, x, y, p.lw);
+      else if (p.px !== null && p.r > 0.1 && Math.abs(x - p.px) + Math.abs(y - p.py) < streakMax) paths[p.c].push(p.px, p.py, x, y, p.lw);
       p.px = x; p.py = y;
     }
     for (let c = 0; c < paths.length; c++) {
@@ -3508,7 +3570,7 @@ const CASES = {
         const n = 1 + (Math.random() < 0.4 ? 1 : 0);
         for (let i = 0; i < n; i++) infall.push({
           r: 1.05 + Math.random() * 0.2, a: Math.random() * Math.PI * 2, px: null, py: null,
-          text: Math.random() < 0.55 ? TOKENS[Math.floor(Math.random() * TOKENS.length)] : null
+          text: TOKENS_ON && Math.random() < 0.55 ? TOKENS[Math.floor(Math.random() * TOKENS.length)] : null
         });
         nextInfall = now + 11000 + Math.random() * 13000;
       }
@@ -3547,10 +3609,11 @@ const CASES = {
   }
 
   resize();
-  if (reduce) { frame(performance.now()); addEventListener("resize", () => frame(performance.now())); }
+  if (reduce) { frame(performance.now()); drawnOnce = true; }
   else schedule();
   // for checking on a device: window.cosmos.stats()
-  window.cosmos.stats = () => ({ particles: active, max: N_MAX, dpr: DPR, frameMs: +base.toFixed(1) });
+  window.cosmos.stats = () => ({ tier: phone ? "phone" : lite ? "lite" : "full", particles: active, max: N_MAX, fpsCap: FPS, dpr: DPR,
+    frameMs: Number.isFinite(base) ? +base.toFixed(1) : null });
 })();
 </script>
 <script>
@@ -3573,6 +3636,8 @@ const CASES = {
   let level = 0.5;
   try { const saved = parseFloat(localStorage.getItem("spartak-volume")); if (saved >= 0 && saved <= 1) level = saved; } catch {}
   const scenes = {};
+  // resume()/suspend() return a promise in current browsers (nothing in some old Safari): swallow refusals either way
+  const quiet = p => { if (p && typeof p.catch === "function") p.catch(() => {}); };
 
   /* ---------- helpers ---------- */
   const osc = (type, f, gain, out) => {
@@ -3597,7 +3662,7 @@ const CASES = {
     [[55, .5, "sine"], [55.35, .45, "sine"], [27.5, .6, "sine"], [82.4, .12, "triangle"], [110.2, .06, "sine"]].forEach(([f, g, t]) => osc(t, f, g, drone));
     lfo(0.07, 110, lp.frequency); lfo(0.11, 0.12, drone.gain);
     const bp = filter("bandpass", 420), ng = ctx.createGain(); ng.gain.value = 0.1;
-    noise(4, brown).connect(bp).connect(ng).connect(out); lfo(0.045, 220, bp.frequency);
+    noise(3, brown).connect(bp).connect(ng).connect(out); lfo(0.045, 220, bp.frequency);   // 3 s loop: generated in half the time
     return {};
   }
 
@@ -3656,7 +3721,7 @@ const CASES = {
     // 2) texture: pink noise through a drifting band-pass — wind at height / rustling drawings, in gusts
     const air = ctx.createGain(); air.gain.value = 0.09;
     const airBp = filter("bandpass", 900, 0.9);
-    noise(6, pink).connect(airBp).connect(filter("lowpass", 1900)).connect(air).connect(bus);
+    noise(3, pink).connect(airBp).connect(filter("lowpass", 1900)).connect(air).connect(bus);   // 3 s loop (was 6): half the generation work on a sphere switch
     lfo(0.06, 350, airBp.frequency); lfo(0.08, 0.035, air.gain);
 
     // 3) far-off tool knocks: muffled noise bursts + a short wooden/metal body, sent into a dark echo
@@ -3743,7 +3808,7 @@ const CASES = {
           soft = ctx.createBiquadFilter(); soft.type = "lowpass"; soft.frequency.value = TONE[vibe] || 850; soft.Q.value = 0.5;
           master.connect(soft).connect(ctx.createDynamicsCompressor()).connect(ctx.destination);
         }
-        ctx.resume();
+        quiet(ctx.resume());                                // a refused resume must not surface as an unhandled error
         ensure(vibe);
         master.gain.cancelScheduledValues(ctx.currentTime);
         master.gain.setTargetAtTime(MAX_VOLUME * level, ctx.currentTime, 1.2);
@@ -3756,9 +3821,9 @@ const CASES = {
         master.gain.cancelScheduledValues(ctx.currentTime);
         master.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
         apply();
-        setTimeout(() => { if (!on) ctx.suspend(); }, 900);
+        setTimeout(() => { if (!on) quiet(ctx.suspend()); }, 900);
       }
-    } catch (e) { on = false; btn.classList.remove("on"); }
+    } catch (e) { on = false; btn.classList.remove("on"); btn.setAttribute("aria-pressed", "false"); vol?.classList.add("off"); label(); }
   }
 
   function label() { btn.setAttribute("aria-label", I18N.t(on ? "snd_off" : "snd_on")); }
@@ -3781,7 +3846,7 @@ const CASES = {
   }
   document.addEventListener("visibilitychange", () => {
     if (!ctx) return;
-    if (document.hidden) ctx.suspend(); else if (on) ctx.resume();
+    if (document.hidden) quiet(ctx.suspend()); else if (on) quiet(ctx.resume());
   });
   window.ambient = {
     start() { if (store.get() !== "off" && level > 0) setOn(true); },   // called by the launch button
@@ -3800,8 +3865,9 @@ const CASES = {
   const canvas = document.getElementById("dust");
   const ctx = canvas.getContext("2d");
   const small = matchMedia("(max-width: 640px)").matches;
-  const weak = small || (navigator.hardwareConcurrency || 4) <= 4 || (navigator.deviceMemory || 4) <= 4;
-  const N = small ? 28 : weak ? 50 : 80;
+  const perf = window.PERF || {};
+  const weak = small || !!perf.lite;                         // same tier as the vortex (decided in <head>)
+  const N = small || perf.touch ? 24 : weak ? 40 : 80;
   let W = 0, H = 0, DPR, running = !document.hidden, last = performance.now(), raf = 0;
   const resize = () => {
     DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 1.5); W = innerWidth; H = innerHeight;
@@ -3837,13 +3903,15 @@ const CASES = {
     if (!running) { cancelAnimationFrame(raf); raf = 0; return; }
     last = performance.now(); schedule();
   });
-  let skipScroll = false;
+  let lastDraw = 0;
   function frame(now) {
     raf = 0;
     if (!running) return;
-    // half rate while the page scrolls (the dust drifts slowly; nobody sees the difference, the scroll does)
-    if (document.documentElement.classList.contains("scrolling") && (skipScroll = !skipScroll)) { schedule(); return; }
-    const dt = Math.min(now - last, 50); last = now;
+    // the dust drifts slowly: 30 fps is plenty on any screen, 15 while the page scrolls (the scroll gets the frames)
+    const gap = document.documentElement.classList.contains("scrolling") ? 66.7 : 33.3;
+    if (now - lastDraw < gap - 2) { schedule(); return; }
+    lastDraw = now;
+    const dt = Math.min(now - last, 100); last = now;      // up to 15 fps steps without slowing the drift
     ctx.clearRect(0, 0, W, H);
     const sy = scrollY;
     for (const d of D) {
