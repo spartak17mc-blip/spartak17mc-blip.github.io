@@ -45,7 +45,7 @@
    |---|---|
    | `BOT_TOKEN` | токен из шага 1 |
    | `CHAT_ID` | ваш id из шага 2 |
-   | `ALLOWED_ORIGIN` | `https://spartak17mc-blip.github.io` (без `/` на конце; если появится свой домен — он) |
+   | `ALLOWED_ORIGIN` | `https://spartak17mc-blip.github.io` (несколько адресов — через запятую, например `https://spartak17mc-blip.github.io, https://имя.vercel.app`; без `/` на конце) |
 5. **Связь с сайтом.** Скопируйте адрес воркера (`https://имя.ваш-аккаунт.workers.dev`) и вставьте в `index.html`:
    ```js
    const LEADS = {

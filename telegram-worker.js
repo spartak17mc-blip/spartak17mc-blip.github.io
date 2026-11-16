@@ -17,7 +17,7 @@
  *  4. Settings → Variables and Secrets → добавьте (тип Secret):
  *       BOT_TOKEN      = токен бота
  *       CHAT_ID        = ваш chat id (число)
- *       ALLOWED_ORIGIN = https://spartak17mc-blip.github.io      (без слеша на конце; ваш домен, если появится)
+ *       ALLOWED_ORIGIN = https://spartak17mc-blip.github.io      (несколько адресов — через запятую, без слеша на конце)
  *  5. Адрес воркера (https://….workers.dev) впишите в index.html → LEADS.endpoint.
  *  6. (Рекомендуется) Security → WAF → Rate limiting rules: не больше 10 запросов в минуту с одного IP.
  *
@@ -80,7 +80,10 @@ function buildQuiz(f) {
 
 export default {
   async fetch(request, env) {
-    const allowed = env.ALLOWED_ORIGIN;
+    // one or several site addresses, comma-separated: "https://a.github.io, https://a.vercel.app"
+    const origins = String(env.ALLOWED_ORIGIN || "").split(",").map(s => s.trim().replace(/\/+$/, "")).filter(Boolean);
+    const origin = request.headers.get("Origin") || "";
+    const allowed = origins.includes(origin) ? origin : origins[0];
     const cors = {
       "Access-Control-Allow-Origin": allowed || "null",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -95,7 +98,7 @@ export default {
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
     if (request.method !== "POST") return reply("Method not allowed", 405);
     // only our own site may submit (browsers always send Origin on cross-site POST)
-    if (request.headers.get("Origin") !== allowed) return reply("Forbidden", 403);
+    if (!origins.includes(origin)) return reply("Forbidden", 403);
     if (!(request.headers.get("Content-Type") || "").includes("application/json")) return reply("Unsupported media type", 415);
 
     // rate limit per IP
