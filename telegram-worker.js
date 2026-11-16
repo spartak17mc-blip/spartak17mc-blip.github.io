@@ -1,40 +1,34 @@
-/**
- * Backend для заявок с сайта → ваш личный Telegram (Cloudflare Workers, бесплатный тариф).
- *
- * Что он защищает:
- *  - токен бота и chat_id живут только здесь, в секретах воркера; сайт и посетители их не видят;
- *  - заявки уходят только в один чат — CHAT_ID (ваш личный), отправить «куда-то ещё» нельзя;
- *  - принимаются только POST-запросы с JSON и только с вашего сайта (проверка Origin);
- *  - сайт присылает сырые поля, а текст сообщения собирает и экранирует сам воркер:
- *    подделать разметку, ссылки или «чужой» текст в вашем Telegram нельзя;
- *  - каждое поле проверяется заново (браузерную проверку можно обойти), длина и размер запроса ограничены;
- *  - ловушка для ботов (honeypot), отсев «мгновенных» отправок и лимит частоты по IP.
- *
- * Как подключить (≈10 минут) — подробная инструкция в README.md, раздел «Заявки в Telegram»:
- *  1. @BotFather → /newbot → получите токен бота.
- *  2. Напишите своему боту /start, затем узнайте свой chat id (например, у @userinfobot — строка «Id»).
- *  3. dash.cloudflare.com → Workers & Pages → Create → Worker → вставьте этот файл целиком → Deploy.
- *  4. Settings → Variables and Secrets → добавьте (тип Secret):
- *       BOT_TOKEN      = токен бота
- *       CHAT_ID        = ваш chat id (число)
- *       ALLOWED_ORIGIN = https://spartak17mc-blip.github.io      (несколько адресов — через запятую, без слеша на конце)
- *  5. Адрес воркера (https://….workers.dev) впишите в index.html → LEADS.endpoint.
- *  6. (Рекомендуется) Security → WAF → Rate limiting rules: не больше 10 запросов в минуту с одного IP.
- *
- * Проверка: откройте адрес воркера в браузере — ответ «Method not allowed» значит, что он запущен
- * и секреты заданы («Not configured» — какого-то секрета не хватает).
- */
+// Backend для заявок с сайта → ваш Telegram (Cloudflare Workers, бесплатный тариф).
+//
+// Что он защищает:
+//  - токен бота живёт только здесь, в секретах воркера; сайт и посетители его не видят;
+//  - заявки получают ТОЛЬКО ID из CHAT_ID (вы и те, кого вы добавили), отправить «куда-то ещё» нельзя;
+//  - бот закрытый: всем остальным он отвечает «это закрытый бот» и ничего не показывает,
+//    из групп и каналов выходит сам — встроить его в чужой чат и читать заявки нельзя;
+//  - webhook защищён секретом, который вычисляется из токена: подделать «сообщение от Telegram» нельзя;
+//  - заявки принимаются только POST + JSON и только с адресов из ALLOWED_ORIGIN;
+//  - текст сообщения собирает и экранирует сам воркер: подделать разметку или ссылки нельзя;
+//  - каждое поле проверяется заново, длина и размер ограничены; honeypot, отсев «мгновенных»
+//    отправок и лимит частоты по IP.
+//
+// Секреты (Settings → Variables and Secrets):
+//   BOT_TOKEN      = токен бота от @BotFather
+//   CHAT_ID        = кто получает заявки: ваш ID; несколько — через запятую: 8426313033, 123456789
+//   ALLOWED_ORIGIN = адреса сайта через запятую, без слеша на конце
+//
+// После деплоя один раз откройте https://<адрес-воркера>/setup — воркер подключит webhook бота.
+// Подробности — README.md, раздел «Заявки в Telegram».
 
 const MAX_BODY = 16 * 1024;                                // bytes
 const WINDOW_MS = 10 * 60 * 1000, MAX_PER_WINDOW = 5;     // per IP, best effort (per worker instance)
 const hits = new Map();
 
-/* main form: Telegram, budget, specialization, description */
+// main form: Telegram, budget, specialization, description
 const ORDER = { telegram: 64, budget: 40, spec: 60, message: 3500, lang: 5 };
 // @username, username, t.me/username or https://t.me/username → "username"
 const TG_RE = /^(?:@|(?:https?:\/\/)?(?:www\.)?(?:t|telegram)\.me\/)?([A-Za-z][A-Za-z0-9_]{3,31})\/?$/;
 
-/* mini-quiz on the site (kept as before) */
+// mini-quiz on the site
 const QUIZ = {
   "Имя": 60, "Контакт": 100, "Задача": 40, "Сфера": 60, "Готово": 60, "Сроки": 60,
   "Бюджет": 40, "Ориентир": 60, "Валюта": 10, "Язык": 5, "О проекте": 2000
@@ -42,10 +36,30 @@ const QUIZ = {
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const clean = (s, max, multiline = false) => {
-  let v = String(s ?? "").normalize("NFC").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u202A-\u202E\u2066-\u2069]/g, "");
+  let v = String(s ?? "").normalize("NFC").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F​-‏‪-‮⁦-⁩]/g, "");
   v = multiline ? v.replace(/\r\n?/g, "\n").replace(/[ \t]{2,}/g, " ").replace(/\n{4,}/g, "\n\n\n") : v.replace(/\s+/g, " ");
   return v.trim().slice(0, max);
 };
+// "8426313033, 123456789" → ["8426313033", "123456789"]; anything that is not a numeric id is ignored
+const recipients = env => String(env.CHAT_ID || "").split(",").map(s => s.trim()).filter(s => /^\d{3,20}$/.test(s));
+
+// webhook secret derived from the bot token: nothing extra to store, and it changes if the token is revoked
+async function hookSecret(env) {
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("leads-webhook:" + env.BOT_TOKEN));
+  return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 64);
+}
+// constant-time comparison for the webhook header
+const same = (a, b) => {
+  if (typeof a !== "string" || a.length !== b.length) return false;
+  let r = 0;
+  for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return r === 0;
+};
+const tgApi = (env, method, payload) => fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/${method}`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload)
+});
 
 // → { text, buttons } or null when the lead is invalid
 function buildOrder(f) {
@@ -78,8 +92,29 @@ function buildQuiz(f) {
   return { text: `🧭 <b>ЗАЯВКА ИЗ ОПРОСНИКА</b>\n\n${rows.join("\n")}` };
 }
 
+// messages to the bot itself (via webhook): only trusted ids get an answer about leads
+async function onUpdate(update, env) {
+  const ids = recipients(env);
+  // added to a group or channel → leave at once: nobody can plug the bot into their own chat
+  const member = update.my_chat_member;
+  if (member && member.chat.type !== "private") {
+    if (member.new_chat_member?.status !== "left" && member.new_chat_member?.status !== "kicked") await tgApi(env, "leaveChat", { chat_id: member.chat.id });
+    return;
+  }
+  const msg = update.message;
+  if (!msg?.chat) return;
+  if (msg.chat.type !== "private") { await tgApi(env, "leaveChat", { chat_id: msg.chat.id }); return; }
+  const id = String(msg.from?.id ?? msg.chat.id);
+  const trusted = ids.includes(id);
+  const text = trusted
+    ? "✅ <b>Вы получатель заявок.</b>\n\nНовые заявки с сайта будут приходить в этот чат. Бот закрытый: посторонним он ничего не показывает.\n\nВаш ID: <code>" + esc(id) + "</code>"
+    : "⛔ <b>Это закрытый бот.</b>\n\nОн доставляет заявки с сайта только своему владельцу и не ведёт переписку с клиентами.\n\nВаш ID: <code>" + esc(id) + "</code>";
+  await tgApi(env, "sendMessage", { chat_id: msg.chat.id, text, parse_mode: "HTML" });
+}
+
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
     // one or several site addresses, comma-separated: "https://a.github.io, https://a.vercel.app"
     const origins = String(env.ALLOWED_ORIGIN || "").split(",").map(s => s.trim().replace(/\/+$/, "")).filter(Boolean);
     const origin = request.headers.get("Origin") || "";
@@ -93,8 +128,26 @@ export default {
       "X-Content-Type-Options": "nosniff"
     };
     const reply = (msg, status) => new Response(msg, { status, headers: cors });
+    const ids = recipients(env);
 
-    if (!allowed || !env.BOT_TOKEN || !env.CHAT_ID) return reply("Not configured", 500);
+    if (!allowed || !env.BOT_TOKEN || !ids.length) return reply("Not configured", 500);
+
+    // Telegram → bot (webhook): accepted only with the secret header
+    if (url.pathname === "/tg") {
+      if (request.method !== "POST" || !same(request.headers.get("X-Telegram-Bot-Api-Secret-Token"), await hookSecret(env))) return reply("Forbidden", 403);
+      try { await onUpdate(await request.json(), env); } catch (e) { console.error("update", e); }
+      return reply("ok", 200);                             // always 200, so Telegram does not resend
+    }
+    // one-time setup: points the bot's webhook at this worker (safe to repeat, reveals nothing)
+    if (url.pathname === "/setup") {
+      const res = await tgApi(env, "setWebhook", {
+        url: `${url.origin}/tg`, secret_token: await hookSecret(env),
+        allowed_updates: ["message", "my_chat_member"], drop_pending_updates: true
+      });
+      const data = await res.json().catch(() => ({}));
+      return reply(data.ok ? "Webhook подключён ✓" : "Ошибка: " + (data.description || res.status), data.ok ? 200 : 502);
+    }
+
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
     if (request.method !== "POST") return reply("Method not allowed", 405);
     // only our own site may submit (browsers always send Origin on cross-site POST)
@@ -124,14 +177,15 @@ export default {
 
     const stamp = new Date(now + 3 * 3600e3).toISOString().replace("T", " ").slice(0, 16);   // Moscow time
     const text = `${lead.text}\n\n<i>${esc(new URL(allowed).host)} · ${stamp} МСК</i>`;
-    const body = { chat_id: env.CHAT_ID, text, parse_mode: "HTML", link_preview_options: { is_disabled: true } };
-    if (lead.buttons) body.reply_markup = { inline_keyboard: lead.buttons };
-    const tg = await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    });
-    if (!tg.ok) console.error("Telegram error", tg.status, await tg.text());
-    return reply(tg.ok ? "ok" : "telegram error", tg.ok ? 200 : 502);
+    // every trusted recipient gets the lead; it counts as delivered if at least one got it
+    const sent = await Promise.all(ids.map(async chat_id => {
+      const body = { chat_id, text, parse_mode: "HTML", link_preview_options: { is_disabled: true } };
+      if (lead.buttons) body.reply_markup = { inline_keyboard: lead.buttons };
+      const tg = await tgApi(env, "sendMessage", body);
+      if (!tg.ok) console.error("Telegram error", chat_id, tg.status, await tg.text());
+      return tg.ok;
+    }));
+    const ok = sent.some(Boolean);
+    return reply(ok ? "ok" : "telegram error", ok ? 200 : 502);
   }
 };

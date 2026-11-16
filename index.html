@@ -337,6 +337,9 @@ svg{display:block}
 .qlink .go{margin-left:auto;width:18px;height:18px;color:var(--dim);transition:transform .7s var(--ease-out),color .5s;flex:none}
 .qlink:hover .go{transform:translateX(3px);color:var(--text)}
 .avail{margin-top:auto;padding-top:36px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14.5px}
+.safe-note{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border-radius:14px;border:1px solid rgba(250,204,21,.28);background:rgba(250,204,21,.06);color:var(--muted);font-size:13.5px;line-height:1.5;max-width:46ch}
+.safe-note::before{content:"🛡️";flex:none;line-height:1.4}
+.done .safe-note{margin-top:18px}
 .avail .live{width:8px;height:8px;border-radius:50%;background:#5eead4;box-shadow:0 0 0 4px rgba(94,234,212,.15)}
 
 form.lead-form{padding:clamp(28px,5vw,60px);display:grid;gap:22px;align-content:start}
@@ -1397,6 +1400,8 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
           </a>
         </div>
         <div class="avail" data-i18n="avail"><span class="live"></span>На связи ежедневно с 9:00 до 22:00 (МСК)</div>
+        <!-- anti-scam note: the text is set by script (it names CONTACTS.telegram) -->
+        <p class="safe-note" data-safe-note></p>
       </div>
 
       <form class="lead-form" id="form" novalidate>
@@ -1441,6 +1446,7 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
           <div class="ok"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
           <h3 data-i18n="ok_title">Ваша заявка успешно отправлена!</h3>
           <p data-i18n="ok_text">Я свяжусь с&nbsp;вами в&nbsp;ближайшее время.</p>
+          <p class="safe-note" data-safe-note></p>
         </div>
       </form>
     </div>
@@ -2466,11 +2472,13 @@ const I18N_ROWS = {
   ph_desc: ["Tell me everything you think matters: the task, wishes, deadlines, sites you like", "Erzählen Sie alles, was Ihnen wichtig ist: Aufgabe, Wünsche, Fristen, Websites, die Ihnen gefallen", "Cuéntame todo lo que consideres importante: tarea, deseos, plazos, webs que te gustan", "Dites-moi tout ce qui compte : la tâche, vos souhaits, les délais, des sites que vous aimez", "Conte tudo o que achar importante: a tarefa, desejos, prazos, sites de que gosta", "请写下您认为重要的一切：任务、要求、期限、喜欢的网站", "大切だと思うことを何でもどうぞ：内容、ご要望、納期、気に入っているサイトなど", "중요하다고 생각하는 모든 것을 적어주세요: 작업, 요청 사항, 일정, 마음에 드는 사이트", "Önemli bulduğunuz her şeyi yazın: görev, istekler, süre, beğendiğiniz siteler"],
   ok_title: ["Your request has been sent!", "Ihre Anfrage wurde gesendet!", "¡Tu solicitud se ha enviado!", "Votre demande a bien été envoyée !", "Seu pedido foi enviado!", "您的申请已成功发送！", "お申し込みを送信しました！", "요청이 성공적으로 전송되었습니다!", "Talebiniz başarıyla gönderildi!"],
   ok_text: ["I'll get in touch with you shortly.", "Ich melde mich in Kürze bei Ihnen.", "Me pondré en contacto contigo muy pronto.", "Je vous recontacte très bientôt.", "Entrarei em contato com você em breve.", "我会尽快与您联系。", "近日中にご連絡いたします。", "곧 연락드리겠습니다.", "En kısa sürede sizinle iletişime geçeceğim."],
+  safe_note: ["I only message clients from {tg}. If someone writes to you in my name from another account, it's a scam: don't reply and don't send them money.", "Ich schreibe Kunden nur von {tg}. Schreibt Ihnen jemand in meinem Namen von einem anderen Konto, ist das Betrug: nicht antworten und kein Geld überweisen.", "Solo escribo a mis clientes desde {tg}. Si alguien te escribe en mi nombre desde otra cuenta, es una estafa: no respondas ni le envíes dinero.", "Je n'écris à mes clients que depuis {tg}. Si quelqu'un vous écrit en mon nom depuis un autre compte, c'est une arnaque : ne répondez pas et n'envoyez pas d'argent.", "Só falo com clientes pela conta {tg}. Se alguém escrever em meu nome de outra conta, é golpe: não responda e não envie dinheiro.", "我只通过 {tg} 联系客户。如有人用其他账号冒充我联系您，那是诈骗：请勿回复，也不要转账。", "お客様へのご連絡は {tg} からのみ行います。別のアカウントから私の名前で連絡が来た場合は詐欺です。返信や送金はしないでください。", "고객에게는 {tg} 계정으로만 연락합니다. 다른 계정에서 제 이름으로 연락이 오면 사기입니다. 답장하거나 송금하지 마세요.", "Müşterilere yalnızca {tg} hesabından yazarım. Başka bir hesaptan benim adıma yazan olursa bu dolandırıcılıktır: yanıt vermeyin ve para göndermeyin."],
 };
 for (const [key, row] of Object.entries(I18N_ROWS)) row.forEach((s, i) => { I18N_DICT[I18N_ORDER[i]][key] = s; });
 
 /* Russian for strings that only exist in scripts (everything in the markup is read from the page itself) */
 Object.assign(I18N_DICT.ru, {
+  safe_note: "Я пишу клиентам только с аккаунта {tg}. Если от моего имени пишут с другого аккаунта — это мошенники: не отвечайте и не переводите им деньги.",
   snd_on: "Включить звук", snd_off: "Выключить звук",
   pl1: "Инициализация ядра", pl2: "Калибровка гравитации", pl3: "Синхронизация звёздного поля", pl4: "Подготовка интерфейса",
   pet_hi: "привет!", pet_yay: "ура!", pet_whoosh: "вжух!", pet_dizzy: "ой-ой…", ghost_c: "// идея → прототип → код",
@@ -2682,6 +2690,8 @@ const CASES = {
   /* contacts */
   $("#tgLink").href = "https://t.me/" + CONTACTS.telegram;
   $("#tgText").textContent = "@" + CONTACTS.telegram;
+  const safeNote = () => $$("[data-safe-note]").forEach(el => { el.textContent = I18N.t("safe_note", { tg: "@" + CONTACTS.telegram }); });
+  safeNote(); I18N.onChange(safeNote);
   $("#year").textContent = new Date().getFullYear();
 
   /* ---------- lead delivery: validation, anti-spam and sending (shared by the form and the quiz) ---------- */
