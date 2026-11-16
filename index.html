@@ -730,6 +730,15 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
 /* ================= LEADS ================= */
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .f-error,.quiz-err{font-size:14px;color:#fca5a5;line-height:1.5}
+/* project form: budget amount with the currency sign, specialization error */
+.fld .legend-row{gap:8px}
+.money{position:relative}
+.money input{padding-right:42px}
+.money-sign{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:15px;pointer-events:none}
+.group .msg{display:none;font-size:13px;color:#fca5a5;margin-top:10px}
+.group.err .msg{display:block}
+.group.err .opts label{border-color:rgba(248,113,113,.55)}
+@media (max-width:640px){.lead-form .row2{grid-template-columns:1fr}}
 .f-error a,.quiz-err a{color:#fff;text-decoration:underline;text-underline-offset:3px}
 .quiz-err{font-size:13px;margin-top:10px}
 .quiz-input{width:100%;margin-bottom:10px;padding:13px 14px;border-radius:14px;font-size:15px;outline:none;
@@ -1392,36 +1401,34 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 
       <form class="lead-form" id="form" novalidate>
         <div class="f-title" data-i18n="f_title">Заявка на проект<small data-i18n="f_sub">Займёт меньше минуты</small></div>
+        <!-- every field below is required; the browser checks them first, the server (telegram-worker.js) checks them again -->
         <div class="row2">
-          <div class="fld"><label for="f-name" data-i18n="lbl_name">Имя</label><input id="f-name" name="name" type="text" minlength="2" maxlength="60" spellcheck="false" placeholder="Как к вам обращаться" autocomplete="name" required data-i18n-attr="placeholder:ph_name"><span class="msg" data-i18n="msg_name">Укажите имя</span></div>
-          <div class="fld"><label for="f-contact" data-i18n="lbl_contact">Telegram или телефон</label><input id="f-contact" name="contact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="@username или +7…" required data-i18n-attr="placeholder:ph_contact"><span class="msg" data-i18n="msg_contact">Укажите, куда ответить</span></div>
+          <div class="fld"><label for="f-tg" data-i18n="lbl_tg">Telegram</label><input id="f-tg" name="telegram" type="text" maxlength="64" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="@username" required data-i18n-attr="placeholder:ph_tg"><span class="msg" data-i18n="err_tg">Укажите @username или ссылку t.me/username</span></div>
+          <div class="fld">
+            <div class="legend-row"><label for="f-budget" data-i18n="lg_budget">Бюджет</label>
+              <span class="cur" role="group" aria-label="Валюта бюджета" data-i18n-attr="aria-label:aria_cur">
+                <button type="button" class="cur-btn" data-cur="USD" aria-pressed="false">$</button>
+                <button type="button" class="cur-btn" data-cur="EUR" aria-pressed="false">€</button>
+                <button type="button" class="cur-btn" data-cur="RUB" aria-pressed="true">₽</button>
+              </span>
+            </div>
+            <div class="money"><input id="f-budget" name="budget" type="text" inputmode="decimal" maxlength="30" spellcheck="false" autocomplete="off" placeholder="Например, 500" required data-i18n-attr="placeholder:ph_budget"><span class="money-sign" id="budgetSign" aria-hidden="true">₽</span></div>
+            <span class="msg" data-i18n="err_budget">Укажите сумму цифрами, например 500</span>
+          </div>
         </div>
-        <fieldset class="group">
-          <legend data-i18n="lg_type">Что нужно сделать</legend>
+        <fieldset class="group" id="specGroup">
+          <legend data-i18n="lg_spec">Специализация</legend>
           <div class="opts">
-            <input type="radio" name="type" id="t1" value="Лендинг" checked><label for="t1" data-i18n="t1">Лендинг</label>
-            <input type="radio" name="type" id="t2" value="Корпоративный сайт"><label for="t2" data-i18n="t2">Сайт компании</label>
-            <input type="radio" name="type" id="t3" value="Интернет-магазин"><label for="t3" data-i18n="t3">Магазин</label>
-            <input type="radio" name="type" id="t4" value="Редизайн"><label for="t4" data-i18n="t4">Редизайн</label>
+            <input type="radio" name="spec" id="s1" value="Web Design" required><label for="s1" data-i18n="sp_design">Web Design</label>
+            <input type="radio" name="spec" id="s2" value="Лендинг"><label for="s2" data-i18n="t1">Лендинг</label>
+            <input type="radio" name="spec" id="s3" value="Корпоративный сайт"><label for="s3" data-i18n="t2">Сайт компании</label>
+            <input type="radio" name="spec" id="s4" value="Интернет-магазин"><label for="s4" data-i18n="t3">Магазин</label>
+            <input type="radio" name="spec" id="s5" value="Редизайн"><label for="s5" data-i18n="t4">Редизайн</label>
+            <input type="radio" name="spec" id="s6" value="Другое"><label for="s6" data-i18n="sp_other">Другое</label>
           </div>
+          <span class="msg" data-i18n="err_spec">Выберите, какая услуга вас интересует</span>
         </fieldset>
-        <fieldset class="group">
-          <legend class="legend-row" data-i18n="lg_budget">Бюджет
-            <span class="cur" role="group" aria-label="Валюта бюджета" data-i18n-attr="aria-label:aria_cur">
-              <button type="button" class="cur-btn" data-cur="USD" aria-pressed="false">$ USD</button>
-              <button type="button" class="cur-btn" data-cur="EUR" aria-pressed="false">€ EUR</button>
-              <button type="button" class="cur-btn" data-cur="RUB" aria-pressed="true">₽ RUB</button>
-            </span>
-          </legend>
-          <!-- values are currency-independent tier keys; labels are rendered for the selected currency -->
-          <div class="opts">
-            <input type="radio" name="budget" id="b1" value="low"><label for="b1" data-tier="low">до 50 тыс. ₽</label>
-            <input type="radio" name="budget" id="b2" value="mid" checked><label for="b2" data-tier="mid">50–100 тыс. ₽</label>
-            <input type="radio" name="budget" id="b3" value="high"><label for="b3" data-tier="high">от 100 тыс. ₽</label>
-            <input type="radio" name="budget" id="b4" value="consult"><label for="b4" data-tier="consult" data-i18n="b_consult">Пока не знаю</label>
-          </div>
-        </fieldset>
-        <div class="fld"><label for="f-msg" data-i18n="lbl_msg">О проекте</label><textarea id="f-msg" name="message" maxlength="2000" placeholder="Чем занимается компания, что нужно сделать и к какому сроку" required data-i18n-attr="placeholder:ph_msg"></textarea><span class="msg" data-i18n="msg_msg">Опишите задачу хотя бы в одном предложении</span></div>
+        <div class="fld"><label for="f-msg" data-i18n="lbl_desc">Описание</label><textarea id="f-msg" name="message" maxlength="3500" placeholder="Расскажите всё, что считаете важным: задача, пожелания, сроки, примеры сайтов, которые нравятся" required data-i18n-attr="placeholder:ph_desc"></textarea><span class="msg" data-i18n="err_msg">Опишите задачу хотя бы в одном предложении</span></div>
         <!-- honeypot: real visitors never see or fill this field -->
         <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="consent" data-i18n-html="consent">Нажимая кнопку, вы&nbsp;соглашаетесь с&nbsp;<button type="button" class="legal-link inline" data-legal="terms">Условиями работы</button> и&nbsp;<button type="button" class="legal-link inline" data-legal="privacy">Политикой конфиденциальности</button>.</p>
@@ -1432,8 +1439,8 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
         <p class="f-error" id="formError" role="alert" hidden></p>
         <div class="done" role="status" aria-live="polite">
           <div class="ok"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <h3 data-i18n="done_title">Заявка отправлена</h3>
-          <p data-i18n="done_text">Спасибо! Я уже получил её в&nbsp;Telegram и&nbsp;вернусь с&nbsp;планом проекта в&nbsp;течение пары часов.</p>
+          <h3 data-i18n="ok_title">Ваша заявка успешно отправлена!</h3>
+          <p data-i18n="ok_text">Я свяжусь с&nbsp;вами в&nbsp;ближайшее время.</p>
         </div>
       </form>
     </div>
@@ -2445,6 +2452,20 @@ const I18N_ROWS = {
   q_thanks: ["Thank you! It's in my Telegram — I'll reply within a couple of hours.", "Danke! Sie ist in meinem Telegram – ich antworte innerhalb weniger Stunden.", "¡Gracias! Ya está en mi Telegram: respondo en un par de horas.", "Merci ! Elle est sur mon Telegram — je réponds sous quelques heures.", "Obrigado! Já chegou no meu Telegram — respondo em poucas horas.", "谢谢！我已在 Telegram 收到，几小时内回复。", "ありがとうございます！Telegramで受け取りました。数時間以内に返信します。", "감사합니다! 텔레그램으로 받았으며 몇 시간 안에 답변드리겠습니다.", "Teşekkürler! Telegram'ıma ulaştı — birkaç saat içinde yanıtlarım."],
   q_prefill: ["Estimate from the site: ", "Schätzung von der Website: ", "Cálculo desde el sitio: ", "Estimation depuis le site : ", "Estimativa pelo site: ", "网站估算：", "サイトでの試算：", "사이트 견적: ", "Siteden hesaplama: "],
   q_summary: ["{type}, field — {sphere}, {ready}, launch — {when}. Estimate: {range}, {days}.", "{type}, Branche – {sphere}, {ready}, Launch – {when}. Richtwert: {range}, {days}.", "{type}, sector: {sphere}, {ready}, lanzamiento: {when}. Estimación: {range}, {days}.", "{type}, secteur — {sphere}, {ready}, lancement — {when}. Estimation : {range}, {days}.", "{type}, setor — {sphere}, {ready}, lançamento — {when}. Estimativa: {range}, {days}.", "{type}，领域：{sphere}，{ready}，上线：{when}。预估：{range}，{days}。", "{type}、業種：{sphere}、{ready}、公開：{when}。目安：{range}、{days}。", "{type}, 분야 — {sphere}, {ready}, 런칭 — {when}. 예상: {range}, {days}.", "{type}, sektör — {sphere}, {ready}, yayın — {when}. Tahmin: {range}, {days}."],
+  /* project form → Telegram */
+  lbl_tg: ["Telegram", "Telegram", "Telegram", "Telegram", "Telegram", "Telegram", "Telegram", "텔레그램", "Telegram"],
+  ph_tg: ["@username", "@username", "@usuario", "@username", "@usuario", "@用户名", "@ユーザー名", "@사용자명", "@kullanıcıadı"],
+  err_tg: ["Enter your @username or a t.me/username link", "Geben Sie Ihren @username oder einen t.me/username-Link an", "Indica tu @usuario o un enlace t.me/usuario", "Indiquez votre @username ou un lien t.me/username", "Informe seu @usuario ou um link t.me/usuario", "请填写 @用户名 或 t.me/用户名 链接", "@ユーザー名 または t.me/ユーザー名 のリンクを入力してください", "@사용자명 또는 t.me/사용자명 링크를 입력하세요", "@kullanıcıadı veya t.me/kullanıcıadı bağlantısı girin"],
+  ph_budget: ["e.g. 500", "z. B. 500", "p. ej., 500", "par ex. 500", "ex.: 500", "例如 500", "例：500", "예: 500", "ör. 500"],
+  err_budget: ["Enter the amount in numbers, e.g. 500", "Geben Sie den Betrag in Ziffern an, z. B. 500", "Indica la cantidad en cifras, p. ej., 500", "Indiquez le montant en chiffres, par ex. 500", "Informe o valor em números, ex.: 500", "请用数字填写金额，例如 500", "金額を数字で入力してください（例：500）", "금액을 숫자로 입력하세요. 예: 500", "Tutarı rakamla girin, ör. 500"],
+  lg_spec: ["Specialization", "Leistung", "Especialización", "Spécialité", "Especialização", "服务类型", "ご依頼の分野", "분야", "Uzmanlık"],
+  sp_design: ["Web Design", "Webdesign", "Diseño web", "Web design", "Web design", "网页设计", "Webデザイン", "웹 디자인", "Web tasarım"],
+  sp_other: ["Other", "Sonstiges", "Otro", "Autre", "Outro", "其他", "その他", "기타", "Diğer"],
+  err_spec: ["Choose the service you're interested in", "Wählen Sie die gewünschte Leistung", "Elige el servicio que te interesa", "Choisissez le service qui vous intéresse", "Escolha o serviço que te interessa", "请选择您需要的服务", "ご希望のサービスを選択してください", "관심 있는 서비스를 선택하세요", "İlgilendiğiniz hizmeti seçin"],
+  lbl_desc: ["Description", "Beschreibung", "Descripción", "Description", "Descrição", "描述", "詳細", "설명", "Açıklama"],
+  ph_desc: ["Tell me everything you think matters: the task, wishes, deadlines, sites you like", "Erzählen Sie alles, was Ihnen wichtig ist: Aufgabe, Wünsche, Fristen, Websites, die Ihnen gefallen", "Cuéntame todo lo que consideres importante: tarea, deseos, plazos, webs que te gustan", "Dites-moi tout ce qui compte : la tâche, vos souhaits, les délais, des sites que vous aimez", "Conte tudo o que achar importante: a tarefa, desejos, prazos, sites de que gosta", "请写下您认为重要的一切：任务、要求、期限、喜欢的网站", "大切だと思うことを何でもどうぞ：内容、ご要望、納期、気に入っているサイトなど", "중요하다고 생각하는 모든 것을 적어주세요: 작업, 요청 사항, 일정, 마음에 드는 사이트", "Önemli bulduğunuz her şeyi yazın: görev, istekler, süre, beğendiğiniz siteler"],
+  ok_title: ["Your request has been sent!", "Ihre Anfrage wurde gesendet!", "¡Tu solicitud se ha enviado!", "Votre demande a bien été envoyée !", "Seu pedido foi enviado!", "您的申请已成功发送！", "お申し込みを送信しました！", "요청이 성공적으로 전송되었습니다!", "Talebiniz başarıyla gönderildi!"],
+  ok_text: ["I'll get in touch with you shortly.", "Ich melde mich in Kürze bei Ihnen.", "Me pondré en contacto contigo muy pronto.", "Je vous recontacte très bientôt.", "Entrarei em contato com você em breve.", "我会尽快与您联系。", "近日中にご連絡いたします。", "곧 연락드리겠습니다.", "En kısa sürede sizinle iletişime geçeceğim."],
 };
 for (const [key, row] of Object.entries(I18N_ROWS)) row.forEach((s, i) => { I18N_DICT[I18N_ORDER[i]][key] = s; });
 
@@ -2632,19 +2653,15 @@ const I18N = (() => {
 <script>
 /* ===== Контакты: замените на свои ===== */
 const CONTACTS = {
-  telegram: "username"            // ваш ник в Telegram, без @
+  telegram: "TheSparWeb"          // ваш ник в Telegram, без @
 };
 
 /* ===== Заявки в Telegram (форма и опросник) =====
-   Вариант 1 — рекомендуется: endpoint — адрес вашего прокси (готовый код: telegram-worker.js).
-     Токен бота хранится на сервере и не виден в коде сайта.
-   Вариант 2 — быстрый: botToken + chatId — запрос идёт напрямую в Telegram Bot API.
-     ВНИМАНИЕ: токен в коде публичного сайта может увидеть и использовать любой посетитель.
-   Пока ничего не заполнено, форма честно сообщает, что не подключена, и предлагает написать в Telegram. */
+   endpoint — адрес вашего backend'а (код: telegram-worker.js, инструкция: README.md → «Заявки в Telegram»).
+   Токен бота и ваш chat id хранятся только на сервере, в коде сайта их нет и быть не должно.
+   Пока endpoint пустой, форма честно сообщает, что не подключена, и предлагает написать в Telegram. */
 const LEADS = {
-  endpoint: "",                   // например: "https://leads.your-name.workers.dev"
-  botToken: "",                   // например: "123456789:AA…"
-  chatId: ""                      // ваш chat_id (число)
+  endpoint: "https://spartec-leads.spartak17mc.workers.dev"
 };
 
 /* Case studies: values are translation keys (texts live in I18N_DICT / I18N_ROWS, Russian in I18N_DICT.ru);
@@ -2668,15 +2685,15 @@ const CASES = {
   $("#year").textContent = new Date().getFullYear();
 
   /* ---------- lead delivery: validation, anti-spam and sending (shared by the form and the quiz) ---------- */
-  // escape for Telegram HTML and for any attribute we build ourselves
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   // strip control/invisible characters, collapse whitespace runs, trim and cap the length
   const clean = (s, max, multiline = false) => {
-    let v = String(s ?? "").normalize("NFC").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F​-‏‪-‮⁦-⁩]/g, "");
+    let v = String(s ?? "").normalize("NFC").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u202A-\u202E\u2066-\u2069]/g, "");
     v = multiline ? v.replace(/[ \t]{2,}/g, " ").replace(/\n{3,}/g, "\n\n") : v.replace(/\s+/g, " ");
     return v.trim().slice(0, max);
   };
-  const LIMITS = { name: 60, contact: 100, message: 2000 };
+  const LIMITS = { contact: 100, telegram: 64, budget: 30, message: 3500 };
+  // the form's Telegram field: @username, username or a t.me link (the same rule runs on the server)
+  const TG_RE = /^(?:@|(?:https?:\/\/)?(?:www\.)?(?:t|telegram)\.me\/)?([A-Za-z][A-Za-z0-9_]{3,31})\/?$/;
   // Telegram @username, t.me link, phone or e-mail
   const CONTACT_RE = /^(@?[A-Za-z][A-Za-z0-9_]{4,31}|(https?:\/\/)?t\.me\/[A-Za-z][A-Za-z0-9_]{4,31}|\+?[\d\s()\-]{7,20}|[^\s@]{1,64}@[^\s@]{1,190}\.[A-Za-z]{2,24})$/;
   const validContact = v => CONTACT_RE.test(v) && (v.replace(/\D/g, "").length >= 7 || /[A-Za-z]/.test(v));
@@ -2695,24 +2712,15 @@ const CASES = {
   };
   const bornAt = Date.now();          // bots submit instantly; people need a few seconds
   let sending = false;
-  const sendLead = async (kind, title, fields, hp = "") => {
+  // only raw, length-limited fields leave the browser; the server checks them again, escapes and formats the message
+  const sendLead = async (kind, fields, hp = "") => {
     if (sending) throw new Error("busy");
     if (hp) return;                                                  // honeypot filled → silently drop
     if (Date.now() - bornAt < 3000) throw new Error("too-fast");
     if (throttled()) throw new Error("throttled");
-    const rows = Object.entries(fields).filter(([, v]) => v);
-    let url, body;
-    if (LEADS.endpoint) {
-      // proxy mode: only raw, length-limited fields leave the browser; the server escapes and formats them
-      url = LEADS.endpoint;
-      body = { kind, fields: Object.fromEntries(rows), hp, elapsed: Date.now() - bornAt };
-    } else if (LEADS.botToken && LEADS.chatId) {
-      console.warn("LEADS: прямой режим — токен бота виден в коде страницы. Рекомендуется прокси (telegram-worker.js).");
-      const text = `<b>${esc(title)}</b>\n\n` + rows.map(([k, v]) => `<b>${esc(k)}:</b> ${esc(v)}`).join("\n")
-        + `\n\n<i>${esc(location.host || "сайт")} · ${esc(new Date().toLocaleString("ru-RU"))}</i>`;
-      url = `https://api.telegram.org/bot${encodeURIComponent(LEADS.botToken)}/sendMessage`;
-      body = { chat_id: LEADS.chatId, text, parse_mode: "HTML", disable_web_page_preview: true };
-    } else throw new Error("not-configured");
+    if (!/^https:\/\//.test(LEADS.endpoint) && !/^http:\/\/(localhost|127\.0\.0\.1)[:/]/.test(LEADS.endpoint)) throw new Error("not-configured");
+    const url = LEADS.endpoint;
+    const body = { kind, fields: Object.fromEntries(Object.entries(fields).filter(([, v]) => v)), hp, elapsed: Date.now() - bornAt };
     sending = true;
     const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), 12000);
     try {
@@ -2998,19 +3006,9 @@ const CASES = {
   // ₽ per 1 unit — rough rates used only for indicative prices; update whenever you like
   const RATES = { RUB: 1, USD: 80, EUR: 92 };
   const CUR_SIGN = { RUB: "₽", USD: "$", EUR: "€" };
-  // budget tiers in the contact form, per currency (edit freely)
-  const BUDGET_TIERS = {
-    RUB: { low: "до 50 тыс. ₽", mid: "50–100 тыс. ₽", high: "от 100 тыс. ₽" },
-    USD: { low: "до $600", mid: "$600–1 200", high: "от $1 200" },
-    EUR: { low: "до €550", mid: "€550–1 100", high: "от €1 100" }
-  };
   // language → default currency: RU → ₽, DE/FR/ES → €, everything else → $ (the visitor can always pick another)
   const LANG_CURRENCY = { ru: "RUB", de: "EUR", fr: "EUR", es: "EUR" };
   const langDefault = () => LANG_CURRENCY[(document.documentElement.lang || "en").toLowerCase().slice(0, 2)] || "USD";
-  // tier labels for other languages: the amount plus a translated "up to / from"
-  const TIER_V = { RUB: ["50 000 ₽", "50 000–100 000 ₽", "100 000 ₽"], USD: ["$600", "$600–1 200", "$1 200"], EUR: ["€550", "€550–1 100", "€1 100"] };
-  const tierLabel = (c, tier) => I18N.lang === "ru" ? BUDGET_TIERS[c][tier]
-    : tier === "mid" ? TIER_V[c][1] : I18N.t("tier_" + tier, { v: TIER_V[c][tier === "low" ? 0 : 2] });
   let manualCurrency = null;
   try { const saved = localStorage.getItem("spartak-currency"); if (CUR_SIGN[saved]) manualCurrency = saved; } catch {}
   let currency = manualCurrency || langDefault();
@@ -3041,9 +3039,7 @@ const CASES = {
     const on = b.dataset.cur === c;
     b.setAttribute("aria-pressed", String(on)); b.classList.toggle("on", on);
   }));
-  currencyListeners.push(c => $$("#form label[data-tier]").forEach(l => {
-    if (BUDGET_TIERS[c][l.dataset.tier]) l.textContent = tierLabel(c, l.dataset.tier);
-  }));
+  currencyListeners.push(c => { const sign = $("#budgetSign"); if (sign) sign.textContent = CUR_SIGN[c]; });
   // choosing a language by hand resets the currency to that language's default (a later manual pick still wins)
   I18N.onChange((l, byUser) => {
     if (byUser) { manualCurrency = null; try { localStorage.removeItem("spartak-currency"); } catch {} }
@@ -3146,7 +3142,7 @@ const CASES = {
         }
         btn.disabled = true; err.hidden = true;
         // answers come from our own option lists, so only the contact is free text; the owner reads Russian
-        sendLead("quiz", "🧭 Заявка из опросника", { "Контакт": c, "Задача": type, "Сфера": ru(ans.sphere[0]), "Готово": ru(ans.ready[0]), "Сроки": ru(ans.when[0]), "Ориентир": fmtRange(p1, p2, currency, true) + ", " + d1 + "–" + d2 + " дней", "Валюта": currency, "Язык": I18N.lang.toUpperCase() })
+        sendLead("quiz", { "Контакт": c, "Задача": type, "Сфера": ru(ans.sphere[0]), "Готово": ru(ans.ready[0]), "Сроки": ru(ans.when[0]), "Ориентир": fmtRange(p1, p2, currency, true) + ", " + d1 + "–" + d2 + " дней", "Валюта": currency, "Язык": I18N.lang.toUpperCase() })
           .then(() => { sent = true; render(); })
           .catch(e => { err.innerHTML = leadError(e); err.hidden = false; btn.disabled = false; });
       });
@@ -3154,14 +3150,14 @@ const CASES = {
       // option B: carry the answers into the full contact form
       $("#quizForm").addEventListener("click", () => {
         const form = $("#form");
-        const radio = form?.querySelector('input[name="type"][value="' + type + '"]');
-        if (radio) radio.checked = true;
-        const msg = form?.elements.message, cont = form?.elements.contact;
+        const radio = form?.querySelector('input[name="spec"][value="' + type + '"]');
+        if (radio) { radio.checked = true; $("#specGroup")?.classList.remove("err"); }
+        const msg = form?.elements.message, cont = form?.elements.telegram;
         if (msg && !msg.value.trim()) msg.value = I18N.t("q_prefill") + summary();
-        if (cont && !cont.value.trim() && input.value.trim()) cont.value = input.value.trim();
+        if (cont && !cont.value.trim() && TG_RE.test(clean(input.value, LIMITS.telegram))) cont.value = clean(input.value, LIMITS.telegram);
         close();
         $("#contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-        setTimeout(() => form?.elements.name.focus({ preventScroll: true }), 900);
+        setTimeout(() => form?.elements.telegram.focus({ preventScroll: true }), 900);
       });
       if (quiz.classList.contains("open") && !typed) input.focus({ preventScroll: true });
     };
@@ -3319,35 +3315,33 @@ const CASES = {
     if (btn.disabled) return;                                         // ignore double clicks / Enter spam
     // normalise every field first, then validate the cleaned values
     const v = {
-      name: clean(form.elements.name.value, LIMITS.name),
-      contact: clean(form.elements.contact.value, LIMITS.contact),
+      telegram: clean(form.elements.telegram.value, LIMITS.telegram).replace(/\s+/g, ""),
+      budget: clean(form.elements.budget.value, LIMITS.budget),
+      spec: ["Web Design", "Лендинг", "Корпоративный сайт", "Интернет-магазин", "Редизайн", "Другое"].includes(form.elements.spec.value) ? form.elements.spec.value : "",
       message: clean(form.elements.message.value, LIMITS.message, true)
     };
-    const rules = {
-      name: [v.name.length >= 2, "err_name"],
-      contact: [validContact(v.contact), "err_contact"],
-      message: [v.message.length >= 10, "err_msg"]
+    const fields = {
+      telegram: [form.elements.telegram, TG_RE.test(v.telegram), "err_tg"],
+      budget: [form.elements.budget, /\d/.test(v.budget), "err_budget"],
+      spec: [$("#s1"), !!v.spec, "err_spec"],
+      message: [form.elements.message, v.message.length >= 10, "err_msg"]
     };
     let first = null;
-    for (const [n, [ok, key]] of Object.entries(rules)) {
-      const fld = form.elements[n].closest(".fld");
-      fld.classList.toggle("err", !ok);
+    for (const [el, ok, key] of Object.values(fields)) {
+      const box = el.closest(".fld, .group");
+      box.classList.toggle("err", !ok);
       if (!ok) {
-        const msg = fld.querySelector(".msg");
+        const msg = box.querySelector(".msg");
         msg.dataset.i18n = key; msg.textContent = I18N.t(key);       // the key keeps the hint in sync with later language switches
-        first ||= form.elements[n];
+        first ||= el;
       }
     }
     if (first) { first.focus(); return; }
-    // radios can only carry values from our own markup — anything else is dropped
-    const pick = (name, allowed) => { const val = form.elements[name].value; return allowed.includes(val) ? val : ""; };
-    const type = pick("type", ["Лендинг", "Корпоративный сайт", "Интернет-магазин", "Редизайн"]);
-    const tier = pick("budget", ["low", "mid", "high", "consult"]);
-    const budget = tier === "consult" ? "Нужна консультация" : tier ? `${BUDGET_TIERS[currency][tier]} (${currency})` : "";
+    // the amount gets the chosen currency, unless the visitor already wrote one ("500$", "300 евро")
+    const budget = /[$€₽£¥]|usd|eur|rub|руб|евро|дол/i.test(v.budget) ? v.budget : `${v.budget} ${CUR_SIGN[currency]}`;
     const errBox = $("#formError");
     btn.disabled = true; btn.firstChild.textContent = I18N.t("sending"); errBox.hidden = true; formErr = null;
-    sendLead("form", "🚀 Новая заявка с сайта",
-      { "Имя": v.name, "Контакт": v.contact, "Задача": type, "Бюджет": budget, "Валюта": currency, "Язык": I18N.lang.toUpperCase(), "О проекте": v.message },
+    sendLead("form", { telegram: v.telegram, budget, spec: v.spec, message: v.message, lang: I18N.lang },
       clean(form.elements.company.value, 100))
       .then(() => form.classList.add("sent"))
       .catch(err => { formErr = err; errBox.innerHTML = leadError(err); errBox.hidden = false; })
@@ -3356,7 +3350,7 @@ const CASES = {
   // a visible sending error follows a language switch too
   let formErr = null;
   I18N.onChange(() => { const box = $("#formError"); if (formErr && !box.hidden) box.innerHTML = leadError(formErr); });
-  $$("#form input, #form textarea").forEach(el => el.addEventListener("input", () => el.closest(".fld")?.classList.remove("err")));
+  $$("#form input, #form textarea").forEach(el => el.addEventListener("input", () => el.closest(".fld, .group")?.classList.remove("err")));
 })();
 </script>
 <script>
