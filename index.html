@@ -3373,8 +3373,8 @@ const CASES = {
   let small = matchMedia("(max-width: 640px)").matches;
   /* quality budget, from the device tier decided in <head> (window.PERF):
        full  — 1700 particles, 60 fps cap, 1.5× resolution, code tokens falling in
-       lite  — weak computer (≤4 cores / ≤4 GB / data saver): ÷2.5 → 680 particles, 30 fps, 1×, motes only
-       phone — touch screen or narrow window: ÷3 → 567 particles, 30 fps, 1×, motes only
+       lite  — weak computer (≤4 cores / ≤4 GB / data saver): ÷2.5 → 680 particles, 60 fps (30 if it can't keep up), 1×, motes only
+       phone — touch screen or narrow window: ÷3 → 567 particles, 30 fps (60 during the launch burst), 1×, motes only
      On top of that a frame-time governor (govern()) trims or restores particles on the fly. */
   const perf = window.PERF || {};
   const phone = small || !!perf.touch;
@@ -3384,7 +3384,11 @@ const CASES = {
   const N_MIN = phone ? 200 : lite ? 260 : 420;             // never thinner than this
   let active = N_MAX;                                       // particles actually simulated and drawn
   let dprCap = lite ? 1 : 1.5;                              // canvas resolution cap (lowered if frames stay slow)
-  const FPS = lite ? 30 : 60;                               // frame cap, whatever the screen's refresh rate (60/90/120/144 Hz)
+  // frame cap, whatever the screen's refresh rate (60/90/120/144 Hz). Phones: 30. Weak computers start at 60 and the
+  // governor drops them to 30 only if frames stay slow at the minimum particle count. The launch burst always runs
+  // at up to 60: its motion is the fastest on the page, and at 30 fps it visibly stutters.
+  let FPS = phone ? 30 : 60;
+  const FPS_LAUNCH = 60, LAUNCH_MS = 2800;
   const FPS_BUSY = lite ? 20 : 30;                          // while the page scrolls / switches sphere or language
   const TOKENS_ON = !lite;                                  // text is the most expensive thing to draw: lite gets glowing motes only
   const N = N_MAX;
@@ -3493,6 +3497,7 @@ const CASES = {
       goodWins = 0;
       if (active > N_MIN) active = Math.max(N_MIN, Math.round(active * 0.8));
       else if (dprCap > 1) { dprCap = 1; resize(); }
+      else if (FPS > 30) { FPS = 30; base = Infinity; }                // last resort: half the frames, steady rather than jerky
     } else if (avg < base * 1.12 && active < N_MAX && ++goodWins >= 4) {
       goodWins = 0;
       const next = Math.min(N_MAX, Math.round(active * 1.08));
@@ -3507,7 +3512,8 @@ const CASES = {
     // frame cap by elapsed time (not by counting frames), so 120/144 Hz screens don't run the vortex 2× as often;
     // lower still while the page scrolls or switches sphere/language, so the page gets the processor
     const busy = now < busyUntil || document.documentElement.classList.contains("scrolling");
-    const gap = 1000 / (busy ? FPS_BUSY : FPS), sinceDraw = now - lastDraw;
+    const launching = !introMode && tLaunch && now - tLaunch < LAUNCH_MS;
+    const gap = 1000 / (busy ? FPS_BUSY : launching ? FPS_LAUNCH : FPS), sinceDraw = now - lastDraw;
     if (!reduce && sinceDraw < gap - 2) { schedule(); return; }        // reduced motion draws on demand only: never skip those
     // keep the cadence even (carry over the part beyond one gap), but never "catch up" after a pause:
     // 60 Hz → every frame at 60 fps; 120 Hz → every 2nd; 144 Hz → alternating 2nd/3rd ≈ 60 fps
@@ -3522,7 +3528,8 @@ const CASES = {
     const ease = 1 - Math.pow(1 - intro, 3);
     const spread = 1 + (1 - ease) * 2.2;
 
-    ox += (mx * 60 - ox) * 0.04; oy += (my * 40 - oy) * 0.04;
+    const follow = 1 - Math.pow(0.96, dt);                  // same easing speed at any frame rate
+    ox += (mx * 60 - ox) * follow; oy += (my * 40 - oy) * follow;
     pulse *= Math.pow(0.965, dt);
     easePalette(Math.min(0.04 * dt, 1));
     fx += ((introMode || small ? 0.5 : 0.64) - fx) * 0.02 * dt;
@@ -3541,10 +3548,13 @@ const CASES = {
     ctx.globalCompositeOperation = "lighter";
 
     for (const arr of paths) arr.length = 0;
-    const streakMax = 28 * Math.max(1, dt);                 // at 30 fps a particle travels twice as far per frame
+    // at 30 fps a particle travels twice as far per frame; during the launch burst (fast spin, funnel collapsing
+    // from a wide spread) much further still — a too-tight limit made streaks blink out, which read as stutter
+    const streakMax = 28 * Math.max(1, dt) * (1 + pulse * 4) * spread;
+    const stepMax = 0.12 * Math.max(1, dt);
     for (let i = 0; i < active; i++) {
       const p = P[i];
-      p.a += Math.min(spin * p.w / Math.pow(p.r + 0.05, 0.85), 0.12);   // cap step so inner orbits stay smooth arcs
+      p.a += Math.min(spin * p.w / Math.pow(p.r + 0.05, 0.85), stepMax);   // cap step so inner orbits stay smooth arcs
       p.r -= pull * (0.4 + p.r);
       if (p.r < 0.03) { spawn(p, true); continue; }
       const rr = p.r * spread;
