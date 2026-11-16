@@ -1,7 +1,9 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" translate="no" class="notranslate">
 <head>
 <meta charset="utf-8">
+<!-- the site has its own 10-language switcher: browser auto-translators must not rewrite the text underneath it -->
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Spartec Web — сайты и лендинги под ключ</title>
 <meta name="description" content="Профессиональная разработка современных сайтов и лендингов под ключ: стратегия, дизайн, разработка и запуск. Быстрая загрузка, безупречная адаптивность, продуманный путь клиента к заявке.">
@@ -2459,13 +2461,31 @@ const I18N = (() => {
     document.querySelectorAll("[data-i18n-html]").forEach(el => { const k = el.dataset.i18nHtml; if (!(k in RU)) RU[k] = el.innerHTML.trim(); });
     document.querySelectorAll("[data-i18n-attr]").forEach(el => attrPairs(el).forEach(([a, k]) => { if (!(k in RU)) RU[k] = el.getAttribute(a) || ""; }));
   };
+  // remember each element's own text node, so a later update never has to guess (or wipe icons)
+  const own = new WeakMap();
+  document.querySelectorAll("[data-i18n]").forEach(el => { const n = textNode(el); if (n) own.set(el, n); });
   capture();
   RU.meta_title = document.title;
   RU.meta_desc = document.querySelector('meta[name="description"]')?.content || "";
 
+  /* one key set for all ten languages: every language gets every key; a missing or empty entry is filled
+     from English, then from the Russian original — and reported in the console so it can be translated */
+  const ok = v => typeof v === "string" && v.trim() !== "";
+  const filled = {};
+  const ALL_KEYS = new Set([...Object.keys(RU), ...Object.keys(I18N_DICT.en || {})]);
+  for (const [l] of I18N_LANGS) {
+    const d = I18N_DICT[l] || (I18N_DICT[l] = {});
+    for (const k of ALL_KEYS) if (!ok(d[k])) {
+      const v = l !== "ru" && ok(I18N_DICT.en?.[k]) ? I18N_DICT.en[k] : ok(RU[k]) ? RU[k] : I18N_DICT.en?.[k];
+      if (ok(v)) { d[k] = v; (filled[l] ||= []).push(k); }
+    }
+  }
+  if (Object.keys(filled).length) console.warn("[i18n] keys filled from a fallback language:", filled);
+
   let lang = "ru";
+  // never returns an empty string: chosen language → English → Russian original → the key itself
   const t = (key, vars) => {
-    let s = I18N_DICT[lang]?.[key] ?? RU[key] ?? key;
+    let s = [I18N_DICT[lang]?.[key], I18N_DICT.en?.[key], RU[key]].find(ok) ?? String(key);
     if (vars) for (const [k, v] of Object.entries(vars)) s = s.split(`{${k}}`).join(v);
     return s;
   };
@@ -2475,18 +2495,26 @@ const I18N = (() => {
     privacy: `<button type="button" class="legal-link inline" data-legal="privacy">${t("privacy_in")}</button>`
   });
   const setText = (el, value) => {
-    const n = textNode(el);
-    if (!n) { el.textContent = value; return; }
+    if (!ok(value)) return;                                         // never blank an element
+    let n = own.get(el);
+    if (!n || n.parentNode !== el) {                                // our node was replaced (another script, a browser translator…)
+      el.querySelectorAll(":scope > font").forEach(f => f.remove());   // translator wrappers (this site never uses <font>)
+      n = textNode(el);
+      if (!n) { n = document.createTextNode(""); el.insertBefore(n, el.firstChild); }   // add text, keep icons and children
+      own.set(el, n);
+    }
     const lead = n.data.match(/^\s*/)[0], tail = value.endsWith(" ") ? " " : n.data.match(/\s*$/)[0];
     const next = lead + value.trim() + tail;
     if (n.data !== next) n.data = next;
   };
+  // each element on its own: one broken element can never stop the rest of the page from updating
+  const each = (root, sel, fn) => root.querySelectorAll(sel).forEach(el => { try { fn(el); } catch (e) { console.error("[i18n]", el, e); } });
   // translate a subtree (the whole page, or content a script has just rendered)
   const translate = (root = document) => {
     const vars = legalVars();
-    root.querySelectorAll("[data-i18n]").forEach(el => setText(el, t(el.dataset.i18n)));
-    root.querySelectorAll("[data-i18n-html]").forEach(el => { const v = t(el.dataset.i18nHtml, vars); if (el.innerHTML !== v) el.innerHTML = v; });
-    root.querySelectorAll("[data-i18n-attr]").forEach(el => attrPairs(el).forEach(([a, k]) => el.setAttribute(a, t(k))));
+    each(root, "[data-i18n]", el => setText(el, t(el.dataset.i18n)));
+    each(root, "[data-i18n-html]", el => { const v = t(el.dataset.i18nHtml, vars); if (ok(v) && el.innerHTML !== v) el.innerHTML = v; });
+    each(root, "[data-i18n-attr]", el => attrPairs(el).forEach(([a, k]) => { const v = t(k); if (ok(v)) el.setAttribute(a, v); }));
   };
   const apply = () => {
     document.documentElement.lang = lang;
