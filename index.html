@@ -941,7 +941,7 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <svg class="ghost-cursor" viewBox="0 0 22 22"><g class="press"><path d="M3 2 L3 17 L7 13.3 L9.8 19.5 L12.4 18.3 L9.7 12.3 L15 12.3 Z" fill="#ffffff" fill-opacity=".92" stroke="#0b0b14" stroke-width="1.2" stroke-linejoin="round"/></g></svg>
 </div>
 <!-- ================= PRELOADER ================= -->
-<div class="preloader" id="preloader" role="status" aria-label="Загрузка сайта">
+<div class="preloader" id="preloader" role="status" aria-label="Загрузка сайта" data-i18n-attr="aria-label:aria_loading">
   <div class="pl-core glass">
     <div class="pl-orbit" aria-hidden="true">
       <svg viewBox="0 0 64 64"><circle class="trk" cx="32" cy="32" r="26"/><circle class="arc" cx="32" cy="32" r="26"/></svg>
@@ -949,7 +949,7 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
     </div>
     <span class="pl-brand">[ Initializing System… ]</span>
     <span class="pl-scan" aria-hidden="true"></span>
-    <span class="pl-status" id="plStatus">Инициализация ядра</span>
+    <span class="pl-status" id="plStatus" data-i18n="pl1">Инициализация ядра</span>
   </div>
 </div>
 <!-- ================= INTRO ================= -->
@@ -962,14 +962,14 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="shock" aria-hidden="true"></div>
   <div class="intro-panel glass beam-on">
     <span class="intro-kicker"><i></i>The Spartec Web // Web Design &amp; Development</span>
-    <h2 id="introTitle">Дизайн, которому доверяют. Код, который <span class="serif grad">приносит заявки</span></h2>
-    <p class="intro-lead">Я&nbsp;веб-разработчик и&nbsp;дизайнер интерфейсов. Проектирую и&nbsp;запускаю лендинги и&nbsp;корпоративные сайты под&nbsp;ключ&nbsp;— с&nbsp;ясной структурой, выверенной эстетикой и&nbsp;безупречно чистым кодом.</p>
-    <ul class="intro-tags" aria-label="Специализация">
-      <li>Лендинги</li><li>Корпоративные сайты</li><li>UI/UX-дизайн</li><li>Frontend-разработка</li>
+    <h2 id="introTitle" data-i18n-html="intro_title">Дизайн, которому доверяют. Код, который <span class="serif grad">приносит заявки</span></h2>
+    <p class="intro-lead" data-i18n="intro_lead">Я&nbsp;веб-разработчик и&nbsp;дизайнер интерфейсов. Проектирую и&nbsp;запускаю лендинги и&nbsp;корпоративные сайты под&nbsp;ключ&nbsp;— с&nbsp;ясной структурой, выверенной эстетикой и&nbsp;безупречно чистым кодом.</p>
+    <ul class="intro-tags" aria-label="Специализация" data-i18n-attr="aria-label:aria_spec">
+      <li data-i18n="tag1">Лендинги</li><li data-i18n="tag2">Корпоративные сайты</li><li data-i18n="tag3">UI/UX-дизайн</li><li data-i18n="tag4">Frontend-разработка</li>
     </ul>
-    <p class="intro-motto"><span>Принцип</span>Сначала смысл, затем форма. Каждый экран, каждая строка кода и&nbsp;каждое слово служат одной цели&nbsp;— вашему результату.</p>
-    <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span><span class="ib-text">Initialize Portfolio <span class="ib-en">/ Запустить портфолио</span></span><span class="br">]</span></button>
-    <small class="intro-hint">Enter ↵ — запуск</small>
+    <p class="intro-motto" data-i18n-html="intro_motto"><span>Принцип</span>Сначала смысл, затем форма. Каждый экран, каждая строка кода и&nbsp;каждое слово служат одной цели&nbsp;— вашему результату.</p>
+    <button class="intro-btn" id="introBtn" type="button"><span class="br">[</span><span class="ib-text">Initialize Portfolio <span class="ib-en" data-i18n="intro_sub">/ Запустить портфолио</span></span><span class="br">]</span></button>
+    <small class="intro-hint" data-i18n="intro_hint">Enter ↵ — запуск</small>
   </div>
 </div>
 
@@ -979,39 +979,39 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 <header class="header" id="header">
   <div class="wrap">
     <div class="header-in glass">
-      <a href="#top" class="logo" aria-label="The Spartec Web — на главную">
+      <a href="#top" class="logo" aria-label="The Spartec Web — на главную" data-i18n-attr="aria-label:aria_home">
         <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="url(#ringGrad)" stroke-width="2.6" stroke-linecap="round"><path d="M17 6.5C16 5 14.2 4 12 4 8.7 4 7 5.8 7 8c0 5.5 10 3 10 8.5 0 2.2-2 3.5-5 3.5-2.3 0-4.2-1-5.2-2.5"/></svg></span>
         <span class="lg-name"><span class="lg-the">The</span> <b class="lg-acc">Spartec</b> <span class="lg-web">Web</span></span>
       </a>
-      <button class="pet idle" id="pet" type="button" aria-label="Пиксельный питомец — нажмите, чтобы поиграть" title="Погладить">
+      <button class="pet idle" id="pet" type="button" aria-label="Пиксельный питомец — нажмите, чтобы поиграть" title="Погладить" data-i18n-attr="aria-label:aria_pet;title:pet_title">
         <svg id="petSvg" viewBox="0 0 12 11" aria-hidden="true"></svg>
         <span class="zz" aria-hidden="true">z</span>
         <span class="pet-bubble" id="petBubble" aria-live="polite"></span>
       </button>
-      <nav class="nav" aria-label="Навигация">
-        <button class="nav-btn" type="button" data-about>Обо мне</button>
-        <a href="#expertise">Экспертиза</a>
-        <a href="#work">Проекты</a>
-        <a href="#approach">Подход</a>
-        <a href="#contact">Контакты</a>
+      <nav class="nav" aria-label="Навигация" data-i18n-attr="aria-label:aria_nav">
+        <button class="nav-btn" type="button" data-about data-i18n="nav_about">Обо мне</button>
+        <a href="#expertise" data-i18n="nav_expertise">Экспертиза</a>
+        <a href="#work" data-i18n="nav_work">Проекты</a>
+        <a href="#approach" data-i18n="nav_approach">Подход</a>
+        <a href="#contact" data-i18n="nav_contact">Контакты</a>
       </nav>
       <div class="h-right">
-        <div class="snd-wrap"><button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Включить звук" hidden><i></i><i></i><i></i><i></i></button><input class="vol" id="vol" type="range" min="0" max="100" step="1" value="50" aria-label="Громкость фонового звука" hidden></div>
-        <a href="#contact" class="btn btn-primary btn-sm">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="mmenu"><i></i><i></i></button>
+        <div class="snd-wrap"><button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Включить звук" hidden><i></i><i></i><i></i><i></i></button><input class="vol" id="vol" type="range" min="0" max="100" step="1" value="50" aria-label="Громкость фонового звука" hidden data-i18n-attr="aria-label:aria_vol"></div>
+        <a href="#contact" class="btn btn-primary btn-sm" data-i18n="cta">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="mmenu" data-i18n-attr="aria-label:aria_menu"><i></i><i></i></button>
       </div>
     </div>
   </div>
 </header>
 
 <div class="mmenu" id="mmenu">
-  <button class="ml" type="button" data-about>Обо мне<span>◇</span></button>
-  <a class="ml" href="#expertise">Экспертиза<span>01</span></a>
-  <a class="ml" href="#work">Проекты<span>02</span></a>
-  <a class="ml" href="#approach">Подход<span>03</span></a>
-  <a class="ml" href="#contact">Контакты<span>04</span></a>
-  <a href="#contact" class="btn btn-primary">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-  <p>Отвечаю в течение пары часов</p>
+  <button class="ml" type="button" data-about data-i18n="nav_about">Обо мне<span>◇</span></button>
+  <a class="ml" href="#expertise" data-i18n="nav_expertise">Экспертиза<span>01</span></a>
+  <a class="ml" href="#work" data-i18n="nav_work">Проекты<span>02</span></a>
+  <a class="ml" href="#approach" data-i18n="nav_approach">Подход<span>03</span></a>
+  <a class="ml" href="#contact" data-i18n="nav_contact">Контакты<span>04</span></a>
+  <a href="#contact" class="btn btn-primary" data-i18n="cta">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <p data-i18n="menu_note">Отвечаю в течение пары часов</p>
 </div>
 
 <main id="top">
@@ -1021,30 +1021,30 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <div class="pill glass rv"><span class="live"></span>Доступен для проектов <span class="pill-en">/ Available</span></div>
-        <h1 class="rv" style="--d:.08s">Сайты, которые <span class="serif grad">работают</span> на&nbsp;ваш бизнес</h1>
-        <p class="lead rv" style="--d:.16s">Проектирую и разрабатываю современные сайты и&nbsp;лендинги под ключ — от&nbsp;стратегии и&nbsp;дизайна до&nbsp;запуска. <b>Мгновенная загрузка, безупречная адаптивность и&nbsp;продуманный путь клиента к&nbsp;заявке</b> — без шаблонов и&nbsp;компромиссов.</p>
+        <div class="pill glass rv" data-i18n="hero_pill"><span class="live"></span>Доступен для проектов <span class="pill-en">/ Available</span></div>
+        <h1 class="rv" style="--d:.08s" data-i18n-html="hero_h1">Сайты, которые <span class="serif grad">работают</span> на&nbsp;ваш бизнес</h1>
+        <p class="lead rv" style="--d:.16s" data-i18n-html="hero_lead">Проектирую и разрабатываю современные сайты и&nbsp;лендинги под ключ — от&nbsp;стратегии и&nbsp;дизайна до&nbsp;запуска. <b>Мгновенная загрузка, безупречная адаптивность и&nbsp;продуманный путь клиента к&nbsp;заявке</b> — без шаблонов и&nbsp;компромиссов.</p>
         <div class="hero-cta rv" style="--d:.24s">
-          <a href="#contact" class="btn btn-primary">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href="#work" class="btn btn-glass">Смотреть проекты</a>
-          <button class="btn btn-glass" type="button" data-about>Обо мне</button>
+          <a href="#contact" class="btn btn-primary" data-i18n="cta">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="#work" class="btn btn-glass" data-i18n="hero_work">Смотреть проекты</a>
+          <button class="btn btn-glass" type="button" data-about data-i18n="nav_about">Обо мне</button>
         </div>
-        <div class="trust rv" style="--d:.32s"><span class="trust-line"></span>Лендинги · корпоративные сайты · сайты услуг</div>
+        <div class="trust rv" style="--d:.32s" data-i18n="trust"><span class="trust-line"></span>Лендинги · корпоративные сайты · сайты услуг</div>
       </div>
 
-      <div class="hv rv" style="--d:.2s" aria-label="Показатели качества сайта">
+      <div class="hv rv" style="--d:.2s" aria-label="Показатели качества сайта" data-i18n-attr="aria-label:aria_metrics">
         <div class="hv-card glass report beam-on">
-          <div class="report-h"><b>Отчёт о качестве</b><span>PageSpeed · mobile</span></div>
+          <div class="report-h"><b data-i18n="hv0">Отчёт о качестве</b><span>PageSpeed · mobile</span></div>
           <div class="rings">
-            <div class="ring"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="--off:4.3"/></svg><b>98</b><small>Скорость</small></div>
-            <div class="ring"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="--off:0"/></svg><b>100</b><small>Доступность</small></div>
-            <div class="ring"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="--off:0"/></svg><b>100</b><small>Практики</small></div>
+            <div class="ring"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="--off:4.3"/></svg><b>98</b><small data-i18n="hv1">Скорость</small></div>
+            <div class="ring"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="--off:0"/></svg><b>100</b><small data-i18n="hv2">Доступность</small></div>
+            <div class="ring"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="--off:0"/></svg><b>100</b><small data-i18n="hv3">Практики</small></div>
             <div class="ring"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="--off:0"/></svg><b>100</b><small>SEO</small></div>
           </div>
           <div class="metrics">
-            <div><small>Первый экран</small><b>0.8 с<i>отлично</i></b></div>
-            <div><small>Вес страницы</small><b>420 КБ</b></div>
-            <div><small>Устройства</small><b>320–2560</b></div>
+            <div><small data-i18n="hv4">Первый экран</small><b data-i18n="hv10">0.8 с<i data-i18n="hv7">отлично</i></b></div>
+            <div><small data-i18n="hv5">Вес страницы</small><b data-i18n="hv11">420 КБ</b></div>
+            <div><small data-i18n="hv6">Устройства</small><b>320–2560</b></div>
           </div>
         </div>
         <div class="hv-card glass browser" aria-hidden="true">
@@ -1056,16 +1056,16 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
         </div>
         <div class="hv-card glass toast">
           <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-          <span><b>Новая заявка с сайта</b><small>только что · лендинг</small></span>
+          <span><b data-i18n="hv8">Новая заявка с сайта</b><small data-i18n="hv9">только что · лендинг</small></span>
         </div>
       </div>
     </div>
 
     <div class="stats glass rv">
-      <div class="stat"><b data-count="7">0</b><span>дней — средний срок запуска лендинга</span></div>
-      <div class="stat"><b data-count="95" data-suffix="+">0</b><span>баллов PageSpeed на каждом проекте</span></div>
-      <div class="stat"><b data-count="100" data-suffix="%">0</b><span>адаптивность — телефон, планшет, ПК</span></div>
-      <div class="stat"><b data-count="24" data-suffix="/7">0</b><span>сайт онлайн без перебоев после запуска</span></div>
+      <div class="stat"><b data-count="7">0</b><span data-i18n="st1">дней — средний срок запуска лендинга</span></div>
+      <div class="stat"><b data-count="95" data-suffix="+">0</b><span data-i18n="st2">баллов PageSpeed на каждом проекте</span></div>
+      <div class="stat"><b data-count="100" data-suffix="%">0</b><span data-i18n="st3">адаптивность — телефон, планшет, ПК</span></div>
+      <div class="stat"><b data-count="24" data-suffix="/7">0</b><span data-i18n="st4">сайт онлайн без перебоев после запуска</span></div>
     </div>
   </div>
 </section>
@@ -1075,52 +1075,52 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <div class="eyebrow rv">Экспертиза</div>
-        <h2 class="h2 rv" style="--d:.08s">Не просто красиво. <span class="serif">Эффективно.</span></h2>
+        <div class="eyebrow rv" data-i18n="expertise_eb">Экспертиза</div>
+        <h2 class="h2 rv" style="--d:.08s" data-i18n-html="expertise_h2">Не просто красиво. <span class="serif">Эффективно.</span></h2>
       </div>
-      <p class="rv" style="--d:.16s">Сайт — это инструмент продаж. Поэтому я отвечаю не только за внешний вид, но и за то, <b>как он приводит клиентов</b>: структура, скорость, удобство и доверие с первого экрана.</p>
+      <p class="rv" style="--d:.16s" data-i18n-html="expertise_p">Сайт — это инструмент продаж. Поэтому я отвечаю не только за внешний вид, но и за то, <b>как он приводит клиентов</b>: структура, скорость, удобство и доверие с первого экрана.</p>
     </div>
 
     <div class="adv">
       <article class="adv-card wide glass glass-hover rv">
         <div>
-          <div class="big-num">0.8<small>сек</small></div>
+          <div class="big-num">0.8<small data-i18n="big_unit">сек</small></div>
         </div>
         <div>
           <div class="ico" style="margin-bottom:22px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div>
-          <h3>Скорость, которую чувствуют клиенты</h3>
-          <p>Каждая лишняя секунда загрузки стоит вам заявок. Чистый код без тяжёлых конструкторов, оптимизированные изображения и шрифты — сайт открывается мгновенно даже на мобильном интернете.</p>
+          <h3 data-i18n="adv1_t">Скорость, которую чувствуют клиенты</h3>
+          <p data-i18n="adv1_p">Каждая лишняя секунда загрузки стоит вам заявок. Чистый код без тяжёлых конструкторов, оптимизированные изображения и шрифты — сайт открывается мгновенно даже на мобильном интернете.</p>
         </div>
       </article>
       <article class="adv-card glass glass-hover rv" style="--d:.08s">
         <div class="adv-top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div><span>01</span></div>
-        <h3>Стратегия до дизайна</h3>
-        <p>Сначала разбираю нишу, конкурентов и аудиторию. Структура страницы строится вокруг вопросов и возражений вашего клиента.</p>
+        <h3 data-i18n="adv2_t">Стратегия до дизайна</h3>
+        <p data-i18n="adv2_p">Сначала разбираю нишу, конкурентов и аудиторию. Структура страницы строится вокруг вопросов и возражений вашего клиента.</p>
       </article>
       <article class="adv-card glass glass-hover rv">
         <div class="adv-top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6L20 9.5l-4 4.1.9 5.9L12 16.8 7.1 19.5 8 13.6 4 9.5l5.4-.9z"/></svg></div><span>02</span></div>
-        <h3>Дизайн, вызывающий доверие</h3>
-        <p>Выверенная типографика, сетка и деликатная анимация. Визуал, который поднимает ценность вашего продукта в глазах клиента.</p>
+        <h3 data-i18n="adv3_t">Дизайн, вызывающий доверие</h3>
+        <p data-i18n="adv3_p">Выверенная типографика, сетка и деликатная анимация. Визуал, который поднимает ценность вашего продукта в глазах клиента.</p>
       </article>
       <article class="adv-card glass glass-hover rv" style="--d:.08s">
         <div class="adv-top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="14" height="10" rx="2"/><rect x="17" y="8" width="5" height="12" rx="1.5"/><path d="M6 18h6"/></svg></div><span>03</span></div>
-        <h3>Безупречно на любом экране</h3>
-        <p>Больше 70% трафика — со смартфонов. Проверяю каждый блок на реальных размерах — от 320 px до широких мониторов.</p>
+        <h3 data-i18n="adv4_t">Безупречно на любом экране</h3>
+        <p data-i18n="adv4_p">Больше 70% трафика — со смартфонов. Проверяю каждый блок на реальных размерах — от 320 px до широких мониторов.</p>
       </article>
       <article class="adv-card glass glass-hover rv" style="--d:.16s">
         <div class="adv-top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div><span>04</span></div>
-        <h3>Чистый код и SEO-основа</h3>
-        <p>Семантичная вёрстка, микроразметка, корректные мета-теги. Сайт хорошо индексируется и легко развивается.</p>
+        <h3 data-i18n="adv5_t">Чистый код и SEO-основа</h3>
+        <p data-i18n="adv5_p">Семантичная вёрстка, микроразметка, корректные мета-теги. Сайт хорошо индексируется и легко развивается.</p>
       </article>
       <article class="adv-card glass glass-hover rv">
         <div class="adv-top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span>05</span></div>
-        <h3>Под ключ — и после запуска</h3>
-        <p>Домен, хостинг, формы заявок, аналитика. После запуска остаюсь на связи: правки, новые разделы, развитие.</p>
+        <h3 data-i18n="adv6_t">Под ключ — и после запуска</h3>
+        <p data-i18n="adv6_p">Домен, хостинг, формы заявок, аналитика. После запуска остаюсь на связи: правки, новые разделы, развитие.</p>
       </article>
       <article class="adv-card glass glass-hover rv" style="--d:.08s">
         <div class="adv-top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><span>06</span></div>
-        <h3>Сроки, которые соблюдаются</h3>
-        <p>Фиксированная смета и календарный план. Вы видите результат на каждом этапе — без пропаданий и сюрпризов.</p>
+        <h3 data-i18n="adv7_t">Сроки, которые соблюдаются</h3>
+        <p data-i18n="adv7_p">Фиксированная смета и календарный план. Вы видите результат на каждом этапе — без пропаданий и сюрпризов.</p>
       </article>
     </div>
   </div>
@@ -1132,24 +1132,24 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <div class="eyebrow rv">Направления</div>
-        <h2 class="h2 rv" style="--d:.08s">Три сферы — <span class="serif">один подход</span></h2>
+        <div class="eyebrow rv" data-i18n="vibes_eb">Направления</div>
+        <h2 class="h2 rv" style="--d:.08s" data-i18n-html="vibes_h2">Три сферы — <span class="serif">один подход</span></h2>
       </div>
-      <p class="rv" style="--d:.16s">Выберите направление: сайт подстроит атмосферу, звук и&nbsp;примеры проектов под&nbsp;вашу сферу.</p>
+      <p class="rv" style="--d:.16s" data-i18n-html="vibes_p">Выберите направление: сайт подстроит атмосферу, звук и&nbsp;примеры проектов под&nbsp;вашу сферу.</p>
     </div>
 
-    <div class="vibe-tabs rv" role="tablist" aria-label="Направления">
+    <div class="vibe-tabs rv" role="tablist" aria-label="Направления" data-i18n-attr="aria-label:aria_dirs">
       <button class="vibe-tab glass" role="tab" id="tab-web" aria-selected="true" aria-controls="vibePanel" data-vibe="web">
         <span class="vt-ico ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span>
-        <span><b>Web &amp; UI</b><small>Продукты и интерфейсы</small></span>
+        <span><b>Web &amp; UI</b><small data-i18n="tab_web_s">Продукты и интерфейсы</small></span>
       </button>
       <button class="vibe-tab glass" role="tab" id="tab-horeca" aria-selected="false" aria-controls="vibePanel" data-vibe="horeca" tabindex="-1">
         <span class="vt-ico ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 010 8h-1M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4zM6 2v3M10 2v3M14 2v3"/></svg></span>
-        <span><b>Рестораны и HoReCa</b><small>Вкус и атмосфера места</small></span>
+        <span><b data-i18n="tab_hor_b">Рестораны и HoReCa</b><small data-i18n="tab_hor_s">Вкус и атмосфера места</small></span>
       </button>
       <button class="vibe-tab glass" role="tab" id="tab-build" aria-selected="false" aria-controls="vibePanel" data-vibe="build" tabindex="-1">
         <span class="vt-ico ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6M9 10h.01M15 10h.01"/></svg></span>
-        <span><b>Строительство и архитектура</b><small>Масштаб и надёжность</small></span>
+        <span><b data-i18n="tab_bld_b">Строительство и архитектура</b><small data-i18n="tab_bld_s">Масштаб и надёжность</small></span>
       </button>
     </div>
 
@@ -1169,37 +1169,37 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <div class="eyebrow rv">Проекты</div>
-        <h2 class="h2 rv" style="--d:.08s">Реальная <span class="serif">работа</span></h2>
+        <div class="eyebrow rv" data-i18n="work_eb">Проекты</div>
+        <h2 class="h2 rv" style="--d:.08s" data-i18n-html="work_h2">Реальная <span class="serif">работа</span></h2>
       </div>
-      <p class="rv" style="--d:.16s">Живой проект, который можно открыть, полистать и&nbsp;проверить на&nbsp;телефоне. Код — открыт на&nbsp;GitHub.</p>
+      <p class="rv" style="--d:.16s" data-i18n-html="work_p">Живой проект, который можно открыть, полистать и&nbsp;проверить на&nbsp;телефоне. Код — открыт на&nbsp;GitHub.</p>
     </div>
 
     <div class="cases">
       <article class="case case-main glass glass-hover rv" data-case="pulsefit">
-        <a class="shot" href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener" aria-label="Открыть сайт PULSE FIT в новой вкладке">
-          <img src="pulsefit.jpg" width="800" height="600" alt="Первый экран сайта PULSE FIT: заголовок «Преврати силу в привычку», кнопка бесплатной тренировки и статистика клуба" loading="lazy" decoding="async">
+        <a class="shot" href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener" aria-label="Открыть сайт PULSE FIT в новой вкладке" data-i18n-attr="aria-label:aria_open_pf">
+          <img src="pulsefit.jpg" width="800" height="600" alt="Первый экран сайта PULSE FIT: заголовок «Преврати силу в привычку», кнопка бесплатной тренировки и статистика клуба" loading="lazy" decoding="async" data-i18n-attr="alt:alt_pf">
           <span class="shot-live">● Live</span>
         </a>
         <div class="case-body">
-          <div class="case-meta"><span>Лендинг · Фитнес-клуб</span><span>2026</span></div>
-          <h3>PULSE FIT <span class="serif">— фитнес-клуб 24/7</span></h3>
-          <p class="task">Адаптивный лендинг, который превращает посетителя в&nbsp;запись на&nbsp;бесплатную пробную тренировку. Энергичный визуал, понятные тарифы и&nbsp;форма записи на&nbsp;каждом ключевом экране.</p>
-          <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">Адаптив</span><span class="chip">Без фреймворков</span></div>
+          <div class="case-meta"><span data-i18n="case_cat">Лендинг · Фитнес-клуб</span><span>2026</span></div>
+          <h3>PULSE FIT <span class="serif" data-i18n="case_sub">— фитнес-клуб 24/7</span></h3>
+          <p class="task" data-i18n="case_task">Адаптивный лендинг, который превращает посетителя в&nbsp;запись на&nbsp;бесплатную пробную тренировку. Энергичный визуал, понятные тарифы и&nbsp;форма записи на&nbsp;каждом ключевом экране.</p>
+          <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip" data-i18n="chip_adaptive">Адаптив</span><span class="chip" data-i18n="chip_nofw">Без фреймворков</span></div>
           <div class="case-actions">
-            <a class="btn btn-primary btn-sm" href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener">Открыть сайт<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
-            <a class="btn btn-glass btn-sm" href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener">Код на GitHub</a>
-            <button class="btn btn-glass btn-sm" type="button" data-open-case="pulsefit">Разбор проекта</button>
+            <a class="btn btn-primary btn-sm" href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener" data-i18n="open_site">Открыть сайт<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+            <a class="btn btn-glass btn-sm" href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener" data-i18n="gh_code">Код на GitHub</a>
+            <button class="btn btn-glass btn-sm" type="button" data-open-case="pulsefit" data-i18n="case_study">Разбор проекта</button>
           </div>
         </div>
       </article>
 
       <a class="case case-next glass glass-hover rv" href="#contact" style="--d:.1s">
         <span class="next-ico ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-        <span class="case-meta"><span>Следующий проект</span></span>
-        <h3>Здесь может быть <span class="serif">ваш сайт</span></h3>
-        <p class="task">Расскажите о&nbsp;задаче — предложу решение, сроки и&nbsp;стоимость в&nbsp;течение дня.</p>
-        <span class="more">Обсудить проект<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+        <span class="case-meta"><span data-i18n="next_meta">Следующий проект</span></span>
+        <h3 data-i18n-html="next_h3">Здесь может быть <span class="serif">ваш сайт</span></h3>
+        <p class="task" data-i18n="next_task">Расскажите о&nbsp;задаче — предложу решение, сроки и&nbsp;стоимость в&nbsp;течение дня.</p>
+        <span class="more" data-i18n="cta">Обсудить проект<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
       </a>
     </div>
   </div>
@@ -1210,45 +1210,45 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <div class="eyebrow rv">Подход и стек</div>
-        <h2 class="h2 rv" style="--d:.08s">Прозрачный процесс. <span class="serif">Надёжные</span> технологии.</h2>
+        <div class="eyebrow rv" data-i18n="approach_eb">Подход и стек</div>
+        <h2 class="h2 rv" style="--d:.08s" data-i18n-html="approach_h2">Прозрачный процесс. <span class="serif">Надёжные</span> технологии.</h2>
       </div>
-      <p class="rv" style="--d:.16s">Вы всегда знаете, на каком этапе проект и что будет дальше. А технологии выбираются под задачу — не наоборот.</p>
+      <p class="rv" style="--d:.16s" data-i18n-html="approach_p">Вы всегда знаете, на каком этапе проект и что будет дальше. А технологии выбираются под задачу — не наоборот.</p>
     </div>
 
     <div class="approach">
       <div class="steps glass rv">
-        <div class="step"><span class="n">01</span><div><h3>Бриф и анализ</h3><p>Цели, аудитория, конкуренты. Формулируем оффер и ключевые сценарии.</p></div><span class="t">1 день</span></div>
-        <div class="step"><span class="n">02</span><div><h3>Структура и тексты</h3><p>Прототип страницы и продающие тексты — логика от первого экрана до заявки.</p></div><span class="t">1–2 дня</span></div>
-        <div class="step"><span class="n">03</span><div><h3>Дизайн</h3><p>Визуальная концепция в Figma, адаптивы и согласование с вами.</p></div><span class="t">2–3 дня</span></div>
-        <div class="step"><span class="n">04</span><div><h3>Разработка</h3><p>Вёрстка, анимации, формы, тестирование на реальных устройствах.</p></div><span class="t">2–3 дня</span></div>
-        <div class="step"><span class="n">05</span><div><h3>Запуск и поддержка</h3><p>Домен, хостинг, аналитика, SEO-настройка. Дальше — развитие сайта.</p></div><span class="t">1 день</span></div>
+        <div class="step"><span class="n">01</span><div><h3 data-i18n="s1_t">Бриф и анализ</h3><p data-i18n="s1_p">Цели, аудитория, конкуренты. Формулируем оффер и ключевые сценарии.</p></div><span class="t" data-i18n="d1">1 день</span></div>
+        <div class="step"><span class="n">02</span><div><h3 data-i18n="s2_t">Структура и тексты</h3><p data-i18n="s2_p">Прототип страницы и продающие тексты — логика от первого экрана до заявки.</p></div><span class="t" data-i18n="d12">1–2 дня</span></div>
+        <div class="step"><span class="n">03</span><div><h3 data-i18n="s3_t">Дизайн</h3><p data-i18n="s3_p">Визуальная концепция в Figma, адаптивы и согласование с вами.</p></div><span class="t" data-i18n="d23">2–3 дня</span></div>
+        <div class="step"><span class="n">04</span><div><h3 data-i18n="s4_t">Разработка</h3><p data-i18n="s4_p">Вёрстка, анимации, формы, тестирование на реальных устройствах.</p></div><span class="t" data-i18n="d23">2–3 дня</span></div>
+        <div class="step"><span class="n">05</span><div><h3 data-i18n="s5_t">Запуск и поддержка</h3><p data-i18n="s5_p">Домен, хостинг, аналитика, SEO-настройка. Дальше — развитие сайта.</p></div><span class="t" data-i18n="d1">1 день</span></div>
       </div>
 
       <div class="stack">
         <div class="sg glass glass-hover rv">
-          <h4>Дизайн <span>/ui</span></h4>
-          <p>Интерфейсы, которым доверяют</p>
-          <div class="chips"><span class="chip">Figma</span><span class="chip">Adobe Photoshop</span><span class="chip">Design System</span><span class="chip">Прототипы</span></div>
+          <h4 data-i18n="stk1_t">Дизайн <span>/ui</span></h4>
+          <p data-i18n="stk1_p">Интерфейсы, которым доверяют</p>
+          <div class="chips"><span class="chip">Figma</span><span class="chip">Adobe Photoshop</span><span class="chip">Design System</span><span class="chip" data-i18n="chip_proto">Прототипы</span></div>
         </div>
         <div class="sg glass glass-hover rv" style="--d:.08s">
-          <h4>Разработка <span>/code</span></h4>
-          <p>Быстро, чисто, масштабируемо</p>
+          <h4 data-i18n="stk2_t">Разработка <span>/code</span></h4>
+          <p data-i18n="stk2_p">Быстро, чисто, масштабируемо</p>
           <div class="chips"><span class="chip">HTML5 / CSS3</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">Next.js</span><span class="chip">Tailwind CSS</span></div>
         </div>
         <div class="sg glass glass-hover rv">
-          <h4>Запуск <span>/ship</span></h4>
-          <p>Онлайн 24/7, под контролем</p>
+          <h4 data-i18n="stk3_t">Запуск <span>/ship</span></h4>
+          <p data-i18n="stk3_p">Онлайн 24/7, под контролем</p>
           <div class="chips"><span class="chip">Vercel</span><span class="chip">GitHub</span><span class="chip">Netlify</span><span class="chip">SSL / CDN</span></div>
         </div>
         <div class="sg glass glass-hover rv" style="--d:.08s">
-          <h4>Аналитика и SEO <span>/grow</span></h4>
-          <p>Решения на основе данных</p>
-          <div class="chips"><span class="chip">Яндекс Метрика</span><span class="chip">Google Analytics</span><span class="chip">Search Console</span><span class="chip">Lighthouse</span></div>
+          <h4 data-i18n="stk4_t">Аналитика и SEO <span>/grow</span></h4>
+          <p data-i18n="stk4_p">Решения на основе данных</p>
+          <div class="chips"><span class="chip" data-i18n="chip_metrika">Яндекс Метрика</span><span class="chip">Google Analytics</span><span class="chip">Search Console</span><span class="chip">Lighthouse</span></div>
         </div>
         <div class="guarantee glass rv">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
-          <div><b>Код и доступы — ваши</b><span>После запуска передаю исходники, доступы к хостингу и аналитике. Никакой зависимости от подрядчика.</span></div>
+          <div><b data-i18n="own_t">Код и доступы — ваши</b><span data-i18n="own_p">После запуска передаю исходники, доступы к хостингу и аналитике. Никакой зависимости от подрядчика.</span></div>
         </div>
       </div>
     </div>
@@ -1261,31 +1261,31 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <div class="eyebrow rv">Вопросы</div>
-        <h2 class="h2 rv" style="--d:.08s">Частые <span class="serif">вопросы</span></h2>
+        <div class="eyebrow rv" data-i18n="faq_eb">Вопросы</div>
+        <h2 class="h2 rv" style="--d:.08s" data-i18n-html="faq_h2">Частые <span class="serif">вопросы</span></h2>
       </div>
-      <p class="rv" style="--d:.16s">Коротко о&nbsp;том, что обычно важно обсудить до&nbsp;старта. Не&nbsp;нашли ответа — спросите напрямую.</p>
+      <p class="rv" style="--d:.16s" data-i18n-html="faq_p">Коротко о&nbsp;том, что обычно важно обсудить до&nbsp;старта. Не&nbsp;нашли ответа — спросите напрямую.</p>
     </div>
     <div class="faq">
       <div class="faq-item glass rv">
-        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a1" id="faq-q1"><span class="n">01</span>Вы работаете по договору?<span class="pm ico" aria-hidden="true"></span></button>
-        <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Да. Перед стартом заключаем <b>договор</b>, в&nbsp;котором фиксируются состав работ, сроки, стоимость и&nbsp;порядок приёмки. Вы&nbsp;точно знаете, что получите и&nbsp;когда.</p></div></div>
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a1" id="faq-q1" data-i18n="q1"><span class="n">01</span>Вы работаете по договору?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p data-i18n-html="a1">Да. Перед стартом заключаем <b>договор</b>, в&nbsp;котором фиксируются состав работ, сроки, стоимость и&nbsp;порядок приёмки. Вы&nbsp;точно знаете, что получите и&nbsp;когда.</p></div></div>
       </div>
       <div class="faq-item glass rv">
-        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a2" id="faq-q2"><span class="n">02</span>Сколько правок входит в&nbsp;стоимость?<span class="pm ico" aria-hidden="true"></span></button>
-        <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div><p>В&nbsp;стоимость входят <b>два круга правок</b> на&nbsp;этапе дизайна и&nbsp;<b>один</b> после вёрстки. Мелкие текстовые правки в&nbsp;течение двух недель после запуска — бесплатно.</p></div></div>
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a2" id="faq-q2" data-i18n="q2"><span class="n">02</span>Сколько правок входит в&nbsp;стоимость?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div><p data-i18n-html="a2">В&nbsp;стоимость входят <b>два круга правок</b> на&nbsp;этапе дизайна и&nbsp;<b>один</b> после вёрстки. Мелкие текстовые правки в&nbsp;течение двух недель после запуска — бесплатно.</p></div></div>
       </div>
       <div class="faq-item glass rv">
-        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a3" id="faq-q3"><span class="n">03</span>Как происходит оплата?<span class="pm ico" aria-hidden="true"></span></button>
-        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p><b>50% — предоплата</b> перед стартом, <b>50% — после приёмки</b> готового сайта. Для крупных проектов оплату можно разбить по&nbsp;этапам. Способы оплаты — криптовалюта, Telegram Stars или перевод на&nbsp;карту — <a href="#payment">ниже</a>.</p></div></div>
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a3" id="faq-q3" data-i18n="q3"><span class="n">03</span>Как происходит оплата?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p data-i18n-html="a3"><b>50% — предоплата</b> перед стартом, <b>50% — после приёмки</b> готового сайта. Для крупных проектов оплату можно разбить по&nbsp;этапам. Способы оплаты — криптовалюта, Telegram Stars или перевод на&nbsp;карту — <a href="#payment">ниже</a>.</p></div></div>
       </div>
       <div class="faq-item glass rv">
-        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a4" id="faq-q4"><span class="n">04</span>Вы передаёте исходники и&nbsp;доступы?<span class="pm ico" aria-hidden="true"></span></button>
-        <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div><p>Да, полностью: <b>код, макеты, доступы</b> к&nbsp;хостингу, домену и&nbsp;аналитике. Сайт — ваша собственность, никакой зависимости от&nbsp;подрядчика.</p></div></div>
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a4" id="faq-q4" data-i18n="q4"><span class="n">04</span>Вы передаёте исходники и&nbsp;доступы?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div><p data-i18n-html="a4">Да, полностью: <b>код, макеты, доступы</b> к&nbsp;хостингу, домену и&nbsp;аналитике. Сайт — ваша собственность, никакой зависимости от&nbsp;подрядчика.</p></div></div>
       </div>
       <div class="faq-item glass rv">
-        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a5" id="faq-q5"><span class="n">05</span>Сколько времени занимает разработка?<span class="pm ico" aria-hidden="true"></span></button>
-        <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div><p>Лендинг — <b>от 7 рабочих дней</b>, корпоративный сайт — <b>от 2–3 недель</b>. Точный срок фиксируем в&nbsp;договоре после брифа.</p></div></div>
+        <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a5" id="faq-q5" data-i18n="q5"><span class="n">05</span>Сколько времени занимает разработка?<span class="pm ico" aria-hidden="true"></span></button>
+        <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div><p data-i18n-html="a5">Лендинг — <b>от 7 рабочих дней</b>, корпоративный сайт — <b>от 2–3 недель</b>. Точный срок фиксируем в&nbsp;договоре после брифа.</p></div></div>
       </div>
     </div>
   </div>
@@ -1296,37 +1296,37 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <div class="eyebrow rv">Оплата</div>
-        <h2 class="h2 rv" style="--d:.08s">Удобная оплата <span class="serif">из&nbsp;любой страны</span></h2>
+        <div class="eyebrow rv" data-i18n="payment_eb">Оплата</div>
+        <h2 class="h2 rv" style="--d:.08s" data-i18n-html="payment_h2">Удобная оплата <span class="serif">из&nbsp;любой страны</span></h2>
       </div>
-      <p class="rv" style="--d:.16s">Выберите способ, который удобен вам. Порядок оплаты и&nbsp;реквизиты фиксируем в&nbsp;договоре.</p>
+      <p class="rv" style="--d:.16s" data-i18n-html="payment_p">Выберите способ, который удобен вам. Порядок оплаты и&nbsp;реквизиты фиксируем в&nbsp;договоре.</p>
     </div>
     <div class="pay">
       <article class="pay-card glass glass-hover rv">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.5 5v10L12 22l-8.5-5V7z"/><path d="M12 7l4 2.5v5L12 17l-4-2.5v-5z"/></svg></div>
-        <h3>Криптовалюта<small>MetaMask и другие кошельки</small></h3>
-        <p>Оплата в&nbsp;стейблкоинах или популярных монетах с&nbsp;MetaMask либо любого другого криптокошелька.</p>
+        <h3 data-i18n="pay_crypto">Криптовалюта<small data-i18n="pay_crypto_s">MetaMask и другие кошельки</small></h3>
+        <p data-i18n="pay_crypto_p">Оплата в&nbsp;стейблкоинах или популярных монетах с&nbsp;MetaMask либо любого другого криптокошелька.</p>
         <div class="chips"><span class="chip"><b>₮</b>USDT</span><span class="chip"><b>Ξ</b>ETH</span><span class="chip"><b>◆</b>BNB</span></div>
       </article>
       <article class="pay-card glass glass-hover rv" style="--d:.08s">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5L2.5 11.8l6.2 2.3 2.3 6.4 3.4-4.3 4.6 3.4z"/><path d="M8.7 14.1l9.3-7.3"/></svg></div>
-        <h3>Telegram Stars<small>Оплата прямо в Telegram</small></h3>
-        <p>Быстрая оплата звёздами Telegram без банковских карт и&nbsp;лишних шагов — в&nbsp;пару касаний из&nbsp;чата.</p>
+        <h3>Telegram Stars<small data-i18n="pay_stars_s">Оплата прямо в Telegram</small></h3>
+        <p data-i18n="pay_stars_p">Быстрая оплата звёздами Telegram без банковских карт и&nbsp;лишних шагов — в&nbsp;пару касаний из&nbsp;чата.</p>
         <div class="chips"><span class="chip"><b>⚡</b>Telegram Stars</span></div>
       </article>
       <article class="pay-card glass glass-hover rv" style="--d:.16s">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 15h4"/></svg></div>
-        <h3>Банковская карта<small>Европа и весь мир</small></h3>
-        <p>Прямые переводы на&nbsp;карту из&nbsp;банков Евросоюза и&nbsp;международные переводы из&nbsp;других стран.</p>
-        <div class="pay-sub">Зона SEPA</div>
-        <div class="chips"><span class="chip">Германия</span><span class="chip">Польша</span><span class="chip">Франция</span><span class="chip">Италия</span><span class="chip">Испания</span><span class="chip">и&nbsp;др.</span></div>
-        <div class="pay-sub">Международные переводы</div>
-        <div class="chips"><span class="chip">США</span><span class="chip">Великобритания</span><span class="chip">Канада</span><span class="chip">и&nbsp;др.</span></div>
+        <h3 data-i18n="pay_card">Банковская карта<small data-i18n="pay_card_s">Европа и весь мир</small></h3>
+        <p data-i18n="pay_card_p">Прямые переводы на&nbsp;карту из&nbsp;банков Евросоюза и&nbsp;международные переводы из&nbsp;других стран.</p>
+        <div class="pay-sub" data-i18n="pay_sepa">Зона SEPA</div>
+        <div class="chips"><span class="chip" data-i18n="c_de">Германия</span><span class="chip" data-i18n="c_pl">Польша</span><span class="chip" data-i18n="c_fr">Франция</span><span class="chip" data-i18n="c_it">Италия</span><span class="chip" data-i18n="c_es">Испания</span><span class="chip" data-i18n="etc">и&nbsp;др.</span></div>
+        <div class="pay-sub" data-i18n="pay_intl">Международные переводы</div>
+        <div class="chips"><span class="chip" data-i18n="c_us">США</span><span class="chip" data-i18n="c_uk">Великобритания</span><span class="chip" data-i18n="c_ca">Канада</span><span class="chip" data-i18n="etc">и&nbsp;др.</span></div>
       </article>
     </div>
     <div class="pay-note glass rv">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-      <span>Реквизиты, адрес кошелька или ссылку на&nbsp;оплату отправляю <b>лично, после подписания договора</b>, — никаких платежей «вслепую».</span>
+      <span data-i18n-html="pay_note">Реквизиты, адрес кошелька или ссылку на&nbsp;оплату отправляю <b>лично, после подписания договора</b>, — никаких платежей «вслепую».</span>
     </div>
   </div>
 </section>
@@ -1335,13 +1335,13 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="wrap">
     <div class="contact-box glass beam-on rv">
       <div class="contact-l">
-        <div class="eyebrow">Контакты</div>
-        <h2 class="h2">Обсудим ваш <span class="serif">проект?</span></h2>
-        <p>Опишите задачу в двух словах — в течение пары часов отвечу, задам несколько точных вопросов и пришлю план работ со сроками и стоимостью. Бесплатно и без обязательств.</p>
+        <div class="eyebrow" data-i18n="contact_eb">Контакты</div>
+        <h2 class="h2" data-i18n-html="contact_h2">Обсудим ваш <span class="serif">проект?</span></h2>
+        <p data-i18n="contact_p">Опишите задачу в двух словах — в течение пары часов отвечу, задам несколько точных вопросов и пришлю план работ со сроками и стоимостью. Бесплатно и без обязательств.</p>
         <div class="quick">
           <a class="qlink" id="tgLink" href="#" target="_blank" rel="noopener">
             <span class="qi tg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1.1-1 .2-1.5L20.6 2.7c.9-.3 1.6.2 1.3 1.6z"/></svg></span>
-            <span><small>Telegram — быстрее всего</small><strong id="tgText">@username</strong></span>
+            <span><small data-i18n="tg_small">Telegram — быстрее всего</small><strong id="tgText">@username</strong></span>
             <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a class="qlink" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener">
@@ -1350,27 +1350,27 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
             <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
-        <div class="avail"><span class="live"></span>На связи ежедневно с 9:00 до 22:00 (МСК)</div>
+        <div class="avail" data-i18n="avail"><span class="live"></span>На связи ежедневно с 9:00 до 22:00 (МСК)</div>
       </div>
 
       <form class="lead-form" id="form" novalidate>
-        <div class="f-title">Заявка на проект<small>Займёт меньше минуты</small></div>
+        <div class="f-title" data-i18n="f_title">Заявка на проект<small data-i18n="f_sub">Займёт меньше минуты</small></div>
         <div class="row2">
-          <div class="fld"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" minlength="2" maxlength="60" spellcheck="false" placeholder="Как к вам обращаться" autocomplete="name" required><span class="msg">Укажите имя</span></div>
-          <div class="fld"><label for="f-contact">Telegram или телефон</label><input id="f-contact" name="contact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="@username или +7…" required><span class="msg">Укажите, куда ответить</span></div>
+          <div class="fld"><label for="f-name" data-i18n="lbl_name">Имя</label><input id="f-name" name="name" type="text" minlength="2" maxlength="60" spellcheck="false" placeholder="Как к вам обращаться" autocomplete="name" required data-i18n-attr="placeholder:ph_name"><span class="msg" data-i18n="msg_name">Укажите имя</span></div>
+          <div class="fld"><label for="f-contact" data-i18n="lbl_contact">Telegram или телефон</label><input id="f-contact" name="contact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="@username или +7…" required data-i18n-attr="placeholder:ph_contact"><span class="msg" data-i18n="msg_contact">Укажите, куда ответить</span></div>
         </div>
         <fieldset class="group">
-          <legend>Что нужно сделать</legend>
+          <legend data-i18n="lg_type">Что нужно сделать</legend>
           <div class="opts">
-            <input type="radio" name="type" id="t1" value="Лендинг" checked><label for="t1">Лендинг</label>
-            <input type="radio" name="type" id="t2" value="Корпоративный сайт"><label for="t2">Сайт компании</label>
-            <input type="radio" name="type" id="t3" value="Интернет-магазин"><label for="t3">Магазин</label>
-            <input type="radio" name="type" id="t4" value="Редизайн"><label for="t4">Редизайн</label>
+            <input type="radio" name="type" id="t1" value="Лендинг" checked><label for="t1" data-i18n="t1">Лендинг</label>
+            <input type="radio" name="type" id="t2" value="Корпоративный сайт"><label for="t2" data-i18n="t2">Сайт компании</label>
+            <input type="radio" name="type" id="t3" value="Интернет-магазин"><label for="t3" data-i18n="t3">Магазин</label>
+            <input type="radio" name="type" id="t4" value="Редизайн"><label for="t4" data-i18n="t4">Редизайн</label>
           </div>
         </fieldset>
         <fieldset class="group">
-          <legend class="legend-row">Бюджет
-            <span class="cur" role="group" aria-label="Валюта бюджета">
+          <legend class="legend-row" data-i18n="lg_budget">Бюджет
+            <span class="cur" role="group" aria-label="Валюта бюджета" data-i18n-attr="aria-label:aria_cur">
               <button type="button" class="cur-btn" data-cur="USD" aria-pressed="false">$ USD</button>
               <button type="button" class="cur-btn" data-cur="EUR" aria-pressed="false">€ EUR</button>
               <button type="button" class="cur-btn" data-cur="RUB" aria-pressed="true">₽ RUB</button>
@@ -1381,22 +1381,22 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
             <input type="radio" name="budget" id="b1" value="low"><label for="b1" data-tier="low">до 50 тыс. ₽</label>
             <input type="radio" name="budget" id="b2" value="mid" checked><label for="b2" data-tier="mid">50–100 тыс. ₽</label>
             <input type="radio" name="budget" id="b3" value="high"><label for="b3" data-tier="high">от 100 тыс. ₽</label>
-            <input type="radio" name="budget" id="b4" value="consult"><label for="b4" data-tier="consult">Пока не знаю</label>
+            <input type="radio" name="budget" id="b4" value="consult"><label for="b4" data-tier="consult" data-i18n="b_consult">Пока не знаю</label>
           </div>
         </fieldset>
-        <div class="fld"><label for="f-msg">О проекте</label><textarea id="f-msg" name="message" maxlength="2000" placeholder="Чем занимается компания, что нужно сделать и к какому сроку" required></textarea><span class="msg">Опишите задачу хотя бы в одном предложении</span></div>
+        <div class="fld"><label for="f-msg" data-i18n="lbl_msg">О проекте</label><textarea id="f-msg" name="message" maxlength="2000" placeholder="Чем занимается компания, что нужно сделать и к какому сроку" required data-i18n-attr="placeholder:ph_msg"></textarea><span class="msg" data-i18n="msg_msg">Опишите задачу хотя бы в одном предложении</span></div>
         <!-- honeypot: real visitors never see or fill this field -->
         <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <p class="consent">Нажимая кнопку, вы&nbsp;соглашаетесь с&nbsp;<button type="button" class="legal-link inline" data-legal="terms">Условиями работы</button> и&nbsp;<button type="button" class="legal-link inline" data-legal="privacy">Политикой конфиденциальности</button>.</p>
+        <p class="consent" data-i18n-html="consent">Нажимая кнопку, вы&nbsp;соглашаетесь с&nbsp;<button type="button" class="legal-link inline" data-legal="terms">Условиями работы</button> и&nbsp;<button type="button" class="legal-link inline" data-legal="privacy">Политикой конфиденциальности</button>.</p>
         <div class="f-submit">
-          <button class="btn btn-primary" type="submit" id="formBtn">Отправить заявку<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-          <p>Заявка мгновенно придёт мне в&nbsp;Telegram — отвечу в&nbsp;течение пары часов.</p>
+          <button class="btn btn-primary" type="submit" id="formBtn" data-i18n="submit">Отправить заявку<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p data-i18n="f_hint">Заявка мгновенно придёт мне в&nbsp;Telegram — отвечу в&nbsp;течение пары часов.</p>
         </div>
         <p class="f-error" id="formError" role="alert" hidden></p>
         <div class="done" role="status" aria-live="polite">
           <div class="ok"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <h3>Заявка отправлена</h3>
-          <p>Спасибо! Я уже получил её в&nbsp;Telegram и&nbsp;вернусь с&nbsp;планом проекта в&nbsp;течение пары часов.</p>
+          <h3 data-i18n="done_title">Заявка отправлена</h3>
+          <p data-i18n="done_text">Спасибо! Я уже получил её в&nbsp;Telegram и&nbsp;вернусь с&nbsp;планом проекта в&nbsp;течение пары часов.</p>
         </div>
       </form>
     </div>
@@ -1407,13 +1407,13 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 <footer>
   <div class="wrap">
     <div class="foot glass">
-      <span>© <span id="year">2026</span> The <b class="lg-acc">Spartec</b> Web — разработка сайтов под ключ</span>
-      <nav aria-label="Ссылки в подвале"><a href="#expertise">Экспертиза</a><a href="#work">Проекты</a><a href="#approach">Подход</a><a href="#contact">Контакты</a><a href="#top">Наверх ↑</a></nav>
+      <span>© <span id="year">2026</span> The <b class="lg-acc">Spartec</b> Web <span data-i18n="foot_tag">— разработка сайтов под ключ</span></span>
+      <nav aria-label="Ссылки в подвале" data-i18n-attr="aria-label:aria_foot"><a href="#expertise" data-i18n="nav_expertise">Экспертиза</a><a href="#work" data-i18n="nav_work">Проекты</a><a href="#approach" data-i18n="nav_approach">Подход</a><a href="#contact" data-i18n="nav_contact">Контакты</a><a href="#top" data-i18n="to_top">Наверх ↑</a></nav>
     </div>
     <div class="foot-legal">
-      <button type="button" class="legal-link" data-legal="terms">Условия работы</button>
+      <button type="button" class="legal-link" data-legal="terms" data-i18n="terms_link">Условия работы</button>
       <span aria-hidden="true">·</span>
-      <button type="button" class="legal-link" data-legal="privacy">Политика конфиденциальности</button>
+      <button type="button" class="legal-link" data-legal="privacy" data-i18n="privacy_link">Политика конфиденциальности</button>
     </div>
   </div>
 </footer>
@@ -1422,42 +1422,42 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 <dialog class="legal" id="legal-terms" aria-labelledby="legal-terms-title">
   <div class="legal-in">
     <div class="legal-head">
-      <span class="about-kicker">[ Документ ]</span>
-      <button class="modal-close legal-x" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <span class="about-kicker" data-i18n="doc_kicker">[ Документ ]</span>
+      <button class="modal-close legal-x" type="button" aria-label="Закрыть" data-i18n-attr="aria-label:close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
-    <h2 id="legal-terms-title">Условия работы</h2>
-    <p class="legal-note">Краткая версия. Окончательные условия по&nbsp;каждому проекту фиксируются в&nbsp;договоре — при расхождении действует договор.</p>
+    <h2 id="legal-terms-title" data-i18n="terms_title">Условия работы</h2>
+    <p class="legal-note" data-i18n="terms_note">Краткая версия. Окончательные условия по&nbsp;каждому проекту фиксируются в&nbsp;договоре — при расхождении действует договор.</p>
     <ol class="legal-list">
-      <li><b>Старт и сроки.</b> Работа начинается после подписания договора, внесения предоплаты и&nbsp;передачи материалов. Срок указывается в&nbsp;рабочих днях и&nbsp;фиксируется в&nbsp;договоре.</li>
-      <li><b>Оплата 50/50.</b> 50% — предоплата перед стартом, 50% — после приёмки готового сайта. Крупные проекты можно оплачивать поэтапно.</li>
-      <li><b>Правки.</b> В&nbsp;стоимость входят два круга правок на&nbsp;этапе дизайна и&nbsp;один — после вёрстки. Дополнительные круги и&nbsp;изменения, выходящие за&nbsp;согласованное задание, оцениваются отдельно.</li>
-      <li><b>Материалы клиента.</b> Тексты, фото, логотипы и&nbsp;доступы предоставляет клиент. Задержка материалов или ответа сдвигает срок на&nbsp;то&nbsp;же количество дней. Если ответа нет больше 14 дней, проект ставится на&nbsp;паузу.</li>
-      <li><b>Приёмка.</b> На&nbsp;проверку готового этапа — до&nbsp;5 рабочих дней. Если замечаний за&nbsp;это время не&nbsp;поступило, этап считается принятым.</li>
-      <li><b>Права и&nbsp;исходники.</b> После полной оплаты клиент получает исходный код, макеты и&nbsp;все доступы. До&nbsp;полной оплаты сайт остаётся на&nbsp;тестовом адресе.</li>
-      <li><b>Ответственность.</b> Исполнитель отвечает за&nbsp;качество и&nbsp;сроки своей работы. Исполнитель не&nbsp;отвечает за&nbsp;содержание материалов клиента, сбои сторонних сервисов (хостинг, домен, платёжные системы) и&nbsp;задержки по&nbsp;вине клиента.</li>
+      <li data-i18n-html="terms_1"><b>Старт и сроки.</b> Работа начинается после подписания договора, внесения предоплаты и&nbsp;передачи материалов. Срок указывается в&nbsp;рабочих днях и&nbsp;фиксируется в&nbsp;договоре.</li>
+      <li data-i18n-html="terms_2"><b>Оплата 50/50.</b> 50% — предоплата перед стартом, 50% — после приёмки готового сайта. Крупные проекты можно оплачивать поэтапно.</li>
+      <li data-i18n-html="terms_3"><b>Правки.</b> В&nbsp;стоимость входят два круга правок на&nbsp;этапе дизайна и&nbsp;один — после вёрстки. Дополнительные круги и&nbsp;изменения, выходящие за&nbsp;согласованное задание, оцениваются отдельно.</li>
+      <li data-i18n-html="terms_4"><b>Материалы клиента.</b> Тексты, фото, логотипы и&nbsp;доступы предоставляет клиент. Задержка материалов или ответа сдвигает срок на&nbsp;то&nbsp;же количество дней. Если ответа нет больше 14 дней, проект ставится на&nbsp;паузу.</li>
+      <li data-i18n-html="terms_5"><b>Приёмка.</b> На&nbsp;проверку готового этапа — до&nbsp;5 рабочих дней. Если замечаний за&nbsp;это время не&nbsp;поступило, этап считается принятым.</li>
+      <li data-i18n-html="terms_6"><b>Права и&nbsp;исходники.</b> После полной оплаты клиент получает исходный код, макеты и&nbsp;все доступы. До&nbsp;полной оплаты сайт остаётся на&nbsp;тестовом адресе.</li>
+      <li data-i18n-html="terms_7"><b>Ответственность.</b> Исполнитель отвечает за&nbsp;качество и&nbsp;сроки своей работы. Исполнитель не&nbsp;отвечает за&nbsp;содержание материалов клиента, сбои сторонних сервисов (хостинг, домен, платёжные системы) и&nbsp;задержки по&nbsp;вине клиента.</li>
     </ol>
-    <div class="legal-foot"><button class="btn btn-primary btn-sm legal-ok" type="button">Понятно</button></div>
+    <div class="legal-foot"><button class="btn btn-primary btn-sm legal-ok" type="button" data-i18n="ok">Понятно</button></div>
   </div>
 </dialog>
 
 <dialog class="legal" id="legal-privacy" aria-labelledby="legal-privacy-title">
   <div class="legal-in">
     <div class="legal-head">
-      <span class="about-kicker">[ Документ ]</span>
-      <button class="modal-close legal-x" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <span class="about-kicker" data-i18n="doc_kicker">[ Документ ]</span>
+      <button class="modal-close legal-x" type="button" aria-label="Закрыть" data-i18n-attr="aria-label:close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
-    <h2 id="legal-privacy-title">Политика конфиденциальности</h2>
-    <p class="legal-note">Коротко: ваши данные нужны только для того, чтобы ответить на&nbsp;заявку. Их не&nbsp;продают и&nbsp;не&nbsp;передают третьим лицам.</p>
+    <h2 id="legal-privacy-title" data-i18n="privacy_title">Политика конфиденциальности</h2>
+    <p class="legal-note" data-i18n="privacy_note">Коротко: ваши данные нужны только для того, чтобы ответить на&nbsp;заявку. Их не&nbsp;продают и&nbsp;не&nbsp;передают третьим лицам.</p>
     <ol class="legal-list">
-      <li><b>Какие данные.</b> Только то, что вы сами указали в&nbsp;форме или опроснике: имя, контакт (Telegram, телефон или e-mail), описание задачи и&nbsp;выбранные варианты ответов.</li>
-      <li><b>Зачем.</b> Чтобы связаться с&nbsp;вами, уточнить задачу и&nbsp;подготовить предложение. Никаких рассылок без вашего согласия.</li>
-      <li><b>Как передаются.</b> Заявка отправляется в&nbsp;личный Telegram владельца сайта через защищённое соединение (HTTPS). Технически в&nbsp;доставке участвуют Telegram и&nbsp;сервер-посредник (Cloudflare), которые не&nbsp;используют данные в&nbsp;своих целях.</li>
-      <li><b>Третьи лица.</b> Данные не&nbsp;продаются, не&nbsp;публикуются и&nbsp;не&nbsp;передаются третьим лицам, кроме случаев, прямо предусмотренных законом.</li>
-      <li><b>Сколько хранятся.</b> Не&nbsp;дольше 12 месяцев с&nbsp;последнего контакта или до&nbsp;вашей просьбы об&nbsp;удалении.</li>
-      <li><b>Ваши права.</b> Вы&nbsp;можете попросить показать, исправить или удалить ваши данные — достаточно написать в&nbsp;Telegram.</li>
-      <li><b>Cookies и&nbsp;аналитика.</b> Сайт не&nbsp;использует рекламные cookies и&nbsp;трекеры. В&nbsp;браузере сохраняются только ваши настройки (звук, громкость) и&nbsp;отметки о&nbsp;времени отправки заявок для защиты от&nbsp;спама. Шрифты загружаются с&nbsp;Google Fonts, поэтому Google видит ваш IP-адрес при загрузке страницы.</li>
+      <li data-i18n-html="privacy_1"><b>Какие данные.</b> Только то, что вы сами указали в&nbsp;форме или опроснике: имя, контакт (Telegram, телефон или e-mail), описание задачи и&nbsp;выбранные варианты ответов.</li>
+      <li data-i18n-html="privacy_2"><b>Зачем.</b> Чтобы связаться с&nbsp;вами, уточнить задачу и&nbsp;подготовить предложение. Никаких рассылок без вашего согласия.</li>
+      <li data-i18n-html="privacy_3"><b>Как передаются.</b> Заявка отправляется в&nbsp;личный Telegram владельца сайта через защищённое соединение (HTTPS). Технически в&nbsp;доставке участвуют Telegram и&nbsp;сервер-посредник (Cloudflare), которые не&nbsp;используют данные в&nbsp;своих целях.</li>
+      <li data-i18n-html="privacy_4"><b>Третьи лица.</b> Данные не&nbsp;продаются, не&nbsp;публикуются и&nbsp;не&nbsp;передаются третьим лицам, кроме случаев, прямо предусмотренных законом.</li>
+      <li data-i18n-html="privacy_5"><b>Сколько хранятся.</b> Не&nbsp;дольше 12 месяцев с&nbsp;последнего контакта или до&nbsp;вашей просьбы об&nbsp;удалении.</li>
+      <li data-i18n-html="privacy_6"><b>Ваши права.</b> Вы&nbsp;можете попросить показать, исправить или удалить ваши данные — достаточно написать в&nbsp;Telegram.</li>
+      <li data-i18n-html="privacy_7"><b>Cookies и&nbsp;аналитика.</b> Сайт не&nbsp;использует рекламные cookies и&nbsp;трекеры. В&nbsp;браузере сохраняются только ваши настройки (звук, громкость) и&nbsp;отметки о&nbsp;времени отправки заявок для защиты от&nbsp;спама. Шрифты загружаются с&nbsp;Google Fonts, поэтому Google видит ваш IP-адрес при загрузке страницы.</li>
     </ol>
-    <div class="legal-foot"><button class="btn btn-primary btn-sm legal-ok" type="button">Понятно</button></div>
+    <div class="legal-foot"><button class="btn btn-primary btn-sm legal-ok" type="button" data-i18n="ok">Понятно</button></div>
   </div>
 </dialog>
 
@@ -1466,47 +1466,47 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
   <div class="about-scroll">
     <article class="about-card glass beam-on">
       <div class="about-top">
-        <button class="about-back" id="aboutBack" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Назад</button>
-        <span class="about-kicker">[ Профиль разработчика ]</span>
+        <button class="about-back" id="aboutBack" type="button" data-i18n="about_back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Назад</button>
+        <span class="about-kicker" data-i18n="about_kicker">[ Профиль разработчика ]</span>
       </div>
 
-      <h2 class="about-h" id="aboutTitle">Frontend-разработчик, который думает о&nbsp;<span class="serif grad">результате</span></h2>
-      <p class="about-lead">Я проектирую и&nbsp;разрабатываю сайты и&nbsp;интерфейсы под&nbsp;ключ — от&nbsp;структуры и&nbsp;дизайна до&nbsp;чистого, быстрого кода и&nbsp;запуска. Работаю с&nbsp;клиентом напрямую: без посредников, менеджеров и&nbsp;«испорченного телефона». Вы&nbsp;всегда говорите с&nbsp;тем, кто делает ваш сайт.</p>
+      <h2 class="about-h" id="aboutTitle" data-i18n-html="about_title">Frontend-разработчик, который думает о&nbsp;<span class="serif grad">результате</span></h2>
+      <p class="about-lead" data-i18n="about_lead">Я проектирую и&nbsp;разрабатываю сайты и&nbsp;интерфейсы под&nbsp;ключ — от&nbsp;структуры и&nbsp;дизайна до&nbsp;чистого, быстрого кода и&nbsp;запуска. Работаю с&nbsp;клиентом напрямую: без посредников, менеджеров и&nbsp;«испорченного телефона». Вы&nbsp;всегда говорите с&nbsp;тем, кто делает ваш сайт.</p>
 
       <div class="about-grid">
         <div class="about-block">
-          <h3><span>01</span>Фокус</h3>
+          <h3 data-i18n="about_focus"><span>01</span>Фокус</h3>
           <ul class="about-list">
-            <li>Чистый семантичный код без лишних библиотек и&nbsp;конструкторов</li>
-            <li>Производительность: лёгкие страницы, оптимизированные изображения и&nbsp;шрифты</li>
-            <li>Адаптивность и&nbsp;доступность — удобно на&nbsp;любом экране</li>
-            <li>Внимание к&nbsp;деталям: отступы, состояния, микро-анимации</li>
+            <li data-i18n="f1">Чистый семантичный код без лишних библиотек и&nbsp;конструкторов</li>
+            <li data-i18n="f2">Производительность: лёгкие страницы, оптимизированные изображения и&nbsp;шрифты</li>
+            <li data-i18n="f3">Адаптивность и&nbsp;доступность — удобно на&nbsp;любом экране</li>
+            <li data-i18n="f4">Внимание к&nbsp;деталям: отступы, состояния, микро-анимации</li>
           </ul>
         </div>
         <div class="about-block">
-          <h3><span>02</span>Подход</h3>
+          <h3 data-i18n="about_approach"><span>02</span>Подход</h3>
           <ul class="about-list">
-            <li>Сначала разбираюсь в&nbsp;задаче и&nbsp;аудитории — потом рисую</li>
-            <li>Показываю результат на&nbsp;каждом этапе, без «чёрного ящика»</li>
-            <li>Фиксирую сроки и&nbsp;стоимость в&nbsp;договоре</li>
-            <li>Передаю код, доступы и&nbsp;инструкции — сайт полностью ваш</li>
+            <li data-i18n="a1x">Сначала разбираюсь в&nbsp;задаче и&nbsp;аудитории — потом рисую</li>
+            <li data-i18n="a2x">Показываю результат на&nbsp;каждом этапе, без «чёрного ящика»</li>
+            <li data-i18n="a3x">Фиксирую сроки и&nbsp;стоимость в&nbsp;договоре</li>
+            <li data-i18n="a4x">Передаю код, доступы и&nbsp;инструкции — сайт полностью ваш</li>
           </ul>
         </div>
       </div>
 
       <div class="about-stack">
-        <h3><span>03</span>Стек</h3>
+        <h3 data-i18n="about_stack"><span>03</span>Стек</h3>
         <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">Next.js</span><span class="chip">Tailwind CSS</span><span class="chip">Vite</span><span class="chip">Figma</span><span class="chip">Git</span></div>
       </div>
 
       <div class="about-why">
-        <div><b>Прямой контакт</b><p>Общаетесь с&nbsp;исполнителем, а&nbsp;не&nbsp;с&nbsp;менеджером. Вопросы решаются за&nbsp;минуты.</p></div>
-        <div><b>Скорость без спешки</b><p>Лендинг — от&nbsp;7&nbsp;рабочих дней, с&nbsp;понятным планом и&nbsp;превью на&nbsp;каждом шаге.</p></div>
-        <div><b>Ответственность</b><p>Договор, фиксированные сроки и&nbsp;поддержка после запуска.</p></div>
+        <div><b data-i18n="why1_t">Прямой контакт</b><p data-i18n="why1_p">Общаетесь с&nbsp;исполнителем, а&nbsp;не&nbsp;с&nbsp;менеджером. Вопросы решаются за&nbsp;минуты.</p></div>
+        <div><b data-i18n="why2_t">Скорость без спешки</b><p data-i18n="why2_p">Лендинг — от&nbsp;7&nbsp;рабочих дней, с&nbsp;понятным планом и&nbsp;превью на&nbsp;каждом шаге.</p></div>
+        <div><b data-i18n="why3_t">Ответственность</b><p data-i18n="why3_p">Договор, фиксированные сроки и&nbsp;поддержка после запуска.</p></div>
       </div>
 
       <div class="about-cta">
-        <a class="btn btn-primary" href="#contact" data-about-close>Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-primary" href="#contact" data-about-close data-i18n="cta">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn btn-glass" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener">GitHub</a>
       </div>
     </article>
@@ -1516,13 +1516,13 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 <!-- ================= QUIZ ================= -->
 <button class="quiz-fab glass" id="quizFab" type="button" aria-expanded="false" aria-controls="quiz">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M9 6h6M9 11h.01M12 11h.01M15 11h.01M9 14.5h.01M12 14.5h.01M15 14.5h.01M9 18h6"/></svg>
-  <span>[ Подобрать решение ]</span>
+  <span data-i18n="quiz_fab">[ Подобрать решение ]</span>
 </button>
-<div class="quiz glass" id="quiz" role="dialog" aria-label="Подбор решения">
+<div class="quiz glass" id="quiz" role="dialog" aria-label="Подбор решения" data-i18n-attr="aria-label:aria_quiz">
   <div class="quiz-head">
-    <b>[ Подбор решения ]</b>
+    <b data-i18n="quiz_title">[ Подбор решения ]</b>
     <span class="quiz-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-    <button class="quiz-x" id="quizX" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button class="quiz-x" id="quizX" type="button" aria-label="Закрыть" data-i18n-attr="aria-label:close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div id="quizBody"></div>
 </div>
@@ -1530,23 +1530,23 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 
 <!-- ================= MODAL ================= -->
 <dialog class="case-modal" id="caseModal" aria-labelledby="mTitle">
-  <button class="modal-close" id="mClose" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="modal-close" id="mClose" aria-label="Закрыть" data-i18n-attr="aria-label:close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <div class="modal-scroll">
     <div class="m-shot" id="mShot"></div>
     <div class="m-body">
       <div>
         <div class="case-meta"><span id="mCat"></span><span>Live · 2026</span></div>
         <h3 id="mTitle"></h3>
-        <div class="m-sec"><h4>Задача</h4><p id="mTask"></p></div>
-        <div class="m-sec"><h4>Решение</h4><p id="mSolution"></p></div>
-        <div class="m-sec"><h4>Что сделано</h4><ul class="m-list" id="mDone"></ul></div>
+        <div class="m-sec"><h4 data-i18n="m_task">Задача</h4><p id="mTask"></p></div>
+        <div class="m-sec"><h4 data-i18n="m_solution">Решение</h4><p id="mSolution"></p></div>
+        <div class="m-sec"><h4 data-i18n="m_done">Что сделано</h4><ul class="m-list" id="mDone"></ul></div>
       </div>
       <aside class="m-aside">
-        <div class="m-box"><h4>Акценты дизайна</h4><p id="mDesign"></p></div>
-        <div class="m-box"><h4>Стек</h4><div class="chips" id="mStack"></div></div>
-        <div class="m-box"><h4>Статус</h4><p id="mTime" style="font-size:28px;font-weight:500;letter-spacing:-.03em;color:var(--text)"></p></div>
-        <a href="#contact" class="btn btn-primary" id="mCta">Обсудить похожий проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <p class="m-note">Живой проект: <a href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener">открыть сайт ↗</a> · <a href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener">код на GitHub ↗</a></p>
+        <div class="m-box"><h4 data-i18n="m_design">Акценты дизайна</h4><p id="mDesign"></p></div>
+        <div class="m-box"><h4 data-i18n="m_stack">Стек</h4><div class="chips" id="mStack"></div></div>
+        <div class="m-box"><h4 data-i18n="m_status">Статус</h4><p id="mTime" style="font-size:28px;font-weight:500;letter-spacing:-.03em;color:var(--text)"></p></div>
+        <a href="#contact" class="btn btn-primary" id="mCta" data-i18n="m_cta">Обсудить похожий проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <p class="m-note" data-i18n="m_live">Живой проект: <a href="https://spartak17mc-blip.github.io/pulsefit/" target="_blank" rel="noopener" data-i18n="m_open">открыть сайт ↗</a> · <a href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener" data-i18n="m_code">код на GitHub ↗</a></p>
       </aside>
     </div>
   </div>
@@ -2216,37 +2216,6 @@ const I18N_VIBES = {
   }
 };
 
-/* where each key lives on the page: [selector, key, mode]; modes: t = first text node, h = inner HTML, p = placeholder, c = consent line */
-const I18N_MAP = [
-  [".intro-panel h2", "intro_title", "h"], [".intro-lead", "intro_lead", "t"], [".intro-tags li:nth-child(1)", "tag1", "t"], [".intro-tags li:nth-child(2)", "tag2", "t"],
-  [".intro-tags li:nth-child(3)", "tag3", "t"], [".intro-tags li:nth-child(4)", "tag4", "t"], [".intro-motto", "intro_motto", "h"], [".ib-en", "intro_sub", "t"], [".intro-hint", "intro_hint", "t"],
-  ["[data-about]", "nav_about", "t"],
-  ['.nav a[href="#expertise"], .mmenu a.ml[href="#expertise"], footer nav a[href="#expertise"]', "nav_expertise", "t"], ['.nav a[href="#work"], .mmenu a.ml[href="#work"]', "nav_work", "t"],
-  ['.nav a[href="#approach"], .mmenu a.ml[href="#approach"], footer nav a[href="#approach"]', "nav_approach", "t"], ['.nav a[href="#contact"], .mmenu a.ml[href="#contact"]', "nav_contact", "t"],
-  ['a.btn-primary[href="#contact"]:not(#mCta)', "cta", "t"], [".case-next .more", "cta", "t"], [".mmenu > p", "menu_note", "t"],
-  [".hero .pill", "hero_pill", "t"], [".hero h1", "hero_h1", "h"], [".hero .lead", "hero_lead", "h"], ['.hero-cta a[href="#work"]', "hero_work", "t"],
-  ...["expertise", "vibes", "work", "approach", "faq", "payment"].flatMap(s => [
-    [`#${s} .sec-head .eyebrow`, `${s}_eb`, "t"], [`#${s} .sec-head .h2`, `${s}_h2`, "h"], [`#${s} .sec-head > p`, `${s}_p`, "h"]]),
-  ["#contact .eyebrow", "contact_eb", "t"], ["#contact .h2", "contact_h2", "h"], [".contact-l > p", "contact_p", "t"], ["#tgLink small", "tg_small", "t"], [".avail", "avail", "t"],
-  ["#tab-web small", "tab_web_s", "t"], ["#tab-horeca b", "tab_hor_b", "t"], ["#tab-horeca small", "tab_hor_s", "t"], ["#tab-build b", "tab_bld_b", "t"], ["#tab-build small", "tab_bld_s", "t"],
-  [".case-actions a.btn-primary", "open_site", "t"], [".case-actions a.btn-glass", "gh_code", "t"], ["[data-open-case]", "case_study", "t"],
-  [".case-next .case-meta span", "next_meta", "t"], [".case-next h3", "next_h3", "h"], [".case-next .task", "next_task", "t"],
-  ...[1, 2, 3, 4, 5].flatMap(i => [[`.faq-item:nth-child(${i}) .faq-q`, `q${i}`, "t"], [`.faq-item:nth-child(${i}) .faq-a p`, `a${i}`, "h"]]),
-  [".f-title", "f_title", "t"], [".f-title small", "f_sub", "t"], ['label[for="f-name"]', "lbl_name", "t"], ["#f-name", "ph_name", "p"],
-  ['label[for="f-contact"]', "lbl_contact", "t"], ["#f-contact", "ph_contact", "p"], ['label[for="f-msg"]', "lbl_msg", "t"], ["#f-msg", "ph_msg", "p"],
-  ["#form fieldset:first-of-type legend", "lg_type", "t"], ["#form .legend-row", "lg_budget", "t"],
-  ['label[for="t1"]', "t1", "t"], ['label[for="t2"]', "t2", "t"], ['label[for="t3"]', "t3", "t"], ['label[for="t4"]', "t4", "t"], ['label[for="b4"]', "b_consult", "t"],
-  [".consent", "consent", "c"], ["#formBtn", "submit", "t"], [".f-submit p", "f_hint", "t"], [".lead-form .done h3", "done_title", "t"], [".lead-form .done p", "done_text", "t"],
-  [".quiz-fab span", "quiz_fab", "t"], ['.foot-legal [data-legal="terms"]', "terms_link", "t"], ['.foot-legal [data-legal="privacy"]', "privacy_link", "t"],
-  ["#aboutBack", "about_back", "t"], [".about-top .about-kicker", "about_kicker", "t"], ["#aboutTitle", "about_title", "h"], [".about-lead", "about_lead", "t"],
-  [".about-grid .about-block:nth-child(1) h3", "about_focus", "t"], [".about-grid .about-block:nth-child(2) h3", "about_approach", "t"], [".about-stack h3", "about_stack", "t"],
-  ...[1, 2, 3, 4].flatMap(i => [[`.about-grid .about-block:nth-child(1) li:nth-child(${i})`, `f${i}`, "t"], [`.about-grid .about-block:nth-child(2) li:nth-child(${i})`, `a${i}x`, "t"]]),
-  ...[1, 2, 3].flatMap(i => [[`.about-why div:nth-child(${i}) b`, `why${i}_t`, "t"], [`.about-why div:nth-child(${i}) p`, `why${i}_p`, "t"]]),
-  [".legal-head .about-kicker", "doc_kicker", "t"], [".legal-ok", "ok", "t"],
-  ["#legal-terms h2", "terms_title", "t"], ["#legal-terms .legal-note", "terms_note", "t"], ["#legal-privacy h2", "privacy_title", "t"], ["#legal-privacy .legal-note", "privacy_note", "t"],
-  ...[1, 2, 3, 4, 5, 6, 7].flatMap(i => [[`#legal-terms li:nth-child(${i})`, `terms_${i}`, "h"], [`#legal-privacy li:nth-child(${i})`, `privacy_${i}`, "h"]])
-];
-
 /* hero mock-up labels: [report, speed, accessibility, practices, first screen, page weight, devices, excellent, new request, just now · landing] */
 const I18N_HV = {
   en: ["Quality report", "Performance", "Accessibility", "Best practices", "First screen", "Page weight", "Devices", "excellent", "New request from the site", "just now · landing"],
@@ -2260,69 +2229,292 @@ const I18N_HV = {
   tr: ["Kalite raporu", "Performans", "Erişilebilirlik", "En iyi uygulamalar", "İlk ekran", "Sayfa boyutu", "Cihazlar", "mükemmel", "Siteden yeni talep", "az önce · landing"]
 };
 for (const [l, v] of Object.entries(I18N_HV)) v.forEach((s, i) => { I18N_DICT[l]["hv" + i] = s; });
-I18N_MAP.push([".report-h b", "hv0", "t"], [".rings .ring:nth-child(1) small", "hv1", "t"], [".rings .ring:nth-child(2) small", "hv2", "t"], [".rings .ring:nth-child(3) small", "hv3", "t"],
-  [".metrics > div:nth-child(1) small", "hv4", "t"], [".metrics > div:nth-child(2) small", "hv5", "t"], [".metrics > div:nth-child(3) small", "hv6", "t"], [".metrics i", "hv7", "t"],
-  [".toast b", "hv8", "t"], [".toast small", "hv9", "t"]);
+/* everything else, one row per key: [EN, DE, ES, FR, PT, ZH, JA, KO, TR] — I18N.audit() reports any gap */
+const I18N_ORDER = ["en", "de", "es", "fr", "pt", "zh", "ja", "ko", "tr"];
+const I18N_ROWS = {
+  /* hero, stats */
+  trust: ["Landing pages · company websites · service websites", "Landingpages · Firmenwebsites · Dienstleistungsseiten", "Landing pages · webs corporativas · webs de servicios", "Landing pages · sites d'entreprise · sites de services", "Landing pages · sites corporativos · sites de serviços", "落地页 · 企业网站 · 服务类网站", "LP · コーポレートサイト · サービスサイト", "랜딩 페이지 · 기업 사이트 · 서비스 사이트", "Açılış sayfaları · kurumsal siteler · hizmet siteleri"],
+  hv10: ["0.8 s", "0,8 s", "0,8 s", "0,8 s", "0,8 s", "0.8 秒", "0.8 秒", "0.8초", "0,8 sn"],
+  hv11: ["420 KB", "420 KB", "420 KB", "420 Ko", "420 KB", "420 KB", "420 KB", "420 KB", "420 KB"],
+  st1: ["days — average landing page launch", "Tage – durchschnittlicher Launch einer Landingpage", "días: plazo medio de una landing page", "jours — délai moyen d'une landing page", "dias — prazo médio de uma landing page", "天——落地页平均上线周期", "日 — LP公開までの平均日数", "일 — 랜딩 페이지 평균 런칭 기간", "gün — açılış sayfasının ortalama yayın süresi"],
+  st2: ["PageSpeed points on every project", "PageSpeed-Punkte bei jedem Projekt", "puntos PageSpeed en cada proyecto", "points PageSpeed sur chaque projet", "pontos no PageSpeed em cada projeto", "每个项目的 PageSpeed 分数", "全プロジェクトのPageSpeedスコア", "모든 프로젝트의 PageSpeed 점수", "her projede PageSpeed puanı"],
+  st3: ["responsive — phone, tablet, desktop", "responsiv – Handy, Tablet, Desktop", "adaptable: móvil, tablet, ordenador", "responsive — mobile, tablette, ordinateur", "responsivo — celular, tablet, computador", "全端适配——手机、平板、电脑", "レスポンシブ — スマホ・タブレット・PC", "반응형 — 휴대폰, 태블릿, PC", "duyarlı — telefon, tablet, bilgisayar"],
+  st4: ["online without interruptions after launch", "nach dem Launch ohne Ausfälle online", "online sin interrupciones tras el lanzamiento", "en ligne sans interruption après le lancement", "no ar sem interrupções após o lançamento", "上线后稳定在线、不中断", "公開後も途切れず稼働", "런칭 후 중단 없이 온라인", "yayından sonra kesintisiz çevrimiçi"],
+  big_unit: ["sec", "Sek.", "s", "s", "s", "秒", "秒", "초", "sn"],
+  /* expertise */
+  adv1_t: ["Speed your clients can feel", "Tempo, das Kunden spüren", "Velocidad que tus clientes notan", "Une vitesse que vos clients ressentent", "Velocidade que seus clientes sentem", "客户感受得到的速度", "お客様が体感できる速さ", "고객이 체감하는 속도", "Müşterilerin hissettiği hız"],
+  adv1_p: ["Every extra second of loading costs you enquiries. Clean code without heavy site builders, optimised images and fonts — the site opens instantly even on mobile data.", "Jede zusätzliche Sekunde Ladezeit kostet Anfragen. Sauberer Code ohne schwere Baukästen, optimierte Bilder und Schriften – die Seite öffnet sofort, auch im Mobilfunknetz.", "Cada segundo extra de carga te cuesta solicitudes. Código limpio sin constructores pesados, imágenes y fuentes optimizadas: el sitio abre al instante incluso con datos móviles.", "Chaque seconde de chargement en trop vous coûte des demandes. Code propre sans constructeurs lourds, images et polices optimisées — le site s'ouvre instantanément, même en 4G.", "Cada segundo a mais de carregamento custa pedidos. Código limpo sem construtores pesados, imagens e fontes otimizadas — o site abre na hora, até no 4G.", "多一秒加载就会流失咨询。干净的代码、不用笨重的建站工具、优化图片和字体——即使移动网络也能秒开。", "読み込みが1秒遅れるごとに問い合わせは減ります。重いビルダーを使わないクリーンなコード、最適化した画像とフォントで、モバイル回線でも一瞬で表示されます。", "로딩이 1초 늘 때마다 문의가 줄어듭니다. 무거운 빌더 없는 깔끔한 코드, 최적화된 이미지와 폰트로 모바일 데이터에서도 즉시 열립니다.", "Fazladan her yükleme saniyesi size talep kaybettirir. Ağır site oluşturucular olmadan temiz kod, optimize görseller ve fontlar — site mobil internette bile anında açılır."],
+  adv2_t: ["Strategy before design", "Strategie vor Design", "Estrategia antes del diseño", "La stratégie avant le design", "Estratégia antes do design", "先策略，后设计", "デザインより先に戦略", "디자인보다 전략 먼저", "Tasarımdan önce strateji"],
+  adv2_p: ["First I study the niche, competitors and audience. The page structure is built around your client's questions and objections.", "Zuerst analysiere ich Nische, Wettbewerb und Zielgruppe. Die Seitenstruktur baut auf den Fragen und Einwänden Ihrer Kunden auf.", "Primero analizo el nicho, la competencia y el público. La estructura de la página se construye en torno a las preguntas y objeciones de tu cliente.", "J'étudie d'abord la niche, la concurrence et l'audience. La structure de la page se construit autour des questions et objections de vos clients.", "Primeiro estudo o nicho, a concorrência e o público. A estrutura da página é construída em torno das dúvidas e objeções do seu cliente.", "先研究细分市场、竞争对手和受众。页面结构围绕客户的疑问与顾虑来搭建。", "まず市場、競合、ターゲットを分析します。ページ構成はお客様の疑問や不安を中心に組み立てます。", "먼저 시장, 경쟁사, 타깃을 분석합니다. 페이지 구조는 고객의 질문과 반론을 중심으로 설계합니다.", "Önce pazarı, rakipleri ve hedef kitleyi incelerim. Sayfa yapısı müşterinizin soruları ve itirazları etrafında kurulur."],
+  adv3_t: ["Design that builds trust", "Design, das Vertrauen schafft", "Diseño que genera confianza", "Un design qui inspire confiance", "Design que gera confiança", "赢得信任的设计", "信頼を生むデザイン", "신뢰를 주는 디자인", "Güven veren tasarım"],
+  adv3_p: ["Precise typography, grid and subtle animation. Visuals that raise the value of your product in the client's eyes.", "Präzise Typografie, Raster und dezente Animation. Eine Optik, die den Wert Ihres Produkts in den Augen der Kunden steigert.", "Tipografía cuidada, retícula y animación sutil. Un visual que eleva el valor de tu producto a ojos del cliente.", "Typographie précise, grille et animation discrète. Un visuel qui valorise votre produit aux yeux du client.", "Tipografia precisa, grid e animação sutil. Um visual que valoriza seu produto aos olhos do cliente.", "精准的排版、网格与克制的动效。让产品在客户眼中更有价值。", "緻密なタイポグラフィ、グリッド、控えめなアニメーション。製品の価値をお客様の目に高めるビジュアル。", "정교한 타이포그래피, 그리드, 절제된 애니메이션. 고객의 눈에 제품 가치를 높이는 비주얼.", "Özenli tipografi, grid ve zarif animasyon. Ürününüzün müşteri gözündeki değerini yükselten görseller."],
+  adv4_t: ["Flawless on any screen", "Makellos auf jedem Bildschirm", "Impecable en cualquier pantalla", "Impeccable sur tous les écrans", "Impecável em qualquer tela", "任何屏幕都完美呈现", "どの画面でも完璧に", "어떤 화면에서도 완벽하게", "Her ekranda kusursuz"],
+  adv4_p: ["Over 70% of traffic comes from smartphones. I check every block at real sizes — from 320 px to wide monitors.", "Über 70 % des Traffics kommen vom Smartphone. Ich prüfe jeden Block in echten Größen – von 320 px bis zu breiten Monitoren.", "Más del 70 % del tráfico llega desde móviles. Reviso cada bloque en tamaños reales, de 320 px a monitores anchos.", "Plus de 70 % du trafic vient des smartphones. Je vérifie chaque bloc en taille réelle — de 320 px aux grands écrans.", "Mais de 70% do tráfego vem de smartphones. Verifico cada bloco em tamanhos reais — de 320 px a monitores largos.", "超过 70% 的流量来自手机。每个模块都在真实尺寸下检查——从 320 px 到宽屏显示器。", "トラフィックの70%以上はスマホから。320pxからワイドモニターまで、実際のサイズで全ブロックを確認します。", "트래픽의 70% 이상이 스마트폰에서 옵니다. 320px부터 와이드 모니터까지 실제 크기로 모든 블록을 확인합니다.", "Trafiğin %70'inden fazlası akıllı telefonlardan gelir. Her bloğu gerçek boyutlarda kontrol ederim — 320 px'ten geniş monitörlere kadar."],
+  adv5_t: ["Clean code and an SEO foundation", "Sauberer Code und SEO-Basis", "Código limpio y base SEO", "Code propre et socle SEO", "Código limpo e base de SEO", "干净的代码与 SEO 基础", "クリーンなコードとSEOの土台", "깔끔한 코드와 SEO 기반", "Temiz kod ve SEO temeli"],
+  adv5_p: ["Semantic markup, structured data, correct meta tags. The site is indexed well and easy to grow.", "Semantisches Markup, strukturierte Daten, korrekte Meta-Tags. Die Website wird gut indexiert und lässt sich leicht ausbauen.", "Maquetación semántica, datos estructurados y metaetiquetas correctas. El sitio se indexa bien y es fácil de ampliar.", "Balisage sémantique, données structurées, balises meta correctes. Le site est bien indexé et facile à faire évoluer.", "Marcação semântica, dados estruturados e meta tags corretas. O site é bem indexado e fácil de evoluir.", "语义化结构、结构化数据、规范的 meta 标签。网站易于收录，也便于扩展。", "セマンティックなマークアップ、構造化データ、正しいメタタグ。インデックスされやすく、拡張も簡単です。", "시맨틱 마크업, 구조화 데이터, 올바른 메타 태그. 검색에 잘 노출되고 확장도 쉽습니다.", "Anlamsal işaretleme, yapılandırılmış veri, doğru meta etiketleri. Site iyi indekslenir ve kolayca büyür."],
+  adv6_t: ["Turnkey — and after launch", "Schlüsselfertig – und nach dem Launch", "Llave en mano, y después del lanzamiento", "Clés en main — et après le lancement", "Completo — e depois do lançamento", "一站式交付——上线后也在", "ワンストップ — 公開後も", "원스톱 — 런칭 이후에도", "Anahtar teslim — yayından sonra da"],
+  adv6_p: ["Domain, hosting, lead forms, analytics. After launch I stay in touch: edits, new sections, growth.", "Domain, Hosting, Anfrageformulare, Analytics. Nach dem Launch bleibe ich erreichbar: Änderungen, neue Bereiche, Weiterentwicklung.", "Dominio, hosting, formularios y analítica. Tras el lanzamiento sigo disponible: cambios, nuevas secciones y evolución.", "Domaine, hébergement, formulaires, statistiques. Après le lancement je reste disponible : retouches, nouvelles sections, évolution.", "Domínio, hospedagem, formulários e analytics. Depois do lançamento continuo por perto: ajustes, novas seções, evolução.", "域名、主机、表单、数据分析。上线后持续支持：修改、新增栏目、持续迭代。", "ドメイン、サーバー、フォーム、アナリティクス。公開後も修正、新セクション、改善に対応します。", "도메인, 호스팅, 문의 양식, 분석. 런칭 후에도 수정, 새 섹션, 개선을 지원합니다.", "Alan adı, hosting, talep formları, analitik. Yayından sonra da yanınızdayım: düzeltmeler, yeni bölümler, gelişim."],
+  adv7_t: ["Deadlines that are kept", "Termine, die eingehalten werden", "Plazos que se cumplen", "Des délais tenus", "Prazos que são cumpridos", "说到做到的工期", "守られる納期", "지켜지는 일정", "Tutulan teslim tarihleri"],
+  adv7_p: ["A fixed estimate and a calendar plan. You see the result at every stage — no disappearing and no surprises.", "Fester Kostenvoranschlag und Zeitplan. Sie sehen das Ergebnis in jeder Phase – ohne Funkstille und Überraschungen.", "Presupuesto cerrado y calendario. Ves el resultado en cada etapa, sin desapariciones ni sorpresas.", "Devis fixe et planning. Vous voyez le résultat à chaque étape — sans silence radio ni surprises.", "Orçamento fechado e cronograma. Você vê o resultado em cada etapa — sem sumiços nem surpresas.", "固定报价与日程计划。每个阶段都能看到成果——不失联、无意外。", "確定見積もりとスケジュール。各段階で成果を確認でき、音信不通や想定外はありません。", "확정 견적과 일정표. 모든 단계에서 결과를 확인할 수 있고, 연락 두절이나 돌발 상황이 없습니다.", "Sabit fiyat teklifi ve takvim planı. Her aşamada sonucu görürsünüz — kaybolma ve sürpriz yok."],
+  /* work card */
+  case_cat: ["Landing page · Fitness club", "Landingpage · Fitnessclub", "Landing page · Gimnasio", "Landing page · Salle de sport", "Landing page · Academia", "落地页 · 健身俱乐部", "LP · フィットネスクラブ", "랜딩 페이지 · 피트니스 클럽", "Açılış sayfası · Spor kulübü"],
+  case_sub: ["— 24/7 fitness club", "– Fitnessclub 24/7", "— gimnasio 24/7", "— salle de sport 24/7", "— academia 24/7", "— 24 小时健身俱乐部", "— 24時間フィットネスクラブ", "— 24시간 피트니스 클럽", "— 7/24 spor kulübü"],
+  case_task: ["A responsive landing page that turns a visitor into a booking for a free trial workout. Energetic visuals, clear pricing and a booking form on every key screen.", "Eine responsive Landingpage, die Besucher zur Buchung eines kostenlosen Probetrainings führt. Energiegeladene Optik, klare Tarife und ein Buchungsformular auf jedem wichtigen Screen.", "Una landing page adaptable que convierte la visita en una reserva de entrenamiento de prueba gratis. Visual enérgico, tarifas claras y formulario de reserva en cada pantalla clave.", "Une landing page responsive qui transforme le visiteur en inscription à une séance d'essai gratuite. Visuel énergique, tarifs clairs et formulaire sur chaque écran clé.", "Uma landing page responsiva que transforma o visitante em agendamento de aula experimental grátis. Visual enérgico, planos claros e formulário em cada tela-chave.", "一个响应式落地页，把访客转化为免费体验课预约。充满活力的视觉、清晰的价格，每个关键屏都有预约表单。", "訪問者を無料体験トレーニングの予約へ導くレスポンシブLP。エネルギッシュなビジュアル、明快な料金、主要な画面ごとに予約フォーム。", "방문자를 무료 체험 수업 예약으로 이끄는 반응형 랜딩 페이지. 역동적인 비주얼, 명확한 요금, 핵심 화면마다 예약 양식.", "Ziyaretçiyi ücretsiz deneme antrenmanı kaydına dönüştüren duyarlı bir açılış sayfası. Enerjik görseller, net fiyatlar ve her önemli ekranda kayıt formu."],
+  chip_adaptive: ["Responsive", "Responsiv", "Adaptable", "Responsive", "Responsivo", "响应式", "レスポンシブ", "반응형", "Duyarlı"],
+  chip_nofw: ["No frameworks", "Ohne Frameworks", "Sin frameworks", "Sans framework", "Sem frameworks", "无框架", "フレームワークなし", "프레임워크 없음", "Framework yok"],
+  /* approach */
+  s1_t: ["Brief and analysis", "Briefing und Analyse", "Brief y análisis", "Brief et analyse", "Briefing e análise", "需求与分析", "ヒアリングと分析", "브리핑과 분석", "Brif ve analiz"],
+  s1_p: ["Goals, audience, competitors. We shape the offer and key scenarios.", "Ziele, Zielgruppe, Wettbewerb. Wir formulieren Angebot und Kernszenarien.", "Objetivos, público y competencia. Definimos la oferta y los escenarios clave.", "Objectifs, audience, concurrents. Nous formulons l'offre et les scénarios clés.", "Objetivos, público, concorrência. Definimos a oferta e os cenários principais.", "目标、受众、竞品。明确卖点与关键场景。", "目的、ターゲット、競合。訴求と主要シナリオを固めます。", "목표, 타깃, 경쟁사. 오퍼와 핵심 시나리오를 정합니다.", "Hedefler, kitle, rakipler. Teklifi ve temel senaryoları belirleriz."],
+  d1: ["1 day", "1 Tag", "1 día", "1 jour", "1 dia", "1 天", "1日", "1일", "1 gün"],
+  s2_t: ["Structure and copy", "Struktur und Texte", "Estructura y textos", "Structure et textes", "Estrutura e textos", "结构与文案", "構成とコピー", "구조와 카피", "Yapı ve metinler"],
+  s2_p: ["A page prototype and sales copy — logic from the first screen to the enquiry.", "Seitenprototyp und Verkaufstexte – eine Logik vom ersten Screen bis zur Anfrage.", "Prototipo de la página y textos de venta: lógica desde la primera pantalla hasta la solicitud.", "Prototype de page et textes de vente — une logique du premier écran jusqu'à la demande.", "Protótipo da página e textos de venda — lógica da primeira tela até o pedido.", "页面原型与销售文案——从首屏到咨询的完整逻辑。", "ページの試作とセールスコピー — ファーストビューから問い合わせまでの流れ。", "페이지 프로토타입과 세일즈 카피 — 첫 화면부터 문의까지의 흐름.", "Sayfa prototipi ve satış metinleri — ilk ekrandan talebe kadar mantık."],
+  d12: ["1–2 days", "1–2 Tage", "1–2 días", "1–2 jours", "1–2 dias", "1–2 天", "1〜2日", "1–2일", "1–2 gün"],
+  s3_t: ["Design", "Design", "Diseño", "Design", "Design", "设计", "デザイン", "디자인", "Tasarım"],
+  s3_p: ["Visual concept in Figma, responsive layouts and approval with you.", "Visuelles Konzept in Figma, responsive Layouts und Abstimmung mit Ihnen.", "Concepto visual en Figma, versiones adaptables y aprobación contigo.", "Concept visuel dans Figma, versions responsive et validation avec vous.", "Conceito visual no Figma, versões responsivas e aprovação com você.", "在 Figma 中完成视觉方案、各端适配并与您确认。", "Figmaでビジュアルコンセプト、各画面サイズの設計、ご確認。", "Figma에서 비주얼 콘셉트, 반응형 레이아웃, 고객 확인.", "Figma'da görsel konsept, duyarlı yerleşimler ve sizinle onay."],
+  d23: ["2–3 days", "2–3 Tage", "2–3 días", "2–3 jours", "2–3 dias", "2–3 天", "2〜3日", "2–3일", "2–3 gün"],
+  s4_t: ["Development", "Entwicklung", "Desarrollo", "Développement", "Desenvolvimento", "开发", "開発", "개발", "Geliştirme"],
+  s4_p: ["Markup, animations, forms, testing on real devices.", "Umsetzung, Animationen, Formulare, Tests auf echten Geräten.", "Maquetación, animaciones, formularios y pruebas en dispositivos reales.", "Intégration, animations, formulaires, tests sur de vrais appareils.", "Front-end, animações, formulários e testes em dispositivos reais.", "页面实现、动效、表单，并在真机上测试。", "コーディング、アニメーション、フォーム、実機テスト。", "마크업, 애니메이션, 양식, 실제 기기 테스트.", "Kodlama, animasyonlar, formlar, gerçek cihazlarda test."],
+  s5_t: ["Launch and support", "Launch und Support", "Lanzamiento y soporte", "Lancement et suivi", "Lançamento e suporte", "上线与维护", "公開とサポート", "런칭과 지원", "Yayın ve destek"],
+  s5_p: ["Domain, hosting, analytics, SEO setup. Then — growing the site.", "Domain, Hosting, Analytics, SEO-Einrichtung. Danach – Weiterentwicklung.", "Dominio, hosting, analítica y SEO. Después, la evolución del sitio.", "Domaine, hébergement, statistiques, réglages SEO. Ensuite — l'évolution du site.", "Domínio, hospedagem, analytics e SEO. Depois — a evolução do site.", "域名、主机、数据分析、SEO 设置。之后——持续迭代。", "ドメイン、サーバー、アナリティクス、SEO設定。その後はサイトの成長へ。", "도메인, 호스팅, 분석, SEO 설정. 그다음은 사이트 성장.", "Alan adı, hosting, analitik, SEO ayarı. Sonra — sitenin gelişimi."],
+  stk1_t: ["Design ", "Design ", "Diseño ", "Design ", "Design ", "设计 ", "デザイン ", "디자인 ", "Tasarım "],
+  stk1_p: ["Interfaces people trust", "Interfaces, denen man vertraut", "Interfaces que generan confianza", "Des interfaces qui inspirent confiance", "Interfaces que geram confiança", "值得信赖的界面", "信頼されるインターフェース", "신뢰받는 인터페이스", "Güven veren arayüzler"],
+  chip_proto: ["Prototypes", "Prototypen", "Prototipos", "Prototypes", "Protótipos", "原型", "プロトタイプ", "프로토타입", "Prototipler"],
+  stk2_t: ["Development ", "Entwicklung ", "Desarrollo ", "Développement ", "Desenvolvimento ", "开发 ", "開発 ", "개발 ", "Geliştirme "],
+  stk2_p: ["Fast, clean, scalable", "Schnell, sauber, skalierbar", "Rápido, limpio, escalable", "Rapide, propre, évolutif", "Rápido, limpo, escalável", "快速、干净、可扩展", "速く、クリーンに、拡張可能に", "빠르고, 깔끔하고, 확장 가능하게", "Hızlı, temiz, ölçeklenebilir"],
+  stk3_t: ["Launch ", "Launch ", "Lanzamiento ", "Lancement ", "Lançamento ", "上线 ", "公開 ", "런칭 ", "Yayın "],
+  stk3_p: ["Online 24/7, under control", "Online 24/7, unter Kontrolle", "Online 24/7, bajo control", "En ligne 24/7, sous contrôle", "Online 24/7, sob controle", "7×24 在线，尽在掌握", "24時間365日稼働、常に監視", "24시간 온라인, 늘 관리", "7/24 çevrimiçi, kontrol altında"],
+  stk4_t: ["Analytics and SEO ", "Analytics und SEO ", "Analítica y SEO ", "Statistiques et SEO ", "Analytics e SEO ", "数据分析与 SEO ", "アナリティクスとSEO ", "분석과 SEO ", "Analitik ve SEO "],
+  stk4_p: ["Data-driven decisions", "Datenbasierte Entscheidungen", "Decisiones basadas en datos", "Des décisions fondées sur les données", "Decisões baseadas em dados", "以数据驱动决策", "データに基づく判断", "데이터 기반 의사결정", "Veriye dayalı kararlar"],
+  chip_metrika: ["Yandex Metrica", "Yandex Metrica", "Yandex Metrica", "Yandex Metrica", "Yandex Metrica", "Yandex Metrica", "Yandex Metrica", "Yandex Metrica", "Yandex Metrica"],
+  own_t: ["The code and access are yours", "Code und Zugänge gehören Ihnen", "El código y los accesos son tuyos", "Le code et les accès sont à vous", "O código e os acessos são seus", "代码与权限归您所有", "コードとアクセス権はお客様のもの", "코드와 권한은 고객의 것", "Kod ve erişimler sizin"],
+  own_p: ["After launch I hand over the source code and access to hosting and analytics. No dependence on the contractor.", "Nach dem Launch übergebe ich Quellcode sowie Zugänge zu Hosting und Analytics. Keine Abhängigkeit vom Dienstleister.", "Tras el lanzamiento entrego el código fuente y los accesos al hosting y la analítica. Sin depender del proveedor.", "Après le lancement je remets les sources et les accès à l'hébergement et aux statistiques. Aucune dépendance au prestataire.", "Depois do lançamento entrego o código-fonte e os acessos à hospedagem e ao analytics. Sem dependência do fornecedor.", "上线后交付源代码以及主机和数据分析的访问权限。不依赖开发方。", "公開後、ソースコードとサーバー・アナリティクスのアクセス権をお渡しします。制作者への依存はありません。", "런칭 후 소스 코드와 호스팅·분석 접근 권한을 넘겨드립니다. 제작자에게 종속되지 않습니다.", "Yayından sonra kaynak kodu, hosting ve analitik erişimlerini teslim ederim. Geliştiriciye bağımlılık yok."],
+  /* payment */
+  pay_crypto: ["Cryptocurrency", "Kryptowährung", "Criptomonedas", "Cryptomonnaie", "Criptomoedas", "加密货币", "暗号資産", "암호화폐", "Kripto para"],
+  pay_crypto_s: ["MetaMask and other wallets", "MetaMask und andere Wallets", "MetaMask y otras billeteras", "MetaMask et autres portefeuilles", "MetaMask e outras carteiras", "MetaMask 及其他钱包", "MetaMaskほか各種ウォレット", "MetaMask 및 기타 지갑", "MetaMask ve diğer cüzdanlar"],
+  pay_crypto_p: ["Pay in stablecoins or popular coins from MetaMask or any other crypto wallet.", "Zahlung in Stablecoins oder gängigen Coins per MetaMask oder einer anderen Krypto-Wallet.", "Pago en stablecoins o monedas populares desde MetaMask o cualquier otra billetera cripto.", "Paiement en stablecoins ou en cryptos populaires depuis MetaMask ou tout autre portefeuille.", "Pagamento em stablecoins ou moedas populares pelo MetaMask ou qualquer outra carteira cripto.", "可使用 MetaMask 或其他加密钱包，以稳定币或主流币种支付。", "MetaMaskなどの暗号資産ウォレットから、ステーブルコインや主要通貨で支払えます。", "MetaMask 등 암호화폐 지갑으로 스테이블코인이나 주요 코인으로 결제할 수 있습니다.", "MetaMask veya başka bir kripto cüzdanından stablecoin ya da popüler coinlerle ödeme."],
+  pay_stars_s: ["Pay right inside Telegram", "Bezahlung direkt in Telegram", "Pago directamente en Telegram", "Paiement directement dans Telegram", "Pagamento direto no Telegram", "直接在 Telegram 内支付", "Telegram内で直接支払い", "텔레그램에서 바로 결제", "Doğrudan Telegram'da ödeme"],
+  pay_stars_p: ["Quick payment with Telegram Stars — no bank cards or extra steps, a couple of taps from the chat.", "Schnell mit Telegram Stars bezahlen – ohne Bankkarte und Umwege, mit zwei Tipps im Chat.", "Pago rápido con Telegram Stars, sin tarjetas ni pasos de más: un par de toques desde el chat.", "Paiement rapide en Telegram Stars — sans carte bancaire ni étapes inutiles, en deux touches depuis le chat.", "Pagamento rápido com Telegram Stars — sem cartão nem etapas extras, em dois toques no chat.", "使用 Telegram Stars 快速支付——无需银行卡，在聊天中轻点两下即可。", "Telegram Starsで素早く支払い。カード不要、チャットから数タップで完了。", "텔레그램 스타로 빠르게 결제 — 카드도 복잡한 단계도 없이 채팅에서 몇 번의 탭이면 끝.", "Telegram Stars ile hızlı ödeme — banka kartı ve ekstra adım olmadan, sohbetten birkaç dokunuşla."],
+  pay_card: ["Bank card", "Bankkarte", "Tarjeta bancaria", "Carte bancaire", "Cartão bancário", "银行卡", "銀行カード", "은행 카드", "Banka kartı"],
+  pay_card_s: ["Europe and worldwide", "Europa und weltweit", "Europa y todo el mundo", "Europe et monde entier", "Europa e o mundo todo", "欧洲及全球", "ヨーロッパと世界各国", "유럽과 전 세계", "Avrupa ve tüm dünya"],
+  pay_card_p: ["Direct card transfers from EU banks and international transfers from other countries.", "Direkte Kartenüberweisungen aus EU-Banken und internationale Überweisungen aus anderen Ländern.", "Transferencias directas a tarjeta desde bancos de la UE e internacionales desde otros países.", "Virements directs sur carte depuis les banques de l'UE et virements internationaux depuis d'autres pays.", "Transferências diretas para cartão a partir de bancos da UE e internacionais de outros países.", "支持欧盟银行直接转账到卡，以及其他国家的国际汇款。", "EU圏の銀行からのカード送金と、その他の国からの国際送金に対応。", "EU 은행에서의 카드 직접 송금과 다른 국가에서의 해외 송금을 지원합니다.", "AB bankalarından karta doğrudan transfer ve diğer ülkelerden uluslararası transfer."],
+  pay_sepa: ["SEPA zone", "SEPA-Raum", "Zona SEPA", "Zone SEPA", "Zona SEPA", "SEPA 区域", "SEPA圏", "SEPA 지역", "SEPA bölgesi"],
+  c_de: ["Germany", "Deutschland", "Alemania", "Allemagne", "Alemanha", "德国", "ドイツ", "독일", "Almanya"],
+  c_pl: ["Poland", "Polen", "Polonia", "Pologne", "Polônia", "波兰", "ポーランド", "폴란드", "Polonya"],
+  c_fr: ["France", "Frankreich", "Francia", "France", "França", "法国", "フランス", "프랑스", "Fransa"],
+  c_it: ["Italy", "Italien", "Italia", "Italie", "Itália", "意大利", "イタリア", "이탈리아", "İtalya"],
+  c_es: ["Spain", "Spanien", "España", "Espagne", "Espanha", "西班牙", "スペイン", "스페인", "İspanya"],
+  etc: ["etc.", "u. a.", "etc.", "etc.", "etc.", "等", "など", "등", "vb."],
+  pay_intl: ["International transfers", "Internationale Überweisungen", "Transferencias internacionales", "Virements internationaux", "Transferências internacionais", "国际汇款", "海外送金", "해외 송금", "Uluslararası transferler"],
+  c_us: ["USA", "USA", "EE. UU.", "États-Unis", "EUA", "美国", "アメリカ", "미국", "ABD"],
+  c_uk: ["United Kingdom", "Großbritannien", "Reino Unido", "Royaume-Uni", "Reino Unido", "英国", "イギリス", "영국", "Birleşik Krallık"],
+  c_ca: ["Canada", "Kanada", "Canadá", "Canada", "Canadá", "加拿大", "カナダ", "캐나다", "Kanada"],
+  pay_note: ["I send bank details, a wallet address or a payment link <b>personally, after the contract is signed</b> — no “blind” payments.", "Bankdaten, Wallet-Adresse oder Zahlungslink sende ich <b>persönlich nach Vertragsunterzeichnung</b> – keine Zahlungen „ins Blaue“.", "Envío los datos bancarios, la dirección de la billetera o el enlace de pago <b>personalmente, tras firmar el contrato</b>: nada de pagos «a ciegas».", "J'envoie les coordonnées, l'adresse du portefeuille ou le lien de paiement <b>personnellement, après la signature du contrat</b> — aucun paiement « à l'aveugle ».", "Envio os dados bancários, o endereço da carteira ou o link de pagamento <b>pessoalmente, após a assinatura do contrato</b> — nada de pagamentos “às cegas”.", "银行信息、钱包地址或付款链接<b>会在签订合同后由我亲自发送</b>——绝不“盲目”付款。", "振込先、ウォレットアドレス、支払いリンクは<b>契約締結後に私から直接</b>お送りします。「よく分からないまま」の支払いはありません。", "계좌 정보, 지갑 주소, 결제 링크는 <b>계약 체결 후 제가 직접</b> 보내드립니다. “묻지마” 결제는 없습니다.", "Banka bilgilerini, cüzdan adresini veya ödeme bağlantısını <b>sözleşme imzalandıktan sonra bizzat</b> gönderirim — “körlemesine” ödeme yok."],
+  /* form field hints, footer */
+  msg_name: ["Enter your name", "Bitte Namen angeben", "Indica tu nombre", "Indiquez votre nom", "Informe seu nome", "请填写姓名", "お名前を入力してください", "이름을 입력하세요", "Adınızı girin"],
+  msg_contact: ["Tell me where to reply", "Wohin soll ich antworten?", "Indica dónde responderte", "Indiquez où vous répondre", "Informe onde responder", "请填写联系方式", "返信先を入力してください", "답변받을 연락처를 입력하세요", "Nereden yanıt vereyim?"],
+  msg_msg: ["Describe the task in at least one sentence", "Beschreiben Sie die Aufgabe in mindestens einem Satz", "Describe la tarea en al menos una frase", "Décrivez le besoin en une phrase au moins", "Descreva a tarefa em pelo menos uma frase", "请至少用一句话描述需求", "内容を一文以上でご記入ください", "과제를 한 문장 이상 적어주세요", "Görevi en az bir cümleyle anlatın"],
+  foot_tag: ["— turnkey website development", "– Websites schlüsselfertig", "— desarrollo web llave en mano", "— création de sites clés en main", "— desenvolvimento de sites completo", "— 一站式网站开发", "— ウェブサイト制作をワンストップで", "— 원스톱 웹사이트 제작", "— anahtar teslim web geliştirme"],
+  to_top: ["Back to top ↑", "Nach oben ↑", "Arriba ↑", "Haut de page ↑", "Topo ↑", "返回顶部 ↑", "トップへ ↑", "맨 위로 ↑", "Yukarı ↑"],
+  /* case modal */
+  m_task: ["Task", "Aufgabe", "Tarea", "Mission", "Tarefa", "任务", "課題", "과제", "Görev"],
+  m_solution: ["Solution", "Lösung", "Solución", "Solution", "Solução", "方案", "解決策", "해결책", "Çözüm"],
+  m_done: ["What was done", "Umgesetzt", "Qué se hizo", "Réalisé", "O que foi feito", "完成的工作", "実施内容", "작업 내용", "Neler yapıldı"],
+  m_design: ["Design highlights", "Design-Akzente", "Claves del diseño", "Partis pris de design", "Destaques do design", "设计亮点", "デザインのポイント", "디자인 포인트", "Tasarım vurguları"],
+  m_stack: ["Stack", "Stack", "Stack", "Stack", "Stack", "技术栈", "技術スタック", "스택", "Teknolojiler"],
+  m_status: ["Status", "Status", "Estado", "Statut", "Status", "状态", "ステータス", "상태", "Durum"],
+  m_cta: ["Discuss a similar project", "Ähnliches Projekt besprechen", "Hablemos de un proyecto similar", "Parler d'un projet similaire", "Falar sobre um projeto parecido", "洽谈类似项目", "似たプロジェクトを相談する", "비슷한 프로젝트 상담", "Benzer bir projeyi konuşalım"],
+  m_live: ["Live project: ", "Live-Projekt: ", "Proyecto en vivo: ", "Projet en ligne : ", "Projeto real: ", "在线项目：", "公開中のプロジェクト：", "실제 프로젝트: ", "Canlı proje: "],
+  m_open: ["open the site ↗", "Website öffnen ↗", "abrir el sitio ↗", "ouvrir le site ↗", "abrir o site ↗", "打开网站 ↗", "サイトを開く ↗", "사이트 열기 ↗", "siteyi aç ↗"],
+  m_code: ["code on GitHub ↗", "Code auf GitHub ↗", "código en GitHub ↗", "code sur GitHub ↗", "código no GitHub ↗", "GitHub 代码 ↗", "GitHubのコード ↗", "GitHub 코드 ↗", "GitHub'da kod ↗"],
+  cs_title: ["PULSE FIT — 24/7 fitness club", "PULSE FIT – Fitnessclub 24/7", "PULSE FIT — gimnasio 24/7", "PULSE FIT — salle de sport 24/7", "PULSE FIT — academia 24/7", "PULSE FIT — 24 小时健身俱乐部", "PULSE FIT — 24時間フィットネスクラブ", "PULSE FIT — 24시간 피트니스 클럽", "PULSE FIT — 7/24 spor kulübü"],
+  cs_cat: ["Landing page · Fitness", "Landingpage · Fitness", "Landing page · Fitness", "Landing page · Fitness", "Landing page · Fitness", "落地页 · 健身", "LP · フィットネス", "랜딩 페이지 · 피트니스", "Açılış sayfası · Fitness"],
+  cs_time: ["Real project", "Echtes Projekt", "Proyecto real", "Projet réel", "Projeto real", "真实项目", "実案件", "실제 프로젝트", "Gerçek proje"],
+  cs_task: ["A fitness club needs a site that conveys the energy of the place in a few seconds and takes the visitor to a free trial workout booking — no calls, no extra steps.", "Ein Fitnessclub braucht eine Website, die in Sekunden die Energie des Ortes vermittelt und Besucher zur Buchung eines kostenlosen Probetrainings führt – ohne Anrufe und Umwege.", "Un gimnasio necesita un sitio que transmita en segundos la energía del lugar y lleve al visitante a reservar un entrenamiento de prueba gratis, sin llamadas ni pasos de más.", "Une salle de sport a besoin d'un site qui transmet en quelques secondes l'énergie du lieu et mène le visiteur jusqu'à la réservation d'une séance d'essai gratuite — sans appel ni étape inutile.", "Uma academia precisa de um site que transmita em segundos a energia do lugar e leve o visitante a agendar uma aula experimental grátis — sem ligações nem etapas extras.", "健身俱乐部需要一个网站，几秒内传递场馆的活力，并引导访客预约免费体验课——无需电话，没有多余步骤。", "数秒でクラブのエネルギーを伝え、電話や余計な手順なしで無料体験の予約まで導くサイトが必要でした。", "몇 초 만에 클럽의 에너지를 전하고, 전화나 불필요한 단계 없이 무료 체험 예약까지 이끄는 사이트가 필요했습니다.", "Bir spor kulübü, mekânın enerjisini birkaç saniyede aktaran ve ziyaretçiyi telefon ya da ekstra adım olmadan ücretsiz deneme antrenmanı kaydına götüren bir siteye ihtiyaç duyuyor."],
+  cs_solution: ["A landing page with a strong first screen and clear logic: club advantages → classes → pricing → trainers → “First workout is free”. The booking button is available on every key screen.", "Eine Landingpage mit starkem ersten Screen und klarer Logik: Vorteile des Clubs → Kurse → Tarife → Trainer → „Erstes Training gratis“. Der Buchungsbutton ist auf jedem wichtigen Screen erreichbar.", "Landing page con una primera pantalla potente y lógica clara: ventajas del club → disciplinas → tarifas → entrenadores → «Primer entrenamiento gratis». El botón de reserva está en cada pantalla clave.", "Une landing page avec un premier écran fort et une logique claire : atouts du club → disciplines → tarifs → coachs → « Première séance offerte ». Le bouton de réservation est présent sur chaque écran clé.", "Landing page com primeira tela forte e lógica clara: vantagens da academia → modalidades → planos → treinadores → “Primeira aula grátis”. O botão de agendamento aparece em cada tela-chave.", "首屏有力、逻辑清晰的落地页：俱乐部优势 → 课程 → 价格 → 教练 → “首次训练免费”。每个关键屏都有预约按钮。", "インパクトのあるファーストビューと明快な構成のLP：クラブの強み → クラス → 料金 → トレーナー → 「初回トレーニング無料」。予約ボタンは主要な画面すべてに配置。", "강렬한 첫 화면과 명확한 흐름의 랜딩 페이지: 클럽 장점 → 프로그램 → 요금 → 트레이너 → “첫 운동 무료”. 예약 버튼은 모든 핵심 화면에 있습니다.", "Güçlü bir ilk ekran ve net bir mantık: kulübün avantajları → dersler → fiyatlar → eğitmenler → “İlk antrenman ücretsiz”. Kayıt butonu her önemli ekranda."],
+  cs_done1: ["First screen with the offer, key club figures and two calls to action", "Erster Screen mit Angebot, Kennzahlen des Clubs und zwei Calls to Action", "Primera pantalla con la oferta, cifras clave del club y dos llamadas a la acción", "Premier écran avec l'offre, les chiffres clés du club et deux appels à l'action", "Primeira tela com a oferta, números do clube e duas chamadas para ação", "首屏包含卖点、俱乐部关键数据和两个行动按钮", "訴求、クラブの主要数値、2つのCTAを備えたファーストビュー", "오퍼, 클럽 핵심 수치, 두 개의 CTA가 있는 첫 화면", "Teklif, kulübün temel rakamları ve iki eylem çağrısıyla ilk ekran"],
+  cs_done2: ["Pricing block with a billing period switch", "Tarifblock mit Umschaltung des Zahlungszeitraums", "Bloque de tarifas con cambio de periodo de pago", "Bloc tarifs avec choix de la période de paiement", "Bloco de planos com troca do período de pagamento", "可切换付费周期的价格模块", "支払い期間を切り替えられる料金ブロック", "결제 기간 전환이 가능한 요금 블록", "Ödeme dönemi değiştirilebilen fiyat bloğu"],
+  cs_done3: ["Classes and trainers sections", "Bereiche für Kurse und Trainer", "Secciones de disciplinas y entrenadores", "Sections disciplines et coachs", "Seções de modalidades e treinadores", "课程与教练板块", "クラスとトレーナーのセクション", "프로그램과 트레이너 섹션", "Ders ve eğitmen bölümleri"],
+  cs_done4: ["Modal booking form with field validation and a phone mask", "Modales Buchungsformular mit Feldprüfung und Telefonmaske", "Formulario de reserva modal con validación de campos y máscara de teléfono", "Formulaire de réservation en modale avec contrôle des champs et masque de téléphone", "Formulário de agendamento em modal com validação e máscara de telefone", "带字段校验和电话格式的弹窗预约表单", "入力チェックと電話番号マスク付きのモーダル予約フォーム", "입력 검증과 전화번호 마스크가 있는 모달 예약 양식", "Alan doğrulaması ve telefon maskesiyle açılır kayıt formu"],
+  cs_done5: ["Mobile layout, burger menu and scroll-in animations", "Mobile Ansicht, Burger-Menü und Scroll-Animationen", "Versión móvil, menú hamburguesa y animaciones al hacer scroll", "Version mobile, menu burger et animations au défilement", "Versão mobile, menu hambúrguer e animações ao rolar", "手机适配、汉堡菜单与滚动出现动效", "スマホ対応、ハンバーガーメニュー、スクロール時のアニメーション", "모바일 대응, 햄버거 메뉴, 스크롤 등장 애니메이션", "Mobil uyum, hamburger menü ve kaydırma animasyonları"],
+  cs_design: ["A dark palette with an acid-lime accent and large, dense typography — the character of a gym where people train seriously.", "Dunkle Palette mit säuregrünem Akzent und großer, dichter Typografie – der Charakter eines Studios, in dem ernsthaft trainiert wird.", "Paleta oscura con acento verde lima ácido y tipografía grande y compacta: el carácter de un gimnasio donde se entrena en serio.", "Palette sombre avec un accent vert citron acide et une typographie grande et dense — le caractère d'une salle où l'on s'entraîne sérieusement.", "Paleta escura com destaque verde-limão ácido e tipografia grande e densa — o caráter de uma academia onde se treina a sério.", "深色基调配以酸性青柠绿点缀，大号紧凑字体——一个认真训练之地的气质。", "ダークな配色にアシッドライムのアクセント、大きく詰まったタイポグラフィ — 本気で鍛えるジムの個性。", "어두운 팔레트에 애시드 라임 포인트, 크고 촘촘한 타이포그래피 — 진지하게 운동하는 체육관의 개성.", "Asit yeşili vurgulu koyu palet ve büyük, yoğun tipografi — ciddi antrenman yapılan bir salonun karakteri."],
+  /* accessibility labels */
+  aria_loading: ["Loading the site", "Website wird geladen", "Cargando el sitio", "Chargement du site", "Carregando o site", "网站加载中", "サイトを読み込み中", "사이트 로딩 중", "Site yükleniyor"],
+  aria_spec: ["Specialisation", "Spezialisierung", "Especialización", "Spécialisation", "Especialização", "专长", "専門分野", "전문 분야", "Uzmanlık"],
+  aria_home: ["The Spartec Web — home", "The Spartec Web – Startseite", "The Spartec Web — inicio", "The Spartec Web — accueil", "The Spartec Web — início", "The Spartec Web — 首页", "The Spartec Web — ホーム", "The Spartec Web — 홈", "The Spartec Web — ana sayfa"],
+  aria_pet: ["Pixel pet — click to play", "Pixel-Haustier – klicken zum Spielen", "Mascota de píxeles: haz clic para jugar", "Animal en pixels — cliquez pour jouer", "Pet de pixels — clique para brincar", "像素宠物——点击互动", "ピクセルペット — クリックで遊ぶ", "픽셀 펫 — 클릭해서 놀아주기", "Piksel evcil hayvan — oynamak için tıklayın"],
+  pet_title: ["Pet it", "Streicheln", "Acariciar", "Caresser", "Fazer carinho", "摸摸它", "なでる", "쓰다듬기", "Sev"],
+  aria_nav: ["Navigation", "Navigation", "Navegación", "Navigation", "Navegação", "导航", "ナビゲーション", "내비게이션", "Gezinme"],
+  aria_vol: ["Background sound volume", "Lautstärke des Hintergrundklangs", "Volumen del sonido de fondo", "Volume du son d'ambiance", "Volume do som ambiente", "背景音量", "背景音の音量", "배경음 볼륨", "Arka plan sesi düzeyi"],
+  aria_menu: ["Menu", "Menü", "Menú", "Menu", "Menu", "菜单", "メニュー", "메뉴", "Menü"],
+  aria_metrics: ["Site quality metrics", "Qualitätskennzahlen der Website", "Indicadores de calidad del sitio", "Indicateurs de qualité du site", "Indicadores de qualidade do site", "网站质量指标", "サイト品質の指標", "사이트 품질 지표", "Site kalite göstergeleri"],
+  aria_dirs: ["Fields", "Branchen", "Sectores", "Secteurs", "Setores", "领域", "対応分野", "분야", "Alanlar"],
+  aria_open_pf: ["Open the PULSE FIT site in a new tab", "PULSE FIT in neuem Tab öffnen", "Abrir el sitio de PULSE FIT en una pestaña nueva", "Ouvrir le site PULSE FIT dans un nouvel onglet", "Abrir o site PULSE FIT em nova aba", "在新标签页打开 PULSE FIT 网站", "PULSE FITのサイトを新しいタブで開く", "PULSE FIT 사이트를 새 탭에서 열기", "PULSE FIT sitesini yeni sekmede aç"],
+  alt_pf: ["First screen of the PULSE FIT site: the headline, a free workout button and club statistics", "Erster Screen von PULSE FIT: Überschrift, Button für ein Gratistraining und Club-Statistik", "Primera pantalla de PULSE FIT: titular, botón de entrenamiento gratis y estadísticas del club", "Premier écran du site PULSE FIT : titre, bouton de séance gratuite et chiffres du club", "Primeira tela do site PULSE FIT: título, botão de aula grátis e estatísticas do clube", "PULSE FIT 网站首屏：标题、免费训练按钮和俱乐部数据", "PULSE FITのファーストビュー：見出し、無料トレーニングのボタン、クラブの統計", "PULSE FIT 첫 화면: 헤드라인, 무료 운동 버튼, 클럽 통계", "PULSE FIT sitesinin ilk ekranı: başlık, ücretsiz antrenman butonu ve kulüp istatistikleri"],
+  aria_cur: ["Budget currency", "Budgetwährung", "Moneda del presupuesto", "Devise du budget", "Moeda do orçamento", "预算货币", "予算の通貨", "예산 통화", "Bütçe para birimi"],
+  aria_foot: ["Footer links", "Links im Footer", "Enlaces del pie", "Liens du pied de page", "Links do rodapé", "页脚链接", "フッターのリンク", "바닥글 링크", "Alt bilgi bağlantıları"],
+  close: ["Close", "Schließen", "Cerrar", "Fermer", "Fechar", "关闭", "閉じる", "닫기", "Kapat"],
+  aria_quiz: ["Find a solution", "Lösung finden", "Encontrar solución", "Trouver une solution", "Encontrar solução", "匹配方案", "最適なプランを探す", "솔루션 찾기", "Çözüm bul"],
+  snd_on: ["Turn sound on", "Ton einschalten", "Activar sonido", "Activer le son", "Ligar o som", "开启声音", "サウンドをオン", "소리 켜기", "Sesi aç"],
+  snd_off: ["Turn sound off", "Ton ausschalten", "Desactivar sonido", "Couper le son", "Desligar o som", "关闭声音", "サウンドをオフ", "소리 끄기", "Sesi kapat"],
+  /* preloader, pet, ghost cursor */
+  pl1: ["Initialising the core", "Kern wird initialisiert", "Iniciando el núcleo", "Initialisation du noyau", "Inicializando o núcleo", "正在初始化核心", "コアを初期化中", "코어 초기화 중", "Çekirdek başlatılıyor"],
+  pl2: ["Calibrating gravity", "Schwerkraft wird kalibriert", "Calibrando la gravedad", "Calibrage de la gravité", "Calibrando a gravidade", "正在校准引力", "重力を調整中", "중력 보정 중", "Yerçekimi ayarlanıyor"],
+  pl3: ["Syncing the star field", "Sternenfeld wird synchronisiert", "Sincronizando el campo estelar", "Synchronisation du champ d'étoiles", "Sincronizando o campo estelar", "正在同步星场", "星の場を同期中", "별빛 동기화 중", "Yıldız alanı eşitleniyor"],
+  pl4: ["Preparing the interface", "Interface wird vorbereitet", "Preparando la interfaz", "Préparation de l'interface", "Preparando a interface", "正在准备界面", "インターフェースを準備中", "인터페이스 준비 중", "Arayüz hazırlanıyor"],
+  pet_hi: ["hi!", "hallo!", "¡hola!", "salut !", "oi!", "你好！", "やあ！", "안녕!", "selam!"],
+  pet_yay: ["yay!", "juhu!", "¡bien!", "youpi !", "eba!", "耶！", "わーい！", "야호!", "yaşasın!"],
+  pet_whoosh: ["whoosh!", "wusch!", "¡zas!", "fiou !", "vush!", "嗖！", "シュッ！", "슝!", "vuuş!"],
+  pet_dizzy: ["whoa-whoa…", "hoppla…", "uy, uy…", "oh là là…", "opa, opa…", "晕了…", "ふらふら…", "어질어질…", "ay ay…"],
+  ghost_c: ["// idea → prototype → code", "// Idee → Prototyp → Code", "// idea → prototipo → código", "// idée → prototype → code", "// ideia → protótipo → código", "// 想法 → 原型 → 代码", "// アイデア → 試作 → コード", "// 아이디어 → 프로토타입 → 코드", "// fikir → prototip → kod"],
+  /* quiz */
+  quiz_title: ["[ Find a solution ]", "[ Lösung finden ]", "[ Encontrar solución ]", "[ Trouver une solution ]", "[ Encontrar solução ]", "[ 匹配方案 ]", "[ 最適なプラン ]", "[ 솔루션 찾기 ]", "[ Çözüm bul ]"],
+  qq_type: ["What do you need?", "Was wird gebraucht?", "¿Qué necesitas?", "De quoi avez-vous besoin ?", "O que você precisa?", "需要做什么？", "何を作りますか？", "무엇이 필요하신가요?", "Neye ihtiyacınız var?"],
+  qq_sphere: ["Your field?", "Ihre Branche?", "¿Tu sector?", "Votre secteur ?", "Seu setor?", "您的领域？", "業種は？", "어떤 분야인가요?", "Sektörünüz?"],
+  qq_ready: ["What's ready already?", "Was ist schon vorhanden?", "¿Qué tienes ya listo?", "Qu'avez-vous déjà ?", "O que já está pronto?", "已经准备好什么？", "すでに用意できているものは？", "이미 준비된 것은?", "Neler hazır?"],
+  qq_when: ["When do you need to launch?", "Wann soll es live gehen?", "¿Cuándo necesitas lanzar?", "Pour quand ?", "Quando precisa lançar?", "何时需要上线？", "公開希望時期は？", "언제 런칭이 필요하신가요?", "Ne zaman yayına girmeli?"],
+  qo_landing: ["Landing page", "Landingpage", "Landing page", "Landing page", "Landing page", "落地页", "LP", "랜딩 페이지", "Açılış sayfası"],
+  qo_landing_s: ["a single sales page", "eine verkaufsstarke Seite", "una sola página de venta", "une seule page de vente", "uma página de vendas", "一个销售页面", "1ページのセールスページ", "한 페이지 세일즈 페이지", "tek satış sayfası"],
+  qo_corp: ["Company website", "Firmenwebsite", "Web corporativa", "Site d'entreprise", "Site corporativo", "企业网站", "コーポレートサイト", "기업 웹사이트", "Kurumsal site"],
+  qo_corp_s: ["several sections", "mehrere Bereiche", "varias secciones", "plusieurs sections", "várias seções", "多个栏目", "複数ページ", "여러 섹션", "birkaç bölüm"],
+  qo_shop: ["Online store", "Onlineshop", "Tienda online", "Boutique en ligne", "Loja online", "网店", "ECサイト", "온라인 스토어", "Online mağaza"],
+  qo_shop_s: ["catalogue and cart", "Katalog und Warenkorb", "catálogo y carrito", "catalogue et panier", "catálogo e carrinho", "商品目录和购物车", "カタログとカート", "카탈로그와 장바구니", "katalog ve sepet"],
+  qo_redesign: ["Redesign", "Redesign", "Rediseño", "Refonte", "Redesign", "改版", "リニューアル", "리디자인", "Yeniden tasarım"],
+  qo_redesign_s: ["refresh the current site", "die aktuelle Seite erneuern", "renovar el sitio actual", "moderniser le site actuel", "renovar o site atual", "升级现有网站", "今のサイトを刷新", "현재 사이트 새단장", "mevcut siteyi yenile"],
+  qo_it: ["Digital products and IT", "Digitale Produkte und IT", "Productos digitales e IT", "Produits numériques et IT", "Produtos digitais e TI", "数字产品与 IT", "デジタルプロダクト・IT", "디지털 제품·IT", "Dijital ürünler ve BT"],
+  qo_horeca: ["Restaurants & HoReCa", "Gastronomie & HoReCa", "Restaurantes y HoReCa", "Restaurants et CHR", "Restaurantes e HoReCa", "餐饮与酒店", "飲食・ホテル", "레스토랑·호스피탈리티", "Restoran ve HoReCa"],
+  qo_build: ["Construction & architecture", "Bau & Architektur", "Construcción y arquitectura", "Construction et architecture", "Construção e arquitetura", "建筑与设计", "建設・建築", "건설·건축", "İnşaat ve mimari"],
+  qo_other: ["Other", "Andere", "Otro", "Autre", "Outro", "其他", "その他", "기타", "Diğer"],
+  qo_scratch: ["Nothing — starting from scratch", "Nichts – wir starten bei null", "Nada: empezamos de cero", "Rien — on part de zéro", "Nada — começamos do zero", "什么都没有——从零开始", "何もない — ゼロから", "아무것도 없음 — 처음부터", "Hiçbir şey — sıfırdan başlıyoruz"],
+  qo_texts: ["Texts and photos are ready", "Texte und Fotos sind da", "Tengo textos y fotos", "J'ai les textes et les photos", "Tenho textos e fotos", "已有文案和图片", "文章と写真がある", "텍스트와 사진이 있음", "Metinler ve fotoğraflar hazır"],
+  qo_design: ["A finished design", "Ein fertiges Design", "Tengo el diseño listo", "J'ai une maquette prête", "Tenho o design pronto", "已有设计稿", "デザインが完成している", "디자인이 완성됨", "Hazır bir tasarım var"],
+  qo_oldsite: ["An old site exists", "Es gibt eine alte Website", "Tengo un sitio antiguo", "J'ai un ancien site", "Tenho um site antigo", "已有旧网站", "古いサイトがある", "기존 사이트가 있음", "Eski bir site var"],
+  qo_asap: ["As soon as possible", "So schnell wie möglich", "Lo antes posible", "Le plus vite possible", "O quanto antes", "越快越好", "できるだけ早く", "가능한 한 빨리", "Mümkün olan en kısa sürede"],
+  qo_asap_s: ["within 2 weeks", "innerhalb von 2 Wochen", "en menos de 2 semanas", "sous 2 semaines", "em até 2 semanas", "2 周内", "2週間以内", "2주 이내", "2 hafta içinde"],
+  qo_month: ["Within a month", "Innerhalb eines Monats", "En un mes", "Dans le mois", "Em até um mês", "一个月内", "1か月以内", "한 달 이내", "Bir ay içinde"],
+  qo_flex: ["Flexible timing", "Zeitlich flexibel", "Plazos flexibles", "Délais flexibles", "Prazo flexível", "时间灵活", "時期は柔軟", "일정 유연", "Süre esnek"],
+  q_back: ["← Back", "← Zurück", "← Atrás", "← Retour", "← Voltar", "← 返回", "← 戻る", "← 뒤로", "← Geri"],
+  q_of: ["{n} of {total}", "{n} von {total}", "{n} de {total}", "{n} sur {total}", "{n} de {total}", "{n} / {total}", "{n} / {total}", "{n} / {total}", "{n} / {total}"],
+  q_res: ["A fitting solution", "Passende Lösung", "Solución adecuada", "La solution adaptée", "Solução ideal", "推荐方案", "おすすめのプラン", "추천 솔루션", "Uygun çözüm"],
+  q_budget: ["Budget", "Budget", "Presupuesto", "Budget", "Orçamento", "预算", "予算", "예산", "Bütçe"],
+  q_term: ["Timeline", "Dauer", "Plazo", "Délai", "Prazo", "工期", "期間", "기간", "Süre"],
+  q_days: ["{a}–{b} days", "{a}–{b} Tage", "{a}–{b} días", "{a}–{b} jours", "{a}–{b} dias", "{a}–{b} 天", "{a}〜{b}日", "{a}–{b}일", "{a}–{b} gün"],
+  q_ph: ["Your Telegram or phone", "Ihr Telegram oder Telefon", "Tu Telegram o teléfono", "Votre Telegram ou téléphone", "Seu Telegram ou telefone", "您的 Telegram 或电话", "Telegramまたは電話番号", "텔레그램 또는 전화번호", "Telegram'ınız veya telefonunuz"],
+  q_aria: ["Where to reply", "Wohin antworten", "Dónde responderte", "Où vous répondre", "Onde responder", "回复方式", "返信先", "답변받을 곳", "Nereden yanıt verilsin"],
+  q_send: ["Send to Telegram", "An Telegram senden", "Enviar a Telegram", "Envoyer sur Telegram", "Enviar para o Telegram", "发送到 Telegram", "Telegramに送信", "텔레그램으로 보내기", "Telegram'a gönder"],
+  q_restart: ["↺ Start over", "↺ Neu starten", "↺ Empezar de nuevo", "↺ Recommencer", "↺ Recomeçar", "↺ 重新开始", "↺ やり直す", "↺ 다시 하기", "↺ Baştan başla"],
+  q_full: ["Full form →", "Vollständiges Formular →", "Formulario completo →", "Formulaire complet →", "Formulário completo →", "完整表单 →", "詳細フォーム →", "전체 양식 →", "Tam form →"],
+  q_exact: ["Exact estimate — after the brief.", "Genauer Preis – nach dem Briefing.", "El presupuesto exacto, tras el brief.", "Devis précis — après le brief.", "Orçamento exato — após o briefing.", "精确报价——需求沟通后提供。", "正確な見積もりはヒアリング後に。", "정확한 견적은 브리핑 후에.", "Kesin fiyat — brif sonrası."],
+  q_sent: ["Request sent ✓", "Anfrage gesendet ✓", "Solicitud enviada ✓", "Demande envoyée ✓", "Pedido enviado ✓", "已发送 ✓", "送信しました ✓", "전송 완료 ✓", "Talep gönderildi ✓"],
+  q_thanks: ["Thank you! It's in my Telegram — I'll reply within a couple of hours.", "Danke! Sie ist in meinem Telegram – ich antworte innerhalb weniger Stunden.", "¡Gracias! Ya está en mi Telegram: respondo en un par de horas.", "Merci ! Elle est sur mon Telegram — je réponds sous quelques heures.", "Obrigado! Já chegou no meu Telegram — respondo em poucas horas.", "谢谢！我已在 Telegram 收到，几小时内回复。", "ありがとうございます！Telegramで受け取りました。数時間以内に返信します。", "감사합니다! 텔레그램으로 받았으며 몇 시간 안에 답변드리겠습니다.", "Teşekkürler! Telegram'ıma ulaştı — birkaç saat içinde yanıtlarım."],
+  q_prefill: ["Estimate from the site: ", "Schätzung von der Website: ", "Cálculo desde el sitio: ", "Estimation depuis le site : ", "Estimativa pelo site: ", "网站估算：", "サイトでの試算：", "사이트 견적: ", "Siteden hesaplama: "],
+  q_summary: ["{type}, field — {sphere}, {ready}, launch — {when}. Estimate: {range}, {days}.", "{type}, Branche – {sphere}, {ready}, Launch – {when}. Richtwert: {range}, {days}.", "{type}, sector: {sphere}, {ready}, lanzamiento: {when}. Estimación: {range}, {days}.", "{type}, secteur — {sphere}, {ready}, lancement — {when}. Estimation : {range}, {days}.", "{type}, setor — {sphere}, {ready}, lançamento — {when}. Estimativa: {range}, {days}.", "{type}，领域：{sphere}，{ready}，上线：{when}。预估：{range}，{days}。", "{type}、業種：{sphere}、{ready}、公開：{when}。目安：{range}、{days}。", "{type}, 분야 — {sphere}, {ready}, 런칭 — {when}. 예상: {range}, {days}.", "{type}, sektör — {sphere}, {ready}, yayın — {when}. Tahmin: {range}, {days}."],
+};
+for (const [key, row] of Object.entries(I18N_ROWS)) row.forEach((s, i) => { I18N_DICT[I18N_ORDER[i]][key] = s; });
 
+/* Russian for strings that only exist in scripts (everything in the markup is read from the page itself) */
+Object.assign(I18N_DICT.ru, {
+  snd_on: "Включить звук", snd_off: "Выключить звук",
+  pl1: "Инициализация ядра", pl2: "Калибровка гравитации", pl3: "Синхронизация звёздного поля", pl4: "Подготовка интерфейса",
+  pet_hi: "привет!", pet_yay: "ура!", pet_whoosh: "вжух!", pet_dizzy: "ой-ой…", ghost_c: "// идея → прототип → код",
+  qq_type: "Что нужно сделать?", qq_sphere: "Ваша сфера?", qq_ready: "Что уже готово?", qq_when: "Когда нужен запуск?",
+  qo_landing: "Лендинг", qo_landing_s: "одна продающая страница", qo_corp: "Корпоративный сайт", qo_corp_s: "несколько разделов",
+  qo_shop: "Интернет-магазин", qo_shop_s: "каталог и корзина", qo_redesign: "Редизайн", qo_redesign_s: "обновить текущий сайт",
+  qo_it: "Цифровые продукты и IT", qo_horeca: "Рестораны и HoReCa", qo_build: "Строительство и архитектура", qo_other: "Другое",
+  qo_scratch: "Ничего — начинаем с нуля", qo_texts: "Есть тексты и фото", qo_design: "Есть готовый дизайн", qo_oldsite: "Есть старый сайт",
+  qo_asap: "Как можно скорее", qo_asap_s: "до 2 недель", qo_month: "В течение месяца", qo_flex: "Сроки гибкие",
+  q_back: "← Назад", q_of: "{n} из {total}", q_res: "Подходящее решение", q_budget: "Бюджет", q_term: "Срок", q_days: "{a}–{b} дней",
+  q_ph: "Ваш Telegram или телефон", q_aria: "Куда ответить", q_send: "Отправить в Telegram", q_restart: "↺ Заново", q_full: "Полная форма →",
+  q_exact: "Точная смета — после брифа.", q_sent: "Заявка отправлена ✓", q_thanks: "Спасибо! Я получил её в Telegram и отвечу в течение пары часов.",
+  q_prefill: "Расчёт с сайта: ", q_summary: "{type}, сфера — {sphere}, {ready}, запуск — {when}. Ориентир: {range}, {days}.",
+  cs_title: "PULSE FIT — фитнес-клуб 24/7", cs_cat: "Лендинг · Фитнес", cs_time: "Реальный проект",
+  cs_task: "Фитнес-клубу нужен сайт, который за несколько секунд передаёт энергию места и доводит посетителя до записи на бесплатную пробную тренировку — без звонков и лишних шагов.",
+  cs_solution: "Лендинг с сильным первым экраном и понятной логикой: преимущества клуба → направления → тарифы → тренеры → призыв «Первая тренировка — бесплатно». Кнопка записи доступна на каждом ключевом экране.",
+  cs_done1: "Первый экран с оффером, ключевыми цифрами клуба и двумя призывами к действию", cs_done2: "Блок тарифов с переключением периода оплаты",
+  cs_done3: "Разделы направлений и тренеров", cs_done4: "Модальная форма записи с проверкой полей и маской телефона",
+  cs_done5: "Адаптив под телефоны, бургер-меню и анимации появления при прокрутке",
+  cs_design: "Тёмная палитра с кислотно-лаймовым акцентом и крупная плотная типографика — характер зала, где тренируются всерьёз."
+});
+delete I18N_DICT.ru.consent;            // the Russian consent line (with its two buttons) is read from the form itself
+
+/* The engine. Markup tells it what to translate:
+     data-i18n="key"        → the element's first text node (icons and nested tags stay untouched)
+     data-i18n-html="key"   → the element's inner HTML (only trusted strings from this file)
+     data-i18n-attr="aria-label:key;placeholder:key2" → attributes
+   Russian is captured from the page on start, so the markup stays the single source of the Russian text. */
 const I18N = (() => {
   const RU = I18N_DICT.ru, listeners = [];
   const supported = new Set(I18N_LANGS.map(l => l[0]));
-  // first non-empty text node: keeps icons, numbers and nested spans of the element intact
   const textNode = el => [...el.childNodes].find(n => n.nodeType === 3 && n.data.trim());
-  const read = (el, mode) => mode === "h" || mode === "c" ? el.innerHTML : mode === "p" ? el.placeholder : (textNode(el)?.data ?? el.textContent);
-  // capture the Russian originals from the page once
-  const ruHTML = {};
-  I18N_MAP.forEach(([sel, key, mode]) => {
-    const el = document.querySelector(sel);
-    if (el && !(key in RU)) RU[key] = read(el, mode);
-    if (el && mode === "c") ruHTML[key] = el.innerHTML;
-  });
+  const attrPairs = el => (el.dataset.i18nAttr || "").split(";").filter(Boolean).map(p => p.split(":"));
+  const capture = () => {
+    document.querySelectorAll("[data-i18n]").forEach(el => { const k = el.dataset.i18n; if (!(k in RU)) RU[k] = (textNode(el)?.data ?? el.textContent).trim(); });
+    document.querySelectorAll("[data-i18n-html]").forEach(el => { const k = el.dataset.i18nHtml; if (!(k in RU)) RU[k] = el.innerHTML.trim(); });
+    document.querySelectorAll("[data-i18n-attr]").forEach(el => attrPairs(el).forEach(([a, k]) => { if (!(k in RU)) RU[k] = el.getAttribute(a) || ""; }));
+  };
+  capture();
   RU.meta_title = document.title;
   RU.meta_desc = document.querySelector('meta[name="description"]')?.content || "";
 
   let lang = "ru";
   const t = (key, vars) => {
-    let s = (I18N_DICT[lang] && I18N_DICT[lang][key]) ?? (lang !== "ru" ? I18N_DICT.en[key] : undefined) ?? RU[key] ?? key;
+    let s = I18N_DICT[lang]?.[key] ?? RU[key] ?? key;
     if (vars) for (const [k, v] of Object.entries(vars)) s = s.split(`{${k}}`).join(v);
     return s;
   };
-  const write = (el, mode, value, key) => {
-    if (mode === "h") el.innerHTML = value;
-    else if (mode === "p") el.placeholder = value;
-    else if (mode === "c") {
-      if (lang === "ru") { el.innerHTML = ruHTML[key]; return; }
-      const link = (doc, k) => `<button type="button" class="legal-link inline" data-legal="${doc}">${t(k)}</button>`;
-      el.innerHTML = t("consent", { terms: link("terms", "terms_in"), privacy: link("privacy", "privacy_in") });
-    } else {
-      const n = textNode(el);
-      if (n) n.data = n.data.match(/^\s*/)[0] + value.trim() + (value.endsWith(" ") ? " " : n.data.match(/\s*$/)[0]);
-      else el.textContent = value;
-    }
+  // inline links for strings that mention the legal documents
+  const legalVars = () => ({
+    terms: `<button type="button" class="legal-link inline" data-legal="terms">${t("terms_in")}</button>`,
+    privacy: `<button type="button" class="legal-link inline" data-legal="privacy">${t("privacy_in")}</button>`
+  });
+  const setText = (el, value) => {
+    const n = textNode(el);
+    if (!n) { el.textContent = value; return; }
+    const lead = n.data.match(/^\s*/)[0], tail = value.endsWith(" ") ? " " : n.data.match(/\s*$/)[0];
+    const next = lead + value.trim() + tail;
+    if (n.data !== next) n.data = next;
+  };
+  // translate a subtree (the whole page, or content a script has just rendered)
+  const translate = (root = document) => {
+    const vars = legalVars();
+    root.querySelectorAll("[data-i18n]").forEach(el => setText(el, t(el.dataset.i18n)));
+    root.querySelectorAll("[data-i18n-html]").forEach(el => { const v = t(el.dataset.i18nHtml, vars); if (el.innerHTML !== v) el.innerHTML = v; });
+    root.querySelectorAll("[data-i18n-attr]").forEach(el => attrPairs(el).forEach(([a, k]) => el.setAttribute(a, t(k))));
   };
   const apply = () => {
     document.documentElement.lang = lang;
     document.title = t("meta_title");
     document.querySelector('meta[name="description"]')?.setAttribute("content", t("meta_desc"));
-    I18N_MAP.forEach(([sel, key, mode]) => document.querySelectorAll(sel).forEach(el => write(el, mode, t(key), key)));
-    $$i("[data-lang-code]").forEach(el => { el.textContent = lang.toUpperCase(); });
-    $$i("[data-lang]").forEach(b => { const on = b.dataset.lang === lang; b.setAttribute("aria-checked", String(on)); b.classList.toggle("on", on); });
+    translate();
+    document.querySelectorAll("[data-lang-code]").forEach(el => { el.textContent = lang.toUpperCase(); });
+    document.querySelectorAll("[data-lang]").forEach(b => { const on = b.dataset.lang === lang; b.setAttribute("aria-checked", String(on)); b.classList.toggle("on", on); });
   };
-  const $$i = s => [...document.querySelectorAll(s)];
+  // Russian on the very first visit; afterwards the visitor's own choice is remembered
   const detect = () => {
     try { const saved = localStorage.getItem("spartak-lang"); if (supported.has(saved)) return saved; } catch {}
-    for (const l of navigator.languages || [navigator.language || "ru"]) {
-      const c = String(l).toLowerCase().slice(0, 2);
-      if (supported.has(c)) return c;
-      if (["uk", "be", "kk", "ky", "uz"].includes(c)) return "ru";
-    }
-    return "en";
+    return "ru";
   };
   const set = (l, byUser) => {
     if (!supported.has(l)) return;
     lang = l;
     if (byUser) { try { localStorage.setItem("spartak-lang", l); } catch {} }
     apply();
-    listeners.forEach(fn => fn(l, !!byUser));
+    listeners.forEach(fn => { try { fn(l, !!byUser); } catch (e) { console.error(e); } });
+  };
+  // self-check for developers: run I18N.audit() in the console
+  const audit = () => {
+    const keys = new Set(Object.keys(RU));
+    const missing = {};
+    for (const [l] of I18N_LANGS) if (l !== "ru") {
+      const m = [...keys].filter(k => !(k in I18N_DICT[l]));
+      if (m.length) missing[l] = m;
+    }
+    const cyr = /[А-Яа-яЁё]/, leftovers = [];
+    if (lang !== "ru") {
+      const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      for (let n; (n = w.nextNode());) if (cyr.test(n.data) && !n.parentElement.closest("script,style,[hidden],.f-error,.lang,.mm-lang")) leftovers.push(n.data.trim().slice(0, 60));
+      document.querySelectorAll("[aria-label],[title],[placeholder],[alt]").forEach(el => !el.closest(".lang,.mm-lang") && ["aria-label", "title", "placeholder", "alt"].forEach(a => { const v = el.getAttribute(a); if (v && cyr.test(v)) leftovers.push(`${a}="${v}"`); }));
+    }
+    return { missing, leftovers };
   };
 
   /* switcher UI: header dropdown + a compact grid in the mobile menu */
@@ -2363,7 +2555,7 @@ const I18N = (() => {
 
   set(detect(), false);
   return {
-    get lang() { return lang; }, t, set,
+    get lang() { return lang; }, t, set, translate, audit,
     onChange(fn) { listeners.push(fn); },
     vibe(key) { return (I18N_VIBES[lang] || {})[key] || null; }
   };
@@ -2387,14 +2579,13 @@ const LEADS = {
   chatId: ""                      // ваш chat_id (число)
 };
 
+/* Case studies: values are translation keys (texts live in I18N_DICT / I18N_ROWS, Russian in I18N_DICT.ru);
+   anything that is not a key — like "HTML5" — is shown as is */
 const CASES = {
   pulsefit: {
-    title: "PULSE FIT — фитнес-клуб 24/7", cat: "Лендинг · Фитнес", time: "Реальный проект",
-    task: "Фитнес-клубу нужен сайт, который за несколько секунд передаёт энергию места и доводит посетителя до записи на бесплатную пробную тренировку — без звонков и лишних шагов.",
-    solution: "Лендинг с сильным первым экраном и понятной логикой: преимущества клуба → направления → тарифы → тренеры → призыв «Первая тренировка — бесплатно». Кнопка записи доступна на каждом ключевом экране.",
-    done: ["Первый экран с оффером, ключевыми цифрами клуба и двумя призывами к действию", "Блок тарифов с переключением периода оплаты", "Разделы направлений и тренеров", "Модальная форма записи с проверкой полей и маской телефона", "Адаптив под телефоны, бургер-меню и анимации появления при прокрутке"],
-    design: "Тёмная палитра с кислотно-лаймовым акцентом и крупная плотная типографика — характер зала, где тренируются всерьёз.",
-    stack: ["HTML5", "CSS3", "JavaScript", "Без фреймворков", "GitHub Pages"]
+    title: "cs_title", cat: "cs_cat", time: "cs_time", task: "cs_task", solution: "cs_solution",
+    done: ["cs_done1", "cs_done2", "cs_done3", "cs_done4", "cs_done5"], design: "cs_design",
+    stack: ["HTML5", "CSS3", "JavaScript", "chip_nofw", "GitHub Pages"]
   }
 };
 
@@ -2481,7 +2672,8 @@ const CASES = {
   };
   burger.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
   $$("#mmenu a").forEach(a => a.addEventListener("click", () => setMenu(false)));
-  addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+  // only touch the page scroll lock when the menu is actually open (other layers manage their own lock)
+  addEventListener("keydown", e => { if (e.key === "Escape" && document.body.classList.contains("menu-open")) setMenu(false); });
 
   /* reveal (starts after the intro so the first screen animates in on launch) */
   const io = new IntersectionObserver(es => es.forEach(e => {
@@ -2496,12 +2688,12 @@ const CASES = {
   let ready = !pre;
   if (pre) {
     const status = $("#plStatus");
-    const lines = ["Инициализация ядра", "Калибровка гравитации", "Синхронизация звёздного поля", "Подготовка интерфейса"];
+    const lines = ["pl1", "pl2", "pl3", "pl4"];
     let li = 0;
     const statusTimer = setInterval(() => {
       li = (li + 1) % lines.length;
       status.style.opacity = 0;
-      setTimeout(() => { status.textContent = lines[li]; status.style.opacity = 1; }, 300);
+      setTimeout(() => { status.textContent = I18N.t(lines[li]); status.style.opacity = 1; }, 300);
     }, 900);
     const loaded = new Promise(r => document.readyState === "complete" ? r() : addEventListener("load", r, { once: true }));
     const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
@@ -2560,17 +2752,27 @@ const CASES = {
   /* 3D tilt + soft light under the pointer on glass cards (desktop only) */
   if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduce) {
     const MAX = 5;   // degrees
+    let scrollTick = 0;                                     // cached card rects are re-read after any scroll
+    addEventListener("scroll", () => { scrollTick++; }, { passive: true });
     $$(".glass-hover").forEach(c => {
-      c.addEventListener("pointerenter", () => c.classList.add("tilting"));
-      c.addEventListener("pointermove", e => {
-        const r = c.getBoundingClientRect();
-        const x = e.clientX - r.left, y = e.clientY - r.top;
+      // one layout read and one style write per frame, however fast the mouse reports
+      let r = null, rTick = -1, px = 0, py = 0, queued = 0;
+      const paint = () => {
+        queued = 0;
+        if (!c.classList.contains("tilting")) return;
+        if (!r || rTick !== scrollTick) { r = c.getBoundingClientRect(); rTick = scrollTick; }
+        const x = px - r.left, y = py - r.top;
         c.style.setProperty("--mx", x + "px");
         c.style.setProperty("--my", y + "px");
         const rx = (0.5 - y / r.height) * MAX, ry = (x / r.width - 0.5) * MAX;
         c.style.transform = `perspective(1000px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-4px)`;
+      };
+      c.addEventListener("pointerenter", () => { c.classList.add("tilting"); r = null; });
+      c.addEventListener("pointermove", e => {
+        px = e.clientX; py = e.clientY;
+        if (!queued) queued = requestAnimationFrame(paint);
       }, { passive: true });
-      c.addEventListener("pointerleave", () => { c.classList.remove("tilting"); c.style.transform = ""; });
+      c.addEventListener("pointerleave", () => { cancelAnimationFrame(queued); queued = 0; r = null; c.classList.remove("tilting"); c.style.transform = ""; });
     });
   }
 
@@ -2702,8 +2904,10 @@ const CASES = {
     currencyListeners.forEach(fn => fn(c));
   };
   // price range given in thousands of ₽ → text in the chosen currency (rounded to 50)
-  const fmtRange = (k1, k2, c = currency) => {
-    if (c === "RUB") return `${k1}–${k2} тыс. ₽`;
+  // forRu: Russian wording regardless of the page language (used in the Telegram message to the owner)
+  const fmtRange = (k1, k2, c = currency, forRu = false) => {
+    if (c === "RUB" && (forRu || I18N.lang === "ru")) return `${k1}–${k2} тыс. ₽`;
+    if (c === "RUB") return `${(k1 * 1000).toLocaleString("ru-RU")}–${(k2 * 1000).toLocaleString("ru-RU")} ₽`;
     const n = v => (Math.round(v * 1000 / RATES[c] / 50) * 50).toLocaleString("ru-RU").replace(/ /g, " ");
     return `${CUR_SIGN[c]}${n(k1)}–${n(k2)}`;
   };
@@ -2733,30 +2937,42 @@ const CASES = {
      Edit QUIZ_PRICE / QUIZ_DAYS to match your real rates. */
   const QUIZ_PRICE = { "Лендинг": [40, 70], "Корпоративный сайт": [90, 160], "Интернет-магазин": [140, 260], "Редизайн": [50, 110] };   // тыс. ₽
   const QUIZ_DAYS  = { "Лендинг": [7, 10], "Корпоративный сайт": [14, 25], "Интернет-магазин": [25, 40], "Редизайн": [10, 18] };
+  // questions and options are translation keys; the Russian wording (I18N_DICT.ru) is what reaches Telegram and the form
   const QUIZ = [
-    { q: "Что нужно сделать?", key: "type", opts: [["Лендинг", "одна продающая страница"], ["Корпоративный сайт", "несколько разделов"], ["Интернет-магазин", "каталог и корзина"], ["Редизайн", "обновить текущий сайт"]] },
-    { q: "Ваша сфера?", key: "sphere", opts: [["Цифровые продукты и IT", "", "web"], ["Рестораны и HoReCa", "", "horeca"], ["Строительство и архитектура", "", "build"], ["Другое", ""]] },
-    { q: "Что уже готово?", key: "ready", opts: [["Ничего — начинаем с нуля", "", 1.15], ["Есть тексты и фото", "", 1], ["Есть готовый дизайн", "", 0.8], ["Есть старый сайт", "", 0.95]] },
-    { q: "Когда нужен запуск?", key: "when", opts: [["Как можно скорее", "до 2 недель", 1.2], ["В течение месяца", "", 1], ["Сроки гибкие", "", 1]] }
+    { q: "qq_type", key: "type", opts: [["qo_landing", "qo_landing_s"], ["qo_corp", "qo_corp_s"], ["qo_shop", "qo_shop_s"], ["qo_redesign", "qo_redesign_s"]] },
+    { q: "qq_sphere", key: "sphere", opts: [["qo_it", "", "web"], ["qo_horeca", "", "horeca"], ["qo_build", "", "build"], ["qo_other", ""]] },
+    { q: "qq_ready", key: "ready", opts: [["qo_scratch", "", 1.15], ["qo_texts", "", 1], ["qo_design", "", 0.8], ["qo_oldsite", "", 0.95]] },
+    { q: "qq_when", key: "when", opts: [["qo_asap", "qo_asap_s", 1.2], ["qo_month", "", 1], ["qo_flex", "", 1]] }
   ];
+  const ru = k => I18N_DICT.ru[k] ?? k, tq = k => (k ? I18N.t(k) : "");
   const fab = $("#quizFab"), quiz = $("#quiz"), qBody = $("#quizBody"), dots = $$(".quiz-dots i");
   if (fab && quiz) {
-    let step = 0, ans = {};
+    let step = 0, ans = {}, sent = false;
     let quizCurrencyHook = null;                                   // re-paints the result when the currency changes
     currencyListeners.push(c => { if (quizCurrencyHook && $("#quizBudget")) quizCurrencyHook(c); });
+    const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
     const render = () => {
-      dots.forEach((d, i) => d.classList.toggle("on", i <= step));
+      dots.forEach((d, i) => d.classList.toggle("on", sent || i <= step));
+      quizCurrencyHook = null;
+      if (sent) {
+        qBody.innerHTML = '<div class="quiz-step"><h4></h4><p class="quiz-sum"></p></div>';
+        qBody.querySelector("h4").textContent = I18N.t("q_sent"); qBody.querySelector(".quiz-sum").textContent = I18N.t("q_thanks");
+        return;
+      }
       if (step < QUIZ.length) {
         const s = QUIZ[step];
-        qBody.innerHTML = `<div class="quiz-step"><h4></h4><div class="quiz-opts"></div>
-          <div class="quiz-foot">${step ? '<button class="quiz-back" type="button">← Назад</button>' : "<span></span>"}<span class="quiz-note">${step + 1} из ${QUIZ.length}</span></div></div>`;
-        qBody.querySelector("h4").textContent = s.q;
+        qBody.innerHTML = '<div class="quiz-step"><h4></h4><div class="quiz-opts"></div><div class="quiz-foot">'
+          + (step ? '<button class="quiz-back" type="button"></button>' : "<span></span>") + '<span class="quiz-note"></span></div></div>';
+        qBody.querySelector("h4").textContent = I18N.t(s.q);
+        qBody.querySelector(".quiz-note").textContent = I18N.t("q_of", { n: step + 1, total: QUIZ.length });
+        const back = qBody.querySelector(".quiz-back");
+        if (back) { back.textContent = I18N.t("q_back"); back.addEventListener("click", () => { step--; render(); }); }
         const box = qBody.querySelector(".quiz-opts");
         s.opts.forEach(o => {
           const b = document.createElement("button");
           b.type = "button"; b.className = "quiz-opt";
           b.innerHTML = "<span></span><small></small>";
-          b.firstChild.textContent = o[0]; b.lastChild.textContent = o[1];
+          b.firstChild.textContent = tq(o[0]); b.lastChild.textContent = tq(o[1]);
           b.addEventListener("click", () => {
             ans[s.key] = o;
             if (s.key === "sphere" && o[2]) window.siteVibe?.(o[2]);    // the site picks up the client's sphere
@@ -2764,64 +2980,77 @@ const CASES = {
           });
           box.append(b);
         });
-        qBody.querySelector(".quiz-back")?.addEventListener("click", () => { step--; render(); });
-        box.firstChild.focus({ preventScroll: true });
-      } else {
-        const type = ans.type[0], k = (ans.ready[2] || 1) * (ans.when[2] || 1);
-        const [p1, p2] = QUIZ_PRICE[type].map(v => Math.round(v * k / 5) * 5);
-        const [d1, d2] = QUIZ_DAYS[type].map(v => Math.round(v * (ans.ready[2] || 1)));
-        qBody.innerHTML = `<div class="quiz-step"><h4>Подходящее решение</h4>
-          <div class="quiz-res"><div><small>Бюджет</small><b id="quizBudget"></b></div><div><small>Срок</small><b>${d1}–${d2} дней</b></div></div>
-          <div class="cur quiz-cur" role="group" aria-label="Валюта бюджета"><button type="button" class="cur-btn" data-cur="USD">$ USD</button><button type="button" class="cur-btn" data-cur="EUR">€ EUR</button><button type="button" class="cur-btn" data-cur="RUB">₽ RUB</button></div>
-          <p class="quiz-sum"></p>
-          <input class="quiz-input" id="quizContact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" placeholder="Ваш Telegram или телефон" autocomplete="tel" aria-label="Куда ответить">
-          <p class="quiz-legal">Нажимая кнопку, вы соглашаетесь с <button type="button" class="legal-link inline" data-legal="terms">Условиями работы</button> и <button type="button" class="legal-link inline" data-legal="privacy">Политикой конфиденциальности</button>.</p>
-          <button class="btn btn-primary" type="button" id="quizSend">Отправить в Telegram<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-          <p class="quiz-err" id="quizErr" role="alert" hidden></p>
-          <div class="quiz-foot"><button class="quiz-back" type="button">↺ Заново</button><button class="quiz-back" type="button" id="quizForm">Полная форма →</button></div></div>`;
-        // the budget line follows the currency picker live
-        const paintBudget = () => { const el = $("#quizBudget"); if (el) el.textContent = fmtRange(p1, p2); };
-        paintBudget(); quizCurrencyHook = paintBudget; setCurrency(currency);
-        const summary = () => `${type}, сфера — ${ans.sphere[0]}, ${ans.ready[0].toLowerCase()}, запуск — ${ans.when[0].toLowerCase()}. Ориентир: ${fmtRange(p1, p2)} (${currency}), ${d1}–${d2} дней.`;
-        qBody.querySelector(".quiz-sum").textContent = `${type} · ${ans.sphere[0]} · ${ans.ready[0].toLowerCase()} · ${ans.when[0].toLowerCase()}. Точная смета — после брифа.`;
-        qBody.querySelector(".quiz-back").addEventListener("click", () => { step = 0; ans = {}; render(); });
-        // option A: send straight to Telegram from the quiz
-        $("#quizSend").addEventListener("click", () => {
-          const contact = $("#quizContact"), err = $("#quizErr"), btn = $("#quizSend");
-          if (btn.disabled) return;
-          const c = clean(contact.value, LIMITS.contact);
-          if (!validContact(c)) {
-            contact.classList.add("err"); contact.focus();
-            err.textContent = I18N.t("err_contact"); err.hidden = false; return;
-          }
-          btn.disabled = true; err.hidden = true;
-          // answers come from our own option lists, so only the contact is free text
-          sendLead("quiz", "🧭 Заявка из опросника", { "Контакт": c, "Задача": type, "Сфера": ans.sphere[0], "Готово": ans.ready[0], "Сроки": ans.when[0], "Ориентир": `${fmtRange(p1, p2)}, ${d1}–${d2} дней`, "Валюта": currency, "Язык": I18N.lang.toUpperCase() })
-            .then(() => {
-              qBody.innerHTML = `<div class="quiz-step"><h4>Заявка отправлена ✓</h4><p class="quiz-sum">Спасибо! Я получил её в Telegram и отвечу в течение пары часов.</p></div>`;
-              dots.forEach(d => d.classList.add("on")); step = QUIZ.length + 1;
-            })
-            .catch(e => { err.innerHTML = leadError(e); err.hidden = false; btn.disabled = false; });
-        });
-        $("#quizContact").addEventListener("input", e => e.target.classList.remove("err"));
-        // option B: carry the answers into the full contact form
-        $("#quizForm").addEventListener("click", () => {
-          const form = $("#form");
-          const radio = form?.querySelector(`input[name="type"][value="${type}"]`);
-          if (radio) radio.checked = true;
-          const msg = form?.elements.message, cont = form?.elements.contact;
-          if (msg && !msg.value.trim()) msg.value = "Расчёт с сайта: " + summary();
-          if (cont && !cont.value.trim() && $("#quizContact").value.trim()) cont.value = $("#quizContact").value.trim();
-          close();
-          $("#contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-          setTimeout(() => form?.elements.name.focus({ preventScroll: true }), 900);
-        });
-        $("#quizContact").focus({ preventScroll: true });
+        if (quiz.classList.contains("open")) box.firstChild.focus({ preventScroll: true });
+        return;
       }
+      const type = ru(ans.type[0]), k = (ans.ready[2] || 1) * (ans.when[2] || 1);
+      const [p1, p2] = QUIZ_PRICE[type].map(v => Math.round(v * k / 5) * 5);
+      const [d1, d2] = QUIZ_DAYS[type].map(v => Math.round(v * (ans.ready[2] || 1)));
+      const typed = $("#quizContact")?.value || "";               // survives a re-render (e.g. a language switch)
+      qBody.innerHTML = '<div class="quiz-step"><h4></h4>'
+        + '<div class="quiz-res"><div><small class="q-budget"></small><b id="quizBudget"></b></div><div><small class="q-term"></small><b class="q-days"></b></div></div>'
+        + '<div class="cur quiz-cur" role="group"><button type="button" class="cur-btn" data-cur="USD">$ USD</button><button type="button" class="cur-btn" data-cur="EUR">€ EUR</button><button type="button" class="cur-btn" data-cur="RUB">₽ RUB</button></div>'
+        + '<p class="quiz-sum"></p>'
+        + '<input class="quiz-input" id="quizContact" type="text" maxlength="100" spellcheck="false" autocapitalize="off" autocomplete="tel">'
+        + '<p class="quiz-legal"></p>'
+        + '<button class="btn btn-primary" type="button" id="quizSend"><span class="q-send"></span>' + arrow + '</button>'
+        + '<p class="quiz-err" id="quizErr" role="alert" hidden></p>'
+        + '<div class="quiz-foot"><button class="quiz-back" type="button" id="quizRestart"></button><button class="quiz-back" type="button" id="quizForm"></button></div></div>';
+      const days = I18N.t("q_days", { a: d1, b: d2 });
+      qBody.querySelector("h4").textContent = I18N.t("q_res");
+      qBody.querySelector(".q-budget").textContent = I18N.t("q_budget");
+      qBody.querySelector(".q-term").textContent = I18N.t("q_term");
+      qBody.querySelector(".q-days").textContent = days;
+      qBody.querySelector(".quiz-cur").setAttribute("aria-label", I18N.t("aria_cur"));
+      const input = $("#quizContact");
+      input.placeholder = I18N.t("q_ph"); input.setAttribute("aria-label", I18N.t("q_aria")); input.value = typed;
+      // the same (already translated) consent line as in the contact form
+      qBody.querySelector(".quiz-legal").innerHTML = document.querySelector("#form .consent")?.innerHTML || "";
+      qBody.querySelector(".q-send").textContent = I18N.t("q_send");
+      $("#quizRestart").textContent = I18N.t("q_restart");
+      $("#quizForm").textContent = I18N.t("q_full");
+      // the budget line follows the currency picker live
+      const paintBudget = () => { const el = $("#quizBudget"); if (el) el.textContent = fmtRange(p1, p2); };
+      paintBudget(); quizCurrencyHook = paintBudget; setCurrency(currency);
+      const low = s => I18N.lang === "de" ? s : s.toLowerCase();    // German nouns keep their capital letter
+      const summary = () => I18N.t("q_summary", { type: tq(ans.type[0]), sphere: tq(ans.sphere[0]), ready: low(tq(ans.ready[0])), when: low(tq(ans.when[0])), range: fmtRange(p1, p2) + " (" + currency + ")", days });
+      qBody.querySelector(".quiz-sum").textContent = [tq(ans.type[0]), tq(ans.sphere[0]), low(tq(ans.ready[0])), low(tq(ans.when[0]))].join(" · ") + ". " + I18N.t("q_exact");
+      $("#quizRestart").addEventListener("click", () => { step = 0; ans = {}; render(); });
+      // option A: send straight to Telegram from the quiz
+      $("#quizSend").addEventListener("click", () => {
+        const err = $("#quizErr"), btn = $("#quizSend");
+        if (btn.disabled) return;
+        const c = clean(input.value, LIMITS.contact);
+        if (!validContact(c)) {
+          input.classList.add("err"); input.focus();
+          err.textContent = I18N.t("err_contact"); err.hidden = false; return;
+        }
+        btn.disabled = true; err.hidden = true;
+        // answers come from our own option lists, so only the contact is free text; the owner reads Russian
+        sendLead("quiz", "🧭 Заявка из опросника", { "Контакт": c, "Задача": type, "Сфера": ru(ans.sphere[0]), "Готово": ru(ans.ready[0]), "Сроки": ru(ans.when[0]), "Ориентир": fmtRange(p1, p2, currency, true) + ", " + d1 + "–" + d2 + " дней", "Валюта": currency, "Язык": I18N.lang.toUpperCase() })
+          .then(() => { sent = true; render(); })
+          .catch(e => { err.innerHTML = leadError(e); err.hidden = false; btn.disabled = false; });
+      });
+      input.addEventListener("input", () => input.classList.remove("err"));
+      // option B: carry the answers into the full contact form
+      $("#quizForm").addEventListener("click", () => {
+        const form = $("#form");
+        const radio = form?.querySelector('input[name="type"][value="' + type + '"]');
+        if (radio) radio.checked = true;
+        const msg = form?.elements.message, cont = form?.elements.contact;
+        if (msg && !msg.value.trim()) msg.value = I18N.t("q_prefill") + summary();
+        if (cont && !cont.value.trim() && input.value.trim()) cont.value = input.value.trim();
+        close();
+        $("#contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+        setTimeout(() => form?.elements.name.focus({ preventScroll: true }), 900);
+      });
+      if (quiz.classList.contains("open") && !typed) input.focus({ preventScroll: true });
     };
+    // an open quiz follows a language switch without losing the answers
+    I18N.onChange(() => { if (quiz.classList.contains("open")) render(); });
     const open = () => {
       quiz.classList.add("open"); fab.setAttribute("aria-expanded", "true"); fab.classList.add("hide");
-      if (step >= QUIZ.length) { step = 0; ans = {}; }
+      if (sent || step >= QUIZ.length) { step = 0; ans = {}; sent = false; }
       render();
     };
     const close = () => {
@@ -2962,23 +3191,31 @@ const CASES = {
 
   /* case modal */
   const modal = $("#caseModal");
+  let openCard = null;
+  const fillCase = card => {
+    const d = CASES[card.dataset.case]; if (!d) return false;
+    const t = k => I18N.t(k);                                         // values are keys; plain names ("HTML5") pass through
+    $("#mTitle").textContent = t(d.title);
+    $("#mCat").textContent = t(d.cat);
+    $("#mTask").textContent = t(d.task);
+    $("#mSolution").textContent = t(d.solution);
+    $("#mDesign").textContent = t(d.design);
+    $("#mTime").textContent = t(d.time);
+    $("#mDone").replaceChildren(...d.done.map(k => Object.assign(document.createElement("li"), { textContent: t(k) })));
+    $("#mStack").replaceChildren(...d.stack.map(k => Object.assign(document.createElement("span"), { className: "chip", textContent: t(k) })));
+    return true;
+  };
   const openCase = card => {
-    const d = CASES[card.dataset.case]; if (!d) return;
+    if (modal.open || !fillCase(card)) return;
+    openCard = card;
     const frame = document.createElement("div"); frame.className = "m-frame";
     frame.append(card.querySelector(".shot img").cloneNode(true));
     $("#mShot").replaceChildren(frame);
-    $("#mTitle").textContent = d.title;
-    $("#mCat").textContent = d.cat;
-    $("#mTask").textContent = d.task;
-    $("#mSolution").textContent = d.solution;
-    $("#mDesign").textContent = d.design;
-    $("#mTime").textContent = d.time;
-    $("#mDone").replaceChildren(...d.done.map(t => Object.assign(document.createElement("li"), { textContent: t })));
-    $("#mStack").replaceChildren(...d.stack.map(t => Object.assign(document.createElement("span"), { className: "chip", textContent: t })));
     modal.showModal();
     modal.querySelector(".modal-scroll").scrollTop = 0;
     document.body.classList.add("modal-open");
   };
+  I18N.onChange(() => { if (modal.open && openCard) fillCase(openCard); });
   $$("[data-open-case]").forEach(b => b.addEventListener("click", () => {
     const card = $(`.case[data-case="${b.dataset.openCase}"]`);
     if (card) openCase(card);
@@ -3002,15 +3239,19 @@ const CASES = {
       message: clean(form.elements.message.value, LIMITS.message, true)
     };
     const rules = {
-      name: [v.name.length >= 2, I18N.t("err_name")],
-      contact: [validContact(v.contact), I18N.t("err_contact")],
-      message: [v.message.length >= 10, I18N.t("err_msg")]
+      name: [v.name.length >= 2, "err_name"],
+      contact: [validContact(v.contact), "err_contact"],
+      message: [v.message.length >= 10, "err_msg"]
     };
     let first = null;
-    for (const [n, [ok, msg]] of Object.entries(rules)) {
+    for (const [n, [ok, key]] of Object.entries(rules)) {
       const fld = form.elements[n].closest(".fld");
       fld.classList.toggle("err", !ok);
-      if (!ok) { fld.querySelector(".msg").textContent = msg; first ||= form.elements[n]; }
+      if (!ok) {
+        const msg = fld.querySelector(".msg");
+        msg.dataset.i18n = key; msg.textContent = I18N.t(key);       // the key keeps the hint in sync with later language switches
+        first ||= form.elements[n];
+      }
     }
     if (first) { first.focus(); return; }
     // radios can only carry values from our own markup — anything else is dropped
@@ -3018,15 +3259,18 @@ const CASES = {
     const type = pick("type", ["Лендинг", "Корпоративный сайт", "Интернет-магазин", "Редизайн"]);
     const tier = pick("budget", ["low", "mid", "high", "consult"]);
     const budget = tier === "consult" ? "Нужна консультация" : tier ? `${BUDGET_TIERS[currency][tier]} (${currency})` : "";
-    const errBox = $("#formError"), label = btn.firstChild.textContent;
-    btn.disabled = true; btn.firstChild.textContent = I18N.t("sending"); errBox.hidden = true;
+    const errBox = $("#formError");
+    btn.disabled = true; btn.firstChild.textContent = I18N.t("sending"); errBox.hidden = true; formErr = null;
     sendLead("form", "🚀 Новая заявка с сайта",
       { "Имя": v.name, "Контакт": v.contact, "Задача": type, "Бюджет": budget, "Валюта": currency, "Язык": I18N.lang.toUpperCase(), "О проекте": v.message },
       clean(form.elements.company.value, 100))
       .then(() => form.classList.add("sent"))
-      .catch(err => { errBox.innerHTML = leadError(err); errBox.hidden = false; })
-      .finally(() => { btn.disabled = false; btn.firstChild.textContent = label; });
+      .catch(err => { formErr = err; errBox.innerHTML = leadError(err); errBox.hidden = false; })
+      .finally(() => { btn.disabled = false; btn.firstChild.textContent = I18N.t("submit"); });   // the current language, not the one at click time
   });
+  // a visible sending error follows a language switch too
+  let formErr = null;
+  I18N.onChange(() => { const box = $("#formError"); if (formErr && !box.hidden) box.innerHTML = leadError(formErr); });
   $$("#form input, #form textarea").forEach(el => el.addEventListener("input", () => el.closest(".fld")?.classList.remove("err")));
 })();
 </script>
@@ -3036,8 +3280,16 @@ const CASES = {
   const canvas = document.getElementById("cosmos");
   const ctx = canvas.getContext("2d", { alpha: false });
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const small = matchMedia("(max-width: 640px)").matches;
-  const N = small ? 700 : 1700;
+  let small = matchMedia("(max-width: 640px)").matches;
+  /* quality budget: start from what the device can probably afford, then let the frame-time governor
+     (in frame()) trim or restore particles on the fly, so the animation never stalls */
+  const cores = navigator.hardwareConcurrency || 4, memory = navigator.deviceMemory || 4;
+  const weak = small || cores <= 4 || memory <= 4 || !!navigator.connection?.saveData;
+  const N_MAX = small ? 650 : weak ? 1100 : 1700;          // particles allocated (upper bound)
+  const N_MIN = small ? 240 : 420;                          // never thinner than this
+  let active = weak ? Math.round(N_MAX * 0.8) : N_MAX;      // particles actually simulated and drawn
+  let dprCap = small || weak ? 1 : 1.5;                     // canvas resolution cap (lowered if frames stay slow)
+  const N = N_MAX;
   const ARMS = 3;
   // colour buckets: drawing each bucket as one path keeps it fast
   // palettes per vibe (r, g, b, a); the live palette eases toward the target one
@@ -3059,11 +3311,22 @@ const CASES = {
   let W = 0, H = 0, DPR = 1, S = 0;
 
   const resize = () => {
-    DPR = Math.min(devicePixelRatio || 1, small ? 1 : 1.5);   // phones: 1× canvas is plenty behind blurred glass
+    small = matchMedia("(max-width: 640px)").matches;
+    DPR = Math.min(devicePixelRatio || 1, dprCap);           // phones: 1× canvas is plenty behind blurred glass
     W = innerWidth; H = innerHeight;
-    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
+    for (const p of P) p.px = null;                          // no streaks across the resized canvas
+  };
+  // resizing reallocates the whole canvas: do it at most once per frame, and ignore the phone address bar
+  // sliding in and out (height-only changes), which would otherwise re-create the canvas while scrolling
+  let resizeQueued = false;
+  const onResize = () => {
+    if (resizeQueued) return;
+    if (matchMedia("(pointer: coarse)").matches && innerWidth === W && Math.abs(innerHeight - H) < 160) return;
+    resizeQueued = true;
+    requestAnimationFrame(() => { resizeQueued = false; resize(); });
   };
 
   const spawn = (p, outer) => {
@@ -3078,7 +3341,12 @@ const CASES = {
   const P = Array.from({ length: N }, () => { const p = {}; spawn(p, false); return p; });
   const paths = COLORS.map(() => []);
 
-  let mx = 0, my = 0, ox = 0, oy = 0, scrollP = 0, t0 = performance.now(), last = t0, running = true;
+  let mx = 0, my = 0, ox = 0, oy = 0, scrollP = 0, last = performance.now(), running = !document.hidden;
+  // exactly one animation loop at a time (a second loop would double the work after every tab switch)
+  let raf = 0;
+  const schedule = () => { if (!raf && running && !reduce) raf = requestAnimationFrame(frame); };
+  // frame-time governor: averages the real frame interval over ~1 s windows
+  let winSum = 0, winN = 0, base = Infinity, goodWins = 0, govFrom = 0;
   // intro screen: vortex sits dead centre until launch; pulse = energy burst on launch (decays to 0)
   let introMode = !!document.getElementById("intro"), pulse = 0, fx = 0.5, fy = 0.5;
   let tLaunch = 0, skipFrame = false;
@@ -3087,24 +3355,52 @@ const CASES = {
   const infall = [];
   let nextInfall = performance.now() + 5000, glowKick = 0;
   window.cosmos = {
-    launch() { introMode = false; pulse = 1; tLaunch = performance.now(); if (reduce) frame(tLaunch); },
+    launch() { introMode = false; pulse = 1; tLaunch = performance.now(); govFrom = tLaunch + 2500; if (reduce) frame(tLaunch); },
     setVibe(key) { target = PALETTES[key] || PALETTES.web; pulse = Math.max(pulse, 0.12); if (reduce) { easePalette(1); frame(performance.now()); } }
   };
   addEventListener("pointermove", e => { mx = e.clientX / W - 0.5; my = e.clientY / H - 0.5; }, { passive: true });
+  let shownOpacity = "";
   addEventListener("scroll", () => {
     scrollP = Math.min(scrollY / H, 1.6);
-    canvas.style.opacity = String(1 - Math.min(scrollP, 1) * 0.35);
+    const o = (1 - Math.min(scrollP, 1) * 0.35).toFixed(2);
+    if (o !== shownOpacity) { canvas.style.opacity = o; shownOpacity = o; }   // compositor-only, and only when it changes
   }, { passive: true });
   document.addEventListener("visibilitychange", () => {
     running = !document.hidden;
-    if (running) { last = performance.now(); requestAnimationFrame(frame); }
+    if (!running) { cancelAnimationFrame(raf); raf = 0; return; }
+    last = performance.now(); winSum = winN = 0; govFrom = last + 1500;   // the first frames after a tab switch are noisy
+    schedule();
   });
-  addEventListener("resize", resize);
+  addEventListener("resize", onResize);
+
+  // trims particles (and then resolution) while frames run long; slowly restores them when there is headroom
+  const govern = (now, interval) => {
+    if (now < govFrom || introMode || interval > 250) return;          // skip launch, intro and pauses
+    winSum += interval; winN++;
+    if (winSum < 1000) return;
+    const avg = winSum / winN; winSum = winN = 0;
+    base = Math.min(base, avg);                                         // the display's own cadence (60/90/120 Hz…)
+    // dropping frames: well behind the display's cadence, or simply too slow in absolute terms
+    const slow = avg > Math.max(base * 1.45, 20) || avg > (small ? 45 : 28);
+    if (slow) {
+      goodWins = 0;
+      if (active > N_MIN) active = Math.max(N_MIN, Math.round(active * 0.8));
+      else if (dprCap > 1) { dprCap = 1; resize(); }
+    } else if (avg < base * 1.12 && active < N_MAX && ++goodWins >= 4) {
+      goodWins = 0;
+      const next = Math.min(N_MAX, Math.round(active * 1.08));
+      for (let i = active; i < next; i++) P[i].px = null;               // revived particles start without a streak
+      active = next;
+    }
+  };
 
   function frame(now) {
+    raf = 0;
     if (!running) return;
-    if (small && (skipFrame = !skipFrame)) { requestAnimationFrame(frame); return; }   // ~30 fps on phones
-    const dt = Math.min((now - last) / 16.67, 3); last = now;
+    if (small && (skipFrame = !skipFrame)) { schedule(); return; }      // ~30 fps on phones
+    const interval = now - last;
+    const dt = Math.min(interval / 16.67, 3); last = now;
+    govern(now, interval);
     // intro: particles start scattered wide and collapse into the funnel
     // before launch the stars hang still and scattered; on launch they collapse into the funnel
     const intro = reduce && !introMode ? 1 : introMode ? 0 : Math.min((now - tLaunch) / 2600, 1);
@@ -3129,7 +3425,8 @@ const CASES = {
     ctx.globalCompositeOperation = "lighter";
 
     for (const arr of paths) arr.length = 0;
-    for (const p of P) {
+    for (let i = 0; i < active; i++) {
+      const p = P[i];
       p.a += Math.min(spin * p.w / Math.pow(p.r + 0.05, 0.85), 0.12);   // cap step so inner orbits stay smooth arcs
       p.r -= pull * (0.4 + p.r);
       if (p.r < 0.03) { spawn(p, true); continue; }
@@ -3196,12 +3493,14 @@ const CASES = {
     g.addColorStop(0, `rgba(${live.core[0] | 0},${live.core[1] | 0},${live.core[2] | 0},${(0.08 + pulse * 0.3 + glowKick).toFixed(3)})`); g.addColorStop(0.4, `rgba(129,140,248,${(0.03 + pulse * 0.12).toFixed(3)})`); g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g; ctx.fillRect(cx - S * 0.2, gy - S * 0.2, S * 0.4, S * 0.4);
 
-    if (!reduce) requestAnimationFrame(frame);
+    schedule();
   }
 
   resize();
   if (reduce) { frame(performance.now()); addEventListener("resize", () => frame(performance.now())); }
-  else requestAnimationFrame(frame);
+  else schedule();
+  // for checking on a device: window.cosmos.stats()
+  window.cosmos.stats = () => ({ particles: active, max: N_MAX, dpr: DPR, frameMs: +base.toFixed(1) });
 })();
 </script>
 <script>
@@ -3384,7 +3683,7 @@ const CASES = {
     btn.classList.toggle("on", v);
     vol?.classList.toggle("off", !v);
     btn.setAttribute("aria-pressed", String(v));
-    btn.setAttribute("aria-label", v ? "Выключить звук" : "Включить звук");
+    label();
     try {
       if (v) {
         if (!ctx) {
@@ -3412,6 +3711,8 @@ const CASES = {
     } catch (e) { on = false; btn.classList.remove("on"); }
   }
 
+  function label() { btn.setAttribute("aria-label", I18N.t(on ? "snd_off" : "snd_on")); }
+  label(); I18N.onChange(label);
   btn.addEventListener("click", () => { setOn(!on); store.set(on ? "on" : "off"); });
 
   // volume slider: moving it up turns the sound on, dragging to zero turns it off
@@ -3449,13 +3750,21 @@ const CASES = {
   const canvas = document.getElementById("dust");
   const ctx = canvas.getContext("2d");
   const small = matchMedia("(max-width: 640px)").matches;
-  const N = small ? 36 : 80;
-  let W, H, DPR, running = true, last = performance.now();
+  const weak = small || (navigator.hardwareConcurrency || 4) <= 4 || (navigator.deviceMemory || 4) <= 4;
+  const N = small ? 28 : weak ? 50 : 80;
+  let W = 0, H = 0, DPR, running = !document.hidden, last = performance.now(), raf = 0;
   const resize = () => {
-    DPR = Math.min(devicePixelRatio || 1, 1.5); W = innerWidth; H = innerHeight;
-    canvas.width = W * DPR; canvas.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 1.5); W = innerWidth; H = innerHeight;
+    canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR); ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   };
-  resize(); addEventListener("resize", resize);
+  resize();
+  // same rules as the vortex: one resize per frame at most, phone address-bar slides are ignored
+  let resizeQueued = false;
+  addEventListener("resize", () => {
+    if (resizeQueued || (matchMedia("(pointer: coarse)").matches && innerWidth === W && Math.abs(innerHeight - H) < 160)) return;
+    resizeQueued = true; requestAnimationFrame(() => { resizeQueued = false; resize(); });
+  });
+  const schedule = () => { if (!raf && running) raf = requestAnimationFrame(frame); };
 
   // one pre-rendered soft disc, reused for every particle (cheap drawImage instead of gradients per frame)
   const sprite = document.createElement("canvas"); sprite.width = sprite.height = 64;
@@ -3475,9 +3784,11 @@ const CASES = {
   });
   document.addEventListener("visibilitychange", () => {
     running = !document.hidden;
-    if (running) { last = performance.now(); requestAnimationFrame(frame); }
+    if (!running) { cancelAnimationFrame(raf); raf = 0; return; }
+    last = performance.now(); schedule();
   });
   function frame(now) {
+    raf = 0;
     if (!running) return;
     const dt = Math.min(now - last, 50); last = now;
     ctx.clearRect(0, 0, W, H);
@@ -3490,9 +3801,9 @@ const CASES = {
       ctx.drawImage(sprite, px - d.r, py - d.r, d.r * 2, d.r * 2);
     }
     ctx.globalAlpha = 1;
-    requestAnimationFrame(frame);
+    schedule();
   }
-  requestAnimationFrame(frame);
+  schedule();
 })();
 </script>
 <script>
@@ -3556,12 +3867,12 @@ const CASES = {
   pet.addEventListener("click", () => {
     const now = performance.now();
     clicks = clicks.filter(t => now - t < 1500); clicks.push(now);
-    if (clicks.length >= 5) { clicks = []; setState("idle", 5000); once("dizzy", "surprise", 900); say("ой-ой…"); return; }
+    if (clicks.length >= 5) { clicks = []; setState("idle", 5000); once("dizzy", "surprise", 900); say(I18N.t("pet_dizzy")); return; }
     if (state === "sleep") { setState("idle", 6000); once("jump", "surprise", 700); say("?!"); return; }
     const r = Math.random();
-    if (r < 0.35) { once("jump", "happy", 650); say(["♥", "привет!", "ура!"][Math.floor(Math.random() * 3)]); }
+    if (r < 0.35) { once("jump", "happy", 650); say(["♥", I18N.t("pet_hi"), I18N.t("pet_yay")][Math.floor(Math.random() * 3)]); }
     else if (r < 0.6) { setState("dance", 3500); say("♪ ♫"); }
-    else if (r < 0.8) { once("spin", "happy", 720); say("вжух!"); }
+    else if (r < 0.8) { once("spin", "happy", 720); say(I18N.t("pet_whoosh")); }
     else { setState("sleep", 7000); say("zzz…"); }
   });
 })();
@@ -3575,7 +3886,7 @@ const CASES = {
     `<span class="k">const</span> site = build({\n  speed: <span class="s">'0.8s'</span>,\n  adaptive: <span class="k">true</span>\n});`,
     `<span class="k">await</span> deploy(site);\n<span class="ok">✓</span> <span class="c">live in 7 days</span>`,
     `.card {\n  backdrop-filter: <span class="s">blur(20px)</span>;\n}`,
-    `<span class="c">// идея → прототип → код</span>\nlaunch(<span class="s">'portfolio'</span>);`,
+    () => `<span class="c">${I18N.t("ghost_c").replace(/[<>&]/g, "")}</span>\nlaunch(<span class="s">'portfolio'</span>);`,
     `<span class="k">if</span> (visitor.isCurious)\n  showCase(<span class="s">'next'</span>);`
   ];
   const DUR = 11500, rand = (a, b) => a + Math.random() * (b - a);
@@ -3585,7 +3896,8 @@ const CASES = {
     if (document.hidden) return schedule();
     const W = innerWidth, H = innerHeight;
     layer.getAnimations({ subtree: true }).forEach(a => a.cancel());
-    card.innerHTML = SNIPPETS[pick++ % SNIPPETS.length];
+    const snip = SNIPPETS[pick++ % SNIPPETS.length];
+    card.innerHTML = typeof snip === "function" ? snip() : snip;
     const cw = card.offsetWidth, ch = card.offsetHeight;
     // stay in the top or bottom band; the vortex lives in the middle of the screen
     const top = Math.random() < 0.5;
