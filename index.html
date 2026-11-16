@@ -711,8 +711,6 @@ html.intro-on .quiz-fab,.menu-open .quiz-fab,body.modal-open .quiz-fab,.quiz-fab
 @media (max-width:1000px){.pay{grid-template-columns:1fr}}
 
 /* ================= SMOOTH SCROLL ================= */
-/* when the inertial scroller is active it drives every frame itself, so native smoothing must be off */
-html.inertia{scroll-behavior:auto}
 
 /* ================= LEADS ================= */
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
@@ -876,8 +874,11 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 /* layout isolation: a change inside one card (counter, fade, hover glow) never makes the browser re-lay-out the page.
    No "paint" containment on purpose: it would clip the cards' glow and the running border beam. */
 .adv-card,.case,.pay-card,.vibe-tab,.vibe-panel,.faq-item,.stats,.stat,.steps,.step,.sg,.guarantee,.pay-note,.contact-box{contain:layout style}
-/* while the page scrolls under a still mouse, hover is frozen (set from JS, mouse devices only) */
-html.scrolling main,html.scrolling footer{pointer-events:none}
+/* whole sections are fully isolated, paint included (verified: nothing in them reaches past their edges).
+   The hero is left out on purpose: its light beams spill beyond it by design. */
+#expertise,#vibes,#work,#approach,#faq,#payment,#contact{contain:layout style paint}
+/* while the page scrolls under a still mouse, hover is frozen (mouse devices only: taps on phones stay untouched) */
+@media (hover:hover) and (pointer:fine){html.scrolling main,html.scrolling footer{pointer-events:none}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .js .rv{opacity:1;transform:none}
@@ -2802,8 +2803,9 @@ const CASES = {
   /* while the page scrolls under a still mouse, nothing reacts to hover: otherwise every card passing under
      the cursor lifts, tilts, glows and snaps back, frame after frame — the "jumping" cards. html.scrolling
      switches pointer events off for the content until 180 ms after the last scroll step (mouse devices only). */
+  // the state is tracked on every device: the background canvases also read it to render at half rate mid-scroll
   const scrollStartFns = [];
-  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  {
     const root = document.documentElement;
     let scrollIdle = 0;
     addEventListener("scroll", () => {
@@ -3152,49 +3154,12 @@ const CASES = {
   }
 
 
-  /* inertial scroll (desktop mouse wheel): the page glides to the wheel target instead of jumping.
-     Touch, keyboard and scrollbar keep their native behaviour; nested scroll areas are left alone. */
-  if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduce) {
-    const root = document.documentElement;
-    root.classList.add("inertia");
-    let target = scrollY, current = scrollY, ease = 0.1, running = false, last = 0;
-    const max = () => root.scrollHeight - innerHeight;
-    const locked = () => root.classList.contains("intro-on") || document.body.style.overflow === "hidden" || document.body.classList.contains("modal-open");
-    const loop = now => {
-      const dt = last ? Math.min((now - last) / 16.67, 3) : 1; last = now;
-      current += (target - current) * (1 - Math.pow(1 - ease, dt));
-      if (Math.abs(target - current) < 0.5) { current = target; running = false; }
-      scrollTo(0, current);
-      if (running) requestAnimationFrame(loop); else last = 0;
-    };
-    const glide = (to, k) => {
-      target = Math.max(0, Math.min(to, max())); ease = k;
-      if (!running) { running = true; current = scrollY; requestAnimationFrame(loop); }
-    };
-    addEventListener("wheel", e => {
-      if (e.defaultPrevented || e.ctrlKey || locked() || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      if (e.target.closest?.("dialog, .quiz, .mmenu, textarea, .modal-scroll")) return;
-      e.preventDefault();
-      const step = e.deltaMode === 1 ? 36 : e.deltaMode === 2 ? innerHeight : 1;
-      glide((running ? target : scrollY) + e.deltaY * step, 0.1);
-    }, { passive: false });
-    // keep in sync with keyboard / scrollbar / touch scrolling
-    addEventListener("scroll", () => { if (!running) target = current = scrollY; }, { passive: true });
-    // in-page links glide too, respecting the floating header
-    document.addEventListener("click", e => {
-      const a = e.target.closest?.('a[href^="#"]');
-      if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey) return;
-      const id = a.getAttribute("href");
-      if (id.length < 2) return;
-      let el = null;
-      try { el = document.getElementById(decodeURIComponent(id.slice(1))); } catch {}   // no selector parsing → no throw on odd hashes
-      if (!el) return;
-      e.preventDefault();
-      const top = id === "#top" ? 0 : el.getBoundingClientRect().top + scrollY - 96;
-      glide(top, 0.075);
-      history.replaceState(null, "", id);
-    });
-  }
+  /* Scrolling is left entirely to the browser. The former JS "inertial" wheel scroll moved the page from the
+     main thread every frame: with a laptop touchpad (which already has its own momentum) the two easings fought
+     each other — the page overshot and pulled back — and whenever the vortex canvas kept the main thread busy,
+     steps arrived late and uneven. Its non-passive wheel listener also stopped the browser from scrolling on its
+     own compositor thread. Native scrolling is smooth, has momentum, and never waits for scripts.
+     Menu links still glide: html { scroll-behavior: smooth; scroll-padding-top: 100px } in the CSS. */
 
 
   /* "Обо мне": throw the page aside, slide the profile in; "Назад" (or Esc) reverses it */
@@ -3479,10 +3444,13 @@ const CASES = {
   function frame(now) {
     raf = 0;
     if (!running) return;
-    if (small && (skipFrame = !skipFrame)) { schedule(); return; }      // ~30 fps on phones
+    // ~30 fps on phones, and on every device while the page scrolls: the browser gets the headroom to move the page
+    const scrollingNow = document.documentElement.classList.contains("scrolling");
+    if ((small || scrollingNow) && (skipFrame = !skipFrame)) { schedule(); return; }
     const interval = now - last;
     const dt = Math.min(interval / 16.67, 3); last = now;
-    govern(now, interval);
+    if (scrollingNow) { winSum = winN = 0; govFrom = now + 400; }      // half-rate frames are deliberate, not a slow device
+    else govern(now, interval);
     // intro: particles start scattered wide and collapse into the funnel
     // before launch the stars hang still and scattered; on launch they collapse into the funnel
     const intro = reduce && !introMode ? 1 : introMode ? 0 : Math.min((now - tLaunch) / 2600, 1);
@@ -3869,9 +3837,12 @@ const CASES = {
     if (!running) { cancelAnimationFrame(raf); raf = 0; return; }
     last = performance.now(); schedule();
   });
+  let skipScroll = false;
   function frame(now) {
     raf = 0;
     if (!running) return;
+    // half rate while the page scrolls (the dust drifts slowly; nobody sees the difference, the scroll does)
+    if (document.documentElement.classList.contains("scrolling") && (skipScroll = !skipScroll)) { schedule(); return; }
     const dt = Math.min(now - last, 50); last = now;
     ctx.clearRect(0, 0, W, H);
     const sy = scrollY;
