@@ -29,8 +29,10 @@
   var weak = (n.hardwareConcurrency || 4) <= 4 || (n.deviceMemory || 4) <= 4 || !!(n.connection && n.connection.saveData);
   d.classList.add("js", "intro-on");
   if (touch) d.classList.add("touch");
+  var mobile = touch || m("(max-width: 767px)");
   if (touch || weak) d.classList.add("lite");
-  window.PERF = { touch: touch, weak: weak, lite: touch || weak };
+  if (mobile) d.classList.add("mobile");
+  window.PERF = { touch: touch, weak: weak, lite: touch || weak, mobile: mobile };
 })();
 </script>
 <style>
@@ -814,6 +816,16 @@ html.lite .beams i{mix-blend-mode:normal}               /* screen blending over 
 html.lite .beams{transition:none}                       /* sphere switch: beams change hue while dimmed, no 1.6 s filter animation */
 /* the canvases are full-screen, fixed and self-contained: nothing inside affects layout elsewhere */
 #cosmos,#dust{contain:strict}
+/* phones (<768px or touch): no backdrop blur. Blur re-renders every glass panel on screen each time the vortex behind
+   it draws a frame, which is the heaviest GPU work on the page; a denser tint keeps the same look and readability. */
+html.mobile .glass,html.mobile .btn,html.mobile dialog.case-modal,html.mobile dialog.case-modal::backdrop{backdrop-filter:none;-webkit-backdrop-filter:none}
+:where(html.mobile) .glass:where(:not(.pill)){background-color:rgba(9,9,14,.82)}
+/* phones: nothing may push the page sideways — content containers clip horizontally (hidden = fallback for old
+   Safari / in-app browsers that don't know clip), and media never exceed their box */
+html.mobile body{overflow-x:hidden;overflow-x:clip}
+html.mobile main,html.mobile footer{max-width:100%;overflow-x:hidden;overflow-x:clip}
+html.mobile img,html.mobile video,html.mobile canvas{max-width:100%}
+html.mobile #cosmos,html.mobile #dust{width:100%;max-width:100%}
 
 /* ================= HEALTH ================= */
 /* long unbroken input can never stretch the layout */
@@ -3388,21 +3400,24 @@ const CASES = {
 (() => {
   const canvas = document.getElementById("cosmos");
   const ctx = canvas.getContext("2d", { alpha: false });
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // "reduce" = draw one still frame on demand, no animation loop: reduced-motion users, and phones that still
+  // can't keep up at the lightest settings (the governor switches them to it, see govern())
+  let reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let small = matchMedia("(max-width: 640px)").matches;
   /* quality budget, from the device tier decided in <head> (window.PERF):
        full  — 1700 particles, 60 fps cap, 1.5× resolution, code tokens falling in
        lite  — weak computer (≤4 cores / ≤4 GB / data saver): ÷2.5 → 680 particles, 60 fps (30 if it can't keep up), 1×, motes only
-       phone — touch screen or narrow window: ÷3 → 567 particles, 30 fps (60 during the launch burst), 1×, motes only
+       phone — touch screen or window under 768px: ÷4 → 425 particles, 30 fps (60 during the launch burst), 1×, motes only,
+               paused while the page scrolls; if still too slow at the minimum it freezes to a still frame
      On top of that a frame-time governor (govern()) trims or restores particles on the fly. */
   const perf = window.PERF || {};
-  const phone = small || !!perf.touch;
+  const phone = small || !!perf.touch || !!perf.mobile;   // any screen under 768px, or touch
   const lite = phone || !!perf.weak;
   const N_FULL = 1700;
-  const N_MAX = phone ? Math.round(N_FULL / 3) : lite ? Math.round(N_FULL / 2.5) : N_FULL;   // particles allocated
-  const N_MIN = phone ? 200 : lite ? 260 : 420;             // never thinner than this
+  const N_MAX = phone ? Math.round(N_FULL / 4) : lite ? Math.round(N_FULL / 2.5) : N_FULL;   // particles allocated
+  const N_MIN = phone ? 150 : lite ? 260 : 420;             // never thinner than this
   let active = N_MAX;                                       // particles actually simulated and drawn
-  let dprCap = lite ? 1 : 1.5;                              // canvas resolution cap (lowered if frames stay slow)
+  let dprCap = lite ? 1 : 1.5;                              // phones: always 1×                              // canvas resolution cap (lowered if frames stay slow)
   // frame cap, whatever the screen's refresh rate (60/90/120/144 Hz). Phones: 30. Weak computers start at 60 and the
   // governor drops them to 30 only if frames stay slow at the minimum particle count. The launch burst always runs
   // at up to 60: its motion is the fastest on the page, and at 30 fps it visibly stutters.
@@ -3517,6 +3532,7 @@ const CASES = {
       if (active > N_MIN) active = Math.max(N_MIN, Math.round(active * 0.8));
       else if (dprCap > 1) { dprCap = 1; resize(); }
       else if (FPS > 30) { FPS = 30; base = Infinity; }                // last resort: half the frames, steady rather than jerky
+      else if (phone) { reduce = true; frame(performance.now()); }      // phone still too slow at the lightest settings: freeze to a still frame
     } else if (avg < base * 1.12 && active < N_MAX && ++goodWins >= 4) {
       goodWins = 0;
       const next = Math.min(N_MAX, Math.round(active * 1.08));
@@ -3530,8 +3546,11 @@ const CASES = {
     if (!running) return;
     // frame cap by elapsed time (not by counting frames), so 120/144 Hz screens don't run the vortex 2× as often;
     // lower still while the page scrolls or switches sphere/language, so the page gets the processor
-    const busy = now < busyUntil || document.documentElement.classList.contains("scrolling");
+    const scrolling = document.documentElement.classList.contains("scrolling");
+    const busy = now < busyUntil || scrolling;
     const launching = !introMode && tLaunch && now - tLaunch < LAUNCH_MS;
+    // phones: while the finger scrolls the page the vortex holds its last frame, so all of the phone's power goes to scrolling
+    if (phone && scrolling && !launching && !reduce) { last = now; schedule(); return; }
     const gap = 1000 / (busy ? FPS_BUSY : launching ? FPS_LAUNCH : FPS), sinceDraw = now - lastDraw;
     if (!reduce && sinceDraw < gap - 2) { schedule(); return; }        // reduced motion draws on demand only: never skip those
     // keep the cadence even (carry over the part beyond one gap), but never "catch up" after a pause:
