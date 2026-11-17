@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://spartak17mc-blip.github.io/sitemap.xml

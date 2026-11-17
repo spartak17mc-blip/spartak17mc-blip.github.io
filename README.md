@@ -8,6 +8,8 @@
 
 - `index.html` — весь сайт (разметка, стили и скрипты в одном файле, без зависимостей и сборки)
 - `pulsefit.jpg` — превью кейса PULSE FIT
+- `og.jpg` — картинка превью ссылки (Telegram, WhatsApp, соцсети), 1200×630
+- `404.html` — страница «не найдено»; `robots.txt`, `sitemap.xml` — для поисковиков
 - `telegram-worker.js` — backend для заявок в Telegram (Cloudflare Worker), см. «Заявки в Telegram»
 - `.nojekyll` — отдаёт страницу на GitHub Pages как есть
 - Юридические тексты («Условия работы», «Политика конфиденциальности») — в `<dialog class="legal">` в конце `index.html`
