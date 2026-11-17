@@ -3298,11 +3298,15 @@ const CASES = {
     dlg.showModal(); dlg.querySelector(".legal-in").scrollTop = 0;
     document.body.classList.add("modal-open");
   });
+  // the page stays locked only while some dialog is open; synced right after our own closes too, not only in the
+  // "close" event (which some browsers deliver late), so the page can never stay stuck without scrolling
+  const syncLock = () => document.body.classList.toggle("modal-open", !!document.querySelector("dialog[open]"));
   $$("dialog.legal").forEach(dlg => {
-    dlg.querySelector(".legal-x").addEventListener("click", () => dlg.close());
-    dlg.querySelector(".legal-ok")?.addEventListener("click", () => dlg.close());
-    dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });            // click on the backdrop
-    dlg.addEventListener("close", () => { if (!document.querySelector("dialog[open]")) document.body.classList.remove("modal-open"); });
+    const shut = () => { dlg.close(); syncLock(); };
+    dlg.querySelector(".legal-x").addEventListener("click", shut);
+    dlg.querySelector(".legal-ok")?.addEventListener("click", shut);
+    dlg.addEventListener("click", e => { if (e.target === dlg) shut(); });            // click on the backdrop
+    dlg.addEventListener("close", syncLock);
   });
 
   /* active nav */
@@ -3343,11 +3347,11 @@ const CASES = {
     const card = $(`.case[data-case="${b.dataset.openCase}"]`);
     if (card) openCase(card);
   }));
-  const closeModal = () => modal.close();
+  const closeModal = () => { modal.close(); syncLock(); };
   $("#mClose").addEventListener("click", closeModal);
   $("#mCta").addEventListener("click", closeModal);
   modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
-  modal.addEventListener("close", () => document.body.classList.remove("modal-open"));
+  modal.addEventListener("close", syncLock);
 
   /* form */
   const form = $("#form");
@@ -3400,15 +3404,14 @@ const CASES = {
 (() => {
   const canvas = document.getElementById("cosmos");
   const ctx = canvas.getContext("2d", { alpha: false });
-  // "reduce" = draw one still frame on demand, no animation loop: reduced-motion users, and phones that still
-  // can't keep up at the lightest settings (the governor switches them to it, see govern())
-  let reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // reduced motion: one still frame drawn on demand, no animation loop
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let small = matchMedia("(max-width: 640px)").matches;
   /* quality budget, from the device tier decided in <head> (window.PERF):
        full  — 1700 particles, 60 fps cap, 1.5× resolution, code tokens falling in
        lite  — weak computer (≤4 cores / ≤4 GB / data saver): ÷2.5 → 680 particles, 60 fps (30 if it can't keep up), 1×, motes only
-       phone — touch screen or window under 768px: ÷4 → 425 particles, 30 fps (60 during the launch burst), 1×, motes only,
-               paused while the page scrolls; if still too slow at the minimum it freezes to a still frame
+       phone — touch screen or window under 768px: ÷4 → 425 particles, steady 30 fps — also while the page scrolls
+               (60 during the launch burst), 1×, motes only, no backdrop blur on the glass
      On top of that a frame-time governor (govern()) trims or restores particles on the fly. */
   const perf = window.PERF || {};
   const phone = small || !!perf.touch || !!perf.mobile;   // any screen under 768px, or touch
@@ -3423,7 +3426,9 @@ const CASES = {
   // at up to 60: its motion is the fastest on the page, and at 30 fps it visibly stutters.
   let FPS = phone ? 30 : 60;
   const FPS_LAUNCH = 60, LAUNCH_MS = 2800;
-  const FPS_BUSY = lite ? 20 : 30;                          // while the page scrolls / switches sphere or language
+  // for a moment after a sphere or language switch (heavy restyle): 30 on every device. Never lower, never a pause —
+  // that reads as the vortex freezing
+  const FPS_BUSY = 30;
   const TOKENS_ON = !lite;                                  // text is the most expensive thing to draw: lite gets glowing motes only
   const N = N_MAX;
   const ARMS = 3;
@@ -3532,7 +3537,6 @@ const CASES = {
       if (active > N_MIN) active = Math.max(N_MIN, Math.round(active * 0.8));
       else if (dprCap > 1) { dprCap = 1; resize(); }
       else if (FPS > 30) { FPS = 30; base = Infinity; }                // last resort: half the frames, steady rather than jerky
-      else if (phone) { reduce = true; frame(performance.now()); }      // phone still too slow at the lightest settings: freeze to a still frame
     } else if (avg < base * 1.12 && active < N_MAX && ++goodWins >= 4) {
       goodWins = 0;
       const next = Math.min(N_MAX, Math.round(active * 1.08));
@@ -3545,12 +3549,11 @@ const CASES = {
     raf = 0;
     if (!running) return;
     // frame cap by elapsed time (not by counting frames), so 120/144 Hz screens don't run the vortex 2× as often;
-    // lower still while the page scrolls or switches sphere/language, so the page gets the processor
-    const scrolling = document.documentElement.classList.contains("scrolling");
-    const busy = now < busyUntil || scrolling;
+    // 30 fps for a moment while the page switches sphere/language. Scrolling does NOT change the pace: native scrolling
+    // runs on its own thread, and a rate that drops (or a vortex that pauses) whenever the page moves reads as freezing.
+    // If a device really can't keep up while scrolling, the governor trims particles instead of frames.
+    const busy = now < busyUntil;
     const launching = !introMode && tLaunch && now - tLaunch < LAUNCH_MS;
-    // phones: while the finger scrolls the page the vortex holds its last frame, so all of the phone's power goes to scrolling
-    if (phone && scrolling && !launching && !reduce) { last = now; schedule(); return; }
     const gap = 1000 / (busy ? FPS_BUSY : launching ? FPS_LAUNCH : FPS), sinceDraw = now - lastDraw;
     if (!reduce && sinceDraw < gap - 2) { schedule(); return; }        // reduced motion draws on demand only: never skip those
     // keep the cadence even (carry over the part beyond one gap), but never "catch up" after a pause:
@@ -3960,8 +3963,8 @@ const CASES = {
   function frame(now) {
     raf = 0;
     if (!running) return;
-    // the dust drifts slowly: 30 fps is plenty on any screen, 15 while the page scrolls (the scroll gets the frames)
-    const gap = document.documentElement.classList.contains("scrolling") ? 66.7 : 33.3;
+    // the dust drifts slowly: a steady 30 fps on any screen, scrolling or not (a lower rate while scrolling made it stutter)
+    const gap = 33.3;
     if (now - lastDraw < gap - 2) { schedule(); return; }
     lastDraw = now;
     const dt = Math.min(now - last, 100); last = now;      // up to 15 fps steps without slowing the drift
