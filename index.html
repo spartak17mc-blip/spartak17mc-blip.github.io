@@ -8,8 +8,18 @@
 <title>The Spartec Web — сайты и лендинги под ключ</title>
 <meta name="description" content="Профессиональная разработка современных сайтов и лендингов под ключ: стратегия, дизайн, разработка и запуск. Быстрая загрузка, безупречная адаптивность, продуманный путь клиента к заявке.">
 <meta name="theme-color" content="#000000">
-<!-- Security: only our own code, Google Fonts and HTTPS requests (lead endpoint / Telegram API) are allowed; no plugins, no foreign frames, no eval -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https:; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<!-- Security: only our own code and Google Fonts; network requests only to our own origin and the lead endpoint
+     (if LEADS.endpoint changes, change connect-src here too); no plugins, no foreign frames, no eval -->
+<script>
+/* anti-clickjacking: GitHub Pages can't send X-Frame-Options / frame-ancestors (and a <meta> CSP can't carry
+   frame-ancestors), so a foreign page could load the site in an invisible frame and trick clicks onto the form.
+   Framed → hide everything and try to break out to the top window. */
+if (window.self !== window.top) {
+  document.documentElement.style.display = "none";
+  try { window.top.location.replace(window.self.location.href); } catch (e) {}
+}
+</script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://spartec-leads.spartak17mc.workers.dev; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta property="og:title" content="The Spartec Web — сайты и лендинги под ключ">
 <meta property="og:site_name" content="The Spartec Web">
@@ -1262,7 +1272,7 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 
     <div class="cases">
       <article class="case case-main glass glass-hover rv" data-case="pulsefit">
-        <a class="shot" href="https://the-pulse-fit.vercel.app/" target="_blank" rel="noopener" aria-label="Открыть сайт PULSE FIT в новой вкладке" data-i18n-attr="aria-label:aria_open_pf">
+        <a class="shot" href="https://the-pulse-fit.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт PULSE FIT в новой вкладке" data-i18n-attr="aria-label:aria_open_pf">
           <img src="pulsefit.jpg" width="800" height="600" alt="Первый экран сайта PULSE FIT: заголовок «Преврати силу в привычку», кнопка бесплатной тренировки и статистика клуба" loading="lazy" decoding="async" data-i18n-attr="alt:alt_pf">
           <span class="shot-live">● Live</span>
         </a>
@@ -1272,8 +1282,8 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
           <p class="task" data-i18n="case_task">Адаптивный лендинг, который превращает посетителя в&nbsp;запись на&nbsp;бесплатную пробную тренировку. Энергичный визуал, понятные тарифы и&nbsp;форма записи на&nbsp;каждом ключевом экране.</p>
           <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip" data-i18n="chip_adaptive">Адаптив</span><span class="chip" data-i18n="chip_nofw">Без фреймворков</span></div>
           <div class="case-actions">
-            <a class="btn btn-primary btn-sm" href="https://the-pulse-fit.vercel.app/" target="_blank" rel="noopener" data-i18n="open_site">Открыть сайт<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
-            <a class="btn btn-glass btn-sm" href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener" data-i18n="gh_code">Код на GitHub</a>
+            <a class="btn btn-primary btn-sm" href="https://the-pulse-fit.vercel.app/" target="_blank" rel="noopener noreferrer" data-i18n="open_site">Открыть сайт<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+            <a class="btn btn-glass btn-sm" href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener noreferrer" data-i18n="gh_code">Код на GitHub</a>
             <button class="btn btn-glass btn-sm" type="button" data-open-case="pulsefit" data-i18n="case_study">Разбор проекта</button>
           </div>
         </div>
@@ -1424,12 +1434,12 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
         <h2 class="h2" data-i18n-html="contact_h2">Обсудим ваш <span class="serif">проект?</span></h2>
         <p data-i18n="contact_p">Опишите задачу в двух словах — в течение пары часов отвечу, задам несколько точных вопросов и пришлю план работ со сроками и стоимостью. Бесплатно и без обязательств.</p>
         <div class="quick">
-          <a class="qlink" id="tgLink" href="#" target="_blank" rel="noopener">
+          <a class="qlink" id="tgLink" href="#" target="_blank" rel="noopener noreferrer">
             <span class="qi tg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1.1-1 .2-1.5L20.6 2.7c.9-.3 1.6.2 1.3 1.6z"/></svg></span>
             <span><small data-i18n="tg_small">Telegram — быстрее всего</small><strong id="tgText">@username</strong></span>
             <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="qlink" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener">
+          <a class="qlink" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener noreferrer">
             <span class="qi gh"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 00-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.300 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 015.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.300c0 .3.2.7.8.6A11.5 11.5 0 0012 .5z"/></svg></span>
             <span><small>GitHub</small><strong>spartak17mc-blip</strong></span>
             <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -1593,7 +1603,7 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
 
       <div class="about-cta">
         <a class="btn btn-primary" href="#contact" data-about-close data-i18n="cta">Обсудить проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn btn-glass" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-glass" href="https://github.com/spartak17mc-blip" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </article>
   </div>
@@ -1632,7 +1642,7 @@ html:is([lang="zh"],[lang="ja"]) :is(h1,.h2,h3,p,li){word-break:normal;line-brea
         <div class="m-box"><h4 data-i18n="m_stack">Стек</h4><div class="chips" id="mStack"></div></div>
         <div class="m-box"><h4 data-i18n="m_status">Статус</h4><p id="mTime" style="font-size:28px;font-weight:500;letter-spacing:-.03em;color:var(--text)"></p></div>
         <a href="#contact" class="btn btn-primary" id="mCta" data-i18n="m_cta">Обсудить похожий проект<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <p class="m-note" data-i18n="m_live">Живой проект: <a href="https://the-pulse-fit.vercel.app/" target="_blank" rel="noopener" data-i18n="m_open">открыть сайт ↗</a> · <a href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener" data-i18n="m_code">код на GitHub ↗</a></p>
+        <p class="m-note" data-i18n="m_live">Живой проект: <a href="https://the-pulse-fit.vercel.app/" target="_blank" rel="noopener noreferrer" data-i18n="m_open">открыть сайт ↗</a> · <a href="https://github.com/spartak17mc-blip/pulsefit" target="_blank" rel="noopener noreferrer" data-i18n="m_code">код на GitHub ↗</a></p>
       </aside>
     </div>
   </div>
@@ -2817,6 +2827,10 @@ const CASES = {
       document.documentElement.classList.add("loaded");
       $("#introBtn")?.focus({ preventScroll: true });
       setTimeout(() => { clearInterval(statusTimer); pre.remove(); }, 1200);
+      // once the launch panel has faded in (the vortex holds still behind it), build the sound in advance:
+      // the launch click then only resumes it instead of freezing the start of the launch burst
+      const idle = window.requestIdleCallback || (fn => setTimeout(fn, 0));
+      setTimeout(() => idle(() => window.ambient?.prewarm(), { timeout: 1500 }), 1800);
     });
   } else document.documentElement.classList.add("loaded");
 
@@ -3837,6 +3851,14 @@ const CASES = {
       if (!want && s.active) { s.active = false; s.stop?.(); }
     }
   }
+  function init() {
+    if (ctx) return;
+    ctx = new AC();
+    master = ctx.createGain(); master.gain.value = 0;
+    // one soft low-pass on the whole mix: nothing sharp reaches the ears
+    soft = ctx.createBiquadFilter(); soft.type = "lowpass"; soft.frequency.value = TONE[vibe] || 850; soft.Q.value = 0.5;
+    master.connect(soft).connect(ctx.createDynamicsCompressor()).connect(ctx.destination);
+  }
   function setOn(v) {
     on = v;
     btn.classList.toggle("on", v);
@@ -3845,13 +3867,7 @@ const CASES = {
     label();
     try {
       if (v) {
-        if (!ctx) {
-          ctx = new AC();
-          master = ctx.createGain(); master.gain.value = 0;
-          // one soft low-pass on the whole mix: nothing sharp reaches the ears
-          soft = ctx.createBiquadFilter(); soft.type = "lowpass"; soft.frequency.value = TONE[vibe] || 850; soft.Q.value = 0.5;
-          master.connect(soft).connect(ctx.createDynamicsCompressor()).connect(ctx.destination);
-        }
+        init();
         quiet(ctx.resume());                                // a refused resume must not surface as an unhandled error
         ensure(vibe);
         master.gain.cancelScheduledValues(ctx.currentTime);
@@ -3859,8 +3875,9 @@ const CASES = {
         apply();
         // pre-build the other scenes while the browser is idle: their noise buffers take a few ms each to
         // generate, which would otherwise land exactly on the click that switches the vibe
-        const idle = window.requestIdleCallback || (fn => setTimeout(fn, 1500));
-        Object.keys(BUILDERS).forEach((name, i) => idle(() => { if (ctx) ensure(name); }, { timeout: 4000 + i * 1000 }));
+        // (no requestIdleCallback in Safari: wait until the launch burst is long over instead of 1.5 s into it)
+        const idle = window.requestIdleCallback || (fn => setTimeout(fn, 6000));
+        Object.keys(BUILDERS).forEach((name, i) => idle(() => { if (ctx) ensure(name); }, { timeout: 6000 + i * 1500 }));
       } else if (ctx) {
         master.gain.cancelScheduledValues(ctx.currentTime);
         master.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
@@ -3894,6 +3911,14 @@ const CASES = {
   });
   window.ambient = {
     start() { if (store.get() !== "off" && level > 0) setOn(true); },   // called by the launch button
+    // called while the visitor reads the launch screen: builds the context and the first scene in advance, silent and
+    // suspended, so the launch click only resumes it. Built inside the click, it blocked the main thread for 40–70 ms
+    // on a PC (several times that on a phone) exactly as the vortex's launch burst began — the start-up stutter.
+    prewarm() {
+      if (ctx || on || store.get() === "off" || level === 0) return;
+      try { init(); ensure(vibe); quiet(ctx.suspend()); }
+      catch (e) { ctx = null; }                                  // no audio device etc.: the click simply tries again
+    },
     setVibe(name) {                                              // called by the vibe switcher
       if (!BUILDERS[name]) return;
       vibe = name;

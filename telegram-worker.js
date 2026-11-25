@@ -16,12 +16,39 @@
 //   CHAT_ID        = кто получает заявки: ваш ID; несколько — через запятую: 8426313033, 123456789
 //   ALLOWED_ORIGIN = адреса сайта через запятую, без слеша на конце
 //
-// После деплоя один раз откройте https://<адрес-воркера>/setup — воркер подключит webhook бота.
+// После деплоя один раз откройте https://<адрес-воркера>/setup?id=<ваш CHAT_ID> — воркер подключит webhook бота
+// (без id — отказ: иначе любой мог бы дёргать настройку бота).
 // Подробности — README.md, раздел «Заявки в Telegram».
 
 const MAX_BODY = 16 * 1024;                                // bytes
 const WINDOW_MS = 10 * 60 * 1000, MAX_PER_WINDOW = 5;     // per IP, best effort (per worker instance)
+// the Origin header only stops browsers: a script can forge it and rotate IPs. So on top of the per-IP limit there is
+// a ceiling for the whole instance and a duplicate filter — a flood can't bury the chat under hundreds of messages
+const MAX_GLOBAL = 30;                                     // leads per WINDOW_MS per worker instance, from all IPs
+const DUP_MS = 30 * 60 * 1000;                             // the same lead text again within 30 min → dropped silently
 const hits = new Map();
+let globalHits = [];
+const recentLeads = new Map();                             // hash of the lead text → time
+
+// reads at most `max` bytes of the body; a bigger body is refused before it is buffered (Content-Length can be absent)
+async function readCapped(request, max) {
+  const declared = Number(request.headers.get("Content-Length"));
+  if (declared > max) return null;
+  if (!request.body) return "";
+  const reader = request.body.getReader(), parts = [];
+  let size = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > max) { try { await reader.cancel(); } catch {} return null; }
+    parts.push(value);
+  }
+  const all = new Uint8Array(size); let off = 0;
+  for (const p of parts) { all.set(p, off); off += p.byteLength; }
+  return new TextDecoder().decode(all);
+}
+const sha = async s => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, "0")).join("");
 
 // main form: Telegram, budget, specialization, description
 const ORDER = { telegram: 64, budget: 40, spec: 60, message: 3500, lang: 5 };
@@ -138,11 +165,13 @@ export default {
       try { await onUpdate(await request.json(), env); } catch (e) { console.error("update", e); }
       return reply("ok", 200);                             // always 200, so Telegram does not resend
     }
-    // one-time setup: points the bot's webhook at this worker (safe to repeat, reveals nothing)
+    // one-time setup: points the bot's webhook at this worker. Open it as /setup?id=<your CHAT_ID>: without the id
+    // anyone could call it over and over (each call used to drop the bot's pending updates)
     if (url.pathname === "/setup") {
+      if (!ids.includes(url.searchParams.get("id") || "")) return reply("Forbidden", 403);
       const res = await tgApi(env, "setWebhook", {
         url: `${url.origin}/tg`, secret_token: await hookSecret(env),
-        allowed_updates: ["message", "my_chat_member"], drop_pending_updates: true
+        allowed_updates: ["message", "my_chat_member"], drop_pending_updates: false
       });
       const data = await res.json().catch(() => ({}));
       return reply(data.ok ? "Webhook подключён ✓" : "Ошибка: " + (data.description || res.status), data.ok ? 200 : 502);
@@ -159,9 +188,13 @@ export default {
     const recent = (hits.get(ip) || []).filter(t => now - t < WINDOW_MS);
     if (recent.length >= MAX_PER_WINDOW) return reply("Too many requests", 429);
 
-    // size-limited JSON
-    const raw = await request.text();
-    if (raw.length > MAX_BODY) return reply("Payload too large", 413);
+    // whole-instance ceiling (forged Origin + many IPs)
+    globalHits = globalHits.filter(t => now - t < WINDOW_MS);
+    if (globalHits.length >= MAX_GLOBAL) return reply("Too many requests", 429);
+
+    // size-limited JSON: the limit is enforced while reading, so a huge body is never held in memory
+    const raw = await readCapped(request, MAX_BODY);
+    if (raw === null) return reply("Payload too large", 413);
     let data;
     try { data = JSON.parse(raw); } catch { return reply("Bad request", 400); }
     if (!data || typeof data !== "object" || typeof data.fields !== "object" || data.fields === null) return reply("Bad request", 400);
@@ -172,8 +205,14 @@ export default {
     const lead = data.kind === "form" ? buildOrder(data.fields) : data.kind === "quiz" ? buildQuiz(data.fields) : null;
     if (!lead) return reply("Bad request", 400);
 
-    recent.push(now); hits.set(ip, recent);
+    // the same lead again (double submit, replayed request) → accepted silently, not sent twice
+    const key = await sha(lead.text);
+    for (const [k, t] of recentLeads) if (now - t > DUP_MS) recentLeads.delete(k);
+    if (recentLeads.has(key)) return reply("ok", 200);
+
+    recent.push(now); hits.set(ip, recent); globalHits.push(now); recentLeads.set(key, now);
     if (hits.size > 5000) hits.clear();                    // keep memory bounded
+    if (recentLeads.size > 2000) recentLeads.clear();
 
     const stamp = new Date(now + 3 * 3600e3).toISOString().replace("T", " ").slice(0, 16);   // Moscow time
     const text = `${lead.text}\n\n<i>${esc(new URL(allowed).host)} · ${stamp} МСК</i>`;
